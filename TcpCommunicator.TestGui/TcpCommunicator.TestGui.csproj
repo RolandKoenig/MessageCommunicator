@@ -20,8 +20,8 @@
     <None Remove="ConnectionDialog.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.9.0" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.9.0" />
+    <PackageReference Include="Avalonia" Version="0.9.10" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.9.10" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="ConnectionDialog.xaml">
