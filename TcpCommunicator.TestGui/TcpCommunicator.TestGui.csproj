@@ -34,6 +34,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
-    <Folder Include="_Util\" />
+    <Folder Include="_ViewServices\" />
   </ItemGroup>
 </Project>

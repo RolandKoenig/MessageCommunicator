@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.Reactive.Disposables;
 using System.Text;
 using ReactiveUI;
 
 namespace TcpCommunicator.TestGui
 {
-    public class MainWindowViewModel : ReactiveObject
+    public class MainWindowViewModel : OwnViewModelBase
     {
         private ConnectionProfile? _selectedProfile;
 
@@ -18,9 +17,10 @@ namespace TcpCommunicator.TestGui
             set => this.RaiseAndSetIfChanged(ref _selectedProfile, value, nameof(this.SelectedProfile));
         }
 
-        public MainWindowViewModel()
+        /// <inheritdoc />
+        protected override void OnActivated(CompositeDisposable disposables)
         {
-
+            // TODO: Implement activation
         }
     }
 }

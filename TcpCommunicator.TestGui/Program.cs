@@ -2,6 +2,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Logging.Serilog;
+using Avalonia.ReactiveUI;
 
 namespace TcpCommunicator.TestGui
 {
@@ -17,6 +18,7 @@ namespace TcpCommunicator.TestGui
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
+                .UseReactiveUI()
                 .LogToDebug();
     }
 }

@@ -13,9 +13,12 @@ namespace TcpCommunicator.TestGui
 
         public override void OnFrameworkInitializationCompleted()
         {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            if (this.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow();
+                desktop.MainWindow = new MainWindow()
+                {
+                    ViewModel = new MainWindowViewModel()
+                };
             }
 
             base.OnFrameworkInitializationCompleted();
