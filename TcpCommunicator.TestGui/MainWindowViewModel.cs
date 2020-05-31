@@ -2,13 +2,25 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using ReactiveUI;
 
 namespace TcpCommunicator.TestGui
 {
-    public class MainWindowViewModel : PropertyChangedBase
+    public class MainWindowViewModel : ReactiveObject
     {
-        public ObservableCollection<LoggingMessage> Logging { get; } = new ObservableCollection<LoggingMessage>();
+        private ConnectionProfile? _selectedProfile;
 
+        public ObservableCollection<ConnectionProfile> Profiles { get; } = new ObservableCollection<ConnectionProfile>();
 
+        public ConnectionProfile? SelectedProfile
+        {
+            get => _selectedProfile;
+            set => this.RaiseAndSetIfChanged(ref _selectedProfile, value, nameof(this.SelectedProfile));
+        }
+
+        public MainWindowViewModel()
+        {
+
+        }
     }
 }

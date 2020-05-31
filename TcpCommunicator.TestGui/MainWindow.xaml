@@ -4,9 +4,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TcpCommunicator.TestGui;assembly=TcpCommunicator.TestGui"
         mc:Ignorable="d" 
-        d:DesignWidth="800" d:DesignHeight="450"
+        MinWidth="200" MinHeight="200"
+        Width="800" Height="550"
         d:DataContext="{x:Static local:DesignData.MainWindowVM}"
-        MinWidth="100" MinHeight="100"
         x:Class="TcpCommunicator.TestGui.MainWindow"
         Title="TcpCommunicator - Testing UI">
     <DockPanel LastChildFill="True">
@@ -27,13 +27,37 @@
         <GridSplitter Grid.Column="1"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         
-        <ListBox Grid.Column="2" Items="{Binding Path=Logging}">
-          <ListBox.DataTemplates>
-            <DataTemplate>
-              <TextBlock Text="{Binding Path=Message}" />
-            </DataTemplate>
-          </ListBox.DataTemplates>
-        </ListBox>
+        <!-- Overview of all profiles -->
+        <HeaderedContentControl Header="Profiles"
+                                Classes="GroupBox"
+                                Grid.Column="0">
+          <Grid>
+            <ListBox Items="{Binding Path=Profiles}"
+                     SelectedItem="{Binding Path=SelectedProfile, Mode=TwoWay}">
+              <ListBox.DataTemplates>
+                <DataTemplate>
+                  <TextBlock Text="{Binding Path=Name}" />
+                </DataTemplate>
+              </ListBox.DataTemplates>
+            </ListBox>
+          </Grid>
+        </HeaderedContentControl>
+        
+        <!-- Details of the selected profile -->
+        <HeaderedContentControl Header="Messages"
+                                Classes="GroupBox"
+                                Grid.Column="2"
+                                DataContext="{Binding Path=SelectedProfile}">
+          <ListBox Grid.Column="2" Items="{Binding Path=Logging}">
+            <ListBox.DataTemplates>
+              <DataTemplate>
+                <TextBlock Text="{Binding Path=Message}" />
+              </DataTemplate>
+            </ListBox.DataTemplates>
+          </ListBox>
+        </HeaderedContentControl>
+        
+
       </Grid>
     </DockPanel>
 </Window>

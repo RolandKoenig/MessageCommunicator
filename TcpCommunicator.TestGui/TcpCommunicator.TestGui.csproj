@@ -22,6 +22,7 @@
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.10" />
     <PackageReference Include="Avalonia.Desktop" Version="0.9.10" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.10" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="ConnectionDialog.xaml">
@@ -30,5 +31,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TcpCommunicator\TcpCommunicator.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\" />
+    <Folder Include="_Util\" />
   </ItemGroup>
 </Project>

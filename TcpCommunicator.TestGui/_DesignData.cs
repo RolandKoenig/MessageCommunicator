@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace TcpCommunicator.TestGui
 {
@@ -12,11 +13,33 @@ namespace TcpCommunicator.TestGui
             {
                 var result = new MainWindowViewModel();
 
-                result.Logging.Add(new LoggingMessage("Message 1"));
-                result.Logging.Add(new LoggingMessage("Message 2"));
-                result.Logging.Add(new LoggingMessage("Message 3"));
+                var dummyContext = new DummySynchronizationContext();
+                result.Profiles.Add(new ConnectionProfile(dummyContext, "Profile 1"));
+                result.Profiles.Add(new ConnectionProfile(dummyContext, "Profile 2"));
+                result.Profiles.Add(new ConnectionProfile(dummyContext, "Profile 3"));
+                result.Profiles.Add(new ConnectionProfile(dummyContext, "Profile 4"));
 
                 return result;
+            }
+
+
+        }
+
+        //*****************************************************************
+        //*****************************************************************
+        //*****************************************************************
+        internal class DummySynchronizationContext : SynchronizationContext
+        {
+            /// <inheritdoc />
+            public override void Send(SendOrPostCallback d, object? state)
+            {
+                
+            }
+
+            /// <inheritdoc />
+            public override void Post(SendOrPostCallback d, object? state)
+            {
+                
             }
         }
     }

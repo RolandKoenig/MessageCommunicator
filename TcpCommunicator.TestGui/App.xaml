@@ -4,5 +4,25 @@
     <Application.Styles>
         <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
         <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
+      
+        <!-- Style for group boxes -->
+        <Style Selector="HeaderedContentControl.GroupBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <DockPanel LastChildFill="True">
+                            <ContentPresenter TextBlock.FontWeight="Bold" Content="{TemplateBinding Header}"
+                                              DockPanel.Dock="Top"/>
+                            <Border
+                                BorderBrush="{TemplateBinding Background}"
+                                BorderThickness="2"
+                                CornerRadius="5">
+                                <ContentPresenter Content="{TemplateBinding Content}" />
+                            </Border>
+                        </DockPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Styles>
 </Application>
