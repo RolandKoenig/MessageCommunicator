@@ -50,7 +50,7 @@ namespace TcpCommunicator
             }
         }
 
-        protected abstract TcpClient GetCurrentSendSocket();
+        protected abstract TcpClient? GetCurrentSendSocket();
          
         protected async Task RunReceiveLoopAsync(TcpClient tcpClient, CancellationToken cancelToken)
         {

@@ -14,26 +14,14 @@
     </AvaloniaResource>
   </ItemGroup>
   <ItemGroup>
-    <AvaloniaResource Remove="ConnectionDialog.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="ConnectionDialog.xaml" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.10" />
     <PackageReference Include="Avalonia.Desktop" Version="0.9.10" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.10" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="ConnectionDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TcpCommunicator\TcpCommunicator.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
-    <Folder Include="_ViewServices\" />
   </ItemGroup>
 </Project>

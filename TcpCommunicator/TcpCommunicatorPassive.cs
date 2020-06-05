@@ -165,6 +165,6 @@ namespace TcpCommunicator
             TcpAsyncUtil.SafeDispose(ref lastSendSocket);
         }
 
-        protected override TcpClient GetCurrentSendSocket() => _currentSendSocket;
+        protected override TcpClient? GetCurrentSendSocket() => _currentSendSocket;
     }
 }
