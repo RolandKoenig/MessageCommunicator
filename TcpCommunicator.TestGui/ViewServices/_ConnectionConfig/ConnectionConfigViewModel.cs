@@ -4,8 +4,9 @@ using System.Reactive;
 using System.Text;
 using Force.DeepCloner;
 using ReactiveUI;
+using TcpCommunicator.TestGui.Data;
 
-namespace TcpCommunicator.TestGui
+namespace TcpCommunicator.TestGui.ViewServices
 {
     public class ConnectionConfigViewModel : OwnViewModelBase
     {
@@ -14,6 +15,22 @@ namespace TcpCommunicator.TestGui
         public ReactiveCommand<object?, Unit> Command_OK { get; }
 
         public ReactiveCommand<object?, Unit> Command_Cancel { get; }
+
+        public ConnectionMode ConnectionMode
+        {
+            get => this.Model.Mode;
+            set
+            {
+                if (this.Model.Mode != value)
+                {
+                    this.Model.Mode = value;
+                    this.RaisePropertyChanged(nameof(this.ConnectionMode));
+                    this.RaisePropertyChanged(nameof(this.IsConfigIPEnabled));
+                }
+            }
+        }
+
+        public bool IsConfigIPEnabled => this.Model.Mode == ConnectionMode.Active;
 
         public ConnectionMode[] ConnectionModes => (ConnectionMode[])Enum.GetValues(typeof(ConnectionMode));
 

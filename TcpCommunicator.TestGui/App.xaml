@@ -5,6 +5,10 @@
         <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
         <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
       
+        <Style Selector="Button">
+            <Setter Property="Padding" Value="0" />
+        </Style>
+      
         <!-- Style for group boxes -->
         <Style Selector="HeaderedContentControl.GroupBox">
             <Setter Property="Template">

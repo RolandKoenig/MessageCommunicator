@@ -10,6 +10,8 @@ namespace TcpCommunicator
     {
         public ReconnectWaitTimeGetter ReconnectWaitTimeGetter { get; set; }
 
+        public abstract bool IsRunning { get; }
+
         protected TcpCommunicatorBase(ReconnectWaitTimeGetter? reconnectWaitTimeGetter)
         {
             this.ReconnectWaitTimeGetter = reconnectWaitTimeGetter ?? new FixedReconnectWaitTimeGetter(TimeSpan.FromSeconds(1.0));

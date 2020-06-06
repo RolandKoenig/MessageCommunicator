@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using ReactiveUI;
+using TcpCommunicator.TestGui.Data;
 
-namespace TcpCommunicator.TestGui
+namespace TcpCommunicator.TestGui.ViewServices
 {
     public class ConnectionConfigViewService : IConnectionConfigViewService
     {
@@ -19,8 +21,7 @@ namespace TcpCommunicator.TestGui
         public async Task<ConnectionParameters?> ConfigureConnectionAsync(ConnectionParameters? template)
         {
             var configDlg = new ConnectionConfigView();
-            configDlg.ViewModel = new ConnectionConfigViewModel(template);
-            configDlg.DataContext = configDlg.ViewModel;
+            configDlg.DataContext = new ConnectionConfigViewModel(template);
 
             return await configDlg.ShowDialog<ConnectionParameters?>(_parentWindow);
         }

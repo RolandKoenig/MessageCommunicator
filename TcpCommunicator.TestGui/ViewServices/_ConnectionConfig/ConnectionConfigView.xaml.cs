@@ -2,7 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace TcpCommunicator.TestGui
+namespace TcpCommunicator.TestGui.ViewServices
 {
     public class ConnectionConfigView : OwnWindow<ConnectionConfigViewModel>
     {

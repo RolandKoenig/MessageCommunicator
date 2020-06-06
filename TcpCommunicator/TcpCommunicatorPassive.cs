@@ -23,7 +23,7 @@ namespace TcpCommunicator
 
         public int ListeningPort { get; }
 
-        public bool IsRunning => _isRunning;
+        public override bool IsRunning => _isRunning;
 
         public TcpCommunicatorPassive(
             int listeningPort, 

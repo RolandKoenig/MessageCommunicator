@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
+using TcpCommunicator.TestGui.ViewServices;
 
 namespace TcpCommunicator.TestGui
 {

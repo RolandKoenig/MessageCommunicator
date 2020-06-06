@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ReactiveUI;
+using TcpCommunicator.TestGui.Logic;
+using TcpCommunicator.TestGui.ViewServices;
 
 namespace TcpCommunicator.TestGui
 {
@@ -33,7 +35,7 @@ namespace TcpCommunicator.TestGui
             var connParams = await srvConnectionConfig.ConfigureConnectionAsync(null);
             if (connParams != null)
             {
-                var newProfile = new ConnectionProfile(SynchronizationContext.Current!, "New Profile");
+                var newProfile = new ConnectionProfile(SynchronizationContext.Current!, connParams);
                 this.Profiles.Add(newProfile);
                 this.SelectedProfile = newProfile;
             }

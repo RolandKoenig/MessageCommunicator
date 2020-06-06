@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TcpCommunicator.TestGui
+namespace TcpCommunicator.TestGui.Logic
 {
     public class LoggingMessage
     {
