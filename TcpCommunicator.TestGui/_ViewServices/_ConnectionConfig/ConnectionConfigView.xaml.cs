@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace TcpCommunicator.TestGui
 {
-    public class ConnectionConfigView : OwnUserControl<ConnectionConfigViewModel>
+    public class ConnectionConfigView : OwnWindow<ConnectionConfigViewModel>
     {
         public ConnectionConfigView()
         {

@@ -6,13 +6,23 @@ namespace TcpCommunicator.TestGui
 {
     public class ViewServiceRequestEventArgs
     {
+        public Type ViewServiceType { get; }
+
+        public object? ViewService { get; set; }
+
         public ViewServiceRequestEventArgs(Type viewServiceType)
         {
             this.ViewServiceType = viewServiceType;
         }
+    }
 
-        public Type ViewServiceType { get; }
+    public class CloseWindowRequestEventArgs
+    {
+        public object? DialogResult { get; }
 
-        public object? ViewService { get; set; }
+        public CloseWindowRequestEventArgs(object? dialogResult)
+        {
+            this.DialogResult = dialogResult;
+        }
     }
 }

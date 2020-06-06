@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Avalonia.Dialogs;
 using ReactiveUI;
 
 namespace TcpCommunicator.TestGui
@@ -14,10 +15,17 @@ namespace TcpCommunicator.TestGui
 
         public event EventHandler<ViewServiceRequestEventArgs>? ViewServiceRequest;
 
+        public event EventHandler<CloseWindowRequestEventArgs>? CloseWindowRequest;
+
         protected OwnViewModelBase()
         {
             this.Activator = new ViewModelActivator();
             this.WhenActivated(this.OnActivated);
+        }
+
+        protected void CloseWindow(object? dialogResult)
+        {
+            this.CloseWindowRequest?.Invoke(this, new CloseWindowRequestEventArgs(dialogResult));
         }
 
         protected virtual void OnActivated(CompositeDisposable disposables)
@@ -34,7 +42,7 @@ namespace TcpCommunicator.TestGui
             var eventArgs = new ViewServiceRequestEventArgs(typeof(T));
             this.ViewServiceRequest?.Invoke(this, eventArgs);
 
-            if (!(eventArgs.ViewServiceType is T result))
+            if (!(eventArgs.ViewService is T result))
             {
                 throw new ApplicationException($"Unable to get view service of type {typeof(T).FullName}!");
             }

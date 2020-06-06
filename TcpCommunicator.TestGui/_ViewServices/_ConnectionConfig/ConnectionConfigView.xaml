@@ -2,7 +2,66 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="TcpCommunicator.TestGui.ConnectionConfigView">
-    Welcome to Avalonia!
+        xmlns:local="clr-namespace:TcpCommunicator.TestGui;assembly=TcpCommunicator.TestGui"
+        mc:Ignorable="d"
+        Width="400" Height="250"
+        x:Class="TcpCommunicator.TestGui.ConnectionConfigView"
+        d:DataContext="{x:Static local:DesignData.ConnectionConfigVM}">
+  <Window.Styles>
+    <Style Selector="Button">
+      <Setter Property="Width" Value="125" />
+      <Setter Property="Margin" Value="3" />
+    </Style>
+    <Style Selector="TextBlock">
+      <Setter Property="Margin" Value="4" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="ComboBox">
+      <Setter Property="Margin" Value="2" />
+      <Setter Property="Height" Value="26" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="TextBox">
+      <Setter Property="Margin" Value="2" />
+      <Setter Property="Height" Value="26" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+  </Window.Styles>
+  
+   <DockPanel LastChildFill="False">
+     
+     <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                 HorizontalAlignment="Right">
+       <Button Content="OK" Command="{Binding Path=Command_OK}" />
+       <Button Content="Cancel" Command="{Binding Path=Command_Cancel}" />
+     </StackPanel>
+     
+     <Grid DockPanel.Dock="Top">
+       <Grid.ColumnDefinitions>
+         <ColumnDefinition Width="*" />
+         <ColumnDefinition Width="*" />
+       </Grid.ColumnDefinitions>
+       <Grid.RowDefinitions>
+         <RowDefinition Height="Auto" />
+         <RowDefinition Height="Auto" />
+         <RowDefinition Height="Auto" />
+       </Grid.RowDefinitions>
+       
+       <TextBlock Grid.Row="0" Grid.Column="0"
+                  Text="Mode:" />
+       <ComboBox Grid.Row="0" Grid.Column="1"
+                 SelectedItem="{Binding Path=Model.Mode}"
+                 Items="{Binding Path=ConnectionModes}" />
+       
+       <TextBlock Grid.Row="1" Grid.Column="0"
+                  Text="IP Address:" />
+       <TextBox Grid.Row="1" Grid.Column="1"
+                Text="{Binding Path=Model.Target}" />
+       
+       <TextBlock Grid.Row="2" Grid.Column="0"
+                  Text="Port:" />
+       <TextBox Grid.Row="2" Grid.Column="1"
+                Text="{Binding Path=Model.Port}" />
+     </Grid>
+   </DockPanel>  
 </Window>

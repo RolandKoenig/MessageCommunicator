@@ -21,9 +21,9 @@ namespace TcpCommunicator.TestGui
 
                 return result;
             }
-
-
         }
+
+        public static ConnectionConfigViewModel ConnectionConfigVM => new ConnectionConfigViewModel();
 
         //*****************************************************************
         //*****************************************************************

@@ -11,7 +11,10 @@
         Title="TcpCommunicator - Testing UI">
     <DockPanel LastChildFill="True">
       <Menu DockPanel.Dock="Top">
-        <MenuItem Header="Tools" />
+        <MenuItem Header="Tools">
+          <MenuItem Header="Create Profile"
+                    Command="{Binding Path=Command_CreateProfile}"/>
+        </MenuItem>
         <MenuItem Header="Info">
           <MenuItem Header="About" />
         </MenuItem>

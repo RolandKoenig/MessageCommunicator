@@ -15,10 +15,7 @@ namespace TcpCommunicator.TestGui
         {
             if (this.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow()
-                {
-                    ViewModel = new MainWindowViewModel()
-                };
+                desktop.MainWindow = new MainWindow();
             }
 
             base.OnFrameworkInitializationCompleted();

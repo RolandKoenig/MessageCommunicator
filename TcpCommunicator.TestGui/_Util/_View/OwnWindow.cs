@@ -30,6 +30,13 @@ namespace TcpCommunicator.TestGui
         protected virtual void OnActivated(CompositeDisposable disposables)
         {
             this.ObserveForViewServiceRequest(disposables, this.ViewModel);
+
+            Observable.FromEventPattern<CloseWindowRequestEventArgs>(this.ViewModel, nameof(this.ViewModel.CloseWindowRequest))
+                .Subscribe(eArgs =>
+                {
+                    this.Close(eArgs.EventArgs.DialogResult);
+                })
+                .DisposeWith(disposables);
         }
     }
 }
