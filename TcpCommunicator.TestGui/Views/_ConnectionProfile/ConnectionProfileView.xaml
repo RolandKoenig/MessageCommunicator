@@ -4,7 +4,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TcpCommunicator.TestGui.Views;assembly=TcpCommunicator.TestGui"
         mc:Ignorable="d"
-        Width="400" Height="250"
-        x:Class="TcpCommunicator.TestGui.Views.ConnectionProfileview">
+        d:Width="400" d:Height="400"
+        x:Class="TcpCommunicator.TestGui.Views.ConnectionProfileView">
 
+  <DockPanel LastChildFill="True">
+    <Menu DockPanel.Dock="Top">
+      <MenuItem Header="Start" Command="{Binding Path=Command_Start}" />
+      <MenuItem Header="Stop" Command="{Binding Path=Command_Stop}" />
+    </Menu>  
+    
+    <ListBox Items="{Binding Path=Model.Logging}">
+      
+    </ListBox>
+  
+  </DockPanel>
+  
 </UserControl>

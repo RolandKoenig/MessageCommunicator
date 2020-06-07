@@ -6,21 +6,32 @@ using System.Threading;
 using System.Threading.Tasks;
 using ReactiveUI;
 using TcpCommunicator.TestGui.Logic;
+using TcpCommunicator.TestGui.Views;
 using TcpCommunicator.TestGui.ViewServices;
 
 namespace TcpCommunicator.TestGui
 {
     public class MainWindowViewModel : OwnViewModelBase
     {
-        private ConnectionProfile? _selectedProfile;
+        private ConnectionProfileViewModel? _selectedProfile;
 
-        public ObservableCollection<ConnectionProfile> Profiles { get; } = new ObservableCollection<ConnectionProfile>();
+        public ObservableCollection<ConnectionProfileViewModel> Profiles { get; } = new ObservableCollection<ConnectionProfileViewModel>();
 
-        public ConnectionProfile? SelectedProfile
+        public ConnectionProfileViewModel? SelectedProfile
         {
             get => _selectedProfile;
-            set => this.RaiseAndSetIfChanged(ref _selectedProfile, value, nameof(this.SelectedProfile));
+            set
+            {
+                if (_selectedProfile != value)
+                {
+                    _selectedProfile = value;
+                    this.RaisePropertyChanged(nameof(this.SelectedProfile));
+                    this.RaisePropertyChanged(nameof(this.IsProfileScreenEnabled));
+                }
+            }
         }
+
+        public bool IsProfileScreenEnabled => _selectedProfile != null;
 
         public ReactiveCommand<object?, Unit> Command_CreateProfile { get; }
 
@@ -36,8 +47,10 @@ namespace TcpCommunicator.TestGui
             if (connParams != null)
             {
                 var newProfile = new ConnectionProfile(SynchronizationContext.Current!, connParams);
-                this.Profiles.Add(newProfile);
-                this.SelectedProfile = newProfile;
+                var newProfileVM = new ConnectionProfileViewModel(newProfile);
+
+                this.Profiles.Add(newProfileVM);
+                this.SelectedProfile = newProfileVM;
             }
         }
 

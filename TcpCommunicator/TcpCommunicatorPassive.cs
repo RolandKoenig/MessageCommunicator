@@ -65,18 +65,18 @@ namespace TcpCommunicator
                 {
                     try
                     {
-                        // TODO: Log try start listening
+                        this.Log(LoggingMessageType.Info, "Start listening...");
                         tcpListener = new TcpListener(IPAddress.Loopback, this.ListeningPort);
                         tcpListener.Start();
 
                         reconnectErrorCount = 0;
                         _currentListener = tcpListener;
 
-                        // TODO: Listening started
+                        this.Log(LoggingMessageType.Info, "Listening started successfully");
                     }
-                    catch (Exception e)
+                    catch (Exception ex)
                     {
-                        // TODO: Log exception
+                        this.Log(LoggingMessageType.Info, "Error while starting listening", ex);
 
                         _currentListener = null;
                         TcpAsyncUtil.SafeStop(ref tcpListener);

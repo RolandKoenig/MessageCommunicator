@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -12,9 +13,24 @@ namespace TcpCommunicator
 
         public abstract bool IsRunning { get; }
 
+        /// <summary>
+        /// A custom logger. If set, this delegate will be called with all relevant events.
+        /// </summary>
+        public Action<LoggingMessage>? Logger { get; set; }
+
         protected TcpCommunicatorBase(ReconnectWaitTimeGetter? reconnectWaitTimeGetter)
         {
             this.ReconnectWaitTimeGetter = reconnectWaitTimeGetter ?? new FixedReconnectWaitTimeGetter(TimeSpan.FromSeconds(1.0));
+        }
+
+        /// <summary>
+        /// Calls current logger with the given message.
+        /// </summary>
+        protected void Log(LoggingMessageType messageType, string message, Exception? exception = null)
+        {
+            var logger = this.Logger;
+
+            logger?.Invoke(new LoggingMessage(this, messageType, message, exception));
         }
 
         protected Task WaitByReconnectWaitTimeAsync(int errorCountSinceLastConnect)
@@ -37,7 +53,7 @@ namespace TcpCommunicator
             var currentClient = this.GetCurrentSendSocket();
             if(currentClient == null)
             {
-                // TODO: Notify not connected state
+                this.Log(LoggingMessageType.Error, "Unable to send message: Connection is not established currently!");
                 return;
             }
 

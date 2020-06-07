@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using TcpCommunicator.TestGui.Data;
 using TcpCommunicator.TestGui.Logic;
+using TcpCommunicator.TestGui.Views;
 using TcpCommunicator.TestGui.ViewServices;
 
 namespace TcpCommunicator.TestGui
@@ -18,10 +19,10 @@ namespace TcpCommunicator.TestGui
                 var dummyConnParams = new ConnectionParameters(){ Name = "Dummy Profile" };
 
                 var dummyContext = new DummySynchronizationContext();
-                result.Profiles.Add(new ConnectionProfile(dummyContext, dummyConnParams));
-                result.Profiles.Add(new ConnectionProfile(dummyContext, dummyConnParams));
-                result.Profiles.Add(new ConnectionProfile(dummyContext, dummyConnParams));
-                result.Profiles.Add(new ConnectionProfile(dummyContext, dummyConnParams));
+                result.Profiles.Add(new ConnectionProfileViewModel(new ConnectionProfile(dummyContext, dummyConnParams)));
+                result.Profiles.Add(new ConnectionProfileViewModel(new ConnectionProfile(dummyContext, dummyConnParams)));
+                result.Profiles.Add(new ConnectionProfileViewModel(new ConnectionProfile(dummyContext, dummyConnParams)));
+                result.Profiles.Add(new ConnectionProfileViewModel(new ConnectionProfile(dummyContext, dummyConnParams)));
 
                 return result;
             }
