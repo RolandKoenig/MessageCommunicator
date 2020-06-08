@@ -39,6 +39,9 @@ namespace TcpCommunicator.TestGui.Logic
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            _tcpCommunicator.Logger = this.OnLoggingMessage;
+            _tcpCommunicator.SynchronizationContext = SynchronizationContext.Current;
         }
 
         public void Start()
@@ -49,6 +52,11 @@ namespace TcpCommunicator.TestGui.Logic
         public void Stop()
         {
             _tcpCommunicator.Stop();
+        }
+
+        private void OnLoggingMessage(TcpCommunicator.LoggingMessage logMessage)
+        {
+            this.Logging.Add(new LoggingMessage(logMessage.Message));
         }
     }
 }

@@ -14,7 +14,11 @@
     </Menu>  
     
     <ListBox Items="{Binding Path=Model.Logging}">
-      
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding Path=Message}" />
+        </DataTemplate>
+      </ListBox.ItemTemplate>
     </ListBox>
   
   </DockPanel>

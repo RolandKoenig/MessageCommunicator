@@ -18,6 +18,8 @@ namespace TcpCommunicator
         /// </summary>
         public Action<LoggingMessage>? Logger { get; set; }
 
+        public SynchronizationContext? SynchronizationContext { get; set; }
+
         protected TcpCommunicatorBase(ReconnectWaitTimeGetter? reconnectWaitTimeGetter)
         {
             this.ReconnectWaitTimeGetter = reconnectWaitTimeGetter ?? new FixedReconnectWaitTimeGetter(TimeSpan.FromSeconds(1.0));
@@ -30,7 +32,17 @@ namespace TcpCommunicator
         {
             var logger = this.Logger;
 
-            logger?.Invoke(new LoggingMessage(this, messageType, message, exception));
+            var syncContext = this.SynchronizationContext;
+            if (syncContext != null)
+            {
+                // TODO: Reduce allocations
+                syncContext.Post(new SendOrPostCallback(
+                    arg => logger?.Invoke(new LoggingMessage(this, messageType, message, exception))), null);
+            }
+            else
+            {
+                logger?.Invoke(new LoggingMessage(this, messageType, message, exception));
+            }
         }
 
         protected Task WaitByReconnectWaitTimeAsync(int errorCountSinceLastConnect)
@@ -93,8 +105,10 @@ namespace TcpCommunicator
                 }
                 if (lastReceiveResult <= 0) { break; }
 
-                // TODO: Notify received frame
-                Console.WriteLine($"Received: {Encoding.Default.GetString(receiveBuffer, 0, lastReceiveResult)}");
+                // TODO: Reduce allocations
+                this.Log(
+                    LoggingMessageType.Info,
+                    $"Received: {Encoding.Default.GetString(receiveBuffer, 0, lastReceiveResult)}");
             }
 
             // Ensure that the socket is closed after ending this method

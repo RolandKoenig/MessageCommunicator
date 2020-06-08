@@ -35,7 +35,8 @@
         <HeaderedContentControl Header="Profiles"
                                 Classes="GroupBox"
                                 Grid.Column="0">
-          <ListBox Items="{Binding Path=Profiles}"
+          <ListBox Name="LstProfiles"
+                   Items="{Binding Path=Profiles}"
                    SelectedItem="{Binding Path=SelectedProfile, Mode=TwoWay}">
             <ListBox.DataTemplates>
               <DataTemplate>
@@ -49,9 +50,9 @@
         <HeaderedContentControl Header="Messages"
                                 Classes="GroupBox"
                                 Grid.Column="2"
-                                DataContext="{Binding Path=SelectedProfile}">
-          <localViews:ConnectionProfileView DataContext="{Binding Path=SelectedProfile}"
-                                            IsEnabled="{Binding Path=IsProfileScreenEnabled}" />
+                                DataContext="{Binding Path=SelectedProfile}"
+                                IsEnabled="{Binding Path=IsProfileScreenEnabled}">
+          <localViews:ConnectionProfileView DataContext="{Binding #LstProfiles.SelectedItem}" />
         </HeaderedContentControl>
       </Grid>
     </DockPanel>
