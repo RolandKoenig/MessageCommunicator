@@ -15,12 +15,18 @@ namespace TcpCommunicator.TestGui.Views
 
         public ReactiveCommand<object, Unit> Command_Stop { get; }
 
+        public ReactiveCommand<string, Unit> Command_SendMessage { get; }
+
         public ConnectionProfileViewModel(ConnectionProfile connProfile)
         {
             this.Model = connProfile;
 
             this.Command_Start = ReactiveCommand.Create<object>(arg => this.Model.Start());
             this.Command_Stop = ReactiveCommand.Create<object>(arg => this.Model.Stop());
+            this.Command_SendMessage = ReactiveCommand.Create<string>(message =>
+            {
+                this.Model.SendMessageAsync(message);
+            });
         }
     }
 }

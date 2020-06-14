@@ -18,7 +18,7 @@ namespace TcpCommunicator
 
         private TcpClient? _currentClient;
 
-        public IPAddress RemoteAddress { get; }
+        public string RemoteHost { get; }
 
         public ushort RemotePort { get; }
 
@@ -26,11 +26,13 @@ namespace TcpCommunicator
         public override bool IsRunning => false; // TODO
 
         /// <inheritdoc />
-        public TcpCommunicatorActive(IPAddress remoteAddress, ushort remotePort, ReconnectWaitTimeGetter? reconnectWaitTimeGetter) 
+        public TcpCommunicatorActive(
+            string remoteHost, ushort remotePort, 
+            ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null) 
             : base(reconnectWaitTimeGetter)
         {
             _startStopLock = new object();
-            this.RemoteAddress = remoteAddress;
+            this.RemoteHost = remoteHost;
             this.RemotePort = remotePort;
         }
 
@@ -41,7 +43,7 @@ namespace TcpCommunicator
             var loopId = 0;
             lock (_startStopLock)
             {
-                if(_isRunning){ throw new ApplicationException($"Unable to start {nameof(TcpCommunicatorActive)} for address {this.RemoteAddress} and port {this.RemotePort}: This object is started already!"); }
+                if(_isRunning){ throw new ApplicationException($"Unable to start {nameof(TcpCommunicatorActive)} for host {this.RemoteHost} and port {this.RemotePort}: This object is started already!"); }
 
                 _isRunning = true;
                 _runningLoopCounter++;
@@ -56,7 +58,7 @@ namespace TcpCommunicator
             this.Log(LoggingMessageType.Info, "TcpCommunicator started in active mode");
 
             var reconnectErrorCount = 0;
-            var remoteAddressStr = this.RemoteAddress.ToString();
+            var remoteAddressStr = this.RemoteHost.ToString();
             while (loopId == _runningLoopCounter)
             {
                 try
@@ -65,18 +67,18 @@ namespace TcpCommunicator
                     {
                         this.Log(
                             LoggingMessageType.Info,
-                            StringBuffer.Format("Connecting to address {0} on port {1}", remoteAddressStr, this.RemotePort));
+                            StringBuffer.Format("Connecting to host {0} on port {1}", remoteAddressStr, this.RemotePort));
                     }
 
                     _currentClient = new TcpClient();
-                    await _currentClient.ConnectAsync(this.RemoteAddress, this.RemotePort);
+                    await _currentClient.ConnectAsync(this.RemoteHost, this.RemotePort);
                     reconnectErrorCount = 0;
 
                     if (this.IsLoggerSet)
                     {
                         this.Log(
                             LoggingMessageType.Info,
-                            StringBuffer.Format("Successfully connected to address {0} on port {1}", remoteAddressStr, this.RemotePort));
+                            StringBuffer.Format("Successfully connected to host {0} on port {1}", remoteAddressStr, this.RemotePort));
                     }
                 }
                 catch (Exception ex)
@@ -87,7 +89,7 @@ namespace TcpCommunicator
                     {
                         this.Log(
                             LoggingMessageType.Error,
-                            StringBuffer.Format("Error while connecting to address {0} on port {1}: {2}", 
+                            StringBuffer.Format("Error while connecting to host {0} on port {1}: {2}", 
                                 remoteAddressStr, this.RemotePort, ex.Message),
                             ex);
                     }
@@ -117,7 +119,7 @@ namespace TcpCommunicator
             {
                 if (!_isRunning)
                 {
-                    throw new ApplicationException($"Unable to stop {nameof(TcpCommunicatorActive)} for address {this.RemoteAddress} and port {this.RemotePort}: This object is stopped already!");
+                    throw new ApplicationException($"Unable to stop {nameof(TcpCommunicatorActive)} for host {this.RemoteHost} and port {this.RemotePort}: This object is stopped already!");
                 }
 
                 _isRunning = false;

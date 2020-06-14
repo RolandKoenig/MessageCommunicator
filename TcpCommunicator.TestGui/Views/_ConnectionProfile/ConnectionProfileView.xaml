@@ -13,6 +13,17 @@
       <MenuItem Header="Stop" Command="{Binding Path=Command_Stop}" />
     </Menu>  
     
+    <DockPanel DockPanel.Dock="Bottom" 
+               LastChildFill="True">
+      <Button Content="Send" Width="150"
+              DockPanel.Dock="Right"
+              Margin="3"
+              Command="{Binding Path=Command_SendMessage}"
+              CommandParameter="{Binding #TxtSendMessage.Text}"/>
+      <TextBox Name="TxtSendMessage"
+               Margin="3"/>
+    </DockPanel>
+    
     <ListBox Items="{Binding Path=Model.Logging}">
       <ListBox.ItemTemplate>
         <DataTemplate>

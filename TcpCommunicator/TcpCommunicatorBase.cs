@@ -148,7 +148,7 @@ namespace TcpCommunicator
                             StringBuffer.Format(
                                 "Error while receiving bytes from {0}: (Code: {1} - {2}) {3}", 
                                 partnerEndPointStr, 
-                                socketException.ErrorCode, socketException.SocketErrorCode,
+                                socketException.ErrorCode, socketException.SocketErrorCode.ToString(),
                                 socketException.Message),
                             socketException);
                     }

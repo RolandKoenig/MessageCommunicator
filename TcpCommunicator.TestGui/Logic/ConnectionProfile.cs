@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using TcpCommunicator.TestGui.Data;
 using Tmds.DBus;
 
@@ -29,7 +31,7 @@ namespace TcpCommunicator.TestGui.Logic
             switch (connParams.Mode)
             {
                 case ConnectionMode.Active:
-                    // TODO
+                    _tcpCommunicator = new TcpCommunicatorActive(connParams.Target, connParams.Port);
                     break;
                 
                 case ConnectionMode.Passive:
@@ -41,6 +43,13 @@ namespace TcpCommunicator.TestGui.Logic
             }
 
             _tcpCommunicator.Logger = this.OnLoggingMessage;
+        }
+
+        public Task SendMessageAsync(string message)
+        {
+            return _tcpCommunicator.SendAsync(
+                Encoding.ASCII.GetBytes(message),
+                false);
         }
 
         public void Start()
@@ -57,7 +66,12 @@ namespace TcpCommunicator.TestGui.Logic
         {
             _syncContext.Post(new SendOrPostCallback(arg =>
             {
-                this.Logging.Add(new LoggingMessage(logMessage.Message));
+                this.Logging.Insert(0, new LoggingMessage(logMessage.Message));
+
+                while (this.Logging.Count > 1000)
+                {
+                    this.Logging.RemoveAt(1000);
+                }
             }), null);
         }
     }
