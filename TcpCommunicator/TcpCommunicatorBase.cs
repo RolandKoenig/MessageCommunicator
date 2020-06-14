@@ -120,12 +120,19 @@ namespace TcpCommunicator
             while ((!cancelToken.IsCancellationRequested) &&
                    (tcpClient != null))
             {
-                var lastReceiveResult = 0;
+                int lastReceiveResult;
                 try
                 {
+                    // Read next bytes
                     lastReceiveResult = await tcpClient.Client
                         .ReceiveAsync(new ArraySegment<byte>(receiveBuffer), SocketFlags.None)
                         .ConfigureAwait(false);
+                    
+                    // Reset receive result if we where canceled already
+                    if (cancelToken.IsCancellationRequested)
+                    {
+                        lastReceiveResult = 0;
+                    }
                 }
                 catch (ObjectDisposedException)
                 {

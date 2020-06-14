@@ -41,7 +41,6 @@ namespace TcpCommunicator.TestGui.Logic
             }
 
             _tcpCommunicator.Logger = this.OnLoggingMessage;
-            _tcpCommunicator.SynchronizationContext = SynchronizationContext.Current;
         }
 
         public void Start()
@@ -56,7 +55,10 @@ namespace TcpCommunicator.TestGui.Logic
 
         private void OnLoggingMessage(TcpCommunicator.LoggingMessage logMessage)
         {
-            this.Logging.Add(new LoggingMessage(logMessage.Message));
+            _syncContext.Post(new SendOrPostCallback(arg =>
+            {
+                this.Logging.Add(new LoggingMessage(logMessage.Message));
+            }), null);
         }
     }
 }

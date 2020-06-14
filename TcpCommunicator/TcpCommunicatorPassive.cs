@@ -17,12 +17,12 @@ namespace TcpCommunicator
         private TcpClient? _currentSendSocket;
         private TcpListener? _currentListener;
 
-        public int ListeningPort { get; }
+        public ushort ListeningPort { get; }
 
         public override bool IsRunning => _isRunning;
 
         public TcpCommunicatorPassive(
-            int listeningPort, 
+            ushort listeningPort, 
             ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null)
             : base(reconnectWaitTimeGetter)
         {
@@ -50,7 +50,7 @@ namespace TcpCommunicator
                 loopId = _runningLoopCounter;
             }
 
-            this.Log(LoggingMessageType.Info, "TcpCommunicator started");
+            this.Log(LoggingMessageType.Info, "TcpCommunicator started in passive mode");
 
             // Start main loop
             TcpClient? lastClient = null;
