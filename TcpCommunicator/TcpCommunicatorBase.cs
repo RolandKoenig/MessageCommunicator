@@ -86,6 +86,14 @@ namespace TcpCommunicator
             {
                 await currentClient.Client.SendAsync(buffer, SocketFlags.None)
                     .ConfigureAwait(false);
+
+                if (this.IsLoggerSet)
+                {
+                    this.Log(
+                        LoggingMessageType.Info,
+                        StringBuffer.Format("Sent: {0}", Encoding.ASCII.GetString(buffer.Array, buffer.Offset, buffer.Count)));
+                }
+                
                 return true;
             }
             catch (Exception sendException)
