@@ -11,9 +11,6 @@ namespace TcpCommunicator
     {
         private const int RUNNING_LOOP_COUNTER_MAX = 1000;
 
-        //private CancellationTokenSource? _cancelTokenAcceptLoop;
-        //private CancellationTokenSource? _cancelTokenReceiveLoop;
-
         private readonly object _startStopLock;
         private int _runningLoopCounter;
         private bool _isRunning;
