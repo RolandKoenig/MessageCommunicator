@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TcpCommunicator.Util;
 
 namespace TcpCommunicator
 {
@@ -18,7 +21,9 @@ namespace TcpCommunicator
         /// </summary>
         public Action<LoggingMessage>? Logger { get; set; }
 
-        public SynchronizationContext? SynchronizationContext { get; set; }
+        public bool IsLoggerSet => this.Logger != null;
+
+        public uint ReceiveBufferSize { get; set; } = 1024;
 
         protected TcpCommunicatorBase(ReconnectWaitTimeGetter? reconnectWaitTimeGetter)
         {
@@ -31,18 +36,10 @@ namespace TcpCommunicator
         protected void Log(LoggingMessageType messageType, string message, Exception? exception = null)
         {
             var logger = this.Logger;
+            if (logger == null) { return; }
 
-            var syncContext = this.SynchronizationContext;
-            if (syncContext != null)
-            {
-                // TODO: Reduce allocations
-                syncContext.Post(new SendOrPostCallback(
-                    arg => logger?.Invoke(new LoggingMessage(this, messageType, message, exception))), null);
-            }
-            else
-            {
-                logger?.Invoke(new LoggingMessage(this, messageType, message, exception));
-            }
+            var loggingMessage = new LoggingMessage(this, messageType, message, exception);
+            logger(loggingMessage);
         }
 
         protected Task WaitByReconnectWaitTimeAsync(int errorCountSinceLastConnect)
@@ -56,68 +53,128 @@ namespace TcpCommunicator
             return Task.Delay(waitTime);
         }
 
+        /// <summary>
+        /// Start the communicator.
+        /// </summary>
         public abstract void Start();
 
+        /// <summary>
+        /// Stops the communicator.
+        /// </summary>
         public abstract void Stop();
 
-        public async Task SendAsync(ArraySegment<byte> buffer)
+        /// <summary>
+        /// Tries to send the given message to the currently connected partner
+        /// </summary>
+        /// <param name="buffer">The bytes to be sent</param>
+        /// <param name="throwExceptionWhenUnableToSend">Set this to false if you don't want an exception thrown in case of an error</param>
+        /// <returns>True when sending was successful</returns>
+        public async Task<bool> SendAsync(ArraySegment<byte> buffer, bool throwExceptionWhenUnableToSend = true)
         {
             var currentClient = this.GetCurrentSendSocket();
             if(currentClient == null)
             {
                 this.Log(LoggingMessageType.Error, "Unable to send message: Connection is not established currently!");
-                return;
+                if (throwExceptionWhenUnableToSend)
+                {
+                    throw new ApplicationException("Unable to send message: Connection is not established currently!");
+                }
+                return false;
             }
 
             try
             {
                 await currentClient.Client.SendAsync(buffer, SocketFlags.None)
                     .ConfigureAwait(false);
+                return true;
             }
             catch (Exception sendException)
             {
-                throw;
+                if (throwExceptionWhenUnableToSend)
+                {
+                    throw new ApplicationException(StringBuffer.Format("Unable to send message: {0}", sendException), sendException);
+                }
+                return false;
             }
         }
 
         protected abstract TcpClient? GetCurrentSendSocket();
          
-        protected async Task RunReceiveLoopAsync(TcpClient tcpClient, CancellationToken cancelToken)
+        /// <summary>
+        /// Internal method which reacts on incoming bytes on the currently active tcp client connection.
+        /// Only one of this connection is active at one time.
+        /// </summary>
+        protected async Task RunReceiveLoopAsync(TcpClient? tcpClient, IPEndPoint localEndPoint, IPEndPoint partnerEndPoint, CancellationToken cancelToken)
         {
-            var receiveBuffer = new byte[1024];
-            while (!cancelToken.IsCancellationRequested)
+            var localEndPointStr = localEndPoint.ToString();
+            var partnerEndPointStr = partnerEndPoint.ToString();
+
+            if (this.IsLoggerSet)
             {
-                int lastReceiveResult;
+                this.Log(
+                    LoggingMessageType.Info,
+                    StringBuffer.Format("Starting receive loop for connection {0} to {1}", localEndPointStr, partnerEndPointStr));
+            }
+
+            var receiveBuffer = new byte[this.ReceiveBufferSize];
+            while ((!cancelToken.IsCancellationRequested) &&
+                   (tcpClient != null))
+            {
+                var lastReceiveResult = 0;
                 try
                 {
-                    lastReceiveResult = await tcpClient.Client.ReceiveAsync(new ArraySegment<byte>(receiveBuffer), SocketFlags.None)
+                    lastReceiveResult = await tcpClient.Client
+                        .ReceiveAsync(new ArraySegment<byte>(receiveBuffer), SocketFlags.None)
                         .ConfigureAwait(false);
+                }
+                catch (ObjectDisposedException)
+                {
+                    tcpClient = null;
+                    break;
                 }
                 catch (SocketException socketException)
                 {
-                    // TODO: Notify disconnected event
+                    if (this.IsLoggerSet)
+                    {
+                        this.Log(
+                            LoggingMessageType.Error,
+                            StringBuffer.Format(
+                                "Error while receiving bytes from {0}: (Code: {1} - {2}) {3}", 
+                                partnerEndPointStr, 
+                                socketException.ErrorCode, socketException.SocketErrorCode,
+                                socketException.Message),
+                            socketException);
+                    }
                     break;
                 }
-                catch (ObjectDisposedException disposedException)
+                catch (Exception ex)
                 {
-                    // TODO: Notify disconnected event
+                    if (this.IsLoggerSet)
+                    {
+                        this.Log(
+                            LoggingMessageType.Error,
+                            StringBuffer.Format(
+                                "Error while receiving bytes from {0}: {1}", 
+                                partnerEndPointStr,
+                                ex.Message),
+                            ex);
+                    }
                     break;
                 }
+
                 if (lastReceiveResult <= 0) { break; }
 
-                // TODO: Reduce allocations
-                this.Log(
-                    LoggingMessageType.Info,
-                    $"Received: {Encoding.Default.GetString(receiveBuffer, 0, lastReceiveResult)}");
+                // Log currently received bytes
+                if (this.IsLoggerSet)
+                {
+                    this.Log(
+                        LoggingMessageType.Info,
+                        StringBuffer.Format("Received: {0}", Encoding.Default.GetString(receiveBuffer, 0, lastReceiveResult)));
+                }
             }
 
             // Ensure that the socket is closed after ending this method
-            if (tcpClient.Connected)
-            {
-                tcpClient.Client.Disconnect(false);
-                tcpClient.Client.Dispose();
-                tcpClient.Dispose();
-            }
+            TcpAsyncUtil.SafeDispose(ref tcpClient);
         }
     }
 }

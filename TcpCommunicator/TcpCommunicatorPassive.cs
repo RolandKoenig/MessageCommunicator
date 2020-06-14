@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
+using TcpCommunicator.Util;
 
 namespace TcpCommunicator
 {
@@ -51,6 +50,8 @@ namespace TcpCommunicator
                 loopId = _runningLoopCounter;
             }
 
+            this.Log(LoggingMessageType.Info, "TcpCommunicator started");
+
             // Start main loop
             TcpClient? lastClient = null;
             CancellationTokenSource? lastCancelTokenSource = null;
@@ -62,18 +63,34 @@ namespace TcpCommunicator
                 {
                     try
                     {
-                        this.Log(LoggingMessageType.Info, "Start listening...");
+                        if (this.IsLoggerSet)
+                        {
+                            this.Log(
+                                LoggingMessageType.Info, 
+                                StringBuffer.Format("Creating TcpListener socket for port {0}...", this.ListeningPort));
+                        }
                         tcpListener = new TcpListener(IPAddress.Loopback, this.ListeningPort);
                         tcpListener.Start();
 
                         reconnectErrorCount = 0;
                         _currentListener = tcpListener;
 
-                        this.Log(LoggingMessageType.Info, "Listening started successfully");
+                        if (this.IsLoggerSet)
+                        {
+                            this.Log(
+                                LoggingMessageType.Info, 
+                                StringBuffer.Format("TcpListener created for port {0}", this.ListeningPort));
+                        }
                     }
                     catch (Exception ex)
                     {
-                        this.Log(LoggingMessageType.Info, "Error while starting listening", ex);
+                        if (this.IsLoggerSet)
+                        {
+                            this.Log(
+                                LoggingMessageType.Error, 
+                                StringBuffer.Format("Error while creating TcpListener for port {0}: {1}", this.ListeningPort, ex.Message),
+                                ex);
+                        }
 
                         _currentListener = null;
                         TcpAsyncUtil.SafeStop(ref tcpListener);
@@ -89,17 +106,47 @@ namespace TcpCommunicator
 
                 // Wait for incoming connection
                 TcpClient? actTcpClient = null;
+                IPEndPoint? actPartnerEndPoint = null;
+                IPEndPoint? actLocalEndPoint = null;
                 try
                 {
-                    // TODO: Log start listening for incoming connection
+                    if (this.IsLoggerSet)
+                    {
+                        this.Log(
+                            LoggingMessageType.Info,
+                            StringBuffer.Format("Listening for incoming connections on port {0}...",
+                                this.ListeningPort));
+                    }
+
                     actTcpClient = await tcpListener.AcceptTcpClientAsync()
                         .ConfigureAwait(false);
+                    actLocalEndPoint = (IPEndPoint) actTcpClient.Client.LocalEndPoint;
+                    actPartnerEndPoint = (IPEndPoint) actTcpClient.Client.RemoteEndPoint; 
 
-                    // TODO: Log incoming connection established
+                    if (this.IsLoggerSet)
+                    {
+                        this.Log(
+                            LoggingMessageType.Info,
+                            StringBuffer.Format(
+                                "Got new connection on listening port {0}. Connection established between {1} and {2}", 
+                                this.ListeningPort, actLocalEndPoint.ToString(), actPartnerEndPoint.ToString()));
+                    }
                 }
-                catch (Exception)
+                catch (ObjectDisposedException)
                 {
-                    // TODO: Log error while waiting for incoming connection
+                    // Stop may be called in the meanwhile
+                    if (!_isRunning) { continue; }
+                    if (loopId != _runningLoopCounter){ continue; }
+                }
+                catch (Exception ex)
+                {
+                    if (this.IsLoggerSet)
+                    {
+                        this.Log(
+                            LoggingMessageType.Error, 
+                            StringBuffer.Format("Error while listening for incoming connections on port {0}: {1}", this.ListeningPort, ex.Message),
+                            ex);
+                    }
 
                     TcpAsyncUtil.SafeStop(ref tcpListener);
                     TcpAsyncUtil.SafeDispose(ref _currentSendSocket);
@@ -125,7 +172,9 @@ namespace TcpCommunicator
                 lastCancelTokenSource = new CancellationTokenSource();
 
                 // Run receive loop for this client (we don't have to await this because we a listening for a new connection request)
-                this.RunReceiveLoopAsync(lastClient, lastCancelTokenSource.Token);
+#pragma warning disable 4014
+                this.RunReceiveLoopAsync(lastClient, actLocalEndPoint!, actPartnerEndPoint!, lastCancelTokenSource.Token);
+#pragma warning restore 4014
             }
 
             if (tcpListener != null)
@@ -142,7 +191,10 @@ namespace TcpCommunicator
             TcpClient? lastSendSocket = null;
             lock (_startStopLock)
             {
-                if(!_isRunning){ throw new ApplicationException($"Unable to stop {nameof(TcpCommunicatorPassive)} for port {this.ListeningPort}: This object is stopped already!"); }
+                if (!_isRunning)
+                {
+                    throw new ApplicationException($"Unable to stop {nameof(TcpCommunicatorPassive)} for port {this.ListeningPort}: This object is stopped already!");
+                }
 
                 _isRunning = false;
                 _runningLoopCounter++;
@@ -160,6 +212,8 @@ namespace TcpCommunicator
             // Dispose previous sockets
             TcpAsyncUtil.SafeStop(ref lastListener);
             TcpAsyncUtil.SafeDispose(ref lastSendSocket);
+
+            this.Log(LoggingMessageType.Info, "TcpCommunicator stopped");
         }
 
         protected override TcpClient? GetCurrentSendSocket() => _currentSendSocket;
