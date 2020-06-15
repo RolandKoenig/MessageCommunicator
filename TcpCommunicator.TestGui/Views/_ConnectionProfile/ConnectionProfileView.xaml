@@ -24,14 +24,25 @@
                Margin="3"/>
     </DockPanel>
     
-    <ListBox Items="{Binding Path=Model.Logging}">
-      <ListBox.ItemTemplate>
-        <DataTemplate>
-          <TextBlock Text="{Binding Path=Message}" />
-        </DataTemplate>
-      </ListBox.ItemTemplate>
-    </ListBox>
-  
+    <DataGrid Items="{Binding Path=Model.Logging}" 
+              CanUserReorderColumns="False"
+              CanUserResizeColumns="True"
+              CanUserSortColumns="True">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Timestamp"
+                            IsReadOnly="True"
+                            Binding="{Binding Path=TimeStamp}" 
+                            Width="150" />
+        <DataGridTextColumn Header="Type"
+                            IsReadOnly="True"
+                            Binding="{Binding Path=MessageType}" 
+                            Width="75" />        
+        <DataGridTextColumn Header="Message"
+                            IsReadOnly="True"
+                            Binding="{Binding Path=Message}" 
+                            Width="*" />
+      </DataGrid.Columns>
+    </DataGrid>
   </DockPanel>
   
 </UserControl>

@@ -38,7 +38,7 @@ namespace TcpCommunicator
             var logger = this.Logger;
             if (logger == null) { return; }
 
-            var loggingMessage = new LoggingMessage(this, messageType, message, exception);
+            var loggingMessage = new LoggingMessage(this, DateTime.UtcNow, messageType, message, exception);
             logger(loggingMessage);
         }
 

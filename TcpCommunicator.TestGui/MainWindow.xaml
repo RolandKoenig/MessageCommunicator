@@ -35,15 +35,19 @@
         <HeaderedContentControl Header="Profiles"
                                 Classes="GroupBox"
                                 Grid.Column="0">
-          <ListBox Name="LstProfiles"
-                   Items="{Binding Path=Profiles}"
-                   SelectedItem="{Binding Path=SelectedProfile, Mode=TwoWay}">
-            <ListBox.DataTemplates>
-              <DataTemplate>
-                <TextBlock Text="{Binding Path=Model.Name}" />
-              </DataTemplate>
-            </ListBox.DataTemplates>
-          </ListBox>
+          <DataGrid Name="LstProfiles" 
+                    Items="{Binding Profiles}"
+                    SelectedItem="{Binding Path=SelectedProfile, Mode=TwoWay}">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="Name"
+                                  Binding="{Binding Path=Model.Name}"
+                                  Width="125" />
+              <DataGridCheckBoxColumn Header="Running"
+                                      Binding="{Binding Path=IsRunning}"
+                                      IsReadOnly="True"
+                                      Width="75" />
+            </DataGrid.Columns>
+          </DataGrid>
         </HeaderedContentControl>
         
         <!-- Details of the selected profile -->

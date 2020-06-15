@@ -18,15 +18,18 @@ namespace TcpCommunicator
     {
         public TcpCommunicatorBase Communicator { get; }
 
+        public DateTime TimeStamp { get; }
+
         public LoggingMessageType MessageType { get; }
 
         public string Message { get; }
 
         public Exception? Exception { get; }
 
-        public LoggingMessage(TcpCommunicatorBase communicator, LoggingMessageType messageType, string message, Exception? exception)
+        public LoggingMessage(TcpCommunicatorBase communicator, DateTime timestamp, LoggingMessageType messageType, string message, Exception? exception)
         {
             this.Communicator = communicator;
+            this.TimeStamp = timestamp;
             this.MessageType = messageType;
             this.Message = message;
             this.Exception = exception;

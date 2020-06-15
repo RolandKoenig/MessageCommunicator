@@ -19,7 +19,7 @@ namespace TcpCommunicator.TestGui.Logic
 
         public string Name => _connParams.Name;
 
-        public ObservableCollection<LoggingMessage> Logging { get; } = new ObservableCollection<LoggingMessage>();
+        public ObservableCollection<LoggingMessageWrapper> Logging { get; } = new ObservableCollection<LoggingMessageWrapper>();
 
         public bool IsRunning => _tcpCommunicator.IsRunning;
 
@@ -66,7 +66,7 @@ namespace TcpCommunicator.TestGui.Logic
         {
             _syncContext.Post(new SendOrPostCallback(arg =>
             {
-                this.Logging.Insert(0, new LoggingMessage(logMessage.Message));
+                this.Logging.Insert(0, new LoggingMessageWrapper(logMessage));
 
                 while (this.Logging.Count > 1000)
                 {

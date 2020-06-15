@@ -4,9 +4,15 @@
     <Application.Styles>
         <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
         <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Default.xaml"/>
       
         <Style Selector="Button">
             <Setter Property="Padding" Value="0" />
+        </Style>
+      
+        <Style Selector="DataGrid">
+            <Setter Property="AlternatingRowBackground" Value="WhiteSmoke" />
+            <Setter Property="RowBackground" Value="White" />
         </Style>
       
         <!-- Style for group boxes -->
