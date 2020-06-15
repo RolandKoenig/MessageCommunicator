@@ -40,7 +40,7 @@
         <DataGridTextColumn Header="Message"
                             IsReadOnly="True"
                             Binding="{Binding Path=Message}" 
-                            Width="*" />
+                            Width="1000" />
       </DataGrid.Columns>
     </DataGrid>
   </DockPanel>

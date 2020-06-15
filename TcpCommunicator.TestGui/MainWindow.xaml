@@ -7,6 +7,7 @@
         mc:Ignorable="d" 
         MinWidth="200" MinHeight="200"
         Width="800" Height="550"
+        Icon="Assets/Logo.ico"
         d:DataContext="{x:Static local:DesignData.MainWindowVM}"
         x:Class="TcpCommunicator.TestGui.MainWindow"
         Title="TcpCommunicator - Testing UI">
@@ -29,6 +30,7 @@
         </Grid.ColumnDefinitions>
         
         <GridSplitter Grid.Column="1"
+                      Background="Transparent"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         
         <!-- Overview of all profiles -->
@@ -36,16 +38,16 @@
                                 Classes="GroupBox"
                                 Grid.Column="0">
           <DataGrid Name="LstProfiles" 
-                    Items="{Binding Profiles}"
-                    SelectedItem="{Binding Path=SelectedProfile, Mode=TwoWay}">
+                  Items="{Binding Profiles}"
+                  SelectedItem="{Binding Path=SelectedProfile, Mode=TwoWay}">
             <DataGrid.Columns>
               <DataGridTextColumn Header="Name"
                                   Binding="{Binding Path=Model.Name}"
                                   Width="125" />
               <DataGridCheckBoxColumn Header="Running"
-                                      Binding="{Binding Path=IsRunning}"
-                                      IsReadOnly="True"
-                                      Width="75" />
+                                    Binding="{Binding Path=IsRunning}"
+                                    IsReadOnly="True"
+                                    Width="75" />
             </DataGrid.Columns>
           </DataGrid>
         </HeaderedContentControl>
@@ -54,7 +56,6 @@
         <HeaderedContentControl Header="Messages"
                                 Classes="GroupBox"
                                 Grid.Column="2"
-                                DataContext="{Binding Path=SelectedProfile}"
                                 IsEnabled="{Binding Path=IsProfileScreenEnabled}">
           <localViews:ConnectionProfileView DataContext="{Binding #LstProfiles.SelectedItem}" />
         </HeaderedContentControl>

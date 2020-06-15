@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
+    <ApplicationIcon>Assets/Logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="**\*.xaml.cs">
@@ -24,6 +25,6 @@
     <ProjectReference Include="..\TcpCommunicator\TcpCommunicator.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\" />
+    <AvaloniaResource Include="Assets\*" />
   </ItemGroup>
 </Project>
