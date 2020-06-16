@@ -14,8 +14,7 @@
     <DockPanel LastChildFill="True">
       <Menu DockPanel.Dock="Top">
         <MenuItem Header="Tools">
-          <MenuItem Header="Create Profile"
-                    Command="{Binding Path=Command_CreateProfile}"/>
+
         </MenuItem>
         <MenuItem Header="Info">
           <MenuItem Header="About" />
@@ -37,19 +36,28 @@
         <HeaderedContentControl Header="Profiles"
                                 Classes="GroupBox"
                                 Grid.Column="0">
-          <DataGrid Name="LstProfiles" 
-                  Items="{Binding Profiles}"
-                  SelectedItem="{Binding Path=SelectedProfile, Mode=TwoWay}">
-            <DataGrid.Columns>
-              <DataGridTextColumn Header="Name"
-                                  Binding="{Binding Path=Model.Name}"
-                                  Width="125" />
-              <DataGridCheckBoxColumn Header="Running"
-                                    Binding="{Binding Path=IsRunning}"
-                                    IsReadOnly="True"
-                                    Width="75" />
-            </DataGrid.Columns>
-          </DataGrid>
+          <DockPanel LastChildFill="True">
+            
+            <Menu DockPanel.Dock="Top">
+              <MenuItem Header="Create"
+                        Command="{Binding Path=Command_CreateProfile}"/>
+            </Menu>
+            
+            <DataGrid Name="LstProfiles"
+                      Items="{Binding Profiles}"
+                      SelectedItem="{Binding Path=SelectedProfile, Mode=TwoWay}">
+              <DataGrid.Columns>
+                <DataGridTextColumn Header="Name"
+                                    Binding="{Binding Path=Model.Name}"
+                                    Width="125" />
+                <DataGridCheckBoxColumn Header="Running"
+                                      Binding="{Binding Path=IsRunning}"
+                                      IsReadOnly="True"
+                                      Width="75" />
+              </DataGrid.Columns>
+            </DataGrid>
+          </DockPanel>
+
         </HeaderedContentControl>
         
         <!-- Details of the selected profile -->

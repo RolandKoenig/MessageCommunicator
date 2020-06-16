@@ -23,7 +23,7 @@ namespace TcpCommunicator
         public ushort RemotePort { get; }
 
         /// <inheritdoc />
-        public override bool IsRunning => false; // TODO
+        public override bool IsRunning => _isRunning;
 
         /// <inheritdoc />
         public TcpCommunicatorActive(
