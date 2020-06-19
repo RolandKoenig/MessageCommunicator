@@ -13,6 +13,34 @@
         <Style Selector="DataGrid">
             <Setter Property="AlternatingRowBackground" Value="WhiteSmoke" />
             <Setter Property="RowBackground" Value="White" />
+            <Setter Property="GridLinesVisibility" Value="All" />
+            <Setter Property="HorizontalGridLinesBrush" Value="LightGray" />
+            <Setter Property="VerticalGridLinesBrush" Value="LightGray" />
+        </Style>
+      
+        <Style Selector="DataGridColumnHeader">
+            <Setter Property="Template">
+              <ControlTemplate>
+                  <Border BorderBrush="LightGray" BorderThickness="1"
+                          Background="{TemplateBinding Background}">
+                    <Grid Margin="{TemplateBinding Padding}"
+                          ColumnDefinitions="*,Auto">
+                      <ContentPresenter Grid.Column="0" 
+                                        Content="{TemplateBinding Content}" />
+                      
+                      <Path Name="SortIcon"
+                            Grid.Column="1"
+                            Fill="{TemplateBinding Foreground}"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Stretch="Uniform"
+                            Width="8"
+                            Margin="4,0,0,0"
+                            Data="F1 M -5.215,6.099L 5.215,6.099L 0,0L -5.215,6.099 Z "/>
+                    </Grid>
+                  </Border>
+              </ControlTemplate>
+            </Setter>
         </Style>
 
         <!-- Style for group boxes -->

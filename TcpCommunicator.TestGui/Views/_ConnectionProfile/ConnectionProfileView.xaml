@@ -25,14 +25,16 @@
     </DockPanel>
     
     <DataGrid Items="{Binding Path=Model.Logging}" 
+              
               CanUserReorderColumns="False"
               CanUserResizeColumns="True"
               CanUserSortColumns="True">
       <DataGrid.Columns>
-        <DataGridTextColumn Header="Timestamp"
-                            IsReadOnly="True"
+        <DataGridTextColumn Header="TimeStamp"
+                            IsReadOnly="True" 
                             Binding="{Binding Path=TimeStamp}" 
-                            Width="150" />
+                            Width="150">
+        </DataGridTextColumn>
         <DataGridTextColumn Header="Type"
                             IsReadOnly="True"
                             Binding="{Binding Path=MessageType}" 
