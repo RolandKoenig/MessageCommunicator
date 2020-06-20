@@ -58,22 +58,7 @@ namespace TcpCommunicator.TestGui.Views
             });
         }
 
-        /// <inheritdoc />
-        protected override void OnActivated(CompositeDisposable disposables)
-        {
-            base.OnActivated(disposables);
-
-            var timer = new DispatcherTimer(
-                TimeSpan.FromMilliseconds(100), DispatcherPriority.Normal,
-                (sender, args) =>
-                {
-                    this.OnRefresh();
-                });
-            timer.Start();
-            disposables.Add(new DummyDisposable(() => timer.Stop()));
-        }
-
-        private void OnRefresh()
+        public void RefreshData()
         {
             this.IsRunning = this.Model.IsRunning;
             this.State = this.Model.State;

@@ -1,9 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalonia.Threading;
 using ReactiveUI;
 using TcpCommunicator.TestGui.Logic;
 using TcpCommunicator.TestGui.Views;
@@ -57,7 +59,17 @@ namespace TcpCommunicator.TestGui
         /// <inheritdoc />
         protected override void OnActivated(CompositeDisposable disposables)
         {
-            // TODO: Implement activation
+            var timer = new DispatcherTimer(
+                TimeSpan.FromMilliseconds(100), DispatcherPriority.Normal,
+                (sender, args) =>
+                {
+                    foreach(var actProfile in this.Profiles)
+                    {
+                        actProfile.RefreshData();
+                    }
+                });
+            timer.Start();
+            disposables.Add(new DummyDisposable(() => timer.Stop()));
         }
     }
 }
