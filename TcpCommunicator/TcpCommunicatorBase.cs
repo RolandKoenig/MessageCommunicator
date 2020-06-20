@@ -57,7 +57,7 @@ namespace TcpCommunicator
         /// </summary>
         public Action<LoggingMessage>? Logger { get; set; }
 
-        public bool IsLoggerSet => this.Logger != null;
+        protected bool IsLoggerSet => this.Logger != null;
 
         public uint ReceiveBufferSize { get; set; } = 1024;
 

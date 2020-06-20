@@ -70,7 +70,7 @@ namespace TcpCommunicator
             this.Log(LoggingMessageType.Info, "TcpCommunicator started in active mode");
 
             var reconnectErrorCount = 0;
-            var remoteAddressStr = this.RemoteHost.ToString();
+            var remoteAddressStr = this.RemoteHost;
             while (loopId == _runningLoopCounter)
             {
                 try
@@ -109,7 +109,7 @@ namespace TcpCommunicator
                     }
 
                     _connState = ConnectionState.Connecting;
-                    await base.WaitByReconnectWaitTimeAsync(reconnectErrorCount)
+                    await this.WaitByReconnectWaitTimeAsync(reconnectErrorCount)
                         .ConfigureAwait(false);
                     reconnectErrorCount++;
                 }

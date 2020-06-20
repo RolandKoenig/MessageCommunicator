@@ -63,7 +63,8 @@ namespace TcpCommunicator.TestGui.Views
         public ConnectionProfileViewModel(ConnectionProfile connProfile)
         {
             this.Model = connProfile;
-
+            _remoteEndpointDescription = string.Empty;
+            
             this.Command_Start = ReactiveCommand.Create<object>(arg => this.Model.Start());
             this.Command_Stop = ReactiveCommand.Create<object>(arg => this.Model.Stop());
             this.Command_SendMessage = ReactiveCommand.Create<string>(message =>

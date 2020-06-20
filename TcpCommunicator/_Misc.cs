@@ -23,7 +23,7 @@ namespace TcpCommunicator
         Connected,
     }
 
-    public struct LoggingMessage
+    public readonly struct LoggingMessage
     {
         public TcpCommunicatorBase Communicator { get; }
 

@@ -113,7 +113,7 @@ namespace TcpCommunicator
                         TcpAsyncUtil.SafeStop(ref tcpListener);
                         TcpAsyncUtil.SafeDispose(ref _currentSendSocket);
 
-                        await base.WaitByReconnectWaitTimeAsync(reconnectErrorCount)
+                        await this.WaitByReconnectWaitTimeAsync(reconnectErrorCount)
                             .ConfigureAwait(false);
                         reconnectErrorCount++;
                     }
@@ -169,7 +169,7 @@ namespace TcpCommunicator
                     TcpAsyncUtil.SafeStop(ref tcpListener);
                     TcpAsyncUtil.SafeDispose(ref _currentSendSocket);
 
-                    await base.WaitByReconnectWaitTimeAsync(reconnectErrorCount)
+                    await this.WaitByReconnectWaitTimeAsync(reconnectErrorCount)
                         .ConfigureAwait(false);
                     reconnectErrorCount++;
                 }
