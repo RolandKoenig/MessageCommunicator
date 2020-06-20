@@ -16,6 +16,42 @@ namespace TcpCommunicator
 
         public abstract ConnectionState State { get; }
 
+        public string RemoteEndpointDescription
+        {
+            get
+            {
+                var currentSendSocket = this.GetCurrentSendSocket();
+                if (currentSendSocket == null) { return string.Empty; }
+
+                try
+                {
+                    return currentSendSocket.Client.RemoteEndPoint.ToString();
+                }
+                catch (Exception )
+                {
+                    return string.Empty;
+                }
+            }
+        }
+
+        public string LocalEndpointDescription
+        {
+            get
+            {
+                var currentSendSocket = this.GetCurrentSendSocket();
+                if (currentSendSocket == null) { return string.Empty; }
+
+                try
+                {
+                    return currentSendSocket.Client.RemoteEndPoint.ToString();
+                }
+                catch (Exception )
+                {
+                    return string.Empty;
+                }
+            }
+        }
+
         /// <summary>
         /// A custom logger. If set, this delegate will be called with all relevant events.
         /// </summary>

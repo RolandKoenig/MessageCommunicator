@@ -24,6 +24,8 @@ namespace TcpCommunicator.TestGui.Logic
 
         public ConnectionState State => _tcpCommunicator.State;
 
+        public string RemoteEndpointDescription => _tcpCommunicator.RemoteEndpointDescription;
+
         public ConnectionProfile(SynchronizationContext syncContext, ConnectionParameters connParams)
         {
             _syncContext = syncContext;

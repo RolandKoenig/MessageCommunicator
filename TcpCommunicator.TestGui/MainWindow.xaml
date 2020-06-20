@@ -11,6 +11,10 @@
         d:DataContext="{x:Static local:DesignData.MainWindowVM}"
         x:Class="TcpCommunicator.TestGui.MainWindow"
         Title="TcpCommunicator - Testing UI">
+    <Window.Resources>
+      <local:ConnectionStateToColorConverter x:Key="ConnStateConverter" />
+    </Window.Resources>
+  
     <DockPanel LastChildFill="True">
       <Menu DockPanel.Dock="Top">
         <MenuItem Header="Tools">
@@ -43,20 +47,30 @@
                         Command="{Binding Path=Command_CreateProfile}"/>
             </Menu>
             
-            <DataGrid Name="LstProfiles"
+            <DataGrid Name="LstProfiles" IsReadOnly="True"
                       Items="{Binding Profiles}"
                       SelectedItem="{Binding Path=SelectedProfile, Mode=TwoWay}">
               <DataGrid.Columns>
+                <DataGridTemplateColumn Header=" "
+                                        Width="24">
+                  <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                      <Rectangle Fill="{Binding Path=State, Converter={StaticResource ConnStateConverter}}" 
+                                 Margin="5" 
+                                 Name="StateRect" />
+                      
+                    </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="State"
                                     Binding="{Binding Path=State}"
                                     Width="75" />
                 <DataGridTextColumn Header="Name"
                                     Binding="{Binding Path=Model.Name}"
                                     Width="125" />
-                <DataGridCheckBoxColumn Header="Running"
-                                      Binding="{Binding Path=IsRunning}"
-                                      IsReadOnly="True"
-                                      Width="75" />
+                <DataGridTextColumn Header="Target"
+                                    Binding="{Binding Path=RemoteEndpointDescription}"
+                                    Width="125" />
               </DataGrid.Columns>
             </DataGrid>
           </DockPanel>

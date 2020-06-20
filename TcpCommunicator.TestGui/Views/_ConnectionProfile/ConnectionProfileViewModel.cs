@@ -11,6 +11,7 @@ namespace TcpCommunicator.TestGui.Views
     {
         private bool _isRunning;
         private ConnectionState _connState;
+        private string _remoteEndpointDescription;
 
         public ConnectionProfile Model { get; }
 
@@ -46,6 +47,19 @@ namespace TcpCommunicator.TestGui.Views
             }
         }
 
+        public string RemoteEndpointDescription
+        {
+            get => _remoteEndpointDescription;
+            set
+            {
+                if (_remoteEndpointDescription != value)
+                {
+                    _remoteEndpointDescription = value;
+                    this.RaisePropertyChanged(nameof(this.RemoteEndpointDescription));
+                }
+            }
+        }
+
         public ConnectionProfileViewModel(ConnectionProfile connProfile)
         {
             this.Model = connProfile;
@@ -62,6 +76,7 @@ namespace TcpCommunicator.TestGui.Views
         {
             this.IsRunning = this.Model.IsRunning;
             this.State = this.Model.State;
+            this.RemoteEndpointDescription = this.Model.RemoteEndpointDescription;
         }
     }
 }

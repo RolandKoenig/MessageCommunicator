@@ -24,11 +24,7 @@
                Margin="3"/>
     </DockPanel>
     
-    <DataGrid Items="{Binding Path=Model.Logging}" 
-              
-              CanUserReorderColumns="False"
-              CanUserResizeColumns="True"
-              CanUserSortColumns="True">
+    <DataGrid Items="{Binding Path=Model.Logging}">
       <DataGrid.Columns>
         <DataGridTextColumn Header="TimeStamp"
                             IsReadOnly="True" 
