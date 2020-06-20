@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +13,8 @@ namespace TcpCommunicator
         public ReconnectWaitTimeGetter ReconnectWaitTimeGetter { get; set; }
 
         public abstract bool IsRunning { get; }
+
+        public abstract ConnectionState State { get; }
 
         /// <summary>
         /// A custom logger. If set, this delegate will be called with all relevant events.
@@ -71,6 +71,13 @@ namespace TcpCommunicator
         /// <returns>True when sending was successful</returns>
         public async Task<bool> SendAsync(ArraySegment<byte> buffer, bool throwExceptionWhenUnableToSend = true)
         {
+            if ((buffer.Array == null) ||
+                (buffer.Count == 0))
+            {
+                this.Log(LoggingMessageType.Error, "Unable to send message: Message is empty!");
+                return false;
+            }
+
             var currentClient = this.GetCurrentSendSocket();
             if(currentClient == null)
             {

@@ -21,6 +21,23 @@ namespace TcpCommunicator
 
         public override bool IsRunning => _isRunning;
 
+        /// <inheritdoc />
+        public override ConnectionState State
+        {
+            get
+            {
+                if (!_isRunning) { return ConnectionState.Stopped; }
+
+                var currentSendSocket = _currentSendSocket;
+                if (currentSendSocket == null) { return ConnectionState.Connecting; }
+                else if (!currentSendSocket.Connected) { return ConnectionState.Connecting;}
+                else
+                {
+                    return ConnectionState.Connected;
+                }
+            }
+        }
+
         public TcpCommunicatorPassive(
             ushort listeningPort, 
             ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null)
@@ -121,7 +138,7 @@ namespace TcpCommunicator
                     actTcpClient = await tcpListener.AcceptTcpClientAsync()
                         .ConfigureAwait(false);
                     actLocalEndPoint = (IPEndPoint) actTcpClient.Client.LocalEndPoint;
-                    actPartnerEndPoint = (IPEndPoint) actTcpClient.Client.RemoteEndPoint; 
+                    actPartnerEndPoint = (IPEndPoint) actTcpClient.Client.RemoteEndPoint;
 
                     if (this.IsLoggerSet)
                     {
@@ -135,6 +152,7 @@ namespace TcpCommunicator
                 catch (ObjectDisposedException)
                 {
                     // Stop may be called in the meanwhile
+
                     if (!_isRunning) { continue; }
                     if (loopId != _runningLoopCounter){ continue; }
                 }

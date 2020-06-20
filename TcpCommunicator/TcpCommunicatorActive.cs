@@ -15,6 +15,7 @@ namespace TcpCommunicator
         private readonly object _startStopLock;
         private int _runningLoopCounter;
         private bool _isRunning;
+        private ConnectionState _connState;
 
         private TcpClient? _currentClient;
 
@@ -24,6 +25,16 @@ namespace TcpCommunicator
 
         /// <inheritdoc />
         public override bool IsRunning => _isRunning;
+
+        /// <inheritdoc />
+        public override ConnectionState State
+        {
+            get
+            {
+                if (!_isRunning) { return ConnectionState.Stopped; }
+                return _connState;
+            }
+        }
 
         /// <inheritdoc />
         public TcpCommunicatorActive(
@@ -46,6 +57,7 @@ namespace TcpCommunicator
                 if(_isRunning){ throw new ApplicationException($"Unable to start {nameof(TcpCommunicatorActive)} for host {this.RemoteHost} and port {this.RemotePort}: This object is started already!"); }
 
                 _isRunning = true;
+                _connState = ConnectionState.Connecting;
                 _runningLoopCounter++;
                 if (_runningLoopCounter > RUNNING_LOOP_COUNTER_MAX)
                 {
@@ -63,6 +75,7 @@ namespace TcpCommunicator
             {
                 try
                 {
+                    _connState = ConnectionState.Connecting;
                     if (this.IsLoggerSet)
                     {
                         this.Log(
@@ -74,6 +87,7 @@ namespace TcpCommunicator
                     await _currentClient.ConnectAsync(this.RemoteHost, this.RemotePort);
                     reconnectErrorCount = 0;
 
+                    _connState = ConnectionState.Connected;
                     if (this.IsLoggerSet)
                     {
                         this.Log(
@@ -93,7 +107,8 @@ namespace TcpCommunicator
                                 remoteAddressStr, this.RemotePort, ex.Message),
                             ex);
                     }
-                    
+
+                    _connState = ConnectionState.Connecting;
                     await base.WaitByReconnectWaitTimeAsync(reconnectErrorCount)
                         .ConfigureAwait(false);
                     reconnectErrorCount++;
@@ -123,6 +138,7 @@ namespace TcpCommunicator
                 }
 
                 _isRunning = false;
+                _connState = ConnectionState.Stopped;
                 _runningLoopCounter++;
                 if (_runningLoopCounter > RUNNING_LOOP_COUNTER_MAX)
                 {

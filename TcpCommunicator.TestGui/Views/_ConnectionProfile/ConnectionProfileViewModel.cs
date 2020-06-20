@@ -10,6 +10,7 @@ namespace TcpCommunicator.TestGui.Views
     public class ConnectionProfileViewModel : OwnViewModelBase
     {
         private bool _isRunning;
+        private ConnectionState _connState;
 
         public ConnectionProfile Model { get; }
 
@@ -28,6 +29,19 @@ namespace TcpCommunicator.TestGui.Views
                 {
                     _isRunning = value;
                     this.RaisePropertyChanged(nameof(this.IsRunning));
+                }
+            }
+        }
+
+        public ConnectionState State
+        {
+            get => _connState;
+            set
+            {
+                if (_connState != value)
+                {
+                    _connState = value;
+                    this.RaisePropertyChanged(nameof(this.State));
                 }
             }
         }
@@ -62,6 +76,7 @@ namespace TcpCommunicator.TestGui.Views
         private void OnRefresh()
         {
             this.IsRunning = this.Model.IsRunning;
+            this.State = this.Model.State;
         }
     }
 }

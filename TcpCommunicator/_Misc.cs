@@ -14,6 +14,15 @@ namespace TcpCommunicator
         Error
     }
 
+    public enum ConnectionState
+    {
+        Stopped,
+
+        Connecting,
+
+        Connected,
+    }
+
     public struct LoggingMessage
     {
         public TcpCommunicatorBase Communicator { get; }

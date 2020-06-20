@@ -47,6 +47,9 @@
                       Items="{Binding Profiles}"
                       SelectedItem="{Binding Path=SelectedProfile, Mode=TwoWay}">
               <DataGrid.Columns>
+                <DataGridTextColumn Header="State"
+                                    Binding="{Binding Path=State}"
+                                    Width="75" />
                 <DataGridTextColumn Header="Name"
                                     Binding="{Binding Path=Model.Name}"
                                     Width="125" />

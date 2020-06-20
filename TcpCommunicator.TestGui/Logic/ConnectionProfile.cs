@@ -22,6 +22,8 @@ namespace TcpCommunicator.TestGui.Logic
 
         public bool IsRunning => _tcpCommunicator.IsRunning;
 
+        public ConnectionState State => _tcpCommunicator.State;
+
         public ConnectionProfile(SynchronizationContext syncContext, ConnectionParameters connParams)
         {
             _syncContext = syncContext;
