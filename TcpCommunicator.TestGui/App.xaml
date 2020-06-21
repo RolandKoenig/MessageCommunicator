@@ -24,7 +24,7 @@
         <Style Selector="DataGridColumnHeader">
             <Setter Property="Template">
               <ControlTemplate>
-                  <Border BorderBrush="LightGray" BorderThickness="1"
+                  <Border BorderBrush="LightGray" BorderThickness="0,1,1,1"
                           Background="{TemplateBinding Background}">
                     <Grid Margin="{TemplateBinding Padding}"
                           ColumnDefinitions="*,Auto">

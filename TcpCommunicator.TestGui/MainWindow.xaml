@@ -64,13 +64,13 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="State"
                                     Binding="{Binding Path=State}"
-                                    Width="75" />
+                                    Width="76" />
                 <DataGridTextColumn Header="Name"
                                     Binding="{Binding Path=Model.Name}"
-                                    Width="125" />
+                                    Width="126" />
                 <DataGridTextColumn Header="Target"
                                     Binding="{Binding Path=RemoteEndpointDescription}"
-                                    Width="125" />
+                                    Width="126" />
               </DataGrid.Columns>
             </DataGrid>
           </DockPanel>

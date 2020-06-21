@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Text;
@@ -40,6 +41,18 @@ namespace TcpCommunicator.TestGui
         public MainWindowViewModel()
         {
             this.Command_CreateProfile = ReactiveCommand.CreateFromTask<object?>(this.CreateProfileAsync);
+
+            var syncContext = SynchronizationContext.Current;
+            if (syncContext == null) { return; }
+
+            var restoredProfiles = ConnectionProfileStore.Current.LoadConnectionProfiles(syncContext);
+            if (restoredProfiles != null)
+            {
+                foreach (var actRestoredProfile in restoredProfiles)
+                {
+                    this.Profiles.Add(new ConnectionProfileViewModel(actRestoredProfile));
+                }
+            }
         }
 
         private async Task CreateProfileAsync(object? arg, CancellationToken cancelToken)
@@ -53,6 +66,9 @@ namespace TcpCommunicator.TestGui
 
                 this.Profiles.Add(newProfileVM);
                 this.SelectedProfile = newProfileVM;
+
+                ConnectionProfileStore.Current.StoreConnectionProfiles(
+                    this.Profiles.Select(actProfileVM => actProfileVM.Model));
             }
         }
 

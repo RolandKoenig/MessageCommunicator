@@ -12,11 +12,12 @@ namespace TcpCommunicator.TestGui.Logic
     public class ConnectionProfile
     {
         private SynchronizationContext _syncContext;
-        private ConnectionParameters _connParams;
 
         private TcpCommunicatorBase _tcpCommunicator;
 
-        public string Name => _connParams.Name;
+        public string Name => this.Parameters.Name;
+
+        public ConnectionParameters Parameters { get; }
 
         public ObservableCollection<LoggingMessageWrapper> Logging { get; } = new ObservableCollection<LoggingMessageWrapper>();
 
@@ -29,7 +30,7 @@ namespace TcpCommunicator.TestGui.Logic
         public ConnectionProfile(SynchronizationContext syncContext, ConnectionParameters connParams)
         {
             _syncContext = syncContext;
-            _connParams = connParams;
+            this.Parameters = connParams;
 
             switch (connParams.Mode)
             {

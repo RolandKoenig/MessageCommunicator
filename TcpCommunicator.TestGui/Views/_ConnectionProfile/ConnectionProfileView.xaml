@@ -34,7 +34,7 @@
         <DataGridTextColumn Header="Type"
                             IsReadOnly="True"
                             Binding="{Binding Path=MessageType}" 
-                            Width="75" />        
+                            Width="76" />        
         <DataGridTextColumn Header="Message"
                             IsReadOnly="True"
                             Binding="{Binding Path=Message}" 
