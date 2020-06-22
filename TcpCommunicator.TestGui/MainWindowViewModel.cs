@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Threading;
+using Microsoft.VisualBasic;
 using ReactiveUI;
 using TcpCommunicator.TestGui.Logic;
 using TcpCommunicator.TestGui.Views;
@@ -38,9 +39,12 @@ namespace TcpCommunicator.TestGui
 
         public ReactiveCommand<object?, Unit> Command_CreateProfile { get; }
 
+        public ReactiveCommand<object?, Unit> Command_DeleteProfile { get; }
+
         public MainWindowViewModel()
         {
             this.Command_CreateProfile = ReactiveCommand.CreateFromTask<object?>(this.CreateProfileAsync);
+            this.Command_DeleteProfile = ReactiveCommand.CreateFromTask<object?>(this.DeleteSelectedProfile);
 
             var syncContext = SynchronizationContext.Current;
             if (syncContext == null) { return; }
@@ -70,6 +74,23 @@ namespace TcpCommunicator.TestGui
                 ConnectionProfileStore.Current.StoreConnectionProfiles(
                     this.Profiles.Select(actProfileVM => actProfileVM.Model));
             }
+        }
+
+        private async Task DeleteSelectedProfile(object? arg, CancellationToken cancelToken)
+        {
+            var selectedProfile = this.SelectedProfile;
+            if (selectedProfile == null) { return; }
+
+            var srvMessageBox = this.GetViewService<IMessageBoxService>();
+            var msgResult = await srvMessageBox.ShowAsync(
+                "TcpCommunicator", $"This action will delete the profile {selectedProfile.Model.Name}",
+                MessageBoxButtons.OkCancel);
+            if (msgResult != MessageBoxResult.Ok) { return; }
+
+            this.Profiles.Remove(selectedProfile);
+
+            ConnectionProfileStore.Current.StoreConnectionProfiles(
+                this.Profiles.Select(actProfileVM => actProfileVM.Model));
         }
 
         /// <inheritdoc />

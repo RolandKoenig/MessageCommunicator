@@ -18,6 +18,7 @@ namespace TcpCommunicator.TestGui
             AvaloniaXamlLoader.Load(this);
 
             this.ViewServices.Add(new ConnectionConfigViewService(this));
+            this.ViewServices.Add(new MessageBoxService(this));
 
             this.ViewModel = new MainWindowViewModel();
             this.DataContext = this.ViewModel;
