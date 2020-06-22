@@ -85,7 +85,7 @@ namespace TcpCommunicator.TestGui.Logic
         {
             return Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "TcpCommunicator\\TcpCommunicator.json");
+                Path.Combine("TcpCommunicator", "TcpCommunicator.json"));
         }
     }
 }
