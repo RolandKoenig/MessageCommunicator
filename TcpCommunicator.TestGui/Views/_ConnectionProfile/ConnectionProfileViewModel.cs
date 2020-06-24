@@ -1,7 +1,4 @@
-﻿using System;
-using System.Reactive;
-using System.Reactive.Disposables;
-using Avalonia.Threading;
+﻿using System.Reactive;
 using ReactiveUI;
 using TcpCommunicator.TestGui.Logic;
 

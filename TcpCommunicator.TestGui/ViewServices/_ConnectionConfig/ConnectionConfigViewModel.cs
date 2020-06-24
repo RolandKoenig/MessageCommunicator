@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reactive;
-using System.Text;
 using Force.DeepCloner;
 using ReactiveUI;
 using TcpCommunicator.TestGui.Data;

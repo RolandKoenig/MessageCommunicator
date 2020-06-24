@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reactive.Disposables;
-using System.Runtime.CompilerServices;
-using System.Text;
-using Avalonia.Dialogs;
 using ReactiveUI;
 
 namespace TcpCommunicator.TestGui
@@ -13,9 +9,9 @@ namespace TcpCommunicator.TestGui
         /// <inheritdoc />
         public ViewModelActivator Activator { get; }
 
-        public event EventHandler<ViewServiceRequestEventArgs>? ViewServiceRequest;
-
         public event EventHandler<CloseWindowRequestEventArgs>? CloseWindowRequest;
+
+        public event EventHandler<ViewServiceRequestEventArgs>? ViewServiceRequest;
 
         protected OwnViewModelBase()
         {

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
-using Tmds.DBus;
 
 namespace TcpCommunicator.TestGui
 {

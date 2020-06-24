@@ -3,11 +3,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Threading;
-using Microsoft.VisualBasic;
 using ReactiveUI;
 using TcpCommunicator.TestGui.Logic;
 using TcpCommunicator.TestGui.Views;
@@ -59,6 +57,22 @@ namespace TcpCommunicator.TestGui
             }
         }
 
+        /// <inheritdoc />
+        protected override void OnActivated(CompositeDisposable disposables)
+        {
+            var timer = new DispatcherTimer(
+                TimeSpan.FromMilliseconds(100), DispatcherPriority.Normal,
+                (sender, args) =>
+                {
+                    foreach(var actProfile in this.Profiles)
+                    {
+                        actProfile.RefreshData();
+                    }
+                });
+            timer.Start();
+            disposables.Add(new DummyDisposable(() => timer.Stop()));
+        }
+
         private async Task CreateProfileAsync(object? arg, CancellationToken cancelToken)
         {
             var srvConnectionConfig = this.GetViewService<IConnectionConfigViewService>();
@@ -91,22 +105,6 @@ namespace TcpCommunicator.TestGui
 
             ConnectionProfileStore.Current.StoreConnectionProfiles(
                 this.Profiles.Select(actProfileVM => actProfileVM.Model));
-        }
-
-        /// <inheritdoc />
-        protected override void OnActivated(CompositeDisposable disposables)
-        {
-            var timer = new DispatcherTimer(
-                TimeSpan.FromMilliseconds(100), DispatcherPriority.Normal,
-                (sender, args) =>
-                {
-                    foreach(var actProfile in this.Profiles)
-                    {
-                        actProfile.RefreshData();
-                    }
-                });
-            timer.Start();
-            disposables.Add(new DummyDisposable(() => timer.Stop()));
         }
     }
 }

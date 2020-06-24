@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
 using Avalonia.Controls;
-using ReactiveUI;
 
 namespace TcpCommunicator.TestGui
 {
@@ -16,7 +12,7 @@ namespace TcpCommunicator.TestGui
             if (viewModel == null) { return; }
 
             Observable.FromEventPattern<ViewServiceRequestEventArgs>(viewModel, nameof(OwnViewModelBase.ViewServiceRequest))
-                .Subscribe((onNext) =>
+                .Subscribe(onNext =>
                 {
                     var eArgs = onNext.EventArgs;
                     var foundViewService = view.FindViewService(eArgs.ViewServiceType);

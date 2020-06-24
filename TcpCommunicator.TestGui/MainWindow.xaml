@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TcpCommunicator.TestGui;assembly=TcpCommunicator.TestGui"
         xmlns:localViews="clr-namespace:TcpCommunicator.TestGui.Views;assembly=TcpCommunicator.TestGui"
-        mc:Ignorable="d" 
+        mc:Ignorable="d"
         MinWidth="200" MinHeight="200"
         Width="800" Height="550"
         Icon="Assets/Logo.ico"
@@ -12,80 +12,81 @@
         x:Class="TcpCommunicator.TestGui.MainWindow"
         Title="TcpCommunicator - Testing UI">
     <Window.Resources>
-      <local:ConnectionStateToColorConverter x:Key="ConnStateConverter" />
+        <local:ConnectionStateToColorConverter x:Key="ConnStateConverter" />
     </Window.Resources>
-  
-    <DockPanel LastChildFill="True">
-      <Menu DockPanel.Dock="Top">
-        <MenuItem Header="Tools">
 
-        </MenuItem>
-        <MenuItem Header="Info">
-          <MenuItem Header="About" />
-        </MenuItem>
-      </Menu>
-      
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="150" MinWidth="100" />
-          <ColumnDefinition Width="3" MaxWidth="3" MinWidth="3" />
-          <ColumnDefinition Width="*" MinWidth="100" />
-        </Grid.ColumnDefinitions>
-        
-        <GridSplitter Grid.Column="1"
-                      Background="Transparent"
-                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-        
-        <!-- Overview of all profiles -->
-        <HeaderedContentControl Header="Profiles"
-                                Classes="GroupBox"
-                                Grid.Column="0">
-          <DockPanel LastChildFill="True">
-            
+    <Grid>
+        <DockPanel LastChildFill="True">
             <Menu DockPanel.Dock="Top">
-              <MenuItem Header="Create"
-                        Command="{Binding Path=Command_CreateProfile}" />
-              <MenuItem Header="Remove"
-                        Command="{Binding Path=Command_DeleteProfile}" />
+                <MenuItem Header="Tools" />
+                <MenuItem Header="Info">
+                    <MenuItem Header="About" />
+                </MenuItem>
             </Menu>
-            
-            <DataGrid Name="LstProfiles" IsReadOnly="True"
-                      Items="{Binding Profiles}"
-                      SelectedItem="{Binding Path=SelectedProfile, Mode=TwoWay}">
-              <DataGrid.Columns>
-                <DataGridTemplateColumn Header=" "
-                                        Width="24">
-                  <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                      <Rectangle Fill="{Binding Path=State, Converter={StaticResource ConnStateConverter}}" 
-                                 Margin="5" 
-                                 Name="StateRect" />
-                      
-                    </DataTemplate>
-                  </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="State"
-                                    Binding="{Binding Path=State}"
-                                    Width="76" />
-                <DataGridTextColumn Header="Name"
-                                    Binding="{Binding Path=Model.Name}"
-                                    Width="126" />
-                <DataGridTextColumn Header="Target"
-                                    Binding="{Binding Path=RemoteEndpointDescription}"
-                                    Width="126" />
-              </DataGrid.Columns>
-            </DataGrid>
-          </DockPanel>
 
-        </HeaderedContentControl>
-        
-        <!-- Details of the selected profile -->
-        <HeaderedContentControl Header="Messages"
-                                Classes="GroupBox"
-                                Grid.Column="2"
-                                IsEnabled="{Binding Path=IsProfileScreenEnabled}">
-          <localViews:ConnectionProfileView DataContext="{Binding #LstProfiles.SelectedItem}" />
-        </HeaderedContentControl>
-      </Grid>
-    </DockPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150" MinWidth="100" />
+                    <ColumnDefinition Width="3" MaxWidth="3" MinWidth="3" />
+                    <ColumnDefinition Width="*" MinWidth="100" />
+                </Grid.ColumnDefinitions>
+
+                <GridSplitter Grid.Column="1"
+                              Background="Transparent"
+                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+                <!-- Overview of all profiles -->
+                <HeaderedContentControl Header="Profiles"
+                                        Classes="GroupBox"
+                                        Grid.Column="0">
+                    <DockPanel LastChildFill="True">
+
+                        <Menu DockPanel.Dock="Top">
+                            <MenuItem Header="Create"
+                                      Command="{Binding Path=Command_CreateProfile}" />
+                            <MenuItem Header="Remove"
+                                      Command="{Binding Path=Command_DeleteProfile}" />
+                        </Menu>
+
+                        <DataGrid Name="LstProfiles" IsReadOnly="True"
+                                  Items="{Binding Profiles}"
+                                  SelectedItem="{Binding Path=SelectedProfile, Mode=TwoWay}">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header=" "
+                                                        Width="24">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Rectangle
+                                                Fill="{Binding Path=State, Converter={StaticResource ConnStateConverter}}"
+                                                Margin="5"
+                                                Name="StateRect" />
+
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="State"
+                                                    Binding="{Binding Path=State}"
+                                                    Width="76" />
+                                <DataGridTextColumn Header="Name"
+                                                    Binding="{Binding Path=Model.Name}"
+                                                    Width="126" />
+                                <DataGridTextColumn Header="Target"
+                                                    Binding="{Binding Path=RemoteEndpointDescription}"
+                                                    Width="126" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+
+                </HeaderedContentControl>
+
+                <!-- Details of the selected profile -->
+                <HeaderedContentControl Header="Messages"
+                                        Classes="GroupBox"
+                                        Grid.Column="2"
+                                        IsEnabled="{Binding Path=IsProfileScreenEnabled}">
+                    <localViews:ConnectionProfileView DataContext="{Binding #LstProfiles.SelectedItem}" />
+                </HeaderedContentControl>
+            </Grid>
+        </DockPanel>
+    </Grid>
 </Window>

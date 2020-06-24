@@ -1,12 +1,5 @@
-﻿using System;
-using System.Reactive.Disposables;
-using System.Threading;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
+﻿using Avalonia;
 using Avalonia.Markup.Xaml;
-using Avalonia.ReactiveUI;
-using ReactiveUI;
 using TcpCommunicator.TestGui.ViewServices;
 
 namespace TcpCommunicator.TestGui

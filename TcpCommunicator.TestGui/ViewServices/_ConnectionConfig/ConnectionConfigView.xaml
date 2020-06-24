@@ -7,67 +7,67 @@
         Width="400" Height="250"
         x:Class="TcpCommunicator.TestGui.ViewServices.ConnectionConfigView"
         d:DataContext="{x:Static local:DesignData.ConnectionConfigVM}">
-  <Window.Styles>
-    <Style Selector="Button">
-      <Setter Property="Width" Value="125" />
-      <Setter Property="Margin" Value="3" />
-    </Style>
-    <Style Selector="TextBlock">
-      <Setter Property="Margin" Value="4" />
-      <Setter Property="VerticalAlignment" Value="Center" />
-    </Style>
-    <Style Selector="ComboBox">
-      <Setter Property="Margin" Value="2" />
-      <Setter Property="Padding" Value="0" />
-      <Setter Property="VerticalAlignment" Value="Center" />
-    </Style>
-    <Style Selector="TextBox">
-      <Setter Property="Margin" Value="2" />
-      <Setter Property="VerticalAlignment" Value="Center" />
-    </Style>
-  </Window.Styles>
-  
-   <DockPanel LastChildFill="False">
-     
-     <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
-                 HorizontalAlignment="Right">
-       <Button Content="OK" Command="{Binding Path=Command_OK}" />
-       <Button Content="Cancel" Command="{Binding Path=Command_Cancel}" />
-     </StackPanel>
-     
-     <Grid DockPanel.Dock="Top">
-       <Grid.ColumnDefinitions>
-         <ColumnDefinition Width="150" />
-         <ColumnDefinition Width="*" />
-       </Grid.ColumnDefinitions>
-       <Grid.RowDefinitions>
-         <RowDefinition Height="Auto" />
-         <RowDefinition Height="Auto" />
-         <RowDefinition Height="Auto" />
-         <RowDefinition Height="Auto" />
-       </Grid.RowDefinitions>
-       
-       <TextBlock Grid.Row="0" Grid.Column="0"
-                  Text="Name:" />
-       <TextBox Grid.Row="0" Grid.Column="1"
-                Text="{Binding Path=Model.Name}" />
-       
-       <TextBlock Grid.Row="1" Grid.Column="0"
-                  Text="Mode:" />
-       <ComboBox Grid.Row="1" Grid.Column="1"
-                 SelectedItem="{Binding Path=ConnectionMode}"
-                 Items="{Binding Path=ConnectionModes}" />
-       
-       <TextBlock Grid.Row="2" Grid.Column="0"
-                  Text="IP Address:" />
-       <TextBox Grid.Row="2" Grid.Column="1"
-                Text="{Binding Path=Model.Target}"
-                IsEnabled="{Binding Path=IsConfigIPEnabled} "/>
-       
-       <TextBlock Grid.Row="3" Grid.Column="0"
-                  Text="Port:" />
-       <TextBox Grid.Row="3" Grid.Column="1"
-                Text="{Binding Path=Model.Port}" />
-     </Grid>
-   </DockPanel>  
+    <Window.Styles>
+        <Style Selector="Button">
+            <Setter Property="Width" Value="125" />
+            <Setter Property="Margin" Value="3" />
+        </Style>
+        <Style Selector="TextBlock">
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="ComboBox">
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </Window.Styles>
+
+    <DockPanel LastChildFill="False">
+
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Content="OK" Command="{Binding Path=Command_OK}" />
+            <Button Content="Cancel" Command="{Binding Path=Command_Cancel}" />
+        </StackPanel>
+
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0"
+                       Text="Name:" />
+            <TextBox Grid.Row="0" Grid.Column="1"
+                     Text="{Binding Path=Model.Name}" />
+
+            <TextBlock Grid.Row="1" Grid.Column="0"
+                       Text="Mode:" />
+            <ComboBox Grid.Row="1" Grid.Column="1"
+                      SelectedItem="{Binding Path=ConnectionMode}"
+                      Items="{Binding Path=ConnectionModes}" />
+
+            <TextBlock Grid.Row="2" Grid.Column="0"
+                       Text="IP Address:" />
+            <TextBox Grid.Row="2" Grid.Column="1"
+                     Text="{Binding Path=Model.Target}"
+                     IsEnabled="{Binding Path=IsConfigIPEnabled} " />
+
+            <TextBlock Grid.Row="3" Grid.Column="0"
+                       Text="Port:" />
+            <TextBox Grid.Row="3" Grid.Column="1"
+                     Text="{Binding Path=Model.Port}" />
+        </Grid>
+    </DockPanel>
 </Window>

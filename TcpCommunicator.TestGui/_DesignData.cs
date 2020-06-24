@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using TcpCommunicator.TestGui.Data;
 using TcpCommunicator.TestGui.Logic;
 using TcpCommunicator.TestGui.Views;
@@ -16,7 +13,7 @@ namespace TcpCommunicator.TestGui
             get
             {
                 var result = new MainWindowViewModel();
-                var dummyConnParams = new ConnectionParameters(){ Name = "Dummy Profile" };
+                var dummyConnParams = new ConnectionParameters { Name = "Dummy Profile" };
 
                 var dummyContext = new DummySynchronizationContext();
                 result.Profiles.Add(new ConnectionProfileViewModel(new ConnectionProfile(dummyContext, dummyConnParams)));

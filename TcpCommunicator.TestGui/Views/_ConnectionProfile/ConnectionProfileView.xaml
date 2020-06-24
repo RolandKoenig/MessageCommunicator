@@ -1,46 +1,45 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TcpCommunicator.TestGui.Views;assembly=TcpCommunicator.TestGui"
-        mc:Ignorable="d"
-        d:Width="400" d:Height="400"
-        x:Class="TcpCommunicator.TestGui.Views.ConnectionProfileView">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:TcpCommunicator.TestGui.Views;assembly=TcpCommunicator.TestGui"
+             mc:Ignorable="d"
+             d:Width="400" d:Height="400"
+             x:Class="TcpCommunicator.TestGui.Views.ConnectionProfileView">
 
-  <DockPanel LastChildFill="True">
-    <Menu DockPanel.Dock="Top">
-      <MenuItem Header="Start" Command="{Binding Path=Command_Start}" />
-      <MenuItem Header="Stop" Command="{Binding Path=Command_Stop}" />
-    </Menu>  
-    
-    <DockPanel DockPanel.Dock="Bottom" 
-               LastChildFill="True">
-      <Button Content="Send" Width="150"
-              DockPanel.Dock="Right"
-              Margin="3"
-              Command="{Binding Path=Command_SendMessage}"
-              CommandParameter="{Binding #TxtSendMessage.Text}"/>
-      <TextBox Name="TxtSendMessage"
-               Margin="3"/>
+    <DockPanel LastChildFill="True">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Start" Command="{Binding Path=Command_Start}" />
+            <MenuItem Header="Stop" Command="{Binding Path=Command_Stop}" />
+        </Menu>
+
+        <DockPanel DockPanel.Dock="Bottom"
+                   LastChildFill="True">
+            <Button Content="Send" Width="150"
+                    DockPanel.Dock="Right"
+                    Margin="3"
+                    Command="{Binding Path=Command_SendMessage}"
+                    CommandParameter="{Binding #TxtSendMessage.Text}" />
+            <TextBox Name="TxtSendMessage"
+                     Margin="3" />
+        </DockPanel>
+
+        <DataGrid Items="{Binding Path=Model.Logging}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="TimeStamp"
+                                    IsReadOnly="True"
+                                    Binding="{Binding Path=TimeStamp}"
+                                    Width="150" />
+                <DataGridTextColumn Header="Type"
+                                    IsReadOnly="True"
+                                    Binding="{Binding Path=MessageType}"
+                                    Width="76" />
+                <DataGridTextColumn Header="Message"
+                                    IsReadOnly="True"
+                                    Binding="{Binding Path=Message}"
+                                    Width="1000" />
+            </DataGrid.Columns>
+        </DataGrid>
     </DockPanel>
-    
-    <DataGrid Items="{Binding Path=Model.Logging}">
-      <DataGrid.Columns>
-        <DataGridTextColumn Header="TimeStamp"
-                            IsReadOnly="True" 
-                            Binding="{Binding Path=TimeStamp}" 
-                            Width="150">
-        </DataGridTextColumn>
-        <DataGridTextColumn Header="Type"
-                            IsReadOnly="True"
-                            Binding="{Binding Path=MessageType}" 
-                            Width="76" />        
-        <DataGridTextColumn Header="Message"
-                            IsReadOnly="True"
-                            Binding="{Binding Path=Message}" 
-                            Width="1000" />
-      </DataGrid.Columns>
-    </DataGrid>
-  </DockPanel>
-  
+
 </UserControl>

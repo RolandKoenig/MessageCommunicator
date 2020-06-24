@@ -2,14 +2,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="TcpCommunicator.TestGui.App">
     <Application.Styles>
-        <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
-        <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
-        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Default.xaml"/>
-      
+        <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml" />
+        <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml" />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Default.xaml" />
+
         <Style Selector="Button">
             <Setter Property="Padding" Value="0" />
         </Style>
-      
+
         <Style Selector="DataGrid">
             <Setter Property="AlternatingRowBackground" Value="WhiteSmoke" />
             <Setter Property="RowBackground" Value="White" />
@@ -20,29 +20,29 @@
             <Setter Property="CanUserSortColumns" Value="False" />
             <Setter Property="CanUserReorderColumns" Value="False" />
         </Style>
-      
+
         <Style Selector="DataGridColumnHeader">
             <Setter Property="Template">
-              <ControlTemplate>
-                  <Border BorderBrush="LightGray" BorderThickness="0,1,1,1"
-                          Background="{TemplateBinding Background}">
-                    <Grid Margin="{TemplateBinding Padding}"
-                          ColumnDefinitions="*,Auto">
-                      <ContentPresenter Grid.Column="0" 
-                                        Content="{TemplateBinding Content}" />
-                      
-                      <Path Name="SortIcon"
-                            Grid.Column="1"
-                            Fill="{TemplateBinding Foreground}"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Stretch="Uniform"
-                            Width="8"
-                            Margin="4,0,0,0"
-                            Data="F1 M -5.215,6.099L 5.215,6.099L 0,0L -5.215,6.099 Z "/>
-                    </Grid>
-                  </Border>
-              </ControlTemplate>
+                <ControlTemplate>
+                    <Border BorderBrush="LightGray" BorderThickness="0,1,1,1"
+                            Background="{TemplateBinding Background}">
+                        <Grid Margin="{TemplateBinding Padding}"
+                              ColumnDefinitions="*,Auto">
+                            <ContentPresenter Grid.Column="0"
+                                              Content="{TemplateBinding Content}" />
+
+                            <Path Name="SortIcon"
+                                  Grid.Column="1"
+                                  Fill="{TemplateBinding Foreground}"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Center"
+                                  Stretch="Uniform"
+                                  Width="8"
+                                  Margin="4,0,0,0"
+                                  Data="F1 M -5.215,6.099L 5.215,6.099L 0,0L -5.215,6.099 Z " />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
             </Setter>
         </Style>
 
@@ -53,11 +53,11 @@
                     <ControlTemplate>
                         <DockPanel LastChildFill="True" Margin="3">
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                              <Border BorderBrush="LightGray" BorderThickness="0"
-                                      Margin="5,0,0,0">
-                                <ContentPresenter TextBlock.FontWeight="Bold" Margin="2"
-                                                  Content="{TemplateBinding Header}"/>
-                              </Border>
+                                <Border BorderBrush="LightGray" BorderThickness="0"
+                                        Margin="5,0,0,0">
+                                    <ContentPresenter TextBlock.FontWeight="Bold" Margin="2"
+                                                      Content="{TemplateBinding Header}" />
+                                </Border>
                             </StackPanel>
 
                             <Border

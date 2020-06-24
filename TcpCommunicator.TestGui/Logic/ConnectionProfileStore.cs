@@ -1,8 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
+using System.IO;
 using System.Threading;
 using Newtonsoft.Json;
 using TcpCommunicator.TestGui.Data;

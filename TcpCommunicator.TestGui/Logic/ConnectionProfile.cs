@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TcpCommunicator.TestGui.Data;
-using Tmds.DBus;
 
 namespace TcpCommunicator.TestGui.Logic
 {
@@ -66,9 +64,9 @@ namespace TcpCommunicator.TestGui.Logic
             _tcpCommunicator.Stop();
         }
 
-        private void OnLoggingMessage(TcpCommunicator.LoggingMessage logMessage)
+        private void OnLoggingMessage(LoggingMessage logMessage)
         {
-            _syncContext.Post(new SendOrPostCallback(arg =>
+            _syncContext.Post(arg =>
             {
                 this.Logging.Insert(0, new LoggingMessageWrapper(logMessage));
 
@@ -76,7 +74,7 @@ namespace TcpCommunicator.TestGui.Logic
                 {
                     this.Logging.RemoveAt(1000);
                 }
-            }), null);
+            }, null);
         }
     }
 }

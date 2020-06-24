@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
@@ -17,7 +16,7 @@ namespace TcpCommunicator.TestGui.ViewServices
 
         public static Task<MessageBoxResult> ShowAsync(Window parent, string title, string text, MessageBoxButtons buttons)
         {
-            var msgbox = new SimpleMessageBox()
+            var msgbox = new SimpleMessageBox
             {
                 Title = title
             };
@@ -35,26 +34,40 @@ namespace TcpCommunicator.TestGui.ViewServices
                 };
                 buttonPanel.Children.Add(btn);
                 if (def)
+                {
                     res = r;
+                }
             }
 
-            if (buttons == MessageBoxButtons.Ok || buttons == MessageBoxButtons.OkCancel)
-                AddButton("Ok", MessageBoxResult.Ok, true);
-            if (buttons == MessageBoxButtons.YesNo || buttons == MessageBoxButtons.YesNoCancel)
+            switch (buttons)
             {
-                AddButton("Yes", MessageBoxResult.Yes);
-                AddButton("No", MessageBoxResult.No, true);
+                case MessageBoxButtons.Ok:
+                case MessageBoxButtons.OkCancel:
+                    AddButton("Ok", MessageBoxResult.Ok, true);
+                    break;
+
+                case MessageBoxButtons.YesNo:
+                case MessageBoxButtons.YesNoCancel:
+                    AddButton("Yes", MessageBoxResult.Yes);
+                    AddButton("No", MessageBoxResult.No, true);
+                    break;
             }
 
             if (buttons == MessageBoxButtons.OkCancel || buttons == MessageBoxButtons.YesNoCancel)
+            {
                 AddButton("Cancel", MessageBoxResult.Cancel, true);
-
+            }
 
             var tcs = new TaskCompletionSource<MessageBoxResult>();
             msgbox.Closed += delegate { tcs.TrySetResult(res); };
             if (parent != null)
+            {
                 msgbox.ShowDialog(parent);
-            else msgbox.Show();
+            }
+            else
+            {
+                msgbox.Show();
+            }
             return tcs.Task;
         }
     }
