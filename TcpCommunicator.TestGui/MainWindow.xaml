@@ -88,5 +88,7 @@
                 </HeaderedContentControl>
             </Grid>
         </DockPanel>
+      
+        <local:DialogHostControl Name="CrtlDialogHost" />
     </Grid>
 </Window>

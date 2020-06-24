@@ -7,19 +7,18 @@ using Avalonia.Markup.Xaml;
 
 namespace TcpCommunicator.TestGui.ViewServices
 {
-    public class SimpleMessageBox : Window
+    public class MessageBoxControl : UserControl
     {
-        public SimpleMessageBox()
+        public MessageBoxControl()
         {
             AvaloniaXamlLoader.Load(this);
         }
 
-        public static Task<MessageBoxResult> ShowAsync(Window parent, string title, string text, MessageBoxButtons buttons)
+        public static Task<MessageBoxResult> ShowAsync(DialogHostControl host, string title, string text, MessageBoxButtons buttons)
         {
-            var msgbox = new SimpleMessageBox
-            {
-                Title = title
-            };
+            var tcs = new TaskCompletionSource<MessageBoxResult>();
+
+            var msgbox = new MessageBoxControl();
             msgbox.FindControl<TextBlock>("Text").Text = text;
             var buttonPanel = msgbox.FindControl<StackPanel>("Buttons");
 
@@ -30,7 +29,8 @@ namespace TcpCommunicator.TestGui.ViewServices
                 var btn = new Button {Content = caption};
                 btn.Click += (_, __) => { 
                     res = r;
-                    msgbox.Close();
+                    host.CloseDialog();
+                    tcs.TrySetResult(res);
                 };
                 buttonPanel.Children.Add(btn);
                 if (def)
@@ -58,16 +58,8 @@ namespace TcpCommunicator.TestGui.ViewServices
                 AddButton("Cancel", MessageBoxResult.Cancel, true);
             }
 
-            var tcs = new TaskCompletionSource<MessageBoxResult>();
-            msgbox.Closed += delegate { tcs.TrySetResult(res); };
-            if (parent != null)
-            {
-                msgbox.ShowDialog(parent);
-            }
-            else
-            {
-                msgbox.Show();
-            }
+            host.ShowDialog(msgbox);
+
             return tcs.Task;
         }
     }
