@@ -24,10 +24,12 @@
         </Style>
     </UserControl.Styles>
 
-    <Grid x:Name="GridMain">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-    </Grid>
+    <ScrollViewer>
+        <Grid x:Name="GridMain">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

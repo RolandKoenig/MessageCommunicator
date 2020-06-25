@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Avalonia;
@@ -63,9 +64,8 @@ namespace TcpCommunicator.TestGui
             var rowCount = lstProperties.Count + lstPropertyCategories.Count;
             for (var loop = 0; loop < rowCount; loop++)
             {
-                _gridMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(45.0) });
+                _gridMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(35.0) });
             }
-            this.Height = rowCount * 45d;
 
             // Create all controls
             var actRowIndex = 0;
@@ -125,6 +125,7 @@ namespace TcpCommunicator.TestGui
                             nameof(actProperty.ValueAccessor),
                             BindingMode.TwoWay);
                         ctrlValueEdit = ctrlCheckBox;
+                        ctrlValueEdit.HorizontalAlignment = HorizontalAlignment.Left;
                         break;
 
                     case PropertyValueType.String:
@@ -132,7 +133,7 @@ namespace TcpCommunicator.TestGui
                         ctrlTextBox[!TextBox.TextProperty] = new Binding(
                             nameof(actProperty.ValueAccessor),
                             BindingMode.TwoWay);
-                        ctrlTextBox.Width = 200d;
+                        ctrlTextBox.Width = double.NaN;
                         ctrlValueEdit = ctrlTextBox;
                         break;
 
@@ -142,7 +143,7 @@ namespace TcpCommunicator.TestGui
                         ctrlComboBox[!SelectingItemsControl.SelectedItemProperty] = new Binding(
                             nameof(actProperty.ValueAccessor),
                             BindingMode.TwoWay);
-                        ctrlComboBox.Width = 200d;
+                        ctrlComboBox.Width = double.NaN;
                         ctrlValueEdit = ctrlComboBox;
                         break;
                 }
