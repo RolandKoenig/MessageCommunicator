@@ -11,7 +11,7 @@ namespace TcpCommunicator.TestGui.Logic
     {
         private SynchronizationContext _syncContext;
 
-        private TcpCommunicatorBase? _tcpCommunicator;
+        private TcpCommunicatorBase _tcpCommunicator;
 
         public string Name => this.Parameters.Name;
 
@@ -19,30 +19,35 @@ namespace TcpCommunicator.TestGui.Logic
 
         public ObservableCollection<LoggingMessageWrapper> Logging { get; } = new ObservableCollection<LoggingMessageWrapper>();
 
-        public bool IsRunning => _tcpCommunicator!.IsRunning;
+        public bool IsRunning => _tcpCommunicator.IsRunning;
 
-        public ConnectionState State => _tcpCommunicator!.State;
+        public ConnectionState State => _tcpCommunicator.State;
 
-        public string RemoteEndpointDescription => _tcpCommunicator!.RemoteEndpointDescription;
+        public string RemoteEndpointDescription => _tcpCommunicator.RemoteEndpointDescription;
 
         public ConnectionProfile(SynchronizationContext syncContext, ConnectionParameters connParams)
         {
             _syncContext = syncContext;
             this.Parameters = connParams;
             
-            this.SetupTcpCommunicator(connParams);
+            _tcpCommunicator = this.SetupTcpCommunicator(connParams);
         }
 
         public void ChangeParameters(ConnectionParameters newConnParameters)
         {
-            if (_tcpCommunicator != null)
+            var prefWasRunning = false;
+            if (_tcpCommunicator.IsRunning)
             {
-                if(_tcpCommunicator.IsRunning){ _tcpCommunicator.Stop(); }
-                _tcpCommunicator.Logger = null;
-                _tcpCommunicator = null;
+                _tcpCommunicator.Stop();
+                prefWasRunning = true;
             }
 
-            this.SetupTcpCommunicator(newConnParameters);
+            _tcpCommunicator = this.SetupTcpCommunicator(newConnParameters);
+
+            if (prefWasRunning)
+            {
+                _tcpCommunicator.Start();
+            }
         }
 
         public Task SendMessageAsync(string message)
@@ -62,25 +67,28 @@ namespace TcpCommunicator.TestGui.Logic
             _tcpCommunicator.Stop();
         }
 
-        private void SetupTcpCommunicator(ConnectionParameters connParams)
+        private TcpCommunicatorBase SetupTcpCommunicator(ConnectionParameters connParams)
         {
             this.Parameters = connParams;
 
+            TcpCommunicatorBase result;
             switch (connParams.Mode)
             {
                 case ConnectionMode.Active:
-                    _tcpCommunicator = new TcpCommunicatorActive(connParams.Target, connParams.Port);
+                    result = new TcpCommunicatorActive(connParams.Target, connParams.Port);
                     break;
 
                 case ConnectionMode.Passive:
-                    _tcpCommunicator = new TcpCommunicatorPassive(connParams.Port);
+                    result = new TcpCommunicatorPassive(connParams.Port);
                     break;
 
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            _tcpCommunicator.Logger = this.OnLoggingMessage;
+            result.Logger = this.OnLoggingMessage;
+
+            return result;
         }
 
         private void OnLoggingMessage(LoggingMessage logMessage)

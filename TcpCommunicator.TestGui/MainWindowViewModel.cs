@@ -120,6 +120,12 @@ namespace TcpCommunicator.TestGui
                 MessageBoxButtons.OkCancel);
             if (msgResult != MessageBoxResult.Ok) { return; }
 
+            // Stop the connection if it is still running
+            if (selectedProfile.IsRunning)
+            {
+                selectedProfile.Model.Stop();
+            }
+
             this.Profiles.Remove(selectedProfile);
 
             ConnectionProfileStore.Current.StoreConnectionProfiles(
