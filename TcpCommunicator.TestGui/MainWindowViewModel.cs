@@ -37,11 +37,14 @@ namespace TcpCommunicator.TestGui
 
         public ReactiveCommand<object?, Unit> Command_CreateProfile { get; }
 
+        public ReactiveCommand<object?, Unit> Command_EditProfile { get; }
+
         public ReactiveCommand<object?, Unit> Command_DeleteProfile { get; }
 
         public MainWindowViewModel()
         {
             this.Command_CreateProfile = ReactiveCommand.CreateFromTask<object?>(this.CreateProfileAsync);
+            this.Command_EditProfile = ReactiveCommand.CreateFromTask<object?>(this.EditProfileAsync);
             this.Command_DeleteProfile = ReactiveCommand.CreateFromTask<object?>(this.DeleteSelectedProfile);
 
             var syncContext = SynchronizationContext.Current;
@@ -84,6 +87,22 @@ namespace TcpCommunicator.TestGui
 
                 this.Profiles.Add(newProfileVM);
                 this.SelectedProfile = newProfileVM;
+
+                ConnectionProfileStore.Current.StoreConnectionProfiles(
+                    this.Profiles.Select(actProfileVM => actProfileVM.Model));
+            }
+        }
+
+        private async Task EditProfileAsync(object? arg, CancellationToken cancelToken)
+        {
+            var selectedProfileVM = this.SelectedProfile;
+            if (selectedProfileVM == null) { return; }
+
+            var srvConnectionConfig = this.GetViewService<IConnectionConfigViewService>();
+            var connParams = await srvConnectionConfig.ConfigureConnectionAsync(selectedProfileVM.Model.Parameters);
+            if (connParams != null)
+            {
+                selectedProfileVM.Model.ChangeParameters(connParams);
 
                 ConnectionProfileStore.Current.StoreConnectionProfiles(
                     this.Profiles.Select(actProfileVM => actProfileVM.Model));
