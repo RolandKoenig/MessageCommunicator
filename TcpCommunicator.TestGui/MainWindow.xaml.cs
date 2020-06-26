@@ -23,6 +23,8 @@ namespace TcpCommunicator.TestGui
 #if DEBUG
             this.AttachDevTools();
 #endif
+
+            DefaultReactiveUIExceptionHandler.Current.MainWindow = this;
         }
     }
 }

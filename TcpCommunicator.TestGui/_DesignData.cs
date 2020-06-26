@@ -27,6 +27,16 @@ namespace TcpCommunicator.TestGui
 
         public static ConnectionConfigControlViewModel ConnectionConfigVM => new ConnectionConfigControlViewModel();
 
+        public static ErrorDialogViewModel ErrorDialogVM
+        {
+            get
+            {
+                return new ErrorDialogViewModel(
+                    "Dummy-Title",
+                    "Dummy-Message, Dummy-Message, Dummy-Message, Dummy-Message, ...");
+            }
+        }
+
         //*****************************************************************
         //*****************************************************************
         //*****************************************************************

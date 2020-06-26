@@ -28,4 +28,9 @@
   <ItemGroup>
     <AvaloniaResource Include="Assets\*" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="_Util\_View\_ErrorDialog\ErrorDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
 </Project>
