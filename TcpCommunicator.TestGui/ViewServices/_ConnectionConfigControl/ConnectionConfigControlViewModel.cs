@@ -6,7 +6,7 @@ using TcpCommunicator.TestGui.Data;
 
 namespace TcpCommunicator.TestGui.ViewServices
 {
-    public class ConnectionConfigViewModel : OwnViewModelBase
+    public class ConnectionConfigControlViewModel : OwnViewModelBase
     {
         public ConnectionParameters Model { get; }
 
@@ -32,7 +32,7 @@ namespace TcpCommunicator.TestGui.ViewServices
 
         public ConnectionMode[] ConnectionModes => (ConnectionMode[])Enum.GetValues(typeof(ConnectionMode));
 
-        public ConnectionConfigViewModel(ConnectionParameters? parameters = null)
+        public ConnectionConfigControlViewModel(ConnectionParameters? parameters = null)
         {
             this.Model = parameters != null ? parameters.DeepClone() : new ConnectionParameters();
 

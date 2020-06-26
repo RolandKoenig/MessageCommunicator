@@ -2,9 +2,9 @@
 
 namespace TcpCommunicator.TestGui.ViewServices
 {
-    public class ConnectionConfigView : OwnWindow<ConnectionConfigViewModel>
+    public class ConnectionConfigControl : OwnUserControlDialog<ConnectionConfigControlViewModel>
     {
-        public ConnectionConfigView()
+        public ConnectionConfigControl()
         {
             AvaloniaXamlLoader.Load(this);
         }

@@ -11,9 +11,11 @@ namespace TcpCommunicator.TestGui
         {
             AvaloniaXamlLoader.Load(this);
 
-            this.ViewServices.Add(new ConnectionConfigViewService(this));
-            this.ViewServices.Add(new MessageBoxControlService(
-                this.FindControl<DialogHostControl>("CrtlDialogHost")));
+            var ctrlDialogHost = this.FindControl<DialogHostControl>("CrtlDialogHost");
+
+            //this.ViewServices.Add(new ConnectionConfigViewService(this));
+            this.ViewServices.Add(new ConnectionConfigControlService(ctrlDialogHost));
+            this.ViewServices.Add(new MessageBoxControlService(ctrlDialogHost));
 
             this.ViewModel = new MainWindowViewModel();
             this.DataContext = this.ViewModel;
