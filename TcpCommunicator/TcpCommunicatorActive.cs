@@ -48,7 +48,7 @@ namespace TcpCommunicator
         }
 
         /// <inheritdoc />
-        public override async void Start()
+        public override void Start()
         {
             // Simple lock here to guard start and stop phase
             var loopId = 0;
@@ -67,6 +67,11 @@ namespace TcpCommunicator
                 loopId = _runningLoopCounter;
             }
 
+            this.StartInternal(loopId);
+        }
+
+        private async void StartInternal(int loopId)
+        {
             this.Log(LoggingMessageType.Info, "TcpCommunicator started in active mode");
 
             var reconnectErrorCount = 0;

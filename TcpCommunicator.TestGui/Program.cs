@@ -1,6 +1,8 @@
-﻿using Avalonia;
+﻿using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Logging.Serilog;
 using Avalonia.ReactiveUI;
+using Avalonia.Threading;
 using ReactiveUI;
 
 namespace TcpCommunicator.TestGui
@@ -19,7 +21,7 @@ namespace TcpCommunicator.TestGui
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
         {
-            RxApp.DefaultExceptionHandler = DefaultReactiveUIExceptionHandler.Current;
+            RxApp.DefaultExceptionHandler = new DefaultReactiveUIExceptionHandler();
 
             return AppBuilder.Configure<App>()
                 .UsePlatformDetect()

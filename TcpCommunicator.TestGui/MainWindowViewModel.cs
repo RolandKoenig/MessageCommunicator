@@ -17,7 +17,8 @@ namespace TcpCommunicator.TestGui
     {
         private ConnectionProfileViewModel? _selectedProfile;
 
-        public ObservableCollection<ConnectionProfileViewModel> Profiles { get; } = new ObservableCollection<ConnectionProfileViewModel>();
+        public ObservableCollection<ConnectionProfileViewModel> Profiles { get; } =
+            new ObservableCollection<ConnectionProfileViewModel>();
 
         public ConnectionProfileViewModel? SelectedProfile
         {
@@ -67,9 +68,16 @@ namespace TcpCommunicator.TestGui
                 TimeSpan.FromMilliseconds(100), DispatcherPriority.Normal,
                 (sender, args) =>
                 {
-                    foreach(var actProfile in this.Profiles)
+                    try
                     {
-                        actProfile.RefreshData();
+                        foreach (var actProfile in this.Profiles)
+                        {
+                            actProfile.RefreshData();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        CommonErrorHandling.Current.ShowErrorDialog(e);
                     }
                 });
             timer.Start();

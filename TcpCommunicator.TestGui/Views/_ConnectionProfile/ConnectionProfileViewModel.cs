@@ -1,4 +1,5 @@
-﻿using System.Reactive;
+﻿using System;
+using System.Reactive;
 using ReactiveUI;
 using TcpCommunicator.TestGui.Logic;
 
@@ -61,12 +62,19 @@ namespace TcpCommunicator.TestGui.Views
         {
             this.Model = connProfile;
             _remoteEndpointDescription = string.Empty;
-            
+
             this.Command_Start = ReactiveCommand.Create<object>(arg => this.Model.Start());
             this.Command_Stop = ReactiveCommand.Create<object>(arg => this.Model.Stop());
-            this.Command_SendMessage = ReactiveCommand.Create<string>(message =>
+            this.Command_SendMessage = ReactiveCommand.CreateFromTask<string>(async message =>
             {
-                this.Model.SendMessageAsync(message);
+                try
+                {
+                    await this.Model.SendMessageAsync(message);
+                }
+                catch (Exception e)
+                {
+                    CommonErrorHandling.Current.ShowErrorDialog(e);
+                }
             });
         }
 

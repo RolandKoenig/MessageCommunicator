@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.Threading;
 using TcpCommunicator.TestGui.ViewServices;
 
 namespace TcpCommunicator.TestGui
@@ -24,7 +25,7 @@ namespace TcpCommunicator.TestGui
             this.AttachDevTools();
 #endif
 
-            DefaultReactiveUIExceptionHandler.Current.MainWindow = this;
+            CommonErrorHandling.Current.MainWindow = this;
         }
     }
 }

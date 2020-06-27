@@ -29,7 +29,7 @@ namespace TcpCommunicator.TestGui.Logic
         {
             _syncContext = syncContext;
             this.Parameters = connParams;
-            
+
             _tcpCommunicator = this.SetupTcpCommunicator(connParams);
         }
 
