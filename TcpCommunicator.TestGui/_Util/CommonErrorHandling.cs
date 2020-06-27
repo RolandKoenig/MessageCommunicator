@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Avalonia.Controls;
+using Avalonia.Threading;
 
 namespace TcpCommunicator.TestGui
 {
@@ -16,38 +17,31 @@ namespace TcpCommunicator.TestGui
 
         }
 
+        /// <summary>
+        /// Shows a common error dialog for the given exception.
+        /// </summary>
         public void ShowErrorDialog(Exception ex)
         {
-            var errorDlg = new ErrorDialog();
-            errorDlg.DataContext = new ErrorDialogViewModel(ex);
-            errorDlg.ShowDialog(this.MainWindow);
-        }
-
-        public void ExecuteSafe(Action action)
-        {
-            try
+            if (Dispatcher.UIThread.CheckAccess())
             {
-                action();
+                var errorDlg = new ErrorDialog();
+                errorDlg.DataContext = new ErrorDialogViewModel(ex);
+                errorDlg.ShowDialog(this.MainWindow);
             }
-            catch (Exception e)
+            else
             {
-                this.ShowErrorDialog(e);
+                Dispatcher.UIThread.Post(
+                    () => this.ShowErrorDialog(ex));
             }
         }
 
-        public Action WrapAction(Action action)
+        /// <summary>
+        /// Handles the given exception which causes the application to break.
+        /// </summary>
+        public void HandleFatalException(Exception ex)
         {
-            return () =>
-            {
-                try
-                {
-                    action();
-                }
-                catch (Exception e)
-                {
-                    this.ShowErrorDialog(e);
-                }
-            };
+            // TODO: Fatal exception mechanism
+            //       GUI is not ensured to be available here
         }
     }
 }

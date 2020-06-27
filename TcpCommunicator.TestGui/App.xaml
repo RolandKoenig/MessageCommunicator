@@ -1,13 +1,29 @@
 ﻿<Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="TcpCommunicator.TestGui.App">
+    <Application.Resources>
+        <DrawingGroup x:Key="IconError">
+            <GeometryDrawing Brush="#FFE51300" Geometry="F1M12.4141,11L11.0001,12.414 8.0001,9.414 5.0001,12.414 3.5861,11 6.5861,8 3.5861,5 5.0001,3.586 8.0001,6.586 11.0001,3.586 12.4141,5 9.4141,8z M8.0001,1C4.1341,1 1.0001,4.135 1.0001,8 1.0001,11.865 4.1341,15 8.0001,15 11.8651,15 15.0001,11.865 15.0001,8 15.0001,4.135 11.8651,1 8.0001,1" />
+            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1M12.4141,5L11.0001,3.586 8.0001,6.586 5.0001,3.586 3.5861,5 6.5861,8 3.5861,11 5.0001,12.414 8.0001,9.414 11.0001,12.414 12.4141,11 9.4141,8z" />
+        </DrawingGroup>
+    </Application.Resources>
+    
     <Application.Styles>
         <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml" />
         <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml" />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Default.xaml" />
 
         <Style Selector="Button">
-            <Setter Property="Padding" Value="0" />
+            <Setter Property="Padding" Value="3" />
+        </Style>
+      
+        <Style Selector="TextBlock.h1">
+            <Setter Property="FontSize" Value="22" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+      
+        <Style Selector="TextBlock.h2">
+            <Setter Property="FontSize" Value="14" />
         </Style>
 
         <Style Selector="DataGrid">

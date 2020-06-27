@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Logging.Serilog;
 using Avalonia.ReactiveUI;
@@ -14,8 +15,15 @@ namespace TcpCommunicator.TestGui
         // yet and stuff might break.
         public static void Main(string[] args)
         {
-            BuildAvaloniaApp()
-                .StartWithClassicDesktopLifetime(args);
+            try
+            {
+                BuildAvaloniaApp()
+                    .StartWithClassicDesktopLifetime(args);
+            }
+            catch (Exception e)
+            {
+                CommonErrorHandling.Current.HandleFatalException(e);
+            }
         }
 
         // Avalonia configuration, don't remove; also used by visual designer.
