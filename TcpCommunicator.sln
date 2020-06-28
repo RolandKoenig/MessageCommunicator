@@ -5,12 +5,19 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Root", "_Root", "{907D9916-43F6-485A-AEB3-72560525088A}"
 	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
 		Testing.TcpAsync.sln.DotSettings = Testing.TcpAsync.sln.DotSettings
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TcpCommunicator", "TcpCommunicator\TcpCommunicator.csproj", "{910A9AB2-8325-447F-9ACF-0B67CB3B9C7F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TcpCommunicator.TestGui", "TcpCommunicator.TestGui\TcpCommunicator.TestGui.csproj", "{893C15E6-C5C5-49BA-AF34-F3F5593A23CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Misc", "_Misc", "{8E0807B9-6F5F-4BB1-AA23-2AED4FD99B71}"
+	ProjectSection(SolutionItems) = preProject
+		_Misc\Screenshot_01.png = _Misc\Screenshot_01.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
