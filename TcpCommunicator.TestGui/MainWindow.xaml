@@ -42,12 +42,30 @@
                     <DockPanel LastChildFill="True">
 
                         <Menu DockPanel.Dock="Top">
-                            <MenuItem Header="Create"
-                                      Command="{Binding Path=Command_CreateProfile}" />
-                            <MenuItem Header="Edit"
-                                      Command="{Binding Path=Command_EditProfile}" />
-                            <MenuItem Header="Remove"
-                                      Command="{Binding Path=Command_DeleteProfile}" />
+                            <MenuItem ToolTip.Tip="Create new profile"
+                                      Command="{Binding Path=Command_CreateProfile}">
+                                <MenuItem.Header>
+                                    <DrawingPresenter Drawing="{StaticResource ResourceKey=IconCreate}" 
+                                                      Width="16" Height="16"
+                                                      Margin="2"/>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem ToolTip.Tip="Edit selected profile"
+                                      Command="{Binding Path=Command_EditProfile}">
+                                <MenuItem.Header>
+                                    <DrawingPresenter Drawing="{StaticResource ResourceKey=IconEdit}" 
+                                                      Width="16" Height="16"
+                                                      Margin="2"/>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem ToolTip.Tip="Remove selected profile"
+                                      Command="{Binding Path=Command_DeleteProfile}">
+                                <MenuItem.Header>
+                                    <DrawingPresenter Drawing="{StaticResource ResourceKey=IconRemove}" 
+                                                      Width="16" Height="16"
+                                                      Margin="2"/>
+                                </MenuItem.Header>
+                            </MenuItem>
                         </Menu>
 
                         <DataGrid Name="LstProfiles" IsReadOnly="True"

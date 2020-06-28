@@ -121,9 +121,22 @@ namespace TcpCommunicator
                 if(_currentClient == null){ continue; }
 
                 // Normal receive loop handling
-                await this.RunReceiveLoopAsync(
-                    _currentClient, (IPEndPoint)_currentClient.Client.LocalEndPoint,
-                    (IPEndPoint)_currentClient.Client.RemoteEndPoint, CancellationToken.None);
+                try
+                {
+                    await this.RunReceiveLoopAsync(
+                        _currentClient, (IPEndPoint)_currentClient.Client.LocalEndPoint,
+                        (IPEndPoint)_currentClient.Client.RemoteEndPoint, CancellationToken.None);
+                }
+                catch (Exception ex)
+                {
+                    if (this.IsLoggerSet)
+                    {
+                        this.Log(
+                            LoggingMessageType.Error,
+                            StringBuffer.Format("Error while running receive loop: {0}", ex.Message),
+                            ex);
+                    }
+                }
 
                 // Client gets already disposed in receive loop
                 _currentClient = null;

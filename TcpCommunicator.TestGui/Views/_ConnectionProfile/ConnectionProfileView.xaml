@@ -9,8 +9,22 @@
 
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="Start" Command="{Binding Path=Command_Start}" />
-            <MenuItem Header="Stop" Command="{Binding Path=Command_Stop}" />
+            <MenuItem ToolTip.Tip="Start profile" 
+                      Command="{Binding Path=Command_Start}">
+                <MenuItem.Header>
+                    <DrawingPresenter Drawing="{StaticResource ResourceKey=IconStart}" 
+                                      Width="16" Height="16"
+                                      Margin="2"/>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem ToolTip.Tip="Stop profile" 
+                      Command="{Binding Path=Command_Stop}">
+                <MenuItem.Header>
+                    <DrawingPresenter Drawing="{StaticResource ResourceKey=IconStop}" 
+                                      Width="16" Height="16"
+                                      Margin="2"/>
+                </MenuItem.Header>
+            </MenuItem>
         </Menu>
 
         <DockPanel DockPanel.Dock="Bottom"
