@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TcpCommunicator.Util;
@@ -52,6 +51,8 @@ namespace TcpCommunicator
         /// A custom logger. If set, this delegate will be called with all relevant events.
         /// </summary>
         public Action<LoggingMessage>? Logger { get; set; }
+
+        public Action<ArraySegment<byte>>? ReceiveHandler { get; set; }
 
         protected bool IsLoggerSet => this.Logger != null;
 
@@ -130,7 +131,7 @@ namespace TcpCommunicator
                 {
                     this.Log(
                         LoggingMessageType.Info,
-                        StringBuffer.Format("Sent: {0}", Encoding.ASCII.GetString(buffer.Array, buffer.Offset, buffer.Count)));
+                        StringBuffer.Format("Sent {0} bytes: {1}", buffer.Count, TcpAsyncUtil.ToHexString(buffer)));
                 }
                 
                 return true;
@@ -217,14 +218,19 @@ namespace TcpCommunicator
                 }
 
                 if (lastReceiveResult <= 0) { break; }
+                var receivedSegment = new ArraySegment<byte>(receiveBuffer, 0, lastReceiveResult);
 
                 // Log currently received bytes
                 if (this.IsLoggerSet)
                 {
                     this.Log(
                         LoggingMessageType.Info,
-                        StringBuffer.Format("Received: {0}", Encoding.Default.GetString(receiveBuffer, 0, lastReceiveResult)));
+                        StringBuffer.Format("Received {0} bytes: {1}", receivedSegment.Count, TcpAsyncUtil.ToHexString(receivedSegment)));
                 }
+
+                // Notify received bytes
+                var receiveHandler = this.ReceiveHandler;
+                receiveHandler?.Invoke(receivedSegment);
             }
 
             // Ensure that the socket is closed after ending this method

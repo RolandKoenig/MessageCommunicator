@@ -87,6 +87,7 @@ namespace TcpCommunicator.TestGui.Logic
             }
 
             result.Logger = this.OnLoggingMessage;
+            result.ReceiveHandler = this.OnSegmentReceived;
 
             return result;
         }
@@ -102,6 +103,14 @@ namespace TcpCommunicator.TestGui.Logic
                     this.Logging.RemoveAt(1000);
                 }
             }, null);
+        }
+
+        private void OnSegmentReceived(ArraySegment<byte> segmentBytes)
+        {
+            var receivedString = Encoding.Default.GetString(segmentBytes);
+            this.OnLoggingMessage(
+                new LoggingMessage(
+                    _tcpCommunicator, DateTime.UtcNow, LoggingMessageType.Info, receivedString, null));
         }
     }
 }

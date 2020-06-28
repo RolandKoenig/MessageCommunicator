@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using TcpCommunicator.Util;
 
 namespace TcpCommunicator
 {
@@ -53,6 +54,35 @@ namespace TcpCommunicator
             }
 
             socket = null;
+        }
+
+        public static string ToHexString(ArraySegment<byte> bytes)
+        {
+            if (bytes.Array == null) { return string.Empty;}
+            const string HEX_ALPHABET = "0123456789ABCDEF";
+
+            var length = bytes.Count;
+            if (length > 1) { length += (length - 1); }
+
+            var stringBuffer = StringBuffer.Acquire(length);
+            try
+            {
+                var max = bytes.Offset + bytes.Count;
+                for (var loop = bytes.Offset; loop < max; loop++)
+                {
+                    if(stringBuffer.Count > 0){ stringBuffer.Append(' '); }
+
+                    var actByte = bytes.Array[loop];
+                    stringBuffer.Append(HEX_ALPHABET[(int)(actByte >> 4)]);
+                    stringBuffer.Append(HEX_ALPHABET[(int)(actByte & 0xF)]);
+                }
+
+                return stringBuffer.ToString();
+            }
+            finally
+            {
+                StringBuffer.Release(stringBuffer);
+            }
         }
     }
 }

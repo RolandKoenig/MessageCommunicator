@@ -777,7 +777,7 @@ namespace TcpCommunicator.Util
             throw new FormatException(SR.InvalidFormatString);
         }
 
-        private static StringBuffer Acquire (int capacity) {
+        public static StringBuffer Acquire (int capacity) {
             if (capacity <= MaxCachedSize) {
                 var buffer = CachedInstance;
                 if (buffer != null) {
@@ -791,7 +791,7 @@ namespace TcpCommunicator.Util
             return new StringBuffer(capacity);
         }
 
-        private static void Release (StringBuffer buffer) {
+        public static void Release (StringBuffer buffer) {
             if (buffer.buffer.Length <= MaxCachedSize)
             {
                 CachedInstance = buffer;
