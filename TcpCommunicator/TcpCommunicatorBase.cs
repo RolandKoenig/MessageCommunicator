@@ -21,11 +21,9 @@ namespace TcpCommunicator
             get
             {
                 var currentSendSocket = this.GetCurrentSendSocket();
-                if (currentSendSocket == null) { return string.Empty; }
-
                 try
                 {
-                    return currentSendSocket.Client.RemoteEndPoint.ToString();
+                    return currentSendSocket?.Client?.RemoteEndPoint?.ToString() ?? string.Empty;
                 }
                 catch (Exception )
                 {
@@ -39,11 +37,9 @@ namespace TcpCommunicator
             get
             {
                 var currentSendSocket = this.GetCurrentSendSocket();
-                if (currentSendSocket == null) { return string.Empty; }
-
                 try
                 {
-                    return currentSendSocket.Client.RemoteEndPoint.ToString();
+                    return currentSendSocket?.Client?.RemoteEndPoint?.ToString() ?? string.Empty;
                 }
                 catch (Exception )
                 {

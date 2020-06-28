@@ -9,7 +9,8 @@
 
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
-            <MenuItem ToolTip.Tip="Start profile" 
+            <MenuItem ToolTip.Tip="Start profile"
+                      IsEnabled="{Binding Path=CanStart}"
                       Command="{Binding Path=Command_Start}">
                 <MenuItem.Header>
                     <DrawingPresenter Drawing="{StaticResource ResourceKey=IconStart}" 
@@ -18,6 +19,7 @@
                 </MenuItem.Header>
             </MenuItem>
             <MenuItem ToolTip.Tip="Stop profile" 
+                      IsEnabled="{Binding Path=CanStop}"
                       Command="{Binding Path=Command_Stop}">
                 <MenuItem.Header>
                     <DrawingPresenter Drawing="{StaticResource ResourceKey=IconStop}" 

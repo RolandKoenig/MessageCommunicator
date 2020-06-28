@@ -16,98 +16,95 @@
     </Window.Resources>
 
     <Grid>
-        <DockPanel LastChildFill="True">
-            <Menu DockPanel.Dock="Top">
-                <MenuItem Header="Tools" />
-                <MenuItem Header="Info">
-                    <MenuItem Header="About" />
-                </MenuItem>
-            </Menu>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150" MinWidth="100" />
+                <ColumnDefinition Width="3" MaxWidth="3" MinWidth="3" />
+                <ColumnDefinition Width="*" MinWidth="100" />
+            </Grid.ColumnDefinitions>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150" MinWidth="100" />
-                    <ColumnDefinition Width="3" MaxWidth="3" MinWidth="3" />
-                    <ColumnDefinition Width="*" MinWidth="100" />
-                </Grid.ColumnDefinitions>
+            <GridSplitter Grid.Column="1"
+                          Background="Transparent"
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
-                <GridSplitter Grid.Column="1"
-                              Background="Transparent"
-                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <!-- Overview of all profiles -->
+            <HeaderedContentControl Header="Profiles"
+                                    Classes="GroupBox"
+                                    Grid.Column="0">
+                <DockPanel LastChildFill="True">
 
-                <!-- Overview of all profiles -->
-                <HeaderedContentControl Header="Profiles"
-                                        Classes="GroupBox"
-                                        Grid.Column="0">
-                    <DockPanel LastChildFill="True">
+                    <Menu DockPanel.Dock="Top">
+                        <MenuItem ToolTip.Tip="Create new profile"
+                                  Command="{Binding Path=Command_CreateProfile}">
+                            <MenuItem.Header>
+                                <DrawingPresenter Drawing="{StaticResource ResourceKey=IconCreate}" 
+                                                  Width="16" Height="16"
+                                                  Margin="2"/>
+                            </MenuItem.Header>
+                        </MenuItem>
+                        <MenuItem ToolTip.Tip="Edit selected profile"
+                                  Command="{Binding Path=Command_EditProfile}">
+                            <MenuItem.Header>
+                                <DrawingPresenter Drawing="{StaticResource ResourceKey=IconEdit}" 
+                                                  Width="16" Height="16"
+                                                  Margin="2"/>
+                            </MenuItem.Header>
+                        </MenuItem>
+                        <MenuItem ToolTip.Tip="Remove selected profile"
+                                  Command="{Binding Path=Command_DeleteProfile}">
+                            <MenuItem.Header>
+                                <DrawingPresenter Drawing="{StaticResource ResourceKey=IconRemove}" 
+                                                  Width="16" Height="16"
+                                                  Margin="2"/>
+                            </MenuItem.Header>
+                        </MenuItem>
+                    </Menu>
 
-                        <Menu DockPanel.Dock="Top">
-                            <MenuItem ToolTip.Tip="Create new profile"
-                                      Command="{Binding Path=Command_CreateProfile}">
-                                <MenuItem.Header>
-                                    <DrawingPresenter Drawing="{StaticResource ResourceKey=IconCreate}" 
-                                                      Width="16" Height="16"
-                                                      Margin="2"/>
-                                </MenuItem.Header>
-                            </MenuItem>
-                            <MenuItem ToolTip.Tip="Edit selected profile"
-                                      Command="{Binding Path=Command_EditProfile}">
-                                <MenuItem.Header>
-                                    <DrawingPresenter Drawing="{StaticResource ResourceKey=IconEdit}" 
-                                                      Width="16" Height="16"
-                                                      Margin="2"/>
-                                </MenuItem.Header>
-                            </MenuItem>
-                            <MenuItem ToolTip.Tip="Remove selected profile"
-                                      Command="{Binding Path=Command_DeleteProfile}">
-                                <MenuItem.Header>
-                                    <DrawingPresenter Drawing="{StaticResource ResourceKey=IconRemove}" 
-                                                      Width="16" Height="16"
-                                                      Margin="2"/>
-                                </MenuItem.Header>
-                            </MenuItem>
-                        </Menu>
+                    <DataGrid Name="LstProfiles" IsReadOnly="True"
+                              Items="{Binding Profiles}"
+                              SelectedItem="{Binding Path=SelectedProfile, Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header=" "
+                                                    Width="24">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Rectangle
+                                            Fill="{Binding Path=State, Converter={StaticResource ConnStateConverter}}"
+                                            Margin="5"
+                                            Name="StateRect" />
 
-                        <DataGrid Name="LstProfiles" IsReadOnly="True"
-                                  Items="{Binding Profiles}"
-                                  SelectedItem="{Binding Path=SelectedProfile, Mode=TwoWay}">
-                            <DataGrid.Columns>
-                                <DataGridTemplateColumn Header=" "
-                                                        Width="24">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Rectangle
-                                                Fill="{Binding Path=State, Converter={StaticResource ConnStateConverter}}"
-                                                Margin="5"
-                                                Name="StateRect" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="State"
+                                                Binding="{Binding Path=State}"
+                                                Width="76" />
+                            <DataGridTextColumn Header="Name"
+                                                Binding="{Binding Path=Model.Name}"
+                                                Width="126" />
+                            <DataGridTextColumn Header="Target"
+                                                Binding="{Binding Path=RemoteEndpointDescription}"
+                                                Width="126" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
 
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="State"
-                                                    Binding="{Binding Path=State}"
-                                                    Width="76" />
-                                <DataGridTextColumn Header="Name"
-                                                    Binding="{Binding Path=Model.Name}"
-                                                    Width="126" />
-                                <DataGridTextColumn Header="Target"
-                                                    Binding="{Binding Path=RemoteEndpointDescription}"
-                                                    Width="126" />
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </DockPanel>
+            </HeaderedContentControl>
 
-                </HeaderedContentControl>
-
-                <!-- Details of the selected profile -->
-                <HeaderedContentControl Header="Messages"
-                                        Classes="GroupBox"
-                                        Grid.Column="2"
-                                        IsEnabled="{Binding Path=IsProfileScreenEnabled}">
-                    <localViews:ConnectionProfileView DataContext="{Binding #LstProfiles.SelectedItem}" />
-                </HeaderedContentControl>
-            </Grid>
-        </DockPanel>
+            <!-- Details of the selected profile -->
+            <HeaderedContentControl Classes="GroupBox"
+                                    Grid.Column="2"
+                                    IsEnabled="{Binding Path=IsProfileScreenEnabled}">
+                <HeaderedContentControl.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Profile: " />
+                        <TextBlock Text="{Binding #LstProfiles.SelectedItem.Model.Name}" />
+                    </StackPanel>
+                </HeaderedContentControl.Header>
+              
+                <localViews:ConnectionProfileView DataContext="{Binding #LstProfiles.SelectedItem}" />
+            </HeaderedContentControl>
+        </Grid>
       
         <local:DialogHostControl Name="CrtlDialogHost" />
     </Grid>

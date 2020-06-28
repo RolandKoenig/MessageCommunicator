@@ -471,14 +471,16 @@ namespace TcpCommunicator.Util
                 var end = curr + format.Length;
                 var segmentsLeft = false;
                 var prevArgIndex = 0;
-                do {
-                    this.CheckCapacity((int)(end - curr));
+                var count = 0;
+                do
+                {
+                    count++;
+                    this.CheckCapacity((int) (end - curr));
                     fixed (char* bufferPtr = &buffer[currentCount])
                     {
                         segmentsLeft = this.AppendSegment(ref curr, end, bufferPtr, ref prevArgIndex, ref args);
                     }
-                }
-                while (segmentsLeft);
+                } while (segmentsLeft);
             }
         }
 

@@ -133,7 +133,9 @@ namespace TcpCommunicator
                     {
                         this.Log(
                             LoggingMessageType.Error,
-                            StringBuffer.Format("Error while running receive loop: {0}", ex.Message),
+                            StringBuffer.Format(
+                                "Error while running receive loop for host {0} on port {1}: {2}", 
+                                remoteAddressStr, this.RemotePort, ex.Message),
                             ex);
                     }
                 }

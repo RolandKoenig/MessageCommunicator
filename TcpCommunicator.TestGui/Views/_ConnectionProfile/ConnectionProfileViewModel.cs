@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive;
+using System.Runtime.CompilerServices;
 using ReactiveUI;
 using TcpCommunicator.TestGui.Logic;
 
@@ -28,9 +29,15 @@ namespace TcpCommunicator.TestGui.Views
                 {
                     _isRunning = value;
                     this.RaisePropertyChanged(nameof(this.IsRunning));
+                    this.RaisePropertyChanged(nameof(this.CanStart));
+                    this.RaisePropertyChanged(nameof(this.CanStop));
                 }
             }
         }
+
+        public bool CanStart => !this.IsRunning;
+
+        public bool CanStop => this.IsRunning;
 
         public ConnectionState State
         {
@@ -63,8 +70,20 @@ namespace TcpCommunicator.TestGui.Views
             this.Model = connProfile;
             _remoteEndpointDescription = string.Empty;
 
-            this.Command_Start = ReactiveCommand.Create<object>(arg => this.Model.Start());
-            this.Command_Stop = ReactiveCommand.Create<object>(arg => this.Model.Stop());
+            this.Command_Start = ReactiveCommand.Create<object>(arg =>
+            {
+                if (!this.Model.IsRunning)
+                {
+                    this.Model.Start();
+                }
+            });
+            this.Command_Stop = ReactiveCommand.Create<object>(arg =>
+            {
+                if (this.Model.IsRunning)
+                {
+                    this.Model.Stop();
+                }
+            });
             this.Command_SendMessage = ReactiveCommand.CreateFromTask<string>(async message =>
             {
                 try
