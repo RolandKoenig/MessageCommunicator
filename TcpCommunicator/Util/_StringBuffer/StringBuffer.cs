@@ -1,4 +1,11 @@
-﻿// Code from https://github.com/MikePopoloski/StringFormatter
+﻿// Original code from https://github.com/MikePopoloski/StringFormatter
+//
+// Modifications
+//  - Changed code format by Resharper to match local project rules
+//  - Some new methods (see StringBuffer.Extensions.cs)
+
+
+
 
 // Copyright (c) 2015-2017 Michael Popoloski
 // 
@@ -31,7 +38,7 @@ namespace TcpCommunicator.Util
     /// <summary>
     /// Specifies an interface for types that act as a set of formatting arguments.
     /// </summary>
-    internal interface IArgSet 
+    public interface IArgSet 
     {
         /// <summary>
         /// The number of arguments in the set.
@@ -63,7 +70,7 @@ namespace TcpCommunicator.Util
     /// <summary>
     /// A low-allocation version of the built-in <see cref="StringBuilder"/> type.
     /// </summary>
-    internal sealed unsafe partial class StringBuffer 
+    public sealed unsafe partial class StringBuffer 
     {
         private const int DefaultCapacity = 32;
         private const int MaxCachedSize = 360;  // same as BCL's StringBuilderCache
@@ -78,37 +85,46 @@ namespace TcpCommunicator.Util
 
         private static readonly CachedCulture CachedInvariantCulture = new CachedCulture(CultureInfo.InvariantCulture);
         private static readonly CachedCulture CachedCurrentCulture = new CachedCulture(CultureInfo.CurrentCulture);
-        private CachedCulture culture;
-        private char[] buffer;
-        private int currentCount;
+        private CachedCulture _culture;
+        private char[] _buffer;
+        private int _currentCount;
 
         /// <summary>
         /// The number of characters in the buffer.
         /// </summary>
-        public int Count => currentCount;
+        public int Count => _currentCount;
+
+        public char this[int index]
+        {
+            get
+            {
+                if((index < 0) || (index >= _currentCount)){ throw new IndexOutOfRangeException(); }
+                return _buffer[index];
+            }
+        }
 
         /// <summary>
         /// The culture used to format string data.
         /// </summary>
         public CultureInfo Culture {
-            get => culture.Culture;
+            get => _culture.Culture;
             set {
-                if (culture.Culture == value)
+                if (_culture.Culture == value)
                 {
                     return;
                 }
 
                 if (value == CultureInfo.InvariantCulture)
                 {
-                    culture = CachedInvariantCulture;
+                    _culture = CachedInvariantCulture;
                 }
                 else if (value == CachedCurrentCulture.Culture)
                 {
-                    culture = CachedCurrentCulture;
+                    _culture = CachedCurrentCulture;
                 }
                 else
                 {
-                    culture = new CachedCulture(value);
+                    _culture = new CachedCulture(value);
                 }
             }
         }
@@ -125,8 +141,8 @@ namespace TcpCommunicator.Util
         /// </summary>
         /// <param name="capacity">The initial size of the string buffer.</param>
         public StringBuffer (int capacity) {
-            buffer = new char[capacity];
-            culture = CachedCurrentCulture;
+            _buffer = new char[capacity];
+            _culture = CachedCurrentCulture;
         }
 
         /// <summary>
@@ -134,7 +150,7 @@ namespace TcpCommunicator.Util
         /// </summary>
         /// <typeparam name="T">The type for which to set the formatter.</typeparam>
         /// <param name="formatter">A delegate that will be called to format instances of the specified type.</param>
-        public static void SetCustomFormatter<T>(Action<StringBuffer, T, StringView> formatter) {
+        internal static void SetCustomFormatter<T>(Action<StringBuffer, T, StringView> formatter) {
             ValueHelper<T>.Formatter = formatter;
         }
 
@@ -142,7 +158,13 @@ namespace TcpCommunicator.Util
         /// Clears the buffer.
         /// </summary>
         public void Clear () {
-            currentCount = 0;
+            _currentCount = 0;
+        }
+
+        internal void GetInternalData(out char[] buffer, out int currentCount)
+        {
+            buffer = _buffer;
+            currentCount = _currentCount;
         }
 
         /// <summary>
@@ -179,12 +201,12 @@ namespace TcpCommunicator.Util
             {
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
-            if (sourceIndex + count > currentCount || sourceIndex < 0)
+            if (sourceIndex + count > _currentCount || sourceIndex < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(sourceIndex));
             }
 
-            fixed (char* s = buffer)
+            fixed (char* s = _buffer)
             {
                 var src = s + sourceIndex;
                 for (var i = 0; i < count; i++)
@@ -207,7 +229,7 @@ namespace TcpCommunicator.Util
             {
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
-            if (sourceIndex + count > currentCount || sourceIndex < 0)
+            if (sourceIndex + count > _currentCount || sourceIndex < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(sourceIndex));
             }
@@ -216,7 +238,7 @@ namespace TcpCommunicator.Util
                 throw new ArgumentNullException(nameof(encoding));
             }
 
-            fixed (char* s = buffer)
+            fixed (char* s = _buffer)
             {
                 return encoding.GetBytes(s, count, dest, count);
             }
@@ -227,7 +249,7 @@ namespace TcpCommunicator.Util
         /// </summary>
         /// <returns>A new string representing the characters currently in the buffer.</returns>
         public override string ToString () {
-            return new string(buffer, 0, currentCount);
+            return new string(_buffer, 0, _currentCount);
         }
 
         /// <summary>
@@ -250,14 +272,14 @@ namespace TcpCommunicator.Util
             }
 
             this.CheckCapacity(count);
-            fixed (char* b = &buffer[currentCount])
+            fixed (char* b = &_buffer[_currentCount])
             {
                 var ptr = b;
                 for (var i = 0; i < count; i++)
                 {
                     *ptr++ = c;
                 }
-                currentCount += count;
+                _currentCount += count;
             }
         }
 
@@ -318,6 +340,13 @@ namespace TcpCommunicator.Util
             }
         }
 
+        public void Append(StringView stringView)
+        {
+            if (stringView.Length <= 0) { return; }
+
+            this.Append(stringView.Data, stringView.Length);
+        }
+
         /// <summary>
         /// Appends an array of characters to the current buffer.
         /// </summary>
@@ -325,14 +354,14 @@ namespace TcpCommunicator.Util
         /// <param name="count">The number of characters to append.</param>
         public void Append (char* str, int count) {
             this.CheckCapacity(count);
-            fixed (char* b = &buffer[currentCount])
+            fixed (char* b = &_buffer[_currentCount])
             {
                 var dest = b;
                 for (var i = 0; i < count; i++)
                 {
                     *dest++ = *str++;
                 }
-                currentCount += count;
+                _currentCount += count;
             }
         }
 
@@ -357,7 +386,7 @@ namespace TcpCommunicator.Util
         /// <param name="value">The value to append.</param>
         /// <param name="format">A format specifier indicating how to convert <paramref name="value"/> to a string.</param>
         public void Append (sbyte value, StringView format) {
-            Numeric.FormatSByte(this, value, format, culture);
+            Numeric.FormatSByte(this, value, format, _culture);
         }
 
         /// <summary>
@@ -367,7 +396,7 @@ namespace TcpCommunicator.Util
         /// <param name="format">A format specifier indicating how to convert <paramref name="value"/> to a string.</param>
         public void Append (byte value, StringView format) {
             // widening here is fine
-            Numeric.FormatUInt32(this, value, format, culture);
+            Numeric.FormatUInt32(this, value, format, _culture);
         }
 
         /// <summary>
@@ -376,7 +405,7 @@ namespace TcpCommunicator.Util
         /// <param name="value">The value to append.</param>
         /// <param name="format">A format specifier indicating how to convert <paramref name="value"/> to a string.</param>
         public void Append (short value, StringView format) {
-            Numeric.FormatInt16(this, value, format, culture);
+            Numeric.FormatInt16(this, value, format, _culture);
         }
 
         /// <summary>
@@ -386,7 +415,7 @@ namespace TcpCommunicator.Util
         /// <param name="format">A format specifier indicating how to convert <paramref name="value"/> to a string.</param>
         public void Append (ushort value, StringView format) {
             // widening here is fine
-            Numeric.FormatUInt32(this, value, format, culture);
+            Numeric.FormatUInt32(this, value, format, _culture);
         }
 
         /// <summary>
@@ -395,7 +424,7 @@ namespace TcpCommunicator.Util
         /// <param name="value">The value to append.</param>
         /// <param name="format">A format specifier indicating how to convert <paramref name="value"/> to a string.</param>
         public void Append (int value, StringView format) {
-            Numeric.FormatInt32(this, value, format, culture);
+            Numeric.FormatInt32(this, value, format, _culture);
         }
 
         /// <summary>
@@ -404,7 +433,7 @@ namespace TcpCommunicator.Util
         /// <param name="value">The value to append.</param>
         /// <param name="format">A format specifier indicating how to convert <paramref name="value"/> to a string.</param>
         public void Append (uint value, StringView format) {
-            Numeric.FormatUInt32(this, value, format, culture);
+            Numeric.FormatUInt32(this, value, format, _culture);
         }
 
         /// <summary>
@@ -413,7 +442,7 @@ namespace TcpCommunicator.Util
         /// <param name="value">The value to append.</param>
         /// <param name="format">A format specifier indicating how to convert <paramref name="value"/> to a string.</param>
         public void Append (long value, StringView format) {
-            Numeric.FormatInt64(this, value, format, culture);
+            Numeric.FormatInt64(this, value, format, _culture);
         }
 
         /// <summary>
@@ -422,7 +451,7 @@ namespace TcpCommunicator.Util
         /// <param name="value">The value to append.</param>
         /// <param name="format">A format specifier indicating how to convert <paramref name="value"/> to a string.</param>
         public void Append (ulong value, StringView format) {
-            Numeric.FormatUInt64(this, value, format, culture);
+            Numeric.FormatUInt64(this, value, format, _culture);
         }
 
         /// <summary>
@@ -431,7 +460,7 @@ namespace TcpCommunicator.Util
         /// <param name="value">The value to append.</param>
         /// <param name="format">A format specifier indicating how to convert <paramref name="value"/> to a string.</param>
         public void Append (float value, StringView format) {
-            Numeric.FormatSingle(this, value, format, culture);
+            Numeric.FormatSingle(this, value, format, _culture);
         }
 
         /// <summary>
@@ -440,7 +469,7 @@ namespace TcpCommunicator.Util
         /// <param name="value">The value to append.</param>
         /// <param name="format">A format specifier indicating how to convert <paramref name="value"/> to a string.</param>
         public void Append (double value, StringView format) {
-            Numeric.FormatDouble(this, value, format, culture);
+            Numeric.FormatDouble(this, value, format, _culture);
         }
 
         /// <summary>
@@ -449,7 +478,7 @@ namespace TcpCommunicator.Util
         /// <param name="value">The value to append.</param>
         /// <param name="format">A format specifier indicating how to convert <paramref name="value"/> to a string.</param>
         public void Append (decimal value, StringView format) {
-            Numeric.FormatDecimal(this, (uint*)&value, format, culture);
+            Numeric.FormatDecimal(this, (uint*)&value, format, _culture);
         }
 
         /// <summary>
@@ -476,7 +505,7 @@ namespace TcpCommunicator.Util
                 {
                     count++;
                     this.CheckCapacity((int) (end - curr));
-                    fixed (char* bufferPtr = &buffer[currentCount])
+                    fixed (char* bufferPtr = &_buffer[_currentCount])
                     {
                         segmentsLeft = this.AppendSegment(ref curr, end, bufferPtr, ref prevArgIndex, ref args);
                     }
@@ -560,11 +589,17 @@ namespace TcpCommunicator.Util
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void CheckCapacity (int count) {
-            if (currentCount + count > buffer.Length)
+        private void CheckCapacity (int count)
+        {
+            if (count <= 0) { return; }
+
+            var requestedSize = _currentCount + count;
+            if (requestedSize > _buffer.Length)
             {
-                Array.Resize(ref buffer, buffer.Length * 2);
+                var newSize = _buffer.Length * 2;
+                if (newSize < requestedSize) { newSize = requestedSize; }
+
+                Array.Resize(ref _buffer, newSize);
             }
         }
 
@@ -601,7 +636,7 @@ namespace TcpCommunicator.Util
                 }
 
                 *dest++ = c;
-                currentCount++;
+                _currentCount++;
             }
 
             if (curr == end)
@@ -627,7 +662,7 @@ namespace TcpCommunicator.Util
             c = SkipWhitespace(ref curr, end);
             var width = 0;
             var leftJustify = false;
-            var oldCount = currentCount;
+            var oldCount = _currentCount;
             if (c == ',') {
                 curr++;
                 c = SkipWhitespace(ref curr, end);
@@ -705,7 +740,7 @@ namespace TcpCommunicator.Util
             }
 
             // finish off padding, if necessary
-            var padding = width - (currentCount - oldCount);
+            var padding = width - (_currentCount - oldCount);
             if (padding > 0) {
                 if (leftJustify)
                 {
@@ -714,17 +749,17 @@ namespace TcpCommunicator.Util
                 else {
                     // copy the recently placed chars up in memory to make room for padding
                     this.CheckCapacity(padding);
-                    for (var i = currentCount - 1; i >= oldCount; i--)
+                    for (var i = _currentCount - 1; i >= oldCount; i--)
                     {
-                        buffer[i + padding] = buffer[i];
+                        _buffer[i + padding] = _buffer[i];
                     }
 
                     // fill in padding
                     for (var i = 0; i < padding; i++)
                     {
-                        buffer[i + oldCount] = ' ';
+                        _buffer[i + oldCount] = ' ';
                     }
-                    currentCount += padding;
+                    _currentCount += padding;
                 }
             }
 
@@ -777,7 +812,7 @@ namespace TcpCommunicator.Util
             throw new FormatException(SR.InvalidFormatString);
         }
 
-        public static StringBuffer Acquire (int capacity) {
+        internal static StringBuffer Acquire (int capacity) {
             if (capacity <= MaxCachedSize) {
                 var buffer = CachedInstance;
                 if (buffer != null) {
@@ -791,8 +826,8 @@ namespace TcpCommunicator.Util
             return new StringBuffer(capacity);
         }
 
-        public static void Release (StringBuffer buffer) {
-            if (buffer.buffer.Length <= MaxCachedSize)
+        internal static void Release (StringBuffer buffer) {
+            if (buffer._buffer.Length <= MaxCachedSize)
             {
                 CachedInstance = buffer;
             }
@@ -828,7 +863,7 @@ namespace TcpCommunicator.Util
         }
     }
 
-    internal unsafe struct StringView 
+    public unsafe struct StringView 
     {
         public static readonly StringView Empty = new StringView();
 
@@ -837,7 +872,7 @@ namespace TcpCommunicator.Util
 
         public bool IsEmpty => Length == 0;
 
-        public StringView (char* data, int length) {
+        internal StringView (char* data, int length) {
             Data = data;
             Length = length;
         }
@@ -2306,7 +2341,7 @@ namespace TcpCommunicator.Util
     /// <summary>
     /// A low-allocation version of the built-in <see cref="StringBuilder"/> type.
     /// </summary>
-    internal partial class StringBuffer {
+    public partial class StringBuffer {
         /// <summary>
         /// Appends the string returned by processing a composite format string, which contains zero or more format items, to this instance. Each format item is replaced by the string representation of a single argument.
         /// </summary>
