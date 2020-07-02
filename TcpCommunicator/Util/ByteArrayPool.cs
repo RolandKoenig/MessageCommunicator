@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TcpCommunicator.Util
 {
-    public static class ByteArrayPool
+    internal static class ByteArrayPool
     {
         private static ConcurrentBag<byte[]> s_pool;
 

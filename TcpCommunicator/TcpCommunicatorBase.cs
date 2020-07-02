@@ -7,7 +7,7 @@ using TcpCommunicator.Util;
 
 namespace TcpCommunicator
 {
-    public abstract class TcpCommunicatorBase
+    public abstract class TcpCommunicatorBase : ITcpCommunicator
     {
         public ReconnectWaitTimeGetter ReconnectWaitTimeGetter { get; set; }
 
@@ -100,9 +100,8 @@ namespace TcpCommunicator
         /// Tries to send the given message to the currently connected partner
         /// </summary>
         /// <param name="buffer">The bytes to be sent</param>
-        /// <param name="throwExceptionWhenUnableToSend">Set this to false if you don't want an exception thrown in case of an error</param>
         /// <returns>True when sending was successful</returns>
-        public async Task<bool> SendAsync(ArraySegment<byte> buffer, bool throwExceptionWhenUnableToSend = true)
+        public async Task<bool> SendAsync(ArraySegment<byte> buffer)
         {
             if ((buffer.Array == null) ||
                 (buffer.Count == 0))
@@ -115,10 +114,6 @@ namespace TcpCommunicator
             if(currentClient == null)
             {
                 this.Log(LoggingMessageType.Error, "Unable to send message: Connection is not established currently!");
-                if (throwExceptionWhenUnableToSend)
-                {
-                    throw new ApplicationException("Unable to send message: Connection is not established currently!");
-                }
                 return false;
             }
 
@@ -138,10 +133,6 @@ namespace TcpCommunicator
             }
             catch (Exception sendException)
             {
-                if (throwExceptionWhenUnableToSend)
-                {
-                    throw new ApplicationException(StringBuffer.Format("Unable to send message: {0}", sendException), sendException);
-                }
                 return false;
             }
         }

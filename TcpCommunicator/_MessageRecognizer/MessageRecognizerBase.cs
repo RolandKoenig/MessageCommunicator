@@ -7,9 +7,9 @@ namespace TcpCommunicator
 {
     public abstract class MessageRecognizerBase
     {
-        public TcpCommunicatorBase Communicator { get; }
+        public ITcpCommunicator Communicator { get; }
 
-        protected MessageRecognizerBase(TcpCommunicatorBase communicator)
+        protected MessageRecognizerBase(ITcpCommunicator communicator)
         {
             this.Communicator = communicator;
         }

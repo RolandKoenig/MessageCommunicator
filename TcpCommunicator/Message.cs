@@ -23,5 +23,10 @@ namespace TcpCommunicator
         {
             this.RawMessage.Clear();
         }
+
+        public void ClearAndReturnToPool()
+        {
+            MessagePool.ClearAndReturn(this);
+        }
     }
 }

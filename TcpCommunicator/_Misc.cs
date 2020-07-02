@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace TcpCommunicator
 {
@@ -21,6 +22,12 @@ namespace TcpCommunicator
         Connecting,
 
         Connected,
+    }
+
+    public interface ITcpCommunicator
+    {
+        Action<ArraySegment<byte>> ReceiveHandler { get; set; }
+        Task<bool> SendAsync(ArraySegment<byte> messageToSend);
     }
 
     public readonly struct LoggingMessage

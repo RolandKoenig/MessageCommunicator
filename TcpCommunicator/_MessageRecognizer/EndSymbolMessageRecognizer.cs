@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using TcpCommunicator.Util;
@@ -15,7 +14,7 @@ namespace TcpCommunicator
 
         public Action<Message>? ReceiveHandler { get; set; }
 
-        public EndSymbolMessageRecognizer(TcpCommunicatorBase communicator, Encoding encoding, char[] endSymbols)
+        public EndSymbolMessageRecognizer(ITcpCommunicator communicator, Encoding encoding, char[] endSymbols)
             : base(communicator)
         {
             _encoding = encoding;
@@ -34,18 +33,17 @@ namespace TcpCommunicator
             {
                 sendBuffer.Append(rawMessage);
                 sendBuffer.Append(_endSymbols, 0, _endSymbols.Length);
+                sendBuffer.GetInternalData(out var buffer, out var currentCount);
 
-                var sendMessageByteLength = _encoding.GetByteCount(rawMessage);
+                var sendMessageByteLength = _encoding.GetByteCount(buffer, 0, currentCount);
                 bytes = ByteArrayPool.Take(sendMessageByteLength);
 
-                sendBuffer.GetInternalData(out var buffer, out var currentCount);
                 _encoding.GetBytes(buffer, 0, currentCount, bytes, 0);
                 StringBuffer.Release(sendBuffer);
                 sendBuffer = null;
 
                 await this.Communicator.SendAsync(
-                    new ArraySegment<byte>(bytes, 0, sendMessageByteLength),
-                    false);
+                    new ArraySegment<byte>(bytes, 0, sendMessageByteLength));
             }
             finally
             {
@@ -107,6 +105,7 @@ namespace TcpCommunicator
 
                         // Remove the message with endsymbols from receive buffer
                         _receiveStringBuffer.RemoveFromStart(endSymbolIndex + _endSymbols.Length);
+                        break;
                     }
                 }
 

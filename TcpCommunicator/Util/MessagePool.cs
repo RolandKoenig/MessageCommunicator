@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TcpCommunicator
 {
-    public static class MessagePool
+    internal static class MessagePool
     {
         private static ConcurrentBag<Message> s_pool;
 
@@ -27,7 +27,7 @@ namespace TcpCommunicator
             }
         }
 
-        public static void Return(Message message)
+        public static void ClearAndReturn(Message message)
         {
             message.Clear();
             s_pool.Add(message);

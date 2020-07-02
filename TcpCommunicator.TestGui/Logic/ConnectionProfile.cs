@@ -12,6 +12,7 @@ namespace TcpCommunicator.TestGui.Logic
         private SynchronizationContext _syncContext;
 
         private TcpCommunicatorBase _tcpCommunicator;
+        private MessageRecognizerBase _messageRecognizer;
 
         public string Name => this.Parameters.Name;
 
@@ -30,7 +31,7 @@ namespace TcpCommunicator.TestGui.Logic
             _syncContext = syncContext;
             this.Parameters = connParams;
 
-            _tcpCommunicator = this.SetupTcpCommunicator(connParams);
+            this.SetupTcpCommunicator(connParams);
         }
 
         public void ChangeParameters(ConnectionParameters newConnParameters)
@@ -42,7 +43,7 @@ namespace TcpCommunicator.TestGui.Logic
                 prefWasRunning = true;
             }
 
-            _tcpCommunicator = this.SetupTcpCommunicator(newConnParameters);
+            this.SetupTcpCommunicator(newConnParameters);
 
             if (prefWasRunning)
             {
@@ -52,9 +53,7 @@ namespace TcpCommunicator.TestGui.Logic
 
         public Task SendMessageAsync(string message)
         {
-            return _tcpCommunicator.SendAsync(
-                Encoding.ASCII.GetBytes(message),
-                false);
+            return _messageRecognizer.SendAsync(message);
         }
 
         public void Start()
@@ -67,29 +66,34 @@ namespace TcpCommunicator.TestGui.Logic
             _tcpCommunicator.Stop();
         }
 
-        private TcpCommunicatorBase SetupTcpCommunicator(ConnectionParameters connParams)
+        private void SetupTcpCommunicator(ConnectionParameters connParams)
         {
             this.Parameters = connParams;
 
-            TcpCommunicatorBase result;
+            // Build the TcpCommunicator
+            TcpCommunicatorBase tcpCommunicator;
             switch (connParams.Mode)
             {
                 case ConnectionMode.Active:
-                    result = new TcpCommunicatorActive(connParams.Target, connParams.Port);
+                    tcpCommunicator = new TcpCommunicatorActive(connParams.Target, connParams.Port);
                     break;
 
                 case ConnectionMode.Passive:
-                    result = new TcpCommunicatorPassive(connParams.Port);
+                    tcpCommunicator = new TcpCommunicatorPassive(connParams.Port);
                     break;
 
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            tcpCommunicator.Logger = this.OnLoggingMessage;
 
-            result.Logger = this.OnLoggingMessage;
-            result.ReceiveHandler = this.OnSegmentReceived;
+            // Build the MessageRecognizer
+            var messageRecognizer = new EndSymbolMessageRecognizer(
+                tcpCommunicator, Encoding.Unicode, new []{ '#', '#'});
+            messageRecognizer.ReceiveHandler = OnMessageReceived;
 
-            return result;
+            _tcpCommunicator = tcpCommunicator;
+            _messageRecognizer = messageRecognizer;
         }
 
         private void OnLoggingMessage(LoggingMessage logMessage)
@@ -105,12 +109,18 @@ namespace TcpCommunicator.TestGui.Logic
             }, null);
         }
 
-        private void OnSegmentReceived(ArraySegment<byte> segmentBytes)
+        private void OnMessageReceived(Message message)
         {
-            var receivedString = Encoding.Default.GetString(segmentBytes);
-            this.OnLoggingMessage(
-                new LoggingMessage(
-                    _tcpCommunicator, DateTime.UtcNow, LoggingMessageType.Info, receivedString, null));
+            try
+            {
+                this.OnLoggingMessage(
+                    new LoggingMessage(
+                        _tcpCommunicator, DateTime.UtcNow, LoggingMessageType.Info, message.RawMessage.ToString(), null));
+            }
+            finally
+            {
+                message.ClearAndReturnToPool();
+            }
         }
     }
 }
