@@ -1,0 +1,135 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+using TcpCommunicator.Util;
+
+namespace TcpCommunicator
+{
+    public class DefaultMessageRecognizer : MessageRecognizerBase
+    {
+        private const char SYMBOL_START = '<';
+        private const char SYMBOL_END = '>';
+        private const char SYMBOL_DELIMITER = '|';
+
+        private Encoding _encoding;
+        private StringBuffer _receiveStringBuffer;
+
+        public Action<Message>? ReceiveHandler { get; set; }
+
+        public DefaultMessageRecognizer(ITcpCommunicator communicator, Encoding encoding)
+            : base(communicator)
+        {
+            _encoding = encoding;
+            _receiveStringBuffer = new StringBuffer(1024);
+
+            communicator.ReceiveHandler = this.OnReceiveBytes;
+        }
+
+        /// <inheritdoc />
+        public override async Task SendAsync(string rawMessage)
+        {
+            var rawMessageLength = rawMessage.Length;
+            var lengthDigitCount = TcpCommunicatorUtil.GetCountOfDigits(rawMessageLength);
+            var sendBuffer = StringBuffer.Acquire(rawMessageLength + 3 + lengthDigitCount);
+
+            byte[]? bytes = null;
+            try
+            {
+                sendBuffer.Append(SYMBOL_START);
+                sendBuffer.AppendFormat("n", rawMessageLength);
+                sendBuffer.Append(SYMBOL_DELIMITER);
+                sendBuffer.Append(rawMessage);
+                sendBuffer.Append(SYMBOL_END);
+                sendBuffer.GetInternalData(out var buffer, out var currentCount);
+
+                var sendMessageByteLength = _encoding.GetByteCount(buffer, 0, currentCount);
+                bytes = ByteArrayPool.Take(sendMessageByteLength);
+
+                _encoding.GetBytes(buffer, 0, currentCount, bytes, 0);
+                StringBuffer.Release(sendBuffer);
+                sendBuffer = null;
+
+                await this.Communicator.SendAsync(
+                    new ArraySegment<byte>(bytes, 0, sendMessageByteLength));
+            }
+            finally
+            {
+                if (bytes != null)
+                {
+                    ByteArrayPool.Return(bytes);
+                }
+                if (sendBuffer != null)
+                {
+                    StringBuffer.Release(sendBuffer);
+                }
+            }
+        }
+
+        private void OnReceiveBytes(ArraySegment<byte> receivedSegment)
+        {
+            if (receivedSegment.Array == null) { return; }
+            if (receivedSegment.Count == 0) { return; }
+
+            _receiveStringBuffer.Append(receivedSegment, _encoding);
+
+            while(_receiveStringBuffer.Count > 0)
+            {
+                // Check for start symbol
+                if (_receiveStringBuffer[0] != SYMBOL_START)
+                {
+                    throw new MessageRecognitionException($"Error during message recognition. Expected '{SYMBOL_START}' at the start of a message, got '{_receiveStringBuffer[0]}'!");
+                }
+
+                // Search delimiter
+                var delimiterIndex = -1;
+                for (var loop = 1; loop < _receiveStringBuffer.Count; loop++)
+                {
+                    if (_receiveStringBuffer[loop] == SYMBOL_DELIMITER)
+                    {
+                        delimiterIndex = loop;
+                        break;
+                    }
+                }
+                if (delimiterIndex == -1) { break; }
+
+                // Parse message count
+                int rawMessageLength;
+                try
+                {
+                    rawMessageLength = TcpCommunicatorUtil.ParseInt32FromStringPart(
+                        _receiveStringBuffer,
+                        1, delimiterIndex - 1);
+                }
+                catch(Exception ex)
+                {
+                    throw new MessageRecognitionException($"Unable to parse message length!");
+                }
+
+                // Look whether we've received the full message
+                var fullMessageLength = delimiterIndex + rawMessageLength + 2;
+                if (_receiveStringBuffer.Count < fullMessageLength) { break; }
+
+                // Check endsymbol
+                if(_receiveStringBuffer[fullMessageLength-1] != SYMBOL_END)
+                {
+                    throw new MessageRecognitionException($"Error during message recognition. Expected '{SYMBOL_END}' at the end of a message, got '{_receiveStringBuffer[fullMessageLength - 1]}'!");
+                }
+
+                // Raise found message
+                var receiveHandler = this.ReceiveHandler;
+                if (receiveHandler != null)
+                {
+                    var recognizedMessage = MessagePool.Take(rawMessageLength);
+                    recognizedMessage.RawMessage.Append(_receiveStringBuffer.GetPart(delimiterIndex + 1, rawMessageLength));
+                    receiveHandler(recognizedMessage);
+                }
+
+                // Remove the message with endsymbols from receive buffer
+                _receiveStringBuffer.RemoveFromStart(fullMessageLength);
+            }
+        }
+    }
+}

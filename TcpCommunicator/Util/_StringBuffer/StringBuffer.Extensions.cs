@@ -7,6 +7,12 @@ namespace TcpCommunicator.Util
 {
     public sealed unsafe partial class StringBuffer
     {
+        public StringBuffer(string template)
+            : this(template.Length)
+        {
+            this.Append(template);
+        }
+
         public void RemoveFromStart(int countCharsToRemove)
         {
             if(countCharsToRemove > _currentCount){ throw new IndexOutOfRangeException(); }
