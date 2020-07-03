@@ -14,11 +14,13 @@ namespace TcpCommunicator.Tests
         public async Task Test_DefaultRecognition_Send_Standard()
         {
             var fullMessageSent = string.Empty;
+
             var tcpCommunicatorMock = A.Fake<ITcpCommunicator>();
-            A.CallTo((() => tcpCommunicatorMock.SendAsync(default(ArraySegment<byte>)))).Invokes(
-                arg =>
+            A.CallTo(tcpCommunicatorMock)
+                .Where(info => info.Method.Name == nameof(TcpCommunicatorBase.SendAsync))
+                .Invokes(args =>
                 {
-                    var bytesToSend = (ArraySegment<byte>)arg.Arguments[0];
+                    var bytesToSend = (ArraySegment<byte>)args.Arguments[0];
                     fullMessageSent = Encoding.UTF8.GetString(bytesToSend.Array, bytesToSend.Offset, bytesToSend.Count);
                 });
 
