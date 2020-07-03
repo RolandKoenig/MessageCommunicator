@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -10,7 +11,28 @@ namespace TcpCommunicator.Tests
     public class DefaultRecognitionTests
     {
         [TestMethod]
-        public void Test_DefaultRecognition_Standard()
+        public async Task Test_DefaultRecognition_Send_Standard()
+        {
+            var fullMessageSent = string.Empty;
+            var tcpCommunicatorMock = A.Fake<ITcpCommunicator>();
+            A.CallTo((() => tcpCommunicatorMock.SendAsync(default(ArraySegment<byte>)))).Invokes(
+                arg =>
+                {
+                    var bytesToSend = (ArraySegment<byte>)arg.Arguments[0];
+                    fullMessageSent = Encoding.UTF8.GetString(bytesToSend.Array, bytesToSend.Offset, bytesToSend.Count);
+                });
+
+            var messageRecognizer = new DefaultMessageRecognizer(
+                tcpCommunicatorMock,
+                Encoding.UTF8);
+
+            await messageRecognizer.SendAsync("Test");
+
+            Assert.IsTrue(fullMessageSent == "<4|Test>");
+        }
+
+        [TestMethod]
+        public void Test_DefaultRecognition_Receive_Standard()
         {
             var tcpCommunicatorMock = A.Fake<ITcpCommunicator>();
             
@@ -26,7 +48,7 @@ namespace TcpCommunicator.Tests
         }
 
         [TestMethod]
-        public void Test_DefaultRecognition_TwoStandardMessages()
+        public void Test_DefaultRecognition_Receive_TwoStandardMessages()
         {
             var tcpCommunicatorMock = A.Fake<ITcpCommunicator>();
             

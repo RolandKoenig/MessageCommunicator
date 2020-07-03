@@ -32,6 +32,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Microsoft.Win32.SafeHandles;
 
 namespace TcpCommunicator.Util
 {

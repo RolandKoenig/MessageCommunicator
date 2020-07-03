@@ -13,6 +13,7 @@ namespace TcpCommunicator
         private const char SYMBOL_START = '<';
         private const char SYMBOL_END = '>';
         private const char SYMBOL_DELIMITER = '|';
+        private const string FORMAT = "n";
 
         private Encoding _encoding;
         private StringBuffer _receiveStringBuffer;
@@ -39,7 +40,13 @@ namespace TcpCommunicator
             try
             {
                 sendBuffer.Append(SYMBOL_START);
-                sendBuffer.AppendFormat("n", rawMessageLength);
+                unsafe
+                {
+                    var format = stackalloc char[2];
+                    format[0] = 'f';
+                    format[1] = '0';
+                    sendBuffer.Append(rawMessageLength, new StringView(format, 1));
+                }
                 sendBuffer.Append(SYMBOL_DELIMITER);
                 sendBuffer.Append(rawMessage);
                 sendBuffer.Append(SYMBOL_END);

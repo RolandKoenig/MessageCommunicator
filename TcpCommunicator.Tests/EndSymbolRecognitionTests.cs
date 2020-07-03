@@ -16,12 +16,12 @@ namespace TcpCommunicator.Tests
             
             var messageRecognizer = new EndSymbolMessageRecognizer(
                 tcpCommunicatorMock,
-                Encoding.Unicode, new char[]{'#', '#'});
+                Encoding.UTF8, new char[]{'#', '#'});
 
             Message? currentMessage = null;
             messageRecognizer.ReceiveHandler = (msg) => currentMessage = msg;
 
-            tcpCommunicatorMock.ReceiveHandler.Invoke(Encoding.Unicode.GetBytes("Test##"));
+            tcpCommunicatorMock.ReceiveHandler.Invoke(Encoding.UTF8.GetBytes("Test##"));
             Assert.IsTrue(currentMessage.RawMessage.ToString() == "Test");
         }
 
@@ -32,12 +32,12 @@ namespace TcpCommunicator.Tests
             
             var messageRecognizer = new EndSymbolMessageRecognizer(
                 tcpCommunicatorMock,
-                Encoding.Unicode, new char[]{'#', '#'});
+                Encoding.UTF8, new char[]{'#', '#'});
 
             var receivedMessages = new List<Message>(2);
             messageRecognizer.ReceiveHandler = (msg) => receivedMessages.Add(msg);
 
-            tcpCommunicatorMock.ReceiveHandler.Invoke(Encoding.Unicode.GetBytes("Test1##Test2##"));
+            tcpCommunicatorMock.ReceiveHandler.Invoke(Encoding.UTF8.GetBytes("Test1##Test2##"));
             Assert.IsTrue(receivedMessages[0].RawMessage.ToString() == "Test1");
             Assert.IsTrue(receivedMessages[1].RawMessage.ToString() == "Test2");
         }
@@ -49,13 +49,13 @@ namespace TcpCommunicator.Tests
             
             var messageRecognizer = new EndSymbolMessageRecognizer(
                 tcpCommunicatorMock,
-                Encoding.Unicode, new char[]{'#', '#'});
+                Encoding.UTF8, new char[]{'#', '#'});
 
             var receivedMessages = new List<Message>(2);
             messageRecognizer.ReceiveHandler = (msg) => receivedMessages.Add(msg);
 
-            tcpCommunicatorMock.ReceiveHandler.Invoke(Encoding.Unicode.GetBytes("Tes"));
-            tcpCommunicatorMock.ReceiveHandler.Invoke(Encoding.Unicode.GetBytes("t##"));
+            tcpCommunicatorMock.ReceiveHandler.Invoke(Encoding.UTF8.GetBytes("Tes"));
+            tcpCommunicatorMock.ReceiveHandler.Invoke(Encoding.UTF8.GetBytes("t##"));
             Assert.IsTrue(receivedMessages[0].RawMessage.ToString() == "Test");
         }
 
@@ -66,14 +66,14 @@ namespace TcpCommunicator.Tests
             
             var messageRecognizer = new EndSymbolMessageRecognizer(
                 tcpCommunicatorMock,
-                Encoding.Unicode, new char[]{'#', '#'});
+                Encoding.UTF8, new char[]{'#', '#'});
 
             var receivedMessages = new List<Message>(2);
             messageRecognizer.ReceiveHandler = (msg) => receivedMessages.Add(msg);
 
-            tcpCommunicatorMock.ReceiveHandler.Invoke(Encoding.Unicode.GetBytes("Tes"));
-            tcpCommunicatorMock.ReceiveHandler.Invoke(Encoding.Unicode.GetBytes("t#"));
-            tcpCommunicatorMock.ReceiveHandler.Invoke(Encoding.Unicode.GetBytes("#"));
+            tcpCommunicatorMock.ReceiveHandler.Invoke(Encoding.UTF8.GetBytes("Tes"));
+            tcpCommunicatorMock.ReceiveHandler.Invoke(Encoding.UTF8.GetBytes("t#"));
+            tcpCommunicatorMock.ReceiveHandler.Invoke(Encoding.UTF8.GetBytes("#"));
             Assert.IsTrue(receivedMessages[0].RawMessage.ToString() == "Test");
         }
     }
