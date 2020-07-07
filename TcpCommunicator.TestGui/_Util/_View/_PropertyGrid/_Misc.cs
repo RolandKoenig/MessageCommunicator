@@ -10,6 +10,16 @@ namespace TcpCommunicator.TestGui
 
         String,
 
-        Enum
+        Enum,
+         
+        DetailSettings
+    }
+
+    public class DetailSettingsAttribute : Attribute
+    {
+        public DetailSettingsAttribute()
+        {
+
+        }
     }
 }

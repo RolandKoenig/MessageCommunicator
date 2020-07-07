@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
 using TcpCommunicator.Util;
 
@@ -73,8 +72,8 @@ namespace TcpCommunicator
                     if(stringBuffer.Count > 0){ stringBuffer.Append(' '); }
 
                     var actByte = bytes.Array[loop];
-                    stringBuffer.Append(HEX_ALPHABET[(int)(actByte >> 4)]);
-                    stringBuffer.Append(HEX_ALPHABET[(int)(actByte & 0xF)]);
+                    stringBuffer.Append(HEX_ALPHABET[actByte >> 4]);
+                    stringBuffer.Append(HEX_ALPHABET[actByte & 0xF]);
                 }
 
                 return stringBuffer.ToString();

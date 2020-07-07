@@ -94,6 +94,10 @@ namespace TcpCommunicator.TestGui
             {
                 this.ValueType = PropertyValueType.Enum;
             }
+            else if(propertyInfo.GetCustomAttribute<DetailSettingsAttribute>() != null)
+            {
+                this.ValueType = PropertyValueType.DetailSettings;
+            }
             else
             {
                 throw new ApplicationException($"Unsupported property type {propertyType.FullName}!");

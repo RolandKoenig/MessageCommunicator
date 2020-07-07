@@ -6,4 +6,11 @@
 
         Active
     }
+
+    public enum MessageRecognitionMode
+    {
+        Default,
+
+        EndSymbol
+    }
 }

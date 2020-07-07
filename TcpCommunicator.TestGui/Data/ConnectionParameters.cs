@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using SharpDX.Text;
 
 namespace TcpCommunicator.TestGui.Data
 {
-    public class ConnectionParameters
+    public class ConnectionParameters 
     {
         [Required]
         public string Name { get; set; } = "New Profile";
@@ -12,5 +13,10 @@ namespace TcpCommunicator.TestGui.Data
         public ushort Port { get; set; } = 12000;
 
         public ConnectionMode Mode { get; set; } = ConnectionMode.Passive;
+
+        public MessageRecognitionMode RecognitionMode { get; set; } = MessageRecognitionMode.Default;
+
+        //[DetailSettings]
+        //public object RecognizerSettings { get; set; }
     }
 }

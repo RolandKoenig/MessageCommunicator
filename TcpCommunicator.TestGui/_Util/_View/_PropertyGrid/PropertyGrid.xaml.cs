@@ -146,6 +146,9 @@ namespace TcpCommunicator.TestGui
                         ctrlComboBox.Width = double.NaN;
                         ctrlValueEdit = ctrlComboBox;
                         break;
+
+                    case PropertyValueType.DetailSettings:
+                        break;
                 }
 
                 if (ctrlValueEdit != null)

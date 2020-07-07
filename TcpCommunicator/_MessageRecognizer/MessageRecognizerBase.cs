@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace TcpCommunicator
@@ -8,6 +7,8 @@ namespace TcpCommunicator
     public abstract class MessageRecognizerBase
     {
         public ITcpCommunicator Communicator { get; }
+
+        public Action<Message>? ReceiveHandler { get; set; }
 
         protected MessageRecognizerBase(ITcpCommunicator communicator)
         {

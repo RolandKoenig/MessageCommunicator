@@ -12,8 +12,6 @@ namespace TcpCommunicator
         private char[] _endSymbols;
         private StringBuffer _receiveStringBuffer;
 
-        public Action<Message>? ReceiveHandler { get; set; }
-
         public EndSymbolMessageRecognizer(ITcpCommunicator communicator, Encoding encoding, char[] endSymbols)
             : base(communicator)
         {

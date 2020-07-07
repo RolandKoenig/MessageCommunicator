@@ -133,6 +133,12 @@ namespace TcpCommunicator
             }
             catch (Exception sendException)
             {
+                if (this.IsLoggerSet)
+                {
+                    this.Log(
+                        LoggingMessageType.Info,
+                        StringBuffer.Format("Error while sending message: {0}", sendException.Message));
+                }
                 return false;
             }
         }

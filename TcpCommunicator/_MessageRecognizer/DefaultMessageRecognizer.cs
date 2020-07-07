@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using TcpCommunicator.Util;
@@ -17,8 +14,6 @@ namespace TcpCommunicator
 
         private Encoding _encoding;
         private StringBuffer _receiveStringBuffer;
-
-        public Action<Message>? ReceiveHandler { get; set; }
 
         public DefaultMessageRecognizer(ITcpCommunicator communicator, Encoding encoding)
             : base(communicator)
@@ -112,7 +107,7 @@ namespace TcpCommunicator
                 }
                 catch(Exception ex)
                 {
-                    throw new MessageRecognitionException($"Unable to parse message length!");
+                    throw new MessageRecognitionException($"Unable to parse message length: {ex.Message}");
                 }
 
                 // Look whether we've received the full message

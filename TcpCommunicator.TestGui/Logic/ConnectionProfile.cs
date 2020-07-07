@@ -88,7 +88,20 @@ namespace TcpCommunicator.TestGui.Logic
             tcpCommunicator.Logger = this.OnLoggingMessage;
 
             // Build the MessageRecognizer
-            var messageRecognizer = new DefaultMessageRecognizer(tcpCommunicator, Encoding.UTF8);
+            MessageRecognizerBase messageRecognizer;
+            switch (connParams.RecognitionMode)
+            {
+                case MessageRecognitionMode.Default:
+                    messageRecognizer = new DefaultMessageRecognizer(tcpCommunicator, Encoding.UTF8);
+                    break;
+
+                case MessageRecognitionMode.EndSymbol:
+                    messageRecognizer = new EndSymbolMessageRecognizer(tcpCommunicator, Encoding.UTF8, new char[]{ '#', '#' });
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
             messageRecognizer.ReceiveHandler = OnMessageReceived;
 
             _tcpCommunicator = tcpCommunicator;
