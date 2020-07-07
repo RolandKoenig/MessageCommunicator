@@ -78,6 +78,7 @@ namespace TcpCommunicator
             var remoteAddressStr = this.RemoteHost;
             while (loopId == _runningLoopCounter)
             {
+                TcpClient? newClient = null;
                 try
                 {
                     _connState = ConnectionState.Connecting;
@@ -88,8 +89,9 @@ namespace TcpCommunicator
                             StringBuffer.Format("Connecting to host {0} on port {1}", remoteAddressStr, this.RemotePort));
                     }
 
-                    _currentClient = new TcpClient();
-                    await _currentClient.ConnectAsync(this.RemoteHost, this.RemotePort);
+                    newClient = new TcpClient();
+                    await newClient.ConnectAsync(this.RemoteHost, this.RemotePort);
+                    _currentClient = newClient;
                     reconnectErrorCount = 0;
 
                     _connState = ConnectionState.Connected;
@@ -102,7 +104,8 @@ namespace TcpCommunicator
                 }
                 catch (Exception ex)
                 {
-                    TcpAsyncUtil.SafeDispose(ref _currentClient);
+                    TcpAsyncUtil.SafeDispose(ref newClient);
+                    _currentClient = null;
 
                     if (this.IsLoggerSet)
                     {

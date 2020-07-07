@@ -510,7 +510,7 @@ namespace TcpCommunicator.Util
                     {
                         segmentsLeft = this.AppendSegment(ref curr, end, bufferPtr, ref prevArgIndex, ref args);
                     }
-                } while (segmentsLeft);
+                } while ((segmentsLeft) && (curr != end));
             }
         }
 
