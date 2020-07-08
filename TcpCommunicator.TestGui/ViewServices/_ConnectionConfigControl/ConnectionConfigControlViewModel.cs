@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Reactive;
 using Force.DeepCloner;
 using ReactiveUI;
@@ -10,31 +11,18 @@ namespace TcpCommunicator.TestGui.ViewServices
     {
         public ConnectionParameters Model { get; }
 
+        public ConnectionParametersWrapper ModelInteractive { get; }
+
         public ReactiveCommand<object?, Unit> Command_OK { get; }
 
         public ReactiveCommand<object?, Unit> Command_Cancel { get; }
-
-        public ConnectionMode ConnectionMode
-        {
-            get => this.Model.Mode;
-            set
-            {
-                if (this.Model.Mode != value)
-                {
-                    this.Model.Mode = value;
-                    this.RaisePropertyChanged(nameof(this.ConnectionMode));
-                    this.RaisePropertyChanged(nameof(this.IsConfigIPEnabled));
-                }
-            }
-        }
-
-        public bool IsConfigIPEnabled => this.Model.Mode == ConnectionMode.Active;
 
         public ConnectionMode[] ConnectionModes => (ConnectionMode[])Enum.GetValues(typeof(ConnectionMode));
 
         public ConnectionConfigControlViewModel(ConnectionParameters? parameters = null)
         {
             this.Model = parameters != null ? parameters.DeepClone() : new ConnectionParameters();
+            this.ModelInteractive = new ConnectionParametersWrapper(this.Model);
 
             this.Command_OK = ReactiveCommand.Create<object?>(this.OnCommandOK);
             this.Command_Cancel = ReactiveCommand.Create<object?>(

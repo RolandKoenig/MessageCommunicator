@@ -25,6 +25,7 @@ namespace TcpCommunicator.TestGui.Logic
         public ConnectionProfileStore()
         {
             _serializer = new JsonSerializer();
+            _serializer.TypeNameHandling = TypeNameHandling.Auto;
         }
 
         public void StoreConnectionProfiles(IEnumerable<ConnectionProfile> profiles)

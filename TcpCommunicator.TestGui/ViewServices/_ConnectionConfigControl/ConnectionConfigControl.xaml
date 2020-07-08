@@ -5,7 +5,7 @@
         xmlns:local="clr-namespace:TcpCommunicator.TestGui.ViewServices;assembly=TcpCommunicator.TestGui"
         xmlns:localRoot="clr-namespace:TcpCommunicator.TestGui;assembly=TcpCommunicator.TestGui"
         mc:Ignorable="d"
-        Width="400" Height="250"
+        Width="400" Height="350"
         x:Class="TcpCommunicator.TestGui.ViewServices.ConnectionConfigControl"
         d:DataContext="{x:Static local:DesignData.ConnectionConfigVM}">
     
@@ -23,6 +23,12 @@
             <Button Content="Cancel" Command="{Binding Path=Command_Cancel}" />
         </StackPanel>
       
-        <localRoot:PropertyGrid SelectedObject="{Binding Path=Model}" />
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical">
+                <localRoot:PropertyGrid SelectedObject="{Binding Path=ModelInteractive}" />
+                <localRoot:PropertyGrid SelectedObject="{Binding Path=ModelInteractive.RecognizerSettings}" />
+            </StackPanel>
+        </ScrollViewer>
+        
     </DockPanel>
 </UserControl>

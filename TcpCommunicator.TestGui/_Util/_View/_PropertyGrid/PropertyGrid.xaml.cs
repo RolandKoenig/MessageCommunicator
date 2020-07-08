@@ -91,7 +91,7 @@ namespace TcpCommunicator.TestGui
 
                     var rect = new Rectangle
                     {
-                        Height = 2d,
+                        Height = 1d,
                         Fill = new SolidColorBrush(Colors.Black),
                         VerticalAlignment = VerticalAlignment.Bottom,
                         Margin = new Thickness(5d, 5d, 5d, 0d)
