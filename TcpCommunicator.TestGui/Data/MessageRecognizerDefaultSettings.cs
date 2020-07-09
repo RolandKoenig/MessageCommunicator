@@ -5,14 +5,11 @@ using System.Text;
 
 namespace TcpCommunicator.TestGui.Data
 {
-    public class RecognizerEndSymbolSettings
+    public class MessageRecognizerDefaultSettings
     {
-        private const string CATEGORY = "EndSymbol Recognizer";
+        private const string CATEGORY = "Default Recognizer";
 
         [Category(CATEGORY)]
         public string Encoding { get; set; } = string.Empty;
-
-        [Category(CATEGORY)]
-        public string EndSymbols { get; set; } = string.Empty;
     }
 }

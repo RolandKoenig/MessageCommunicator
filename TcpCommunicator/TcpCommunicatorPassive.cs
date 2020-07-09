@@ -17,6 +17,8 @@ namespace TcpCommunicator
         private TcpClient? _currentSendSocket;
         private TcpListener? _currentListener;
 
+        public IPAddress ListeningIPAddress { get; }
+
         public ushort ListeningPort { get; }
 
         public override bool IsRunning => _isRunning;
@@ -39,12 +41,14 @@ namespace TcpCommunicator
         }
 
         public TcpCommunicatorPassive(
+            IPAddress listeningIPAddress,
             ushort listeningPort, 
             ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null)
             : base(reconnectWaitTimeGetter)
         {
             _startStopLock = new object();
 
+            this.ListeningIPAddress = listeningIPAddress;
             this.ListeningPort = listeningPort;
         }
 
@@ -91,7 +95,7 @@ namespace TcpCommunicator
                                 LoggingMessageType.Info, 
                                 StringBuffer.Format("Creating TcpListener socket for port {0}...", this.ListeningPort));
                         }
-                        tcpListener = new TcpListener(IPAddress.Loopback, this.ListeningPort);
+                        tcpListener = new TcpListener(this.ListeningIPAddress, this.ListeningPort);
                         tcpListener.Start();
 
                         reconnectErrorCount = 0;

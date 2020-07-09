@@ -5,7 +5,7 @@ using TcpCommunicator.TestGui.Data;
 
 namespace TcpCommunicator.TestGui.ViewServices
 {
-    public class ConnectionParametersWrapper : PropertyChangedBase
+    public class ConnectionParametersViewModel : PropertyChangedBase
     {
         private const string CATEGORY = "Connection";
 
@@ -58,7 +58,7 @@ namespace TcpCommunicator.TestGui.ViewServices
                     _connParameters.RecognitionMode = value;
                     this.RaisePropertyChanged(nameof(this.RecognitionMode));
 
-                    _connParameters.RecognizerSettings = ConnectionParameters.CreateRecognizerSettings(value);
+                    _connParameters.RecognizerSettings = MessageRecognizerSettingsFactory.CreateSettings(value);
                     this.RaisePropertyChanged(nameof(this.RecognizerSettings));
                 }
             }
@@ -73,7 +73,7 @@ namespace TcpCommunicator.TestGui.ViewServices
         [Browsable(false)]
         public bool IsConfigIPEnabled => _connParameters.Mode == ConnectionMode.Active;
 
-        public ConnectionParametersWrapper(ConnectionParameters connParameters)
+        public ConnectionParametersViewModel(ConnectionParameters connParameters)
         {
             _connParameters = connParameters;
         }

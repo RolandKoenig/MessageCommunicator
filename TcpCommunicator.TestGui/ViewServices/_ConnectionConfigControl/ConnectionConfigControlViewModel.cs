@@ -11,7 +11,7 @@ namespace TcpCommunicator.TestGui.ViewServices
     {
         public ConnectionParameters Model { get; }
 
-        public ConnectionParametersWrapper ModelInteractive { get; }
+        public ConnectionParametersViewModel ModelInteractive { get; }
 
         public ReactiveCommand<object?, Unit> Command_OK { get; }
 
@@ -22,7 +22,7 @@ namespace TcpCommunicator.TestGui.ViewServices
         public ConnectionConfigControlViewModel(ConnectionParameters? parameters = null)
         {
             this.Model = parameters != null ? parameters.DeepClone() : new ConnectionParameters();
-            this.ModelInteractive = new ConnectionParametersWrapper(this.Model);
+            this.ModelInteractive = new ConnectionParametersViewModel(this.Model);
 
             this.Command_OK = ReactiveCommand.Create<object?>(this.OnCommandOK);
             this.Command_Cancel = ReactiveCommand.Create<object?>(

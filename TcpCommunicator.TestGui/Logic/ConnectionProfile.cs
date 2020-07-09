@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -79,7 +80,7 @@ namespace TcpCommunicator.TestGui.Logic
                     break;
 
                 case ConnectionMode.Passive:
-                    tcpCommunicator = new TcpCommunicatorPassive(connParams.Port);
+                    tcpCommunicator = new TcpCommunicatorPassive(IPAddress.Any, connParams.Port);
                     break;
 
                 default:
