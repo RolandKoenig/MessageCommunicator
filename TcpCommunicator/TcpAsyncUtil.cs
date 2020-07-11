@@ -55,23 +55,22 @@ namespace TcpCommunicator
             socket = null;
         }
 
-        public static string ToHexString(ArraySegment<byte> bytes)
+        public static string ToHexString(ReadOnlySpan<byte> bytes)
         {
-            if (bytes.Array == null) { return string.Empty;}
+            if (bytes.Length == 0) { return string.Empty; }
+
             const string HEX_ALPHABET = "0123456789ABCDEF";
 
-            var length = bytes.Count;
+            var length = bytes.Length;
             if (length > 1) { length += (length - 1); }
-
             var stringBuffer = StringBuffer.Acquire(length);
             try
             {
-                var max = bytes.Offset + bytes.Count;
-                for (var loop = bytes.Offset; loop < max; loop++)
+                for (var loop = 0; loop < bytes.Length; loop++)
                 {
                     if(stringBuffer.Count > 0){ stringBuffer.Append(' '); }
 
-                    var actByte = bytes.Array[loop];
+                    var actByte = bytes[loop];
                     stringBuffer.Append(HEX_ALPHABET[actByte >> 4]);
                     stringBuffer.Append(HEX_ALPHABET[actByte & 0xF]);
                 }

@@ -24,7 +24,7 @@ namespace TcpCommunicator
 
     public interface ITcpCommunicator
     {
-        Action<ArraySegment<byte>>? ReceiveHandler { get; set; }
+        void RegisterResponseProcessor(ITcpResponseProcessor responseProcessor);
 
         Task<bool> SendAsync(ArraySegment<byte> messageToSend);
     }

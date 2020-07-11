@@ -18,8 +18,6 @@ namespace TcpCommunicator
             _encoding = encoding;
             _endSymbols = endSymbols;
             _receiveStringBuffer = new StringBuffer(1024);
-
-            communicator.ReceiveHandler = this.OnReceiveBytes;
         }
 
         /// <inheritdoc />
@@ -56,11 +54,12 @@ namespace TcpCommunicator
             }
         }
 
-        private void OnReceiveBytes(ArraySegment<byte> receivedSegment)
+        public override void OnReceivedBytes(bool isNewConnection, ReadOnlySpan<byte> receivedSegment)
         {
-            if (receivedSegment.Array == null) { return; }
-            if (receivedSegment.Count == 0) { return; }
+            // Clear receive buffer on new connections
+            if (isNewConnection) { _receiveStringBuffer.Clear(); }
 
+            if (receivedSegment.Length <= 0) { return; }
             _receiveStringBuffer.Append(receivedSegment, _encoding);
 
             bool endSymbolsMatch;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.Mail;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace TcpCommunicator
         public abstract bool IsRunning { get; }
 
         public abstract ConnectionState State { get; }
+
+        public ITcpResponseProcessor? ResponseProcessor { get; private set; }
 
         public string RemoteEndpointDescription
         {
@@ -51,8 +54,6 @@ namespace TcpCommunicator
         /// A custom logger. If set, this delegate will be called with all relevant events.
         /// </summary>
         public Action<LoggingMessage>? Logger { get; set; }
-
-        public Action<ArraySegment<byte>>? ReceiveHandler { get; set; }
 
         protected bool IsLoggerSet => this.Logger != null;
 
@@ -95,6 +96,21 @@ namespace TcpCommunicator
         /// Stops the communicator.
         /// </summary>
         public abstract void Stop();
+
+        /// <inheritdoc />
+        public void RegisterResponseProcessor(ITcpResponseProcessor responseProcessor)
+        {
+            if (this.ResponseProcessor != null)
+            {
+                throw new ApplicationException("ResponseProcessor already set!");
+            }
+            this.ResponseProcessor = responseProcessor;
+        }
+
+        public void DeregisterResponseProcessor()
+        {
+            this.ResponseProcessor = null;
+        }
 
         /// <summary>
         /// Tries to send the given message to the currently connected partner
@@ -153,6 +169,7 @@ namespace TcpCommunicator
         {
             var localEndPointStr = localEndPoint.ToString();
             var partnerEndPointStr = partnerEndPoint.ToString();
+            var newConnection = true;
 
             if (this.IsLoggerSet)
             {
@@ -172,10 +189,15 @@ namespace TcpCommunicator
                     lastReceiveResult = await tcpClient.Client
                         .ReceiveAsync(new ArraySegment<byte>(receiveBuffer), SocketFlags.None)
                         .ConfigureAwait(false);
-                    
+
                     // Reset receive result if we where canceled already
-                    if (cancelToken.IsCancellationRequested)
+                    if (lastReceiveResult == 0)
                     {
+                        this.Log(LoggingMessageType.Info, "Connection closed by remote partner");
+                    }
+                    else if (cancelToken.IsCancellationRequested)
+                    {
+                        this.Log(LoggingMessageType.Info, "Connection canceled by local program");
                         lastReceiveResult = 0;
                     }
                 }
@@ -215,23 +237,30 @@ namespace TcpCommunicator
                 }
 
                 if (lastReceiveResult <= 0) { break; }
-                var receivedSegment = new ArraySegment<byte>(receiveBuffer, 0, lastReceiveResult);
+                this.ProcessReceivedBytes(newConnection, receiveBuffer, lastReceiveResult);
 
-                // Log currently received bytes
-                if (this.IsLoggerSet)
-                {
-                    this.Log(
-                        LoggingMessageType.Info,
-                        StringBuffer.Format("Received {0} bytes: {1}", receivedSegment.Count, TcpAsyncUtil.ToHexString(receivedSegment)));
-                }
-
-                // Notify received bytes
-                var receiveHandler = this.ReceiveHandler;
-                receiveHandler?.Invoke(receivedSegment);
+                newConnection = false;
             }
 
             // Ensure that the socket is closed after ending this method
             TcpAsyncUtil.SafeDispose(ref tcpClient);
+        }
+
+        private void ProcessReceivedBytes(bool newConnection, byte[] receiveBuffer, int receivedBytesCount)
+        {
+            var receivedSpan = new ReadOnlySpan<byte>(receiveBuffer, 0, receivedBytesCount);
+
+            // Log currently received bytes
+            if (this.IsLoggerSet)
+            {
+                this.Log(
+                    LoggingMessageType.Info,
+                    StringBuffer.Format("Received {0} bytes: {1}", receivedSpan.Length, TcpAsyncUtil.ToHexString(receivedSpan)));
+            }
+
+            // Notify received bytes
+            var responseProcessor = this.ResponseProcessor;
+            responseProcessor?.OnReceivedBytes(newConnection, receivedSpan);
         }
     }
 }

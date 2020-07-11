@@ -52,18 +52,16 @@ namespace TcpCommunicator.Util
             }
         }
 
-        public void Append(ArraySegment<byte> bytes, Encoding encoding)
+        public void Append(ReadOnlySpan<byte> bytes, Encoding encoding)
         {
-            if (bytes.Array == null) { return; }
-            if (bytes.Count == 0) { return; }
+            if (bytes.Length <= 0) { return; }
 
-            var charCount = encoding.GetCharCount(
-                bytes.Array, bytes.Offset, bytes.Count);
+            var charCount = encoding.GetCharCount(bytes);
             this.CheckCapacity(charCount);
 
             encoding.GetChars(
-                bytes.Array, bytes.Offset, bytes.Count,
-                _buffer, _currentCount);
+                bytes, new Span<char>(_buffer, _currentCount, charCount));
+
             _currentCount += charCount;
         }
 
