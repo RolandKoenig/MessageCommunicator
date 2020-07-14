@@ -28,28 +28,26 @@ namespace TcpCommunicator.Util
             _currentCount = remaining;
         }
 
-        public ArraySegment<char> GetPart(int offset, int count)
+        public ReadOnlySpan<char> GetPart(int offset, int count)
         {
-            return new ArraySegment<char>(
+            return new ReadOnlySpan<char>(
                 _buffer,
                 offset, count);
         }
 
-        public void Append(ArraySegment<char> arraySegment)
+        public void Append(ReadOnlySpan<char> span)
         {
-            if (arraySegment.Array == null)
+            if (span.Length <= 0)
             {
-                throw new ArgumentNullException(nameof(arraySegment.Array));
-            }
-            if (arraySegment.Offset < 0 || arraySegment.Offset + arraySegment.Count > arraySegment.Array.Length)
-            {
-                throw new ArgumentOutOfRangeException(nameof(arraySegment.Offset));
+                throw new ArgumentNullException(nameof(span));
             }
 
-            fixed (char* s = &arraySegment.Array[arraySegment.Offset])
+            this.CheckCapacity(span.Length);
+            for(var indexSource=0; indexSource<span.Length; indexSource++)
             {
-                this.Append(s, arraySegment.Count);
+                _buffer[_currentCount + indexSource] = span[indexSource];
             }
+            _currentCount += span.Length;
         }
 
         public void Append(ReadOnlySpan<byte> bytes, Encoding encoding)

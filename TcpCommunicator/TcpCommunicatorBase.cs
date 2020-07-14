@@ -117,10 +117,9 @@ namespace TcpCommunicator
         /// </summary>
         /// <param name="buffer">The bytes to be sent</param>
         /// <returns>True when sending was successful</returns>
-        public async Task<bool> SendAsync(ArraySegment<byte> buffer)
+        public async Task<bool> SendAsync(ReadOnlyMemory<byte> buffer)
         {
-            if ((buffer.Array == null) ||
-                (buffer.Count == 0))
+            if(buffer.Length <= 0)
             {
                 this.Log(LoggingMessageType.Error, "Unable to send message: Message is empty!");
                 return false;
@@ -142,7 +141,7 @@ namespace TcpCommunicator
                 {
                     this.Log(
                         LoggingMessageType.Info,
-                        StringBuffer.Format("Sent {0} bytes: {1}", buffer.Count, TcpAsyncUtil.ToHexString(buffer)));
+                        StringBuffer.Format("Sent {0} bytes: {1}", buffer.Length, TcpAsyncUtil.ToHexString(buffer.Span)));
                 }
                 
                 return true;
@@ -187,7 +186,7 @@ namespace TcpCommunicator
                 {
                     // Read next bytes
                     lastReceiveResult = await tcpClient.Client
-                        .ReceiveAsync(new ArraySegment<byte>(receiveBuffer), SocketFlags.None)
+                        .ReceiveAsync(new Memory<byte>(receiveBuffer), SocketFlags.None)
                         .ConfigureAwait(false);
 
                     // Reset receive result if we where canceled already

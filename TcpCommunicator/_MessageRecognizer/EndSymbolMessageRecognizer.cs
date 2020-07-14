@@ -39,7 +39,7 @@ namespace TcpCommunicator
                 sendBuffer = null;
 
                 await this.Communicator.SendAsync(
-                    new ArraySegment<byte>(bytes, 0, sendMessageByteLength));
+                    new ReadOnlyMemory<byte>(bytes, 0, sendMessageByteLength));
             }
             finally
             {

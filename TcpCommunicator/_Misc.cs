@@ -24,9 +24,11 @@ namespace TcpCommunicator
 
     public interface ITcpCommunicator
     {
+        public ITcpResponseProcessor? ResponseProcessor { get; }
+
         void RegisterResponseProcessor(ITcpResponseProcessor responseProcessor);
 
-        Task<bool> SendAsync(ArraySegment<byte> messageToSend);
+        Task<bool> SendAsync(ReadOnlyMemory<byte> messageToSend);
     }
 
     public readonly struct LoggingMessage
