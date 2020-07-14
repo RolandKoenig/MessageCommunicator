@@ -93,11 +93,18 @@ namespace TcpCommunicator.TestGui.Logic
             switch (connParams.RecognitionMode)
             {
                 case MessageRecognitionMode.Default:
-                    messageRecognizer = new DefaultMessageRecognizer(tcpCommunicator, Encoding.UTF8);
+                    var settingsRecognizerDefault = (MessageRecognizerDefaultSettings)connParams.RecognizerSettings;
+                    messageRecognizer = new DefaultMessageRecognizer(
+                        tcpCommunicator, 
+                        Encoding.GetEncoding(settingsRecognizerDefault.Encoding));
                     break;
 
                 case MessageRecognitionMode.EndSymbol:
-                    messageRecognizer = new EndSymbolMessageRecognizer(tcpCommunicator, Encoding.UTF8, new char[]{ '#', '#' });
+                    var settingsRecognizerEndSymbol = (MessageRecognizerEndSymbolSettings)connParams.RecognizerSettings;
+                    messageRecognizer = new EndSymbolMessageRecognizer(
+                        tcpCommunicator, 
+                        Encoding.GetEncoding(settingsRecognizerEndSymbol.Encoding), 
+                        new char[]{ '#', '#' });
                     break;
 
                 default:

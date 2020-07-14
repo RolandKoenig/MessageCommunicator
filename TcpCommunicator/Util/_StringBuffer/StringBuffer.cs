@@ -1043,10 +1043,10 @@ namespace TcpCommunicator.Util
         public readonly int DecimalDigits;
         public readonly string NegativeSign;
         public readonly string DecimalSeparator;
-        public readonly string GroupSeparator;
-        public readonly int[] GroupSizes;
+        public readonly string? GroupSeparator;
+        public readonly int[]? GroupSizes;
 
-        public NumberFormatData (int decimalDigits, string negativeSign, string decimalSeparator, string groupSeparator, int[] groupSizes, int extra) {
+        public NumberFormatData (int decimalDigits, string negativeSign, string decimalSeparator, string? groupSeparator, int[]? groupSizes, int extra) {
             DecimalDigits = decimalDigits;
             NegativeSign = negativeSign;
             DecimalSeparator = decimalSeparator;
@@ -1739,7 +1739,7 @@ namespace TcpCommunicator.Util
                 var groupSizeCount = groups[0];
                 var groupSizeLen = groups.Length;
                 var newBufferSize = digitPos;
-                var groupSeparatorLen = data.GroupSeparator.Length;
+                var groupSeparatorLen = data.GroupSeparator!.Length;
                 var groupSize = 0;
 
                 // figure out the size of the result

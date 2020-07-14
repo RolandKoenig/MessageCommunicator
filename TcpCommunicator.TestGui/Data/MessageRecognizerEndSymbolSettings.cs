@@ -10,7 +10,8 @@ namespace TcpCommunicator.TestGui.Data
         private const string CATEGORY = "EndSymbol Recognizer";
 
         [Category(CATEGORY)]
-        public string Encoding { get; set; } = string.Empty;
+        [EncodingWebName]
+        public string Encoding { get; set; } = "utf-8";
 
         [Category(CATEGORY)]
         public string EndSymbols { get; set; } = string.Empty;

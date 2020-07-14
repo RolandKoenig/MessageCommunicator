@@ -14,11 +14,11 @@ namespace TcpCommunicator.TestGui.Views
 
         public ConnectionProfile Model { get; }
 
-        public ReactiveCommand<object, Unit> Command_Start { get; }
+        public ReactiveCommand<object?, Unit> Command_Start { get; }
 
-        public ReactiveCommand<object, Unit> Command_Stop { get; }
+        public ReactiveCommand<object?, Unit> Command_Stop { get; }
 
-        public ReactiveCommand<string, Unit> Command_SendMessage { get; }
+        public ReactiveCommand<string?, Unit> Command_SendMessage { get; }
 
         public bool IsRunning
         {
@@ -70,24 +70,25 @@ namespace TcpCommunicator.TestGui.Views
             this.Model = connProfile;
             _remoteEndpointDescription = string.Empty;
 
-            this.Command_Start = ReactiveCommand.Create<object>(arg =>
+            this.Command_Start = ReactiveCommand.Create<object?>(arg =>
             {
                 if (!this.Model.IsRunning)
                 {
                     this.Model.Start();
                 }
             });
-            this.Command_Stop = ReactiveCommand.Create<object>(arg =>
+            this.Command_Stop = ReactiveCommand.Create<object?>(arg =>
             {
                 if (this.Model.IsRunning)
                 {
                     this.Model.Stop();
                 }
             });
-            this.Command_SendMessage = ReactiveCommand.CreateFromTask<string>(async message =>
+            this.Command_SendMessage = ReactiveCommand.CreateFromTask<string?>(async message =>
             {
                 try
                 {
+                    if (message == null) { return; }
                     await this.Model.SendMessageAsync(message);
                 }
                 catch (Exception e)

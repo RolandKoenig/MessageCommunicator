@@ -12,6 +12,8 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Styling;
 using ReactiveUI;
+using SharpDX.Text;
+using Encoding = System.Text.Encoding;
 
 namespace TcpCommunicator.TestGui
 {
@@ -145,6 +147,17 @@ namespace TcpCommunicator.TestGui
                             BindingMode.TwoWay);
                         ctrlComboBox.Width = double.NaN;
                         ctrlValueEdit = ctrlComboBox;
+                        break;
+
+                    case PropertyValueType.EncodingWebName:
+                        var ctrlComboBoxEnc = new ComboBox();
+                        ctrlComboBoxEnc.Items = Encoding.GetEncodings()
+                            .Select(actEncodingInfo => actEncodingInfo.Name);
+                        ctrlComboBoxEnc[!SelectingItemsControl.SelectedItemProperty] = new Binding(
+                            nameof(actProperty.ValueAccessor),
+                            BindingMode.TwoWay);
+                        ctrlComboBoxEnc.Width = double.NaN;
+                        ctrlValueEdit = ctrlComboBoxEnc;
                         break;
 
                     case PropertyValueType.DetailSettings:

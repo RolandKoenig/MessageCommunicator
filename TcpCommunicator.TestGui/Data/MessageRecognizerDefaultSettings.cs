@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace TcpCommunicator.TestGui.Data
 {
@@ -10,6 +11,7 @@ namespace TcpCommunicator.TestGui.Data
         private const string CATEGORY = "Default Recognizer";
 
         [Category(CATEGORY)]
-        public string Encoding { get; set; } = string.Empty;
+        [EncodingWebName]
+        public string Encoding { get; set; } = "utf-8";
     }
 }

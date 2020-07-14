@@ -11,6 +11,8 @@ namespace TcpCommunicator.TestGui
         String,
 
         Enum,
+
+        EncodingWebName,
          
         DetailSettings
     }

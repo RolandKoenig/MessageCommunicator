@@ -23,6 +23,7 @@
 using System;
 using System.ComponentModel;
 using System.Reflection;
+using System.Text;
 
 namespace TcpCommunicator.TestGui
 {
@@ -77,7 +78,11 @@ namespace TcpCommunicator.TestGui
             }
 
             var propertyType = _propertyInfo.PropertyType;
-            if (propertyType == typeof(bool))
+            if (_propertyInfo.GetCustomAttribute<EncodingWebNameAttribute>() != null)
+            {
+                this.ValueType = PropertyValueType.EncodingWebName;
+            }
+            else if (propertyType == typeof(bool))
             {
                 this.ValueType = PropertyValueType.Bool;
             }
