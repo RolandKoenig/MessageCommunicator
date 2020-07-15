@@ -27,7 +27,7 @@ using System.Text;
 
 namespace TcpCommunicator.TestGui
 {
-    public class ConfigurablePropertyMetadata
+    public class ConfigurablePropertyMetadata : PropertyChangedBase
     {
         private object _hostObject;
         private PropertyInfo _propertyInfo;
@@ -35,7 +35,14 @@ namespace TcpCommunicator.TestGui
         public object ValueAccessor
         {
             get => this.GetValue();
-            set => this.SetValue(value);
+            set
+            {
+                if (value != this.GetValue())
+                {
+                    this.SetValue(value);
+                    this.RaisePropertyChanged(nameof(this.ValueAccessor));
+                }
+            }
         }
 
         public string CategoryName

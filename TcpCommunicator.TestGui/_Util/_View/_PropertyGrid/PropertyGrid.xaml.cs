@@ -63,11 +63,11 @@ namespace TcpCommunicator.TestGui
 
             // Define rows
             _gridMain.RowDefinitions.Clear();
-            var rowCount = lstProperties.Count + lstPropertyCategories.Count;
-            for (var loop = 0; loop < rowCount; loop++)
-            {
-                _gridMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(35.0) });
-            }
+            //var rowCount = lstProperties.Count + lstPropertyCategories.Count;
+            //for (var loop = 0; loop < rowCount; loop++)
+            //{
+            //    _gridMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(70.0) });
+            //}
 
             // Create all controls
             var actRowIndex = 0;
@@ -76,6 +76,8 @@ namespace TcpCommunicator.TestGui
             {
                 if (actProperty.CategoryName != actCategory)
                 {
+                    _gridMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(35) });
+
                     actCategory = actProperty.CategoryName;
 
                     var txtHeader = new TextBlock
@@ -107,21 +109,23 @@ namespace TcpCommunicator.TestGui
                     actRowIndex++;
                 }
 
-                var ctrlText = new TextBlock
-                {
-                    Text = actProperty.PropertyDisplayName
-                };
-
-                ctrlText.SetValue(Grid.RowProperty, actRowIndex);
-                ctrlText.SetValue(Grid.ColumnProperty, 0);
-                ctrlText.Margin = new Thickness(5d, 5d, 50d, 5d);
+                var ctrlText = new TextBlock();
+                ctrlText.Text = actProperty.PropertyDisplayName;
                 ctrlText.VerticalAlignment = VerticalAlignment.Center;
-                _gridMain.Children.Add(ctrlText);
+
+                var ctrlTextContainer = new Border();
+                ctrlTextContainer.Height = 35.0;
+                ctrlTextContainer.Child = ctrlText;
+                ctrlTextContainer.SetValue(Grid.RowProperty, actRowIndex);
+                ctrlTextContainer.SetValue(Grid.ColumnProperty, 0);
+                ctrlTextContainer.VerticalAlignment = VerticalAlignment.Top;
+                _gridMain.Children.Add(ctrlTextContainer);
 
                 Control? ctrlValueEdit = null;
                 switch (actProperty.ValueType)
                 {
                     case PropertyValueType.Bool:
+                        _gridMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(35) });
                         var ctrlCheckBox = new CheckBox();
                         ctrlCheckBox[!ToggleButton.IsCheckedProperty] = new Binding(
                             nameof(actProperty.ValueAccessor),
@@ -131,6 +135,7 @@ namespace TcpCommunicator.TestGui
                         break;
 
                     case PropertyValueType.String:
+                        _gridMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(35) });
                         var ctrlTextBox = new TextBox();
                         ctrlTextBox[!TextBox.TextProperty] = new Binding(
                             nameof(actProperty.ValueAccessor),
@@ -140,6 +145,7 @@ namespace TcpCommunicator.TestGui
                         break;
 
                     case PropertyValueType.Enum:
+                        _gridMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(35) });
                         var ctrlComboBox = new ComboBox();
                         ctrlComboBox.Items = actProperty.GetEnumMembers();
                         ctrlComboBox[!SelectingItemsControl.SelectedItemProperty] = new Binding(
@@ -150,6 +156,10 @@ namespace TcpCommunicator.TestGui
                         break;
 
                     case PropertyValueType.EncodingWebName:
+                        _gridMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(75) });
+                        var stackPanel = new StackPanel();
+                        stackPanel.Orientation = Orientation.Vertical;
+
                         var ctrlComboBoxEnc = new ComboBox();
                         ctrlComboBoxEnc.Items = Encoding.GetEncodings()
                             .Select(actEncodingInfo => actEncodingInfo.Name);
@@ -157,7 +167,19 @@ namespace TcpCommunicator.TestGui
                             nameof(actProperty.ValueAccessor),
                             BindingMode.TwoWay);
                         ctrlComboBoxEnc.Width = double.NaN;
-                        ctrlValueEdit = ctrlComboBoxEnc;
+
+                        var ctrlEncDescLabel = new TextBlock();
+                        ctrlEncDescLabel[!TextBlock.TextProperty] = new Binding(
+                            nameof(actProperty.ValueAccessor),
+                            BindingMode.OneWay)
+                        {
+                            Converter = new EncodingWebNameToDescriptionConverter()
+                        };
+
+                        stackPanel.Children.Add(ctrlComboBoxEnc);
+                        stackPanel.Children.Add(ctrlEncDescLabel);
+
+                        ctrlValueEdit = stackPanel;
                         break;
 
                     case PropertyValueType.DetailSettings:
