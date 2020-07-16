@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 using JetBrains.Annotations;
 
 namespace TcpCommunicator.TestGui
@@ -17,10 +16,12 @@ namespace TcpCommunicator.TestGui
         protected virtual void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
         {
             var changeArgs = new PropertyChangedEventArgs(propertyName);
+
+            // Trigger normal event targets
             this.PropertyChanged?.Invoke(this, changeArgs);
 
+            // Trigger weak event targets
             if (_weakChangeTargets == null) { return; }
-
             for (var loop = 0; loop < _weakChangeTargets.Count; loop++)
             {
                 var actEntry = _weakChangeTargets[loop];
@@ -39,6 +40,7 @@ namespace TcpCommunicator.TestGui
                     loop--;
                 }
             }
+            if (_weakChangeTargets.Count == 0) { _weakChangeTargets = null; }
         }
 
         public void RegisterWeakPropertyChangedTarget(WeakReference key, Action<object, PropertyChangedEventArgs> action)
@@ -51,11 +53,11 @@ namespace TcpCommunicator.TestGui
         //*********************************************************************
         //*********************************************************************
         //*********************************************************************
-        private struct WeakPropertyChangedTarget
+        private readonly struct WeakPropertyChangedTarget
         {
-            public WeakReference Key { get; }
+            public readonly WeakReference Key;
 
-            public Action<object, PropertyChangedEventArgs> Action { get; }
+            public readonly Action<object, PropertyChangedEventArgs> Action;
 
             public WeakPropertyChangedTarget(WeakReference key, Action<object, PropertyChangedEventArgs> action)
             {
