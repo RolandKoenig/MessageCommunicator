@@ -89,6 +89,10 @@ namespace TcpCommunicator.TestGui
             {
                 this.ValueType = PropertyValueType.EncodingWebName;
             }
+            else if (_propertyInfo.GetCustomAttribute<TextAndHexadecimalEditAttribute>() != null)
+            {
+                this.ValueType = PropertyValueType.TextAndHexadecimalEdit;
+            }
             else if (propertyType == typeof(bool))
             {
                 this.ValueType = PropertyValueType.Bool;
@@ -144,6 +148,12 @@ namespace TcpCommunicator.TestGui
             {
                 _propertyInfo.SetValue(_hostObject, Convert.ChangeType(value, targetType));
             }
+        }
+
+        public T? GetCustomAttribute<T>()
+            where T : Attribute
+        {
+            return _propertyInfo.GetCustomAttribute<T>();
         }
     }
 }

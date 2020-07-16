@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -10,25 +9,35 @@ using Avalonia.Data;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
-using Avalonia.Styling;
-using ReactiveUI;
-using SharpDX.Text;
-using Encoding = System.Text.Encoding;
+using System.Text;
 
 namespace TcpCommunicator.TestGui
 {
     public class PropertyGrid : UserControl
     {
         public static readonly StyledProperty<object> SelectedObjectProperty =
-            AvaloniaProperty.Register<PropertyGrid, object>(nameof(SelectedObject), typeof(object), notifying: OnSelectedObjectChanged);
+            AvaloniaProperty.Register<PropertyGrid, object>(
+                nameof(SelectedObject), typeof(object), 
+                notifying: OnSelectedObjectChanged);
+
+        public static readonly StyledProperty<PropertyGridEditControlFactory> EditControlFactoryProperty =
+            AvaloniaProperty.Register<PropertyGrid, PropertyGridEditControlFactory>(
+                nameof(EditControlFactory),
+                new PropertyGridEditControlFactory());
 
         private PropertyGridViewModel _propertyGridVM;
         private Grid _gridMain;
 
-        public object SelectedObject
+        public object? SelectedObject
         {
             get => this.GetValue(SelectedObjectProperty);
             set => this.SetValue(SelectedObjectProperty, value);
+        }
+
+        public PropertyGridEditControlFactory? EditControlFactory
+        {
+            get => this.GetValue(EditControlFactoryProperty);
+            set => this.SetValue(EditControlFactoryProperty, value);
         }
 
         public PropertyGrid()
@@ -53,27 +62,18 @@ namespace TcpCommunicator.TestGui
         private void UpdatePropertiesView()
         {
             _gridMain.Children.Clear();
+            _gridMain.RowDefinitions.Clear();
 
             var lstProperties = new List<ConfigurablePropertyMetadata>(_propertyGridVM.PropertyMetadata);
-            lstProperties.Sort((left, right) => left.CategoryName.CompareTo(right.CategoryName));
-            var lstPropertyCategories = lstProperties
-                .Select(actProperty => actProperty.CategoryName)
-                .Distinct()
-                .ToList();
-
-            // Define rows
-            _gridMain.RowDefinitions.Clear();
-            //var rowCount = lstProperties.Count + lstPropertyCategories.Count;
-            //for (var loop = 0; loop < rowCount; loop++)
-            //{
-            //    _gridMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(70.0) });
-            //}
+            lstProperties.Sort((left, right) => string.Compare(left.CategoryName, right.CategoryName, StringComparison.Ordinal));
 
             // Create all controls
             var actRowIndex = 0;
             var actCategory = string.Empty;
+            var editControlFactory = this.EditControlFactory;
             foreach (var actProperty in _propertyGridVM.PropertyMetadata)
             {
+                // Create category rows
                 if (actProperty.CategoryName != actCategory)
                 {
                     _gridMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(35) });
@@ -109,11 +109,11 @@ namespace TcpCommunicator.TestGui
                     actRowIndex++;
                 }
 
+                // Create row header
+                var ctrlTextContainer = new Border();
                 var ctrlText = new TextBlock();
                 ctrlText.Text = actProperty.PropertyDisplayName;
                 ctrlText.VerticalAlignment = VerticalAlignment.Center;
-
-                var ctrlTextContainer = new Border();
                 ctrlTextContainer.Height = 35.0;
                 ctrlTextContainer.Child = ctrlText;
                 ctrlTextContainer.SetValue(Grid.RowProperty, actRowIndex);
@@ -121,79 +121,21 @@ namespace TcpCommunicator.TestGui
                 ctrlTextContainer.VerticalAlignment = VerticalAlignment.Top;
                 _gridMain.Children.Add(ctrlTextContainer);
 
-                Control? ctrlValueEdit = null;
-                switch (actProperty.ValueType)
-                {
-                    case PropertyValueType.Bool:
-                        _gridMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(35) });
-                        var ctrlCheckBox = new CheckBox();
-                        ctrlCheckBox[!ToggleButton.IsCheckedProperty] = new Binding(
-                            nameof(actProperty.ValueAccessor),
-                            BindingMode.TwoWay);
-                        ctrlValueEdit = ctrlCheckBox;
-                        ctrlValueEdit.HorizontalAlignment = HorizontalAlignment.Left;
-                        break;
-
-                    case PropertyValueType.String:
-                        _gridMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(35) });
-                        var ctrlTextBox = new TextBox();
-                        ctrlTextBox[!TextBox.TextProperty] = new Binding(
-                            nameof(actProperty.ValueAccessor),
-                            BindingMode.TwoWay);
-                        ctrlTextBox.Width = double.NaN;
-                        ctrlValueEdit = ctrlTextBox;
-                        break;
-
-                    case PropertyValueType.Enum:
-                        _gridMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(35) });
-                        var ctrlComboBox = new ComboBox();
-                        ctrlComboBox.Items = actProperty.GetEnumMembers();
-                        ctrlComboBox[!SelectingItemsControl.SelectedItemProperty] = new Binding(
-                            nameof(actProperty.ValueAccessor),
-                            BindingMode.TwoWay);
-                        ctrlComboBox.Width = double.NaN;
-                        ctrlValueEdit = ctrlComboBox;
-                        break;
-
-                    case PropertyValueType.EncodingWebName:
-                        _gridMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(75) });
-                        var stackPanel = new StackPanel();
-                        stackPanel.Orientation = Orientation.Vertical;
-
-                        var ctrlComboBoxEnc = new ComboBox();
-                        ctrlComboBoxEnc.Items = Encoding.GetEncodings()
-                            .Select(actEncodingInfo => actEncodingInfo.Name);
-                        ctrlComboBoxEnc[!SelectingItemsControl.SelectedItemProperty] = new Binding(
-                            nameof(actProperty.ValueAccessor),
-                            BindingMode.TwoWay);
-                        ctrlComboBoxEnc.Width = double.NaN;
-
-                        var ctrlEncDescLabel = new TextBlock();
-                        ctrlEncDescLabel[!TextBlock.TextProperty] = new Binding(
-                            nameof(actProperty.ValueAccessor),
-                            BindingMode.OneWay)
-                        {
-                            Converter = new EncodingWebNameToDescriptionConverter()
-                        };
-
-                        stackPanel.Children.Add(ctrlComboBoxEnc);
-                        stackPanel.Children.Add(ctrlEncDescLabel);
-
-                        ctrlValueEdit = stackPanel;
-                        break;
-
-                    case PropertyValueType.DetailSettings:
-                        break;
-                }
-
+                // Create and configure row editor
+                var ctrlValueEdit = editControlFactory?.CreateControl(actProperty, _propertyGridVM.PropertyMetadata);
                 if (ctrlValueEdit != null)
                 {
+                    _gridMain.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
                     ctrlValueEdit.Margin = new Thickness(0d, 0d, 5d, 0d);
                     ctrlValueEdit.VerticalAlignment = VerticalAlignment.Center;
                     ctrlValueEdit.SetValue(Grid.RowProperty, actRowIndex);
                     ctrlValueEdit.SetValue(Grid.ColumnProperty, 1);
                     ctrlValueEdit.DataContext = actProperty;
                     _gridMain.Children.Add(ctrlValueEdit);
+                }
+                else
+                {
+                    _gridMain.RowDefinitions.Add(new RowDefinition(1.0, GridUnitType.Pixel));
                 }
 
                 actRowIndex++;

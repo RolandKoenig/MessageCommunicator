@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 
 namespace TcpCommunicator.TestGui.Data
 {
@@ -14,6 +13,7 @@ namespace TcpCommunicator.TestGui.Data
         public string Encoding { get; set; } = "utf-8";
 
         [Category(CATEGORY)]
+        [TextAndHexadecimalEdit(nameof(Encoding))]
         public string EndSymbols { get; set; } = string.Empty;
     }
 }

@@ -13,6 +13,8 @@ namespace TcpCommunicator.TestGui
         Enum,
 
         EncodingWebName,
+
+        TextAndHexadecimalEdit,
          
         DetailSettings
     }
