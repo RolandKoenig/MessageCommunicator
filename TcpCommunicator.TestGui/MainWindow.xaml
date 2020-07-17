@@ -18,7 +18,7 @@
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150" MinWidth="100" />
+                <ColumnDefinition Width="250" MinWidth="100" />
                 <ColumnDefinition Width="3" MaxWidth="3" MinWidth="3" />
                 <ColumnDefinition Width="*" MinWidth="100" />
             </Grid.ColumnDefinitions>
@@ -54,6 +54,27 @@
                                   Command="{Binding Path=Command_DeleteProfile}">
                             <MenuItem.Header>
                                 <DrawingPresenter Drawing="{StaticResource ResourceKey=IconRemove}" 
+                                                  Width="16" Height="16"
+                                                  Margin="2"/>
+                            </MenuItem.Header>
+                        </MenuItem>
+                      
+                        <Separator Classes="Vertical" />
+                      
+                        <MenuItem ToolTip.Tip="Start profile" 
+                                  IsEnabled="{Binding Path=#LstProfiles.SelectedItem.CanStart}"
+                                  Command="{Binding Path=#LstProfiles.SelectedItem.Command_Start}">
+                            <MenuItem.Header>
+                                <DrawingPresenter Drawing="{StaticResource ResourceKey=IconStart}" 
+                                                  Width="16" Height="16"
+                                                  Margin="2"/>
+                            </MenuItem.Header>
+                        </MenuItem>
+                        <MenuItem ToolTip.Tip="Stop profile" 
+                                  IsEnabled="{Binding Path=#LstProfiles.SelectedItem.CanStop}"
+                                  Command="{Binding Path=#LstProfiles.SelectedItem.Command_Stop}">
+                            <MenuItem.Header>
+                                <DrawingPresenter Drawing="{StaticResource ResourceKey=IconStop}" 
                                                   Width="16" Height="16"
                                                   Margin="2"/>
                             </MenuItem.Header>
