@@ -8,10 +8,6 @@
              x:Class="TcpCommunicator.TestGui.Views.ConnectionProfileView">
 
     <DockPanel LastChildFill="True">
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="Dummy" />
-        </Menu>
-
         <DockPanel DockPanel.Dock="Bottom"
                    LastChildFill="True">
             <Button Content="Send" Width="150"
@@ -24,22 +20,28 @@
                      Margin="3" />
         </DockPanel>
 
-        <DataGrid Items="{Binding Path=Model.Logging}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="TimeStamp"
-                                    IsReadOnly="True"
-                                    Binding="{Binding Path=TimeStamp}"
-                                    Width="150" />
-                <DataGridTextColumn Header="Type"
-                                    IsReadOnly="True"
-                                    Binding="{Binding Path=MessageType}"
-                                    Width="76" />
-                <DataGridTextColumn Header="Message"
-                                    IsReadOnly="True"
-                                    Binding="{Binding Path=Message}"
-                                    Width="1000" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <TabControl>
+            <TabItem Header="Details">
+                <DataGrid Items="{Binding Path=Model.Logging}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="TimeStamp"
+                                            IsReadOnly="True"
+                                            Binding="{Binding Path=TimeStamp}"
+                                            Width="150" />
+                        <DataGridTextColumn Header="Type"
+                                            IsReadOnly="True"
+                                            Binding="{Binding Path=MessageType}"
+                                            Width="76" />
+                        <DataGridTextColumn Header="Message"
+                                            IsReadOnly="True"
+                                            Binding="{Binding Path=Message}"
+                                            Width="1000" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Messages">
+              
+            </TabItem>
+        </TabControl>
     </DockPanel>
-
 </UserControl>
