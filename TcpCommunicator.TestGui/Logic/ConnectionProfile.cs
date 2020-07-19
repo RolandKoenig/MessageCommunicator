@@ -19,7 +19,9 @@ namespace TcpCommunicator.TestGui.Logic
 
         public ConnectionParameters Parameters { get; private set; }
 
-        public ObservableCollection<LoggingMessageWrapper> Logging { get; } = new ObservableCollection<LoggingMessageWrapper>();
+        public ObservableCollection<LoggingMessageWrapper> DetailLogging { get; } = new ObservableCollection<LoggingMessageWrapper>();
+
+        public ObservableCollection<LoggingMessageWrapper> Messages { get; } = new ObservableCollection<LoggingMessageWrapper>();
 
         public bool IsRunning => _tcpCommunicator.IsRunning;
 
@@ -52,9 +54,16 @@ namespace TcpCommunicator.TestGui.Logic
             }
         }
 
-        public Task SendMessageAsync(string message)
+        public async Task SendMessageAsync(string message)
         {
-            return _messageRecognizer.SendAsync(message);
+            if (await _messageRecognizer.SendAsync(message))
+            {
+                var newLoggingMessage = new LoggingMessage(
+                    _tcpCommunicator, DateTime.UtcNow, LoggingMessageType.Info, $"Message sent: {message}", null);
+
+                LogTo(_syncContext, newLoggingMessage, this.DetailLogging);
+                LogTo(_syncContext, newLoggingMessage, this.Messages);
+            }
         }
 
         public void Start()
@@ -116,26 +125,32 @@ namespace TcpCommunicator.TestGui.Logic
             _messageRecognizer = messageRecognizer;
         }
 
-        private void OnLoggingMessage(LoggingMessage logMessage)
+        private static void LogTo(SynchronizationContext syncContext, LoggingMessage logMessage, ObservableCollection<LoggingMessageWrapper> collection)
         {
-            _syncContext.Post(arg =>
+            syncContext.Post(arg =>
             {
-                this.Logging.Insert(0, new LoggingMessageWrapper(logMessage));
-
-                while (this.Logging.Count > 1000)
+                collection.Insert(0, new LoggingMessageWrapper(logMessage));
+                while (collection.Count > 1000)
                 {
-                    this.Logging.RemoveAt(1000);
+                    collection.RemoveAt(1000);
                 }
             }, null);
+        }
+
+        private void OnLoggingMessage(LoggingMessage logMessage)
+        {
+            LogTo(_syncContext, logMessage, this.DetailLogging);
         }
 
         private void OnMessageReceived(Message message)
         {
             try
             {
-                this.OnLoggingMessage(
-                    new LoggingMessage(
-                        _tcpCommunicator, DateTime.UtcNow, LoggingMessageType.Info, message.RawMessage.ToString(), null));
+                var newLoggingMessage = new LoggingMessage(
+                    _tcpCommunicator, DateTime.UtcNow, LoggingMessageType.Info, $"Message received: {message.RawMessage}", null);
+
+                LogTo(_syncContext, newLoggingMessage, this.DetailLogging);
+                LogTo(_syncContext, newLoggingMessage, this.Messages);
             }
             finally
             {

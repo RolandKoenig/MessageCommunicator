@@ -17,7 +17,7 @@ namespace TcpCommunicator
             communicator.RegisterResponseProcessor(this);
         }
 
-        public abstract Task SendAsync(string rawMessage);
+        public abstract Task<bool> SendAsync(string rawMessage);
 
         /// <inheritdoc />
         public abstract void OnReceivedBytes(bool isNewConnection, ReadOnlySpan<byte> receivedBytes);

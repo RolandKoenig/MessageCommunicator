@@ -21,7 +21,7 @@ namespace TcpCommunicator
         }
 
         /// <inheritdoc />
-        public override async Task SendAsync(string rawMessage)
+        public override async Task<bool> SendAsync(string rawMessage)
         {
             var sendBuffer = StringBuffer.Acquire(rawMessage.Length + _endSymbols.Length);
             byte[]? bytes = null;
@@ -38,7 +38,7 @@ namespace TcpCommunicator
                 StringBuffer.Release(sendBuffer);
                 sendBuffer = null;
 
-                await this.Communicator.SendAsync(
+                return await this.Communicator.SendAsync(
                     new ReadOnlyMemory<byte>(bytes, 0, sendMessageByteLength));
             }
             finally

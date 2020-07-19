@@ -21,8 +21,23 @@
         </DockPanel>
 
         <TabControl>
+            <TabItem Header="Messages">
+                <DataGrid Items="{Binding Path=Model.Messages}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="TimeStamp"
+                                            IsReadOnly="True"
+                                            Binding="{Binding Path=TimeStamp}"
+                                            Width="150" />
+                        <DataGridTextColumn Header="Message"
+                                            IsReadOnly="True"
+                                            Binding="{Binding Path=Message}"
+                                            Width="1000" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+          
             <TabItem Header="Details">
-                <DataGrid Items="{Binding Path=Model.Logging}">
+                <DataGrid Items="{Binding Path=Model.DetailLogging}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="TimeStamp"
                                             IsReadOnly="True"
@@ -38,9 +53,6 @@
                                             Width="1000" />
                     </DataGrid.Columns>
                 </DataGrid>
-            </TabItem>
-            <TabItem Header="Messages">
-              
             </TabItem>
         </TabControl>
     </DockPanel>
