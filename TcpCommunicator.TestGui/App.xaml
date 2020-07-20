@@ -1,6 +1,7 @@
 ﻿<Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="TcpCommunicator.TestGui.App">
+             x:Class="TcpCommunicator.TestGui.App"
+             xmlns:local="clr-namespace:TcpCommunicator.TestGui;assembly=TcpCommunicator.TestGui">
     <Application.Resources>
         <SolidColorBrush x:Key="IconColorPositive" Color="Green" />
         <SolidColorBrush x:Key="IconColorNegative" Color="Red" />
@@ -63,6 +64,7 @@
             <Setter Property="CanUserSortColumns" Value="False" />
             <Setter Property="CanUserReorderColumns" Value="False" />
             <Setter Property="SelectionMode" Value="Single" />
+            <Setter Property="local:XamlExtensions.IsDefaultGridBehaviorActive" Value="True" />
         </Style>
 
         <Style Selector="DataGridColumnHeader">
