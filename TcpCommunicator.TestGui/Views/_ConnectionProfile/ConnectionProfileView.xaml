@@ -28,6 +28,10 @@
                                             IsReadOnly="True"
                                             Binding="{Binding Path=TimeStamp}"
                                             Width="150" />
+                        <DataGridTextColumn Header="Meta data"
+                                            IsReadOnly="True"
+                                            Binding="{Binding Path=MetaData}"
+                                            Width="75" />
                         <DataGridTextColumn Header="Message"
                                             IsReadOnly="True"
                                             Binding="{Binding Path=Message}"
@@ -47,6 +51,10 @@
                                             IsReadOnly="True"
                                             Binding="{Binding Path=MessageType}"
                                             Width="76" />
+                        <DataGridTextColumn Header="Meta data"
+                                            IsReadOnly="True"
+                                            Binding="{Binding Path=MetaData}"
+                                            Width="75" />
                         <DataGridTextColumn Header="Message"
                                             IsReadOnly="True"
                                             Binding="{Binding Path=Message}"

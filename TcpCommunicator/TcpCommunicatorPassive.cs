@@ -115,7 +115,7 @@ namespace TcpCommunicator
                             this.Log(
                                 LoggingMessageType.Error, 
                                 StringBuffer.Format("Error while creating TcpListener for port {0}: {1}", this.ListeningPort, ex.Message),
-                                ex);
+                                exception: ex);
                         }
 
                         _currentListener = null;
@@ -172,7 +172,7 @@ namespace TcpCommunicator
                         this.Log(
                             LoggingMessageType.Error, 
                             StringBuffer.Format("Error while listening for incoming connections on port {0}: {1}", this.ListeningPort, ex.Message),
-                            ex);
+                            exception: ex);
                     }
 
                     TcpAsyncUtil.SafeStop(ref tcpListener);

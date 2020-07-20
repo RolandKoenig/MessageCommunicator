@@ -112,7 +112,7 @@ namespace TcpCommunicator
                             LoggingMessageType.Error,
                             StringBuffer.Format("Error while connecting to host {0} on port {1}: {2}", 
                                 remoteAddressStr, this.RemotePort, ex.Message),
-                            ex);
+                            exception: ex);
                     }
 
                     _connState = ConnectionState.Connecting;
@@ -138,7 +138,7 @@ namespace TcpCommunicator
                             StringBuffer.Format(
                                 "Error while running receive loop for host {0} on port {1}: {2}", 
                                 remoteAddressStr, this.RemotePort, ex.Message),
-                            ex);
+                            exception: ex);
                     }
                 }
 

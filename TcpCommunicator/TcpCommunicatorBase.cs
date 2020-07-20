@@ -67,12 +67,12 @@ namespace TcpCommunicator
         /// <summary>
         /// Calls current logger with the given message.
         /// </summary>
-        protected void Log(LoggingMessageType messageType, string message, Exception? exception = null)
+        protected void Log(LoggingMessageType messageType, string message, string metaData = "", Exception? exception = null)
         {
             var logger = this.Logger;
             if (logger == null) { return; }
 
-            var loggingMessage = new LoggingMessage(this, DateTime.UtcNow, messageType, message, exception);
+            var loggingMessage = new LoggingMessage(this, DateTime.UtcNow, messageType, metaData, message, exception);
             logger(loggingMessage);
         }
 
@@ -216,7 +216,7 @@ namespace TcpCommunicator
                                 partnerEndPointStr, 
                                 socketException.ErrorCode, socketException.SocketErrorCode.ToString(),
                                 socketException.Message),
-                            socketException);
+                            exception: socketException);
                     }
                     break;
                 }
@@ -230,7 +230,7 @@ namespace TcpCommunicator
                                 "Error while receiving bytes from {0}: {1}", 
                                 partnerEndPointStr,
                                 ex.Message),
-                            ex);
+                            exception: ex);
                     }
                     break;
                 }

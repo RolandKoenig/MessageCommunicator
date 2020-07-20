@@ -59,7 +59,7 @@ namespace TcpCommunicator.TestGui.Logic
             if (await _messageRecognizer.SendAsync(message))
             {
                 var newLoggingMessage = new LoggingMessage(
-                    _tcpCommunicator, DateTime.UtcNow, LoggingMessageType.Info, $"Message sent: {message}", null);
+                    _tcpCommunicator, DateTime.UtcNow, LoggingMessageType.Info, "OUT", message, null);
 
                 LogTo(_syncContext, newLoggingMessage, this.DetailLogging);
                 LogTo(_syncContext, newLoggingMessage, this.Messages);
@@ -147,7 +147,7 @@ namespace TcpCommunicator.TestGui.Logic
             try
             {
                 var newLoggingMessage = new LoggingMessage(
-                    _tcpCommunicator, DateTime.UtcNow, LoggingMessageType.Info, $"Message received: {message.RawMessage}", null);
+                    _tcpCommunicator, DateTime.UtcNow, LoggingMessageType.Info, "IN", message.RawMessage.ToString(), null);
 
                 LogTo(_syncContext, newLoggingMessage, this.DetailLogging);
                 LogTo(_syncContext, newLoggingMessage, this.Messages);

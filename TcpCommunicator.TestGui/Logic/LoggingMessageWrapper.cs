@@ -8,6 +8,8 @@
 
         public string MessageType => _message.MessageType.ToString();
 
+        public string MetaData => _message.MetaData;
+
         public string Message => _message.Message;
 
         public LoggingMessageWrapper(LoggingMessage message)
