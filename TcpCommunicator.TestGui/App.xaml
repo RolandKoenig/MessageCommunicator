@@ -62,6 +62,7 @@
             <Setter Property="CanUserResizeColumns" Value="True" />
             <Setter Property="CanUserSortColumns" Value="False" />
             <Setter Property="CanUserReorderColumns" Value="False" />
+            <Setter Property="SelectionMode" Value="Single" />
         </Style>
 
         <Style Selector="DataGridColumnHeader">

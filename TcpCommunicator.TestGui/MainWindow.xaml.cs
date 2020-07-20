@@ -13,6 +13,11 @@ namespace TcpCommunicator.TestGui
             AvaloniaXamlLoader.Load(this);
 
             var ctrlDialogHost = this.FindControl<DialogHostControl>("CrtlDialogHost");
+            var ctrlDataGrid = this.FindControl<DataGrid>("LstProfiles");
+            ctrlDataGrid.CellPointerPressed += (sender, eArgs) =>
+            {
+                ctrlDataGrid.SelectedItem = eArgs.Row.DataContext;
+            };
 
             //this.ViewServices.Add(new ConnectionConfigViewService(this));
             this.ViewServices.Add(new ConnectionConfigControlService(ctrlDialogHost));

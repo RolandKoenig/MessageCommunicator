@@ -82,8 +82,31 @@
                     </Menu>
 
                     <DataGrid Name="LstProfiles" IsReadOnly="True"
-                              Items="{Binding Profiles}"
+                              Items="{Binding Profiles}" 
                               SelectedItem="{Binding Path=SelectedProfile, Mode=TwoWay}">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Start profile" 
+                                          IsEnabled="{Binding Path=#LstProfiles.SelectedItem.CanStart}"
+                                          Command="{Binding Path=#LstProfiles.SelectedItem.Command_Start}">
+                                    <MenuItem.Icon>
+                                        <DrawingPresenter Drawing="{StaticResource ResourceKey=IconStart}" 
+                                                          Width="16" Height="16"
+                                                          Margin="2"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Stop profile"
+                                          IsEnabled="{Binding Path=#LstProfiles.SelectedItem.CanStop}"
+                                          Command="{Binding Path=#LstProfiles.SelectedItem.Command_Stop}">
+                                    <MenuItem.Icon>
+                                        <DrawingPresenter Drawing="{StaticResource ResourceKey=IconStop}" 
+                                                          Width="16" Height="16"
+                                                          Margin="2"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                        
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header=" "
                                                     Width="24">
