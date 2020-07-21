@@ -17,7 +17,7 @@ namespace TcpCommunicator.TestGui.Logic
 
         public string Name => this.Parameters.Name;
 
-        public ConnectionParameters Parameters { get; private set; }
+        public ConnectionParameters Parameters { get; }
 
         public ObservableCollection<LoggingMessageWrapper> DetailLogging { get; } = new ObservableCollection<LoggingMessageWrapper>();
 
@@ -34,7 +34,9 @@ namespace TcpCommunicator.TestGui.Logic
             _syncContext = syncContext;
             this.Parameters = connParams;
 
-            this.SetupTcpCommunicator(connParams);
+            (_tcpCommunicator, _messageRecognizer) = SetupTcpCommunicator(connParams);
+            _tcpCommunicator.Logger = this.OnLoggingMessage;
+            _messageRecognizer.ReceiveHandler = OnMessageReceived;
         }
 
         public void ChangeParameters(ConnectionParameters newConnParameters)
@@ -46,7 +48,9 @@ namespace TcpCommunicator.TestGui.Logic
                 prefWasRunning = true;
             }
 
-            this.SetupTcpCommunicator(newConnParameters);
+            (_tcpCommunicator, _messageRecognizer) = SetupTcpCommunicator(newConnParameters);
+            _tcpCommunicator.Logger = this.OnLoggingMessage;
+            _messageRecognizer.ReceiveHandler = OnMessageReceived;
 
             if (prefWasRunning)
             {
@@ -76,9 +80,9 @@ namespace TcpCommunicator.TestGui.Logic
             _tcpCommunicator.Stop();
         }
 
-        private void SetupTcpCommunicator(ConnectionParameters connParams)
+        private static (TcpCommunicatorBase, MessageRecognizerBase) SetupTcpCommunicator(ConnectionParameters connParams)
         {
-            this.Parameters = connParams;
+            //this.Parameters = connParams;
 
             // Build the TcpCommunicator
             TcpCommunicatorBase tcpCommunicator;
@@ -95,7 +99,6 @@ namespace TcpCommunicator.TestGui.Logic
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            tcpCommunicator.Logger = this.OnLoggingMessage;
 
             // Build the MessageRecognizer
             MessageRecognizerBase messageRecognizer;
@@ -113,16 +116,14 @@ namespace TcpCommunicator.TestGui.Logic
                     messageRecognizer = new EndSymbolMessageRecognizer(
                         tcpCommunicator, 
                         Encoding.GetEncoding(settingsRecognizerEndSymbol.Encoding), 
-                        new char[]{ '#', '#' });
+                        new[]{ '#', '#' });
                     break;
 
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            messageRecognizer.ReceiveHandler = OnMessageReceived;
 
-            _tcpCommunicator = tcpCommunicator;
-            _messageRecognizer = messageRecognizer;
+            return (tcpCommunicator, messageRecognizer);
         }
 
         private static void LogTo(SynchronizationContext syncContext, LoggingMessage logMessage, ObservableCollection<LoggingMessageWrapper> collection)
