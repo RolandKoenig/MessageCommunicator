@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:TcpCommunicator.TestGui.Views;assembly=TcpCommunicator.TestGui"
+             xmlns:localRoot="clr-namespace:TcpCommunicator.TestGui;assembly=TcpCommunicator.TestGui"
              mc:Ignorable="d"
              d:Width="400" d:Height="400"
              x:Class="TcpCommunicator.TestGui.Views.ConnectionProfileView">
@@ -22,26 +23,36 @@
 
         <TabControl>
             <TabItem Header="Messages">
-                <DataGrid Items="{Binding Path=Model.Messages}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="TimeStamp"
-                                            IsReadOnly="True"
-                                            Binding="{Binding Path=TimeStamp}"
-                                            Width="150" />
-                        <DataGridTextColumn Header="Meta data"
-                                            IsReadOnly="True"
-                                            Binding="{Binding Path=MetaData}"
-                                            Width="75" />
-                        <DataGridTextColumn Header="Message"
-                                            IsReadOnly="True"
-                                            Binding="{Binding Path=Message}"
-                                            Width="1000" />
-                    </DataGrid.Columns>
-                </DataGrid>
+                <DockPanel LastChildFill="True">
+                    <Menu DockPanel.Dock="Top">
+                        <MenuItem ToolTip.Tip="Copy"
+                                  Header="{localRoot:VectorIconExtension Icon={StaticResource ResourceKey=IconCopy}}">
+                        </MenuItem>
+                    </Menu>
+                  
+                    <DataGrid Items="{Binding Path=Messages}"
+                              SelectedItem="{Binding Path=SelectedMessage, Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="TimeStamp"
+                                                IsReadOnly="True"
+                                                Binding="{Binding Path=TimeStamp}"
+                                                Width="150" />
+                            <DataGridTextColumn Header="Meta data"
+                                                IsReadOnly="True"
+                                                Binding="{Binding Path=MetaData}"
+                                                Width="75" />
+                            <DataGridTextColumn Header="Message"
+                                                IsReadOnly="True"
+                                                Binding="{Binding Path=Message}"
+                                                Width="1000" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
             </TabItem>
           
             <TabItem Header="Details">
-                <DataGrid Items="{Binding Path=Model.DetailLogging}">
+                <DataGrid Items="{Binding Path=Model.DetailLogging}"
+                          SelectedItem="{Binding Path=SelectedDetailLogging, Mode=TwoWay}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="TimeStamp"
                                             IsReadOnly="True"

@@ -35,50 +35,24 @@
 
                     <Menu DockPanel.Dock="Top">
                         <MenuItem ToolTip.Tip="Create new profile"
-                                  Command="{Binding Path=Command_CreateProfile}">
-                            <MenuItem.Header>
-                                <DrawingPresenter Drawing="{StaticResource ResourceKey=IconCreate}" 
-                                                  Width="16" Height="16"
-                                                  Margin="2"/>
-                            </MenuItem.Header>
-                        </MenuItem>
+                                  Header="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconCreate}}"
+                                  Command="{Binding Path=Command_CreateProfile}" />
                         <MenuItem ToolTip.Tip="Edit selected profile"
-                                  Command="{Binding Path=Command_EditProfile}">
-                            <MenuItem.Header>
-                                <DrawingPresenter Drawing="{StaticResource ResourceKey=IconEdit}" 
-                                                  Width="16" Height="16"
-                                                  Margin="2"/>
-                            </MenuItem.Header>
-                        </MenuItem>
+                                  Header="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconEdit}}"
+                                  Command="{Binding Path=Command_EditProfile}" />
                         <MenuItem ToolTip.Tip="Remove selected profile"
-                                  Command="{Binding Path=Command_DeleteProfile}">
-                            <MenuItem.Header>
-                                <DrawingPresenter Drawing="{StaticResource ResourceKey=IconRemove}" 
-                                                  Width="16" Height="16"
-                                                  Margin="2"/>
-                            </MenuItem.Header>
-                        </MenuItem>
-                      
+                                  Header="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconRemove}}"
+                                  Command="{Binding Path=Command_DeleteProfile}" />
                         <Separator Classes="Vertical" />
                       
                         <MenuItem ToolTip.Tip="Start profile" 
+                                  Header="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconStart}}"
                                   IsEnabled="{Binding Path=#LstProfiles.SelectedItem.CanStart}"
-                                  Command="{Binding Path=#LstProfiles.SelectedItem.Command_Start}">
-                            <MenuItem.Header>
-                                <DrawingPresenter Drawing="{StaticResource ResourceKey=IconStart}" 
-                                                  Width="16" Height="16"
-                                                  Margin="2"/>
-                            </MenuItem.Header>
-                        </MenuItem>
+                                  Command="{Binding Path=#LstProfiles.SelectedItem.Command_Start}" />
                         <MenuItem ToolTip.Tip="Stop profile" 
+                                  Header="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconStop}}"
                                   IsEnabled="{Binding Path=#LstProfiles.SelectedItem.CanStop}"
-                                  Command="{Binding Path=#LstProfiles.SelectedItem.Command_Stop}">
-                            <MenuItem.Header>
-                                <DrawingPresenter Drawing="{StaticResource ResourceKey=IconStop}" 
-                                                  Width="16" Height="16"
-                                                  Margin="2"/>
-                            </MenuItem.Header>
-                        </MenuItem>
+                                  Command="{Binding Path=#LstProfiles.SelectedItem.Command_Stop}" />
                     </Menu>
 
                     <DataGrid Name="LstProfiles" IsReadOnly="True"
@@ -87,23 +61,13 @@
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Start profile" 
+                                          Icon="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconStart}}"
                                           IsEnabled="{Binding Path=#LstProfiles.SelectedItem.CanStart}"
-                                          Command="{Binding Path=#LstProfiles.SelectedItem.Command_Start}">
-                                    <MenuItem.Icon>
-                                        <DrawingPresenter Drawing="{StaticResource ResourceKey=IconStart}" 
-                                                          Width="16" Height="16"
-                                                          Margin="2"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
+                                          Command="{Binding Path=#LstProfiles.SelectedItem.Command_Start}" />
                                 <MenuItem Header="Stop profile"
+                                          Icon="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconStop}}"
                                           IsEnabled="{Binding Path=#LstProfiles.SelectedItem.CanStop}"
-                                          Command="{Binding Path=#LstProfiles.SelectedItem.Command_Stop}">
-                                    <MenuItem.Icon>
-                                        <DrawingPresenter Drawing="{StaticResource ResourceKey=IconStop}" 
-                                                          Width="16" Height="16"
-                                                          Margin="2"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
+                                          Command="{Binding Path=#LstProfiles.SelectedItem.Command_Stop}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         
