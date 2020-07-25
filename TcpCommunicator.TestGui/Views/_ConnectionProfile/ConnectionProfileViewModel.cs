@@ -11,40 +11,8 @@ namespace TcpCommunicator.TestGui.Views
         private bool _isRunning;
         private ConnectionState _connState;
         private string _remoteEndpointDescription;
-        private LoggingMessageWrapper? _selectedDetailLogging;
-        private LoggingMessageWrapper? _selectedMessage;
 
         public ConnectionProfile Model { get; }
-
-        public ObservableCollection<LoggingMessageWrapper> DetailLogging => this.Model.DetailLogging;
-
-        public ObservableCollection<LoggingMessageWrapper> Messages => this.Model.Messages;
-
-        public LoggingMessageWrapper? SelectedDetailLogging
-        {
-            get => _selectedDetailLogging;
-            set
-            {
-                if (_selectedDetailLogging != value)
-                {
-                    _selectedDetailLogging = value;
-                    this.RaisePropertyChanged(nameof(this.SelectedDetailLogging));
-                }
-            }
-        }
-
-        public LoggingMessageWrapper? SelectedMessage
-        {
-            get => _selectedMessage;
-            set
-            {
-                if (_selectedMessage != value)
-                {
-                    _selectedMessage = value;
-                    this.RaisePropertyChanged(nameof(this.SelectedMessage));
-                }
-            }
-        }
 
         public ReactiveCommand<object?, Unit> Command_Start { get; }
 
@@ -97,10 +65,17 @@ namespace TcpCommunicator.TestGui.Views
             }
         }
 
+        public LoggingViewModel MessageLoggingViewModel { get; }
+
+        public LoggingViewModel DetailLoggingViewModel { get; }
+
         public ConnectionProfileViewModel(ConnectionProfile connProfile)
         {
             this.Model = connProfile;
             _remoteEndpointDescription = string.Empty;
+
+            this.MessageLoggingViewModel = new LoggingViewModel(connProfile.Messages);
+            this.DetailLoggingViewModel = new LoggingViewModel(connProfile.DetailLogging);
 
             this.Command_Start = ReactiveCommand.Create<object?>(arg =>
             {

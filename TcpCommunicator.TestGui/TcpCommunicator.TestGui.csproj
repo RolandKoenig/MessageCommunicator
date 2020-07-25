@@ -29,8 +29,21 @@
     <AvaloniaResource Include="Assets\*" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Views\_LoggingView\LoggingView.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Update="Views\_LoggingView\LoggingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaResource>
+  </ItemGroup>
+  <ItemGroup>
     <None Update="_Util\_View\_ErrorDialog\ErrorDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\_LoggingView\LoggingView.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
