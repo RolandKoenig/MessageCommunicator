@@ -10,14 +10,24 @@
 
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
-            <MenuItem ToolTip.Tip="Copy"
-                      Header="{localRoot:VectorIconExtension Icon={StaticResource ResourceKey=IconCopy}}">
-            </MenuItem>
+            <MenuItem ToolTip.Tip="Copy message"
+                      Header="{localRoot:VectorIconExtension Icon={StaticResource ResourceKey=IconCopy}}" 
+                      Command="{Binding Path=Command_CopySelectedMessages}"
+                      IsEnabled="{Binding Path=IsAnyLineSelected}" />
         </Menu>
       
         <DataGrid Name="CtrlDataGrid" 
                   Items="{Binding Path=Logging}"
                   SelectedItem="{Binding Path=SelectedLoggingLine, Mode=TwoWay}">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Copy message"
+                              Icon="{localRoot:VectorIconExtension Icon={StaticResource ResourceKey=IconCopy}}" 
+                              Command="{Binding Path=Command_CopySelectedMessages}"
+                              IsEnabled="{Binding Path=IsAnyLineSelected}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+          
             <DataGrid.Columns>
                 <DataGridTextColumn Header="TimeStamp"
                                     IsReadOnly="True"

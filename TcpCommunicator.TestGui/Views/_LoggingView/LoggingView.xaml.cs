@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using System;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 namespace TcpCommunicator.TestGui.Views
@@ -20,7 +21,5 @@ namespace TcpCommunicator.TestGui.Views
             var ctrlDataGrid = this.FindControl<DataGrid>("CtrlDataGrid");
             _columnType = ctrlDataGrid.Columns[1];
         }
-
-
     }
 }
