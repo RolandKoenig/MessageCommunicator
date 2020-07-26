@@ -138,7 +138,7 @@ namespace TcpCommunicator.TestGui
 
             var hexTextBinding = new Binding(
                 nameof(property.ValueAccessor),
-                BindingMode.OneWay)
+                BindingMode.TwoWay)
             {
                 Converter = new TextToHexConverter(),
                 ConverterParameter = new Func<string?>(() => otherProperty.ValueAccessor as string)
@@ -147,7 +147,7 @@ namespace TcpCommunicator.TestGui
             var ctrlTextBox2 = new TextBox();
             ctrlTextBox2[!TextBox.TextProperty] = hexTextBinding;
             ctrlTextBox2.Width = double.NaN;
-            ctrlTextBox2.IsReadOnly = true;
+            //ctrlTextBox2.IsReadOnly = true;
 
             otherProperty.RegisterWeakPropertyChangedTarget(
                 new WeakReference(ctrlTextBox2), 

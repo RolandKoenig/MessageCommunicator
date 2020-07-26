@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using Avalonia.Data;
 using Avalonia.Data.Converters;
 
 namespace TcpCommunicator.TestGui
@@ -56,21 +55,61 @@ namespace TcpCommunicator.TestGui
         /// <inheritdoc />
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotSupportedException();
-            //if ((value is string givenString) &&
-            //    (parameter is string givenEncodingName))
-            //{
-            //    try
-            //    {
+            var givenEncodingName = parameter as string;
+            if (parameter is Func<string?> parameterGetter)
+            {
+                givenEncodingName = parameterGetter();
+            }
+
+            if ((value is string givenString) &&
+                (!string.IsNullOrEmpty(givenString)) &&
+                (!string.IsNullOrEmpty(givenEncodingName)))
+            {
+                try
+                {
+                    // Parse hex string to byte array
+                    var targetByteArray = new byte[givenString.Length / 2 + 1];
+                    var targetByteArrayPos = 0;
+                    for (var loop = 0; loop < givenString.Length; loop++)
+                    {
+                        if(givenString[loop] == ' '){ continue; }
+
+                        ReadOnlySpan<char> currentSpan;
+                        if ((givenString.Length > loop + 1) &&
+                            (givenString[loop + 1] != ' '))
+                        {
+                            currentSpan = givenString.AsSpan(loop, 2);
+                        }
+                        else
+                        {
+                            currentSpan = givenString.AsSpan(loop, 1);
+                        }
+
+                        if (!byte.TryParse(currentSpan, NumberStyles.AllowHexSpecifier, null, out var currentByte))
+                        {
+                            throw new ApplicationException($"Unable to parse character(s) at index {loop}!");
+                        }
+
+                        targetByteArray[targetByteArrayPos] = currentByte;
+                        targetByteArrayPos++;
+
+                        loop += (currentSpan.Length - 1);
+                    }
                     
-            //        const string HEX_ALPHABET = "0123456789ABCDEF";
-            //    }
-            //    catch (Exception)
-            //    {
-            //        Console.WriteLine(e);
-            //        throw;
-            //    }
-            //}
+                    // Convert byte array to result value
+                    if (targetByteArrayPos > 0)
+                    {
+                        var givenEncoding = Encoding.GetEncoding(givenEncodingName);
+                        return givenEncoding.GetString(targetByteArray, 0, targetByteArrayPos);
+                    }
+                }
+                catch (Exception)
+                {
+                    // Ignored
+                }
+            }
+
+            return string.Empty;
         }
     }
 }
