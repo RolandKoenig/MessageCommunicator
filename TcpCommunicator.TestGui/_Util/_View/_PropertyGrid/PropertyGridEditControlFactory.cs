@@ -40,6 +40,9 @@ namespace TcpCommunicator.TestGui
 
                 case PropertyValueType.DetailSettings:
                     break;
+
+                default:
+                    throw new ArgumentOutOfRangeException($"Unsupported value {property.ValueType}");
             }
             return ctrlValueEdit;
         }
@@ -144,10 +147,18 @@ namespace TcpCommunicator.TestGui
                 ConverterParameter = new Func<string?>(() => otherProperty.ValueAccessor as string)
             };
 
+            var ctrlTextBox2Container = new Grid();
+            ctrlTextBox2Container.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Auto));
+            ctrlTextBox2Container.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Parse("*")));
+
+            var ctrlTextBox2Header = new TextBlock();
+            ctrlTextBox2Header.Text = "HEX";
+            ctrlTextBox2Header.SetValue(Grid.ColumnProperty, 0);
+            ctrlTextBox2Container.Children.Add(ctrlTextBox2Header);
+
             var ctrlTextBox2 = new TextBox();
             ctrlTextBox2[!TextBox.TextProperty] = hexTextBinding;
             ctrlTextBox2.Width = double.NaN;
-            //ctrlTextBox2.IsReadOnly = true;
 
             otherProperty.RegisterWeakPropertyChangedTarget(
                 new WeakReference(ctrlTextBox2), 
@@ -156,8 +167,11 @@ namespace TcpCommunicator.TestGui
                     ctrlTextBox2[!TextBox.TextProperty] = hexTextBinding;
                 });
 
+            ctrlTextBox2.SetValue(Grid.ColumnProperty, 1);
+            ctrlTextBox2Container.Children.Add(ctrlTextBox2);
+
             stackPanel.Children.Add(ctrlTextBox1);
-            stackPanel.Children.Add(ctrlTextBox2);
+            stackPanel.Children.Add(ctrlTextBox2Container);
 
             return stackPanel;
         }

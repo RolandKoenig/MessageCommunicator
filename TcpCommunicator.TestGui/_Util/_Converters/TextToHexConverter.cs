@@ -87,7 +87,7 @@ namespace TcpCommunicator.TestGui
 
                         if (!byte.TryParse(currentSpan, NumberStyles.AllowHexSpecifier, null, out var currentByte))
                         {
-                            throw new ApplicationException($"Unable to parse character(s) at index {loop}!");
+                            break;
                         }
 
                         targetByteArray[targetByteArrayPos] = currentByte;
