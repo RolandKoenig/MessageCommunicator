@@ -6,7 +6,7 @@ using TcpCommunicator.Util;
 
 namespace TcpCommunicator
 {
-    public class TcpCommunicatorPassive : TcpCommunicatorBase
+    public class TcpPassiveByteStreamHandler : TcpByteStreamHandler
     {
         private const int RUNNING_LOOP_COUNTER_MAX = 1000;
 
@@ -40,7 +40,7 @@ namespace TcpCommunicator
             }
         }
 
-        public TcpCommunicatorPassive(
+        public TcpPassiveByteStreamHandler(
             IPAddress listeningIPAddress,
             ushort listeningPort, 
             ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null)
@@ -59,7 +59,7 @@ namespace TcpCommunicator
             var loopId = 0;
             lock (_startStopLock)
             {
-                if(_isRunning){ throw new ApplicationException($"Unable to start {nameof(TcpCommunicatorPassive)} for port {this.ListeningPort}: This object is started already!"); }
+                if(_isRunning){ throw new ApplicationException($"Unable to start {nameof(TcpPassiveByteStreamHandler)} for port {this.ListeningPort}: This object is started already!"); }
 
                 _isRunning = true;
                 _runningLoopCounter++;
@@ -220,7 +220,7 @@ namespace TcpCommunicator
             {
                 if (!_isRunning)
                 {
-                    throw new ApplicationException($"Unable to stop {nameof(TcpCommunicatorPassive)} for port {this.ListeningPort}: This object is stopped already!");
+                    throw new ApplicationException($"Unable to stop {nameof(TcpPassiveByteStreamHandler)} for port {this.ListeningPort}: This object is stopped already!");
                 }
 
                 _isRunning = false;

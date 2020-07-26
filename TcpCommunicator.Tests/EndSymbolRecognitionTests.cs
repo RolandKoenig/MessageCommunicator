@@ -12,7 +12,7 @@ namespace TcpCommunicator.Tests
         [TestMethod]
         public void Test_EndSymbols_StandardMessage()
         {
-            var tcpCommunicatorMock = A.Fake<ITcpCommunicator>();
+            var tcpCommunicatorMock = A.Fake<IByteStreamHandler>();
             
             var messageRecognizer = new EndSymbolMessageRecognizer(
                 tcpCommunicatorMock,
@@ -28,7 +28,7 @@ namespace TcpCommunicator.Tests
         [TestMethod]
         public void Test_EndSymbols_TwoStandardMessages()
         {
-            var tcpCommunicatorMock = A.Fake<ITcpCommunicator>();
+            var tcpCommunicatorMock = A.Fake<IByteStreamHandler>();
             
             var messageRecognizer = new EndSymbolMessageRecognizer(
                 tcpCommunicatorMock,
@@ -45,7 +45,7 @@ namespace TcpCommunicator.Tests
         [TestMethod]
         public void Test_EndSymbols_SpecialCase_TwoParts()
         {
-            var tcpCommunicatorMock = A.Fake<ITcpCommunicator>();
+            var tcpCommunicatorMock = A.Fake<IByteStreamHandler>();
             
             var messageRecognizer = new EndSymbolMessageRecognizer(
                 tcpCommunicatorMock,
@@ -62,7 +62,7 @@ namespace TcpCommunicator.Tests
         [TestMethod]
         public void Test_EndSymbols_SpecialCase_CuttedEndSymbol()
         {
-            var tcpCommunicatorMock = A.Fake<ITcpCommunicator>();
+            var tcpCommunicatorMock = A.Fake<IByteStreamHandler>();
             
             var messageRecognizer = new EndSymbolMessageRecognizer(
                 tcpCommunicatorMock,

@@ -12,8 +12,8 @@ namespace TcpCommunicator.TestGui.Logic
     {
         private SynchronizationContext _syncContext;
 
-        private TcpCommunicatorBase _tcpCommunicator;
-        private MessageRecognizerBase _messageRecognizer;
+        private TcpByteStreamHandler _tcpCommunicator;
+        private MessageRecognizer _messageRecognizer;
 
         public string Name => this.Parameters.Name;
 
@@ -80,20 +80,20 @@ namespace TcpCommunicator.TestGui.Logic
             _tcpCommunicator.Stop();
         }
 
-        private static (TcpCommunicatorBase, MessageRecognizerBase) SetupTcpCommunicator(ConnectionParameters connParams)
+        private static (TcpByteStreamHandler, MessageRecognizer) SetupTcpCommunicator(ConnectionParameters connParams)
         {
             //this.Parameters = connParams;
 
             // Build the TcpCommunicator
-            TcpCommunicatorBase tcpCommunicator;
+            TcpByteStreamHandler tcpCommunicator;
             switch (connParams.Mode)
             {
                 case ConnectionMode.Active:
-                    tcpCommunicator = new TcpCommunicatorActive(connParams.Target, connParams.Port);
+                    tcpCommunicator = new TcpActiveByteStreamHandler(connParams.Target, connParams.Port);
                     break;
 
                 case ConnectionMode.Passive:
-                    tcpCommunicator = new TcpCommunicatorPassive(IPAddress.Any, connParams.Port);
+                    tcpCommunicator = new TcpPassiveByteStreamHandler(IPAddress.Any, connParams.Port);
                     break;
 
                 default:
@@ -101,7 +101,7 @@ namespace TcpCommunicator.TestGui.Logic
             }
 
             // Build the MessageRecognizer
-            MessageRecognizerBase messageRecognizer;
+            MessageRecognizer messageRecognizer;
             switch (connParams.RecognitionMode)
             {
                 case MessageRecognitionMode.Default:
@@ -148,10 +148,12 @@ namespace TcpCommunicator.TestGui.Logic
             try
             {
                 var newLoggingMessage = new LoggingMessage(
-                    _tcpCommunicator, DateTime.UtcNow, LoggingMessageType.Info, "IN", message.RawMessage.ToString(), null);
+                    _tcpCommunicator, DateTime.UtcNow, LoggingMessageType.Info, "IN", message.ToString(), null);
 
                 LogTo(_syncContext, newLoggingMessage, this.DetailLogging);
                 LogTo(_syncContext, newLoggingMessage, this.Messages);
+
+                message.ClearAndReturnToPool();
             }
             finally
             {

@@ -18,9 +18,7 @@ namespace TcpCommunicator.TestGui.Data
                     return new MessageRecognizerEndSymbolSettings();
 
                 default:
-                    throw new ApplicationException(StringBuffer.Format(
-                        "Unknown message recognition mode: {0}", 
-                        recognitionMode));
+                    throw new ApplicationException($"Unknown message recognition mode: {recognitionMode}");
             }
         }
     }

@@ -5,7 +5,7 @@ using TcpCommunicator.Util;
 
 namespace TcpCommunicator
 {
-    public class DefaultMessageRecognizer : MessageRecognizerBase
+    public class DefaultMessageRecognizer : MessageRecognizer
     {
         private const char SYMBOL_START = '<';
         private const char SYMBOL_END = '>';
@@ -15,8 +15,8 @@ namespace TcpCommunicator
         private Encoding _encoding;
         private StringBuffer _receiveStringBuffer;
 
-        public DefaultMessageRecognizer(ITcpCommunicator communicator, Encoding encoding)
-            : base(communicator)
+        public DefaultMessageRecognizer(ByteStreamHandler byteStreamHandler, Encoding encoding)
+            : base(byteStreamHandler)
         {
             _encoding = encoding;
             _receiveStringBuffer = new StringBuffer(1024);
@@ -52,7 +52,7 @@ namespace TcpCommunicator
                 StringBuffer.Release(sendBuffer);
                 sendBuffer = null;
 
-                return await this.Communicator.SendAsync(
+                return await this.ByteStreamHandler.SendAsync(
                     new ReadOnlyMemory<byte>(bytes, 0, sendMessageByteLength));
             }
             finally

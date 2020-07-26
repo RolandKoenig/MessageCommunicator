@@ -6,11 +6,24 @@ namespace TcpCommunicator
 {
     public class Message
     {
-        public StringBuffer RawMessage { get; }
+        internal StringBuffer RawMessage { get; }
+
+        public bool IsMessageFromPool { get; internal set; }
 
         public Message(int capacity)
         {
             this.RawMessage = new StringBuffer(capacity);
+        }
+
+        public Message(string rawMessage)
+        {
+            this.RawMessage = new StringBuffer(rawMessage);
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return this.RawMessage.ToString();
         }
 
         public void EnsureCapacity(int capacity)
@@ -25,7 +38,10 @@ namespace TcpCommunicator
 
         public void ClearAndReturnToPool()
         {
-            MessagePool.ClearAndReturn(this);
+            if (this.IsMessageFromPool)
+            {
+                MessagePool.ClearAndReturn(this);
+            }
         }
     }
 }

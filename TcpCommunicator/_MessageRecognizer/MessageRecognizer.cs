@@ -4,17 +4,17 @@ using System.Threading.Tasks;
 
 namespace TcpCommunicator
 {
-    public abstract class MessageRecognizerBase : ITcpResponseProcessor
+    public abstract class MessageRecognizer : IByteResponseProcessor
     {
-        public ITcpCommunicator Communicator { get; }
+        public ByteStreamHandler ByteStreamHandler { get; }
 
         public Action<Message>? ReceiveHandler { get; set; }
 
-        protected MessageRecognizerBase(ITcpCommunicator communicator)
+        protected MessageRecognizer(ByteStreamHandler byteStreamHandler)
         {
-            this.Communicator = communicator;
+            this.ByteStreamHandler = byteStreamHandler;
 
-            communicator.RegisterResponseProcessor(this);
+            byteStreamHandler.RegisterMessageRecognizer(this);
         }
 
         public abstract Task<bool> SendAsync(string rawMessage);

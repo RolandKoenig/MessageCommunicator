@@ -4,8 +4,10 @@ using System.Collections.Generic;
 
 namespace TcpCommunicator
 {
-    internal static class MessagePool
+    public static class MessagePool
     {
+        public const int MAX_POOL_SIZE = 16;
+
         private static ConcurrentBag<Message> s_pool;
 
         static MessagePool()
@@ -22,14 +24,26 @@ namespace TcpCommunicator
             }
             else
             {
-                return new Message(capacity);
+                result = new Message(capacity);
+                result.IsMessageFromPool = true;
+                return result;
             }
         }
 
         public static void ClearAndReturn(Message message)
         {
             message.Clear();
-            s_pool.Add(message);
+
+            if (s_pool.Count < MAX_POOL_SIZE)
+            {
+                s_pool.Add(message);
+            }
+            else
+            {
+                message.IsMessageFromPool = false;
+            }
         }
+
+        public static int CountCachedMessages => s_pool.Count;
     }
 }

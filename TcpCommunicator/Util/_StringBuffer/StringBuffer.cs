@@ -39,7 +39,7 @@ namespace TcpCommunicator.Util
     /// <summary>
     /// Specifies an interface for types that act as a set of formatting arguments.
     /// </summary>
-    public interface IArgSet 
+    internal interface IArgSet 
     {
         /// <summary>
         /// The number of arguments in the set.
@@ -71,7 +71,7 @@ namespace TcpCommunicator.Util
     /// <summary>
     /// A low-allocation version of the built-in <see cref="StringBuilder"/> type.
     /// </summary>
-    public sealed unsafe partial class StringBuffer 
+    internal sealed unsafe partial class StringBuffer 
     {
         private const int DefaultCapacity = 32;
         private const int MaxCachedSize = 360;  // same as BCL's StringBuilderCache
@@ -2342,7 +2342,7 @@ namespace TcpCommunicator.Util
     /// <summary>
     /// A low-allocation version of the built-in <see cref="StringBuilder"/> type.
     /// </summary>
-    public partial class StringBuffer {
+    internal partial class StringBuffer {
         /// <summary>
         /// Appends the string returned by processing a composite format string, which contains zero or more format items, to this instance. Each format item is replaced by the string representation of a single argument.
         /// </summary>

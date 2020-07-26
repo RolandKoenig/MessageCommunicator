@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TcpCommunicator.Util
 {
-    public sealed unsafe partial class StringBuffer
+    internal sealed unsafe partial class StringBuffer
     {
         public StringBuffer(string template)
             : this(template.Length)

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Net.Mail;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,15 +7,9 @@ using TcpCommunicator.Util;
 
 namespace TcpCommunicator
 {
-    public abstract class TcpCommunicatorBase : ITcpCommunicator
+    public abstract class TcpByteStreamHandler : ByteStreamHandler
     {
         public ReconnectWaitTimeGetter ReconnectWaitTimeGetter { get; set; }
-
-        public abstract bool IsRunning { get; }
-
-        public abstract ConnectionState State { get; }
-
-        public ITcpResponseProcessor? ResponseProcessor { get; private set; }
 
         public string RemoteEndpointDescription
         {
@@ -50,30 +43,11 @@ namespace TcpCommunicator
             }
         }
 
-        /// <summary>
-        /// A custom logger. If set, this delegate will be called with all relevant events.
-        /// </summary>
-        public Action<LoggingMessage>? Logger { get; set; }
-
-        protected bool IsLoggerSet => this.Logger != null;
-
         public uint ReceiveBufferSize { get; set; } = 1024;
 
-        protected TcpCommunicatorBase(ReconnectWaitTimeGetter? reconnectWaitTimeGetter)
+        protected TcpByteStreamHandler(ReconnectWaitTimeGetter? reconnectWaitTimeGetter)
         {
             this.ReconnectWaitTimeGetter = reconnectWaitTimeGetter ?? new FixedReconnectWaitTimeGetter(TimeSpan.FromSeconds(1.0));
-        }
-
-        /// <summary>
-        /// Calls current logger with the given message.
-        /// </summary>
-        protected void Log(LoggingMessageType messageType, string message, string metaData = "", Exception? exception = null)
-        {
-            var logger = this.Logger;
-            if (logger == null) { return; }
-
-            var loggingMessage = new LoggingMessage(this, DateTime.UtcNow, messageType, metaData, message, exception);
-            logger(loggingMessage);
         }
 
         protected Task WaitByReconnectWaitTimeAsync(int errorCountSinceLastConnect)
@@ -88,36 +62,11 @@ namespace TcpCommunicator
         }
 
         /// <summary>
-        /// Start the communicator.
-        /// </summary>
-        public abstract void Start();
-
-        /// <summary>
-        /// Stops the communicator.
-        /// </summary>
-        public abstract void Stop();
-
-        /// <inheritdoc />
-        public void RegisterResponseProcessor(ITcpResponseProcessor responseProcessor)
-        {
-            if (this.ResponseProcessor != null)
-            {
-                throw new ApplicationException("ResponseProcessor already set!");
-            }
-            this.ResponseProcessor = responseProcessor;
-        }
-
-        public void DeregisterResponseProcessor()
-        {
-            this.ResponseProcessor = null;
-        }
-
-        /// <summary>
         /// Tries to send the given message to the currently connected partner
         /// </summary>
         /// <param name="buffer">The bytes to be sent</param>
         /// <returns>True when sending was successful</returns>
-        public async Task<bool> SendAsync(ReadOnlyMemory<byte> buffer)
+        public override async Task<bool> SendAsync(ReadOnlyMemory<byte> buffer)
         {
             if(buffer.Length <= 0)
             {
@@ -258,8 +207,8 @@ namespace TcpCommunicator
             }
 
             // Notify received bytes
-            var responseProcessor = this.ResponseProcessor;
-            responseProcessor?.OnReceivedBytes(newConnection, receivedSpan);
+            var messageRecognizer = this.MessageRecognizer;
+            messageRecognizer?.OnReceivedBytes(newConnection, receivedSpan);
         }
     }
 }

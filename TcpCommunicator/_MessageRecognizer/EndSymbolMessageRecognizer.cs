@@ -6,14 +6,14 @@ using TcpCommunicator.Util;
 
 namespace TcpCommunicator
 {
-    public class EndSymbolMessageRecognizer : MessageRecognizerBase
+    public class EndSymbolMessageRecognizer : MessageRecognizer
     {
         private Encoding _encoding;
         private char[] _endSymbols;
         private StringBuffer _receiveStringBuffer;
 
-        public EndSymbolMessageRecognizer(ITcpCommunicator communicator, Encoding encoding, char[] endSymbols)
-            : base(communicator)
+        public EndSymbolMessageRecognizer(ByteStreamHandler byteStreamHandler, Encoding encoding, char[] endSymbols)
+            : base(byteStreamHandler)
         {
             _encoding = encoding;
             _endSymbols = endSymbols;
@@ -38,7 +38,7 @@ namespace TcpCommunicator
                 StringBuffer.Release(sendBuffer);
                 sendBuffer = null;
 
-                return await this.Communicator.SendAsync(
+                return await this.ByteStreamHandler.SendAsync(
                     new ReadOnlyMemory<byte>(bytes, 0, sendMessageByteLength));
             }
             finally

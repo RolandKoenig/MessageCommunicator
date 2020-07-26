@@ -15,9 +15,9 @@ namespace TcpCommunicator.Tests
         {
             var fullMessageSent = string.Empty;
 
-            var tcpCommunicatorMock = A.Fake<ITcpCommunicator>();
+            var tcpCommunicatorMock = A.Fake<IByteStreamHandler>();
             A.CallTo(tcpCommunicatorMock)
-                .Where(info => info.Method.Name == nameof(TcpCommunicatorBase.SendAsync))
+                .Where(info => info.Method.Name == nameof(TcpByteStreamHandler.SendAsync))
                 .Invokes(args =>
                 {
                     var bytesToSend = (ReadOnlyMemory<byte>)args.Arguments[0];
@@ -36,7 +36,7 @@ namespace TcpCommunicator.Tests
         [TestMethod]
         public void Test_DefaultRecognition_Receive_Standard()
         {
-            var tcpCommunicatorMock = A.Fake<ITcpCommunicator>();
+            var tcpCommunicatorMock = A.Fake<IByteStreamHandler>();
             
             var messageRecognizer = new DefaultMessageRecognizer(
                 tcpCommunicatorMock,
@@ -52,7 +52,7 @@ namespace TcpCommunicator.Tests
         [TestMethod]
         public void Test_DefaultRecognition_Receive_TwoStandardMessages()
         {
-            var tcpCommunicatorMock = A.Fake<ITcpCommunicator>();
+            var tcpCommunicatorMock = A.Fake<IByteStreamHandler>();
             
             var messageRecognizer = new DefaultMessageRecognizer(
                 tcpCommunicatorMock,

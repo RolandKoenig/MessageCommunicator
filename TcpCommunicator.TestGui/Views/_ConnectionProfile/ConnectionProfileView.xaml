@@ -11,8 +11,8 @@
     <DockPanel LastChildFill="True">
         <DockPanel DockPanel.Dock="Bottom"
                    LastChildFill="True">
-            <Button Content="Send" Width="150"
-                    DockPanel.Dock="Right"
+            <Button DockPanel.Dock="Right"
+                    Content="Send" Width="150"
                     IsDefault="True"
                     Margin="3"
                     Command="{Binding Path=Command_SendMessage}"

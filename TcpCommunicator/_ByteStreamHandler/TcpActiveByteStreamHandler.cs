@@ -7,7 +7,7 @@ using TcpCommunicator.Util;
 
 namespace TcpCommunicator
 {
-    public class TcpCommunicatorActive : TcpCommunicatorBase
+    public class TcpActiveByteStreamHandler : TcpByteStreamHandler
     {
         private const int RUNNING_LOOP_COUNTER_MAX = 1000;
 
@@ -36,7 +36,7 @@ namespace TcpCommunicator
         }
 
         /// <inheritdoc />
-        public TcpCommunicatorActive(
+        public TcpActiveByteStreamHandler(
             string remoteHost, ushort remotePort, 
             ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null) 
             : base(reconnectWaitTimeGetter)
@@ -53,7 +53,7 @@ namespace TcpCommunicator
             var loopId = 0;
             lock (_startStopLock)
             {
-                if(_isRunning){ throw new ApplicationException($"Unable to start {nameof(TcpCommunicatorActive)} for host {this.RemoteHost} and port {this.RemotePort}: This object is started already!"); }
+                if(_isRunning){ throw new ApplicationException($"Unable to start {nameof(TcpActiveByteStreamHandler)} for host {this.RemoteHost} and port {this.RemotePort}: This object is started already!"); }
 
                 _isRunning = true;
                 _connState = ConnectionState.Connecting;
@@ -156,7 +156,7 @@ namespace TcpCommunicator
             {
                 if (!_isRunning)
                 {
-                    throw new ApplicationException($"Unable to stop {nameof(TcpCommunicatorActive)} for host {this.RemoteHost} and port {this.RemotePort}: This object is stopped already!");
+                    throw new ApplicationException($"Unable to stop {nameof(TcpActiveByteStreamHandler)} for host {this.RemoteHost} and port {this.RemotePort}: This object is stopped already!");
                 }
 
                 _isRunning = false;

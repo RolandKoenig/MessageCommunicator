@@ -22,18 +22,35 @@ namespace TcpCommunicator
         Connected,
     }
 
-    public interface ITcpCommunicator
+    //public interface IByteStreamHandler
+    //{
+    //    public IByteResponseProcessor? MessageRecognizer { get; }
+
+    //    void RegisterResponseProcessor(IByteResponseProcessor messageRecognizer);
+
+    //    Task<bool> SendAsync(ReadOnlyMemory<byte> messageToSend);
+    //}
+
+    public interface IMessageReceiveHandler
     {
-        public ITcpResponseProcessor? ResponseProcessor { get; }
+        void OnMessageReceived(Message message);
+    }
 
-        void RegisterResponseProcessor(ITcpResponseProcessor responseProcessor);
-
-        Task<bool> SendAsync(ReadOnlyMemory<byte> messageToSend);
+    public interface IByteResponseProcessor
+    {
+        /// <summary>
+        /// Notifies received bytes.
+        /// Be careful, this method is called from the receive event of the <see cref="TcpByteStreamHandler"/> loop.
+        /// Ensure that you block the calling thread as short as possible.
+        /// </summary>
+        /// <param name="isNewConnection">This flag is set to true when the given bytes are the first ones from a new connection. Typically this triggers receive buffer cleanup before processing received bytes.</param>
+        /// <param name="receivedBytes">A span containing all received bytes.</param>
+        void OnReceivedBytes(bool isNewConnection, ReadOnlySpan<byte> receivedBytes);
     }
 
     public readonly struct LoggingMessage
     {
-        public TcpCommunicatorBase Communicator { get; }
+        public ByteStreamHandler Communicator { get; }
 
         public DateTime TimeStamp { get; }
 
@@ -45,7 +62,7 @@ namespace TcpCommunicator
 
         public Exception? Exception { get; }
 
-        public LoggingMessage(TcpCommunicatorBase communicator, DateTime timestamp, LoggingMessageType messageType, string metaData, string message, Exception? exception)
+        public LoggingMessage(ByteStreamHandler communicator, DateTime timestamp, LoggingMessageType messageType, string metaData, string message, Exception? exception)
         {
             this.Communicator = communicator;
             this.TimeStamp = timestamp;
