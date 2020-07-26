@@ -7,9 +7,9 @@ namespace TcpCommunicator
     public class DefaultMessageRecognizerSettings : MessageRecognizerSettings
     {
         /// <inheritdoc />
-        public override MessageRecognizer CreateMessageRecognizer(ByteStreamHandler byteStreamHandler, Encoding encoding)
+        public override MessageRecognizer CreateMessageRecognizer(Encoding encoding)
         {
-            return new DefaultMessageRecognizer(byteStreamHandler, encoding);
+            return new DefaultMessageRecognizer(encoding);
         }
     }
 }

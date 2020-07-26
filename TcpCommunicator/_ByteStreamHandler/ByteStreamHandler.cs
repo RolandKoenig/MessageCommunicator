@@ -18,7 +18,7 @@ namespace TcpCommunicator
         /// <summary>
         /// A custom logger. If set, this delegate will be called with all relevant events.
         /// </summary>
-        public IMessageCommunicatorLogger? Logger { get; set; }
+        public IMessageCommunicatorLogger? Logger { get; internal set; }
 
         protected bool IsLoggerSet => this.Logger != null;
 
@@ -27,12 +27,22 @@ namespace TcpCommunicator
         /// <summary>
         /// Start the communicator.
         /// </summary>
-        public abstract void Start();
+        internal Task StartAsync()
+        {
+            return this.StartInternalAsync();
+        }
+
+        protected abstract Task StartInternalAsync();
 
         /// <summary>
         /// Stops the communicator.
         /// </summary>
-        public abstract void Stop();
+        internal Task StopAsync()
+        {
+            return this.StopInternalAsync();
+        }
+
+        protected abstract Task StopInternalAsync();
 
         /// <summary>
         /// Calls current logger with the given message.
@@ -50,7 +60,9 @@ namespace TcpCommunicator
                 throw new InvalidOperationException(
                     $"There is already a MessageRecognizer assigned to this ByteStreamHandler!");
             }
+
             this.MessageRecognizer = messageRecognizer;
+            this.MessageRecognizer.ByteStreamHandler = this;
         }
 
         public abstract Task<bool> SendAsync(ReadOnlyMemory<byte> buffer);

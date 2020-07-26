@@ -110,7 +110,7 @@ namespace TcpCommunicator.TestGui
             var connParams = await srvConnectionConfig.ConfigureConnectionAsync(selectedProfileVM.Model.Parameters);
             if (connParams != null)
             {
-                selectedProfileVM.Model.ChangeParameters(connParams);
+                await selectedProfileVM.Model.ChangeParametersAsync(connParams);
 
                 ConnectionProfileStore.Current.StoreConnectionProfiles(
                     this.Profiles.Select(actProfileVM => actProfileVM.Model));
@@ -131,7 +131,7 @@ namespace TcpCommunicator.TestGui
             // Stop the connection if it is still running
             if (selectedProfile.IsRunning)
             {
-                selectedProfile.Model.Stop();
+                await selectedProfile.Model.StopAsync();
             }
 
             this.Profiles.Remove(selectedProfile);

@@ -64,6 +64,10 @@ namespace TcpCommunicator.TestGui.ViewServices
             }
         }
 
+        [Category(CATEGORY)]
+        [EncodingWebName]
+        public string Encoding { get; set; } = "utf-8";
+
         [Browsable(false)]
         public object? RecognizerSettings
         {

@@ -6,18 +6,21 @@ namespace TcpCommunicator
 {
     public abstract class MessageRecognizer : IByteResponseProcessor
     {
-        public ByteStreamHandler ByteStreamHandler { get; }
+        public ByteStreamHandler? ByteStreamHandler { get; internal set; }
 
-        public IMessageReceiveHandler? ReceiveHandler { get; set; }
+        public IMessageReceiveHandler? ReceiveHandler { get; internal set; }
 
-        protected MessageRecognizer(ByteStreamHandler byteStreamHandler)
+        public IMessageCommunicatorLogger? Logger { get; internal set; }
+
+        public Task<bool> SendAsync(string rawMessage)
         {
-            this.ByteStreamHandler = byteStreamHandler;
+            var byteStreamHandler = this.ByteStreamHandler;
+            if (byteStreamHandler == null) { return Task.FromResult(false); }
 
-            byteStreamHandler.RegisterMessageRecognizer(this);
+            return this.SendInternalAsync(byteStreamHandler, rawMessage);
         }
 
-        public abstract Task<bool> SendAsync(string rawMessage);
+        protected abstract Task<bool> SendInternalAsync(ByteStreamHandler byteStreamHandler, string rawMessage);
 
         /// <inheritdoc />
         public abstract void OnReceivedBytes(bool isNewConnection, ReadOnlySpan<byte> receivedBytes);

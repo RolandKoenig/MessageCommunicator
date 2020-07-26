@@ -14,11 +14,9 @@ namespace TcpCommunicator
         }
 
         /// <inheritdoc />
-        public override MessageRecognizer CreateMessageRecognizer(ByteStreamHandler byteStreamHandler, Encoding encoding)
+        public override MessageRecognizer CreateMessageRecognizer(Encoding encoding)
         {
-            return new EndSymbolMessageRecognizer(
-                byteStreamHandler, encoding,
-                this.EndSymbols);
+            return new EndSymbolMessageRecognizer(encoding, this.EndSymbols);
         }
     }
 }

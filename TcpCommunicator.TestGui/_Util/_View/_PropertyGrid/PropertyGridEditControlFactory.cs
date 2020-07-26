@@ -90,6 +90,7 @@ namespace TcpCommunicator.TestGui
         {
             var stackPanel = new StackPanel();
             stackPanel.Orientation = Orientation.Vertical;
+            stackPanel.Width = double.NaN;
 
             var ctrlComboBoxEnc = new ComboBox();
             ctrlComboBoxEnc.Items = Encoding.GetEncodings()

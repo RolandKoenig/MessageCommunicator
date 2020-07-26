@@ -9,9 +9,5 @@ namespace TcpCommunicator.TestGui.Data
     public class MessageRecognizerDefaultSettings
     {
         private const string CATEGORY = "Default Recognizer";
-
-        [Category(CATEGORY)]
-        [EncodingWebName]
-        public string Encoding { get; set; } = "utf-8";
     }
 }

@@ -15,15 +15,14 @@ namespace TcpCommunicator
         private Encoding _encoding;
         private StringBuffer _receiveStringBuffer;
 
-        public DefaultMessageRecognizer(ByteStreamHandler byteStreamHandler, Encoding encoding)
-            : base(byteStreamHandler)
+        public DefaultMessageRecognizer(Encoding encoding)
         {
             _encoding = encoding;
             _receiveStringBuffer = new StringBuffer(1024);
         }
 
         /// <inheritdoc />
-        public override async Task<bool> SendAsync(string rawMessage)
+        protected override async Task<bool> SendInternalAsync(ByteStreamHandler byteStreamHandler, string rawMessage)
         {
             var rawMessageLength = rawMessage.Length;
             var lengthDigitCount = TcpCommunicatorUtil.GetCountOfDigits(rawMessageLength);
@@ -52,7 +51,7 @@ namespace TcpCommunicator
                 StringBuffer.Release(sendBuffer);
                 sendBuffer = null;
 
-                return await this.ByteStreamHandler.SendAsync(
+                return await byteStreamHandler.SendAsync(
                     new ReadOnlyMemory<byte>(bytes, 0, sendMessageByteLength));
             }
             finally

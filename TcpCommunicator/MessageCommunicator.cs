@@ -9,8 +9,6 @@ namespace TcpCommunicator
     {
         private ByteStreamHandler _byteStreamHandler;
         private MessageRecognizer _messageRecognizer;
-        private IMessageReceiveHandler _receiveHandler;
-        private IMessageCommunicatorLogger? _logger;
 
         public ConnectionState State => _byteStreamHandler.State;
 
@@ -22,6 +20,8 @@ namespace TcpCommunicator
 
         public Encoding Encoding { get; }
 
+        public IMessageReceiveHandler ReceiveHandler { get; }
+
         public MessageCommunicator(
             ByteStreamHandlerSettings byteStreamHandlerSettings, 
             MessageRecognizerSettings messageRecognizerSettings, 
@@ -31,16 +31,16 @@ namespace TcpCommunicator
         {
             this.Encoding = encoding ?? Encoding.ASCII;
 
-            _logger = logger;
-
             _byteStreamHandler = byteStreamHandlerSettings.CreateByteStreamHandler();
-            _byteStreamHandler.Logger = _logger;
+            _byteStreamHandler.Logger = logger;
 
-            _messageRecognizer = messageRecognizerSettings.CreateMessageRecognizer(_byteStreamHandler, this.Encoding);
+            _messageRecognizer = messageRecognizerSettings.CreateMessageRecognizer(this.Encoding);
             _messageRecognizer.ReceiveHandler = receiveHandler;
+            _messageRecognizer.Logger = logger;
 
-            _receiveHandler = receiveHandler;
-            
+            _byteStreamHandler.RegisterMessageRecognizer(_messageRecognizer);
+
+            this.ReceiveHandler = receiveHandler;
         }
 
         public Task<bool> SendAsync(Message message)
@@ -48,14 +48,14 @@ namespace TcpCommunicator
             return _messageRecognizer.SendAsync(message.ToString());
         }
 
-        public void Start()
+        public Task StartAsync()
         {
-            _byteStreamHandler.Start();
+            return _byteStreamHandler.StartAsync();
         }
 
-        public void Stop()
+        public Task StopAsync()
         {
-            _byteStreamHandler.Stop();
+            return _byteStreamHandler.StopAsync();
         }
     }
 }

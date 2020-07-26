@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
 using TcpCommunicator.Util;
 
 namespace TcpCommunicator
@@ -53,7 +54,7 @@ namespace TcpCommunicator
         }
 
         /// <inheritdoc />
-        public override void Start()
+        protected override Task StartInternalAsync()
         {
             // Simple lock here to guard start and stop phase
             var loopId = 0;
@@ -71,10 +72,48 @@ namespace TcpCommunicator
                 loopId = _runningLoopCounter;
             }
 
-            this.StartInternal(loopId);
+            // Trigger async main loop which handles the connection
+            this.RunConnectionMainLoop(loopId);
+
+            return Task.FromResult<object?>(null);
         }
 
-        private async void StartInternal(int loopId)
+        /// <inheritdoc />
+        protected override Task StopInternalAsync()
+        {
+            // Simple lock here to guard start and stop phase
+            TcpListener? lastListener = null;
+            TcpClient? lastSendSocket = null;
+            lock (_startStopLock)
+            {
+                if (!_isRunning)
+                {
+                    throw new ApplicationException($"Unable to stop {nameof(TcpPassiveByteStreamHandler)} for port {this.ListeningPort}: This object is stopped already!");
+                }
+
+                _isRunning = false;
+                _runningLoopCounter++;
+                if (_runningLoopCounter > RUNNING_LOOP_COUNTER_MAX)
+                {
+                    _runningLoopCounter = 1;
+                }
+
+                lastListener = _currentListener;
+                lastSendSocket = _currentSendSocket;
+                _currentListener = null;
+                _currentSendSocket = null;
+            }
+
+            // Dispose previous sockets
+            TcpAsyncUtil.SafeStop(ref lastListener);
+            TcpAsyncUtil.SafeDispose(ref lastSendSocket);
+
+            this.Log(LoggingMessageType.Info, "TcpCommunicator stopped");
+
+            return Task.FromResult<object?>(null);
+        }
+
+        private async void RunConnectionMainLoop(int loopId)
         {
             this.Log(LoggingMessageType.Info, "TcpCommunicator started in passive mode");
 
@@ -208,39 +247,6 @@ namespace TcpCommunicator
             {
                 TcpAsyncUtil.SafeStop(ref tcpListener);
             }
-        }
-
-        /// <inheritdoc />
-        public override void Stop()
-        {
-            // Simple lock here to guard start and stop phase
-            TcpListener? lastListener = null;
-            TcpClient? lastSendSocket = null;
-            lock (_startStopLock)
-            {
-                if (!_isRunning)
-                {
-                    throw new ApplicationException($"Unable to stop {nameof(TcpPassiveByteStreamHandler)} for port {this.ListeningPort}: This object is stopped already!");
-                }
-
-                _isRunning = false;
-                _runningLoopCounter++;
-                if (_runningLoopCounter > RUNNING_LOOP_COUNTER_MAX)
-                {
-                    _runningLoopCounter = 1;
-                }
-
-                lastListener = _currentListener;
-                lastSendSocket = _currentSendSocket;
-                _currentListener = null;
-                _currentSendSocket = null;
-            }
-
-            // Dispose previous sockets
-            TcpAsyncUtil.SafeStop(ref lastListener);
-            TcpAsyncUtil.SafeDispose(ref lastSendSocket);
-
-            this.Log(LoggingMessageType.Info, "TcpCommunicator stopped");
         }
 
         protected override TcpClient? GetCurrentSendSocket() => _currentSendSocket;

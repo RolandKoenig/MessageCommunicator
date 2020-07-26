@@ -10,10 +10,11 @@ namespace TcpCommunicator.TestGui.Data
 
         [Category(CATEGORY)]
         [EncodingWebName]
-        public string Encoding { get; set; } = "utf-8";
+        [DisplayName("EndSymbol Encoding")]
+        public string EndSymbolEncoding { get; set; } = "utf-8";
 
         [Category(CATEGORY)]
-        [TextAndHexadecimalEdit(nameof(Encoding))]
+        [TextAndHexadecimalEdit(nameof(EndSymbolEncoding))]
         public string EndSymbols { get; set; } = string.Empty;
     }
 }

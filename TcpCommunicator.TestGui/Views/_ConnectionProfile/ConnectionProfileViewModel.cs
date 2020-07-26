@@ -77,18 +77,18 @@ namespace TcpCommunicator.TestGui.Views
             this.MessageLoggingViewModel = new LoggingViewModel(connProfile.Messages);
             this.DetailLoggingViewModel = new LoggingViewModel(connProfile.DetailLogging);
 
-            this.Command_Start = ReactiveCommand.Create<object?>(arg =>
+            this.Command_Start = ReactiveCommand.CreateFromTask<object?>(async arg =>
             {
                 if (!this.Model.IsRunning)
                 {
-                    this.Model.Start();
+                    await this.Model.StartAsync();
                 }
             });
-            this.Command_Stop = ReactiveCommand.Create<object?>(arg =>
+            this.Command_Stop = ReactiveCommand.CreateFromTask<object?>(async arg =>
             {
                 if (this.Model.IsRunning)
                 {
-                    this.Model.Stop();
+                    await this.Model.StopAsync();
                 }
             });
             this.Command_SendMessage = ReactiveCommand.CreateFromTask<string?>(async message =>

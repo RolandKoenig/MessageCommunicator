@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
 using TcpCommunicator.Util;
 
 namespace TcpCommunicator
@@ -38,7 +39,7 @@ namespace TcpCommunicator
         /// <inheritdoc />
         internal TcpActiveByteStreamHandler(
             string remoteHost, ushort remotePort, 
-            ReconnectWaitTimeGetter? reconnectWaitTimeGetter) 
+            ReconnectWaitTimeGetter reconnectWaitTimeGetter) 
             : base(reconnectWaitTimeGetter)
         {
             _startStopLock = new object();
@@ -47,7 +48,7 @@ namespace TcpCommunicator
         }
 
         /// <inheritdoc />
-        public override void Start()
+        protected override Task StartInternalAsync()
         {
             // Simple lock here to guard start and stop phase
             var loopId = 0;
@@ -66,10 +67,44 @@ namespace TcpCommunicator
                 loopId = _runningLoopCounter;
             }
 
-            this.StartInternal(loopId);
+            // Trigger async main loop which handles the connection
+            this.RunConnectionMainLoop(loopId);
+
+            return Task.FromResult<object?>(null);
         }
 
-        private async void StartInternal(int loopId)
+        /// <inheritdoc />
+        protected override Task StopInternalAsync()
+        {
+            // Simple lock here to guard start and stop phase
+            TcpClient? lastSendSocket = null;
+            lock (_startStopLock)
+            {
+                if (!_isRunning)
+                {
+                    throw new ApplicationException($"Unable to stop {nameof(TcpActiveByteStreamHandler)} for host {this.RemoteHost} and port {this.RemotePort}: This object is stopped already!");
+                }
+
+                _isRunning = false;
+                _connState = ConnectionState.Stopped;
+                _runningLoopCounter++;
+                if (_runningLoopCounter > RUNNING_LOOP_COUNTER_MAX)
+                {
+                    _runningLoopCounter = 1;
+                }
+                lastSendSocket = _currentClient;
+                _currentClient = null;
+            }
+
+            // Dispose previous sockets
+            TcpAsyncUtil.SafeDispose(ref lastSendSocket);
+
+            this.Log(LoggingMessageType.Info, "TcpCommunicator stopped");
+
+            return Task.FromResult<object?>(null);
+        }
+
+        private async void RunConnectionMainLoop(int loopId)
         {
             this.Log(LoggingMessageType.Info, "TcpCommunicator started in active mode");
 
@@ -145,35 +180,6 @@ namespace TcpCommunicator
                 // Client gets already disposed in receive loop
                 _currentClient = null;
             }
-        }
-
-        /// <inheritdoc />
-        public override void Stop()
-        {
-            // Simple lock here to guard start and stop phase
-            TcpClient? lastSendSocket = null;
-            lock (_startStopLock)
-            {
-                if (!_isRunning)
-                {
-                    throw new ApplicationException($"Unable to stop {nameof(TcpActiveByteStreamHandler)} for host {this.RemoteHost} and port {this.RemotePort}: This object is stopped already!");
-                }
-
-                _isRunning = false;
-                _connState = ConnectionState.Stopped;
-                _runningLoopCounter++;
-                if (_runningLoopCounter > RUNNING_LOOP_COUNTER_MAX)
-                {
-                    _runningLoopCounter = 1;
-                }
-                lastSendSocket = _currentClient;
-                _currentClient = null;
-            }
-
-            // Dispose previous sockets
-            TcpAsyncUtil.SafeDispose(ref lastSendSocket);
-
-            this.Log(LoggingMessageType.Info, "TcpCommunicator stopped");
         }
 
         /// <inheritdoc />

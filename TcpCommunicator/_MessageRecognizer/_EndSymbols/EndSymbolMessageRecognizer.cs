@@ -12,8 +12,7 @@ namespace TcpCommunicator
         private string _endSymbols;
         private StringBuffer _receiveStringBuffer;
 
-        public EndSymbolMessageRecognizer(ByteStreamHandler byteStreamHandler, Encoding encoding, string endSymbols)
-            : base(byteStreamHandler)
+        public EndSymbolMessageRecognizer(Encoding encoding, string endSymbols)
         {
             _encoding = encoding;
             _endSymbols = endSymbols;
@@ -21,7 +20,7 @@ namespace TcpCommunicator
         }
 
         /// <inheritdoc />
-        public override async Task<bool> SendAsync(string rawMessage)
+        protected override async Task<bool> SendInternalAsync(ByteStreamHandler byteStreamHandler, string rawMessage)
         {
             var sendBuffer = StringBuffer.Acquire(rawMessage.Length + _endSymbols.Length);
             byte[]? bytes = null;
@@ -38,7 +37,7 @@ namespace TcpCommunicator
                 StringBuffer.Release(sendBuffer);
                 sendBuffer = null;
 
-                return await this.ByteStreamHandler.SendAsync(
+                return await byteStreamHandler.SendAsync(
                     new ReadOnlyMemory<byte>(bytes, 0, sendMessageByteLength));
             }
             finally

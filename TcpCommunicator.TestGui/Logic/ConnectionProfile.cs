@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Net;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,16 +34,14 @@ namespace TcpCommunicator.TestGui.Logic
             this.Parameters = connParams;
 
             _messageCommunicator = SetupMessageCommunicator(connParams, this, this);
-            //_tcpCommunicator.Logger = this.OnLoggingMessage;
-            //_messageRecognizer.ReceiveHandler = this;
         }
 
-        public void ChangeParameters(ConnectionParameters newConnParameters)
+        public async Task ChangeParametersAsync(ConnectionParameters newConnParameters)
         {
             var prefWasRunning = false;
             if (_messageCommunicator.IsRunning)
             {
-                _messageCommunicator.Stop();
+                await _messageCommunicator.StopAsync();
                 prefWasRunning = true;
             }
 
@@ -52,7 +49,7 @@ namespace TcpCommunicator.TestGui.Logic
 
             if (prefWasRunning)
             {
-                _messageCommunicator.Start();
+                await _messageCommunicator.StartAsync();
             }
         }
 
@@ -68,14 +65,14 @@ namespace TcpCommunicator.TestGui.Logic
             }
         }
 
-        public void Start()
+        public Task StartAsync()
         {
-            _messageCommunicator.Start();
+            return _messageCommunicator.StartAsync();
         }
 
-        public void Stop()
+        public Task StopAsync()
         {
-            _messageCommunicator.Stop();
+            return _messageCommunicator.StopAsync();
         }
 
         private static MessageCommunicator SetupMessageCommunicator(
