@@ -126,7 +126,7 @@ namespace TcpCommunicator
                 {
                     var recognizedMessage = MessagePool.Take(rawMessageLength);
                     recognizedMessage.RawMessage.Append(_receiveStringBuffer.GetPart(delimiterIndex + 1, rawMessageLength));
-                    receiveHandler(recognizedMessage);
+                    receiveHandler.OnMessageReceived(recognizedMessage);
                 }
 
                 // Remove the message with endsymbols from receive buffer

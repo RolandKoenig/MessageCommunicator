@@ -8,7 +8,7 @@ namespace TcpCommunicator
     {
         public ByteStreamHandler ByteStreamHandler { get; }
 
-        public Action<Message>? ReceiveHandler { get; set; }
+        public IMessageReceiveHandler? ReceiveHandler { get; set; }
 
         protected MessageRecognizer(ByteStreamHandler byteStreamHandler)
         {

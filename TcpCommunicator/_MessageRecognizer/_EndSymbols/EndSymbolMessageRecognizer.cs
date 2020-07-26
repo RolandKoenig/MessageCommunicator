@@ -9,10 +9,10 @@ namespace TcpCommunicator
     public class EndSymbolMessageRecognizer : MessageRecognizer
     {
         private Encoding _encoding;
-        private char[] _endSymbols;
+        private string _endSymbols;
         private StringBuffer _receiveStringBuffer;
 
-        public EndSymbolMessageRecognizer(ByteStreamHandler byteStreamHandler, Encoding encoding, char[] endSymbols)
+        public EndSymbolMessageRecognizer(ByteStreamHandler byteStreamHandler, Encoding encoding, string endSymbols)
             : base(byteStreamHandler)
         {
             _encoding = encoding;
@@ -97,7 +97,7 @@ namespace TcpCommunicator
                         {
                             var recognizedMessage = MessagePool.Take(endSymbolIndex);
                             recognizedMessage.RawMessage.Append(_receiveStringBuffer.GetPart(0, endSymbolIndex));
-                            receiveHandler(recognizedMessage);
+                            receiveHandler.OnMessageReceived(recognizedMessage);
                         }
 
                         // Remove the message with endsymbols from receive buffer

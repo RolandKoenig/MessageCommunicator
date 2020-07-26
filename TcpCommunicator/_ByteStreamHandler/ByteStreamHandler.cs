@@ -18,7 +18,7 @@ namespace TcpCommunicator
         /// <summary>
         /// A custom logger. If set, this delegate will be called with all relevant events.
         /// </summary>
-        public Action<LoggingMessage>? Logger { get; set; }
+        public IMessageCommunicatorLogger? Logger { get; set; }
 
         protected bool IsLoggerSet => this.Logger != null;
 
@@ -40,10 +40,7 @@ namespace TcpCommunicator
         protected void Log(LoggingMessageType messageType, string message, string metaData = "", Exception? exception = null)
         {
             var logger = this.Logger;
-            if (logger == null) { return; }
-
-            var loggingMessage = new LoggingMessage(this, DateTime.UtcNow, messageType, metaData, message, exception);
-            logger(loggingMessage);
+            logger?.Log(new LoggingMessage(DateTime.UtcNow, messageType, metaData, message, exception));
         }
 
         internal void RegisterMessageRecognizer(MessageRecognizer messageRecognizer)

@@ -10,36 +10,52 @@ namespace TcpCommunicator
         private ByteStreamHandler _byteStreamHandler;
         private MessageRecognizer _messageRecognizer;
         private IMessageReceiveHandler _receiveHandler;
-        private Encoding _encoding;
+        private IMessageCommunicatorLogger? _logger;
+
+        public ConnectionState State => _byteStreamHandler.State;
+
+        public bool IsRunning => _byteStreamHandler.IsRunning;
+
+        public string LocalEndpointDescription => _byteStreamHandler.LocalEndpointDescription;
+
+        public string RemoteEndpointDescription => _byteStreamHandler.RemoteEndpointDescription;
+
+        public Encoding Encoding { get; }
 
         public MessageCommunicator(
             ByteStreamHandlerSettings byteStreamHandlerSettings, 
-            MessageRecognizer messageRecognizer, 
+            MessageRecognizerSettings messageRecognizerSettings, 
             IMessageReceiveHandler receiveHandler,
-            Encoding? encoding = null)
+            Encoding? encoding = null,
+            IMessageCommunicatorLogger? logger = null)
         {
-            _byteStreamHandler = byteStreamHandlerSettings.CreateByteStreamHandler();
-            _messageRecognizer = messageRecognizer;
-            _receiveHandler = receiveHandler;
+            this.Encoding = encoding ?? Encoding.ASCII;
 
-            _encoding = encoding ?? Encoding.ASCII;
+            _logger = logger;
+
+            _byteStreamHandler = byteStreamHandlerSettings.CreateByteStreamHandler();
+            _byteStreamHandler.Logger = _logger;
+
+            _messageRecognizer = messageRecognizerSettings.CreateMessageRecognizer(_byteStreamHandler, this.Encoding);
+            _messageRecognizer.ReceiveHandler = receiveHandler;
+
+            _receiveHandler = receiveHandler;
+            
         }
 
         public Task<bool> SendAsync(Message message)
         {
-            return Task.FromResult(false);
+            return _messageRecognizer.SendAsync(message.ToString());
         }
 
-        public Task StartAsync()
+        public void Start()
         {
-            return Task.FromResult<object?>(null);
+            _byteStreamHandler.Start();
         }
 
-        public Task StopAsync()
+        public void Stop()
         {
-            return Task.FromResult<object?>(null);
+            _byteStreamHandler.Stop();
         }
-
-        public ConnectionState State => _byteStreamHandler.State;
     }
 }

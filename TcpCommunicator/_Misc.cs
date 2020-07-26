@@ -48,10 +48,13 @@ namespace TcpCommunicator
         void OnReceivedBytes(bool isNewConnection, ReadOnlySpan<byte> receivedBytes);
     }
 
+    public interface IMessageCommunicatorLogger
+    {
+        public void Log(LoggingMessage loggingMessage);
+    }
+
     public readonly struct LoggingMessage
     {
-        public ByteStreamHandler Communicator { get; }
-
         public DateTime TimeStamp { get; }
 
         public LoggingMessageType MessageType { get; }
@@ -62,9 +65,8 @@ namespace TcpCommunicator
 
         public Exception? Exception { get; }
 
-        public LoggingMessage(ByteStreamHandler communicator, DateTime timestamp, LoggingMessageType messageType, string metaData, string message, Exception? exception)
+        public LoggingMessage(DateTime timestamp, LoggingMessageType messageType, string metaData, string message, Exception? exception)
         {
-            this.Communicator = communicator;
             this.TimeStamp = timestamp;
             this.MessageType = messageType;
             this.MetaData = metaData;

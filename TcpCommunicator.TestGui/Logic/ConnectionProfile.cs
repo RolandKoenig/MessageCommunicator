@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,12 +9,11 @@ using TcpCommunicator.TestGui.Data;
 
 namespace TcpCommunicator.TestGui.Logic
 {
-    public class ConnectionProfile
+    public class ConnectionProfile : IMessageReceiveHandler, IMessageCommunicatorLogger
     {
         private SynchronizationContext _syncContext;
 
-        private ByteStreamHandler _tcpCommunicator;
-        private MessageRecognizer _messageRecognizer;
+        private MessageCommunicator _messageCommunicator;
 
         public string Name => this.Parameters.Name;
 
@@ -23,47 +23,45 @@ namespace TcpCommunicator.TestGui.Logic
 
         public ObservableCollection<LoggingMessageWrapper> Messages { get; } = new ObservableCollection<LoggingMessageWrapper>();
 
-        public bool IsRunning => _tcpCommunicator.IsRunning;
+        public bool IsRunning => _messageCommunicator.IsRunning;
 
-        public ConnectionState State => _tcpCommunicator.State;
+        public ConnectionState State => _messageCommunicator.State;
 
-        public string RemoteEndpointDescription => _tcpCommunicator.RemoteEndpointDescription;
+        public string RemoteEndpointDescription => _messageCommunicator.RemoteEndpointDescription;
 
         public ConnectionProfile(SynchronizationContext syncContext, ConnectionParameters connParams)
         {
             _syncContext = syncContext;
             this.Parameters = connParams;
 
-            (_tcpCommunicator, _messageRecognizer) = SetupTcpCommunicator(connParams);
-            _tcpCommunicator.Logger = this.OnLoggingMessage;
-            _messageRecognizer.ReceiveHandler = OnMessageReceived;
+            _messageCommunicator = SetupMessageCommunicator(connParams, this, this);
+            //_tcpCommunicator.Logger = this.OnLoggingMessage;
+            //_messageRecognizer.ReceiveHandler = this;
         }
 
         public void ChangeParameters(ConnectionParameters newConnParameters)
         {
             var prefWasRunning = false;
-            if (_tcpCommunicator.IsRunning)
+            if (_messageCommunicator.IsRunning)
             {
-                _tcpCommunicator.Stop();
+                _messageCommunicator.Stop();
                 prefWasRunning = true;
             }
 
-            (_tcpCommunicator, _messageRecognizer) = SetupTcpCommunicator(newConnParameters);
-            _tcpCommunicator.Logger = this.OnLoggingMessage;
-            _messageRecognizer.ReceiveHandler = OnMessageReceived;
+            _messageCommunicator = SetupMessageCommunicator(newConnParameters, this, this);
 
             if (prefWasRunning)
             {
-                _tcpCommunicator.Start();
+                _messageCommunicator.Start();
             }
         }
 
         public async Task SendMessageAsync(string message)
         {
-            if (await _messageRecognizer.SendAsync(message))
+            if (await _messageCommunicator.SendAsync(new Message(message)))
             {
                 var newLoggingMessage = new LoggingMessage(
-                    _tcpCommunicator, DateTime.UtcNow, LoggingMessageType.Info, "OUT", message, null);
+                    DateTime.UtcNow, LoggingMessageType.Info, "OUT", message, null);
 
                 LogTo(_syncContext, newLoggingMessage, this.DetailLogging);
                 LogTo(_syncContext, newLoggingMessage, this.Messages);
@@ -72,58 +70,55 @@ namespace TcpCommunicator.TestGui.Logic
 
         public void Start()
         {
-            _tcpCommunicator.Start();
+            _messageCommunicator.Start();
         }
 
         public void Stop()
         {
-            _tcpCommunicator.Stop();
+            _messageCommunicator.Stop();
         }
 
-        private static (ByteStreamHandler, MessageRecognizer) SetupTcpCommunicator(ConnectionParameters connParams)
+        private static MessageCommunicator SetupMessageCommunicator(
+            ConnectionParameters connParams,
+            IMessageReceiveHandler messageReceiveHandler,
+            IMessageCommunicatorLogger messageCommunicatorLogger)
         {
-            //this.Parameters = connParams;
-
-            // Build the TcpCommunicator
-            ByteStreamHandler tcpCommunicator;
+            ByteStreamHandlerSettings streamHandlerSettings;
             switch (connParams.Mode)
             {
                 case ConnectionMode.Active:
-                    tcpCommunicator = new TcpActiveByteSteamHandlerSettings(connParams.Target, connParams.Port).CreateByteStreamHandler();
+                    streamHandlerSettings = new TcpActiveByteSteamHandlerSettings(connParams.Target, connParams.Port);
                     break;
 
                 case ConnectionMode.Passive:
-                    tcpCommunicator = new TcpPassiveByteSteamHandlerSettings(IPAddress.Any, connParams.Port).CreateByteStreamHandler();
+                    streamHandlerSettings = new TcpPassiveByteSteamHandlerSettings(IPAddress.Any, connParams.Port);
                     break;
 
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException($"Unknown connection mode: {connParams.Mode}");
             }
 
-            // Build the MessageRecognizer
-            MessageRecognizer messageRecognizer;
+            MessageRecognizerSettings messageRecognizerSettings;
             switch (connParams.RecognitionMode)
             {
                 case MessageRecognitionMode.Default:
-                    var settingsRecognizerDefault = (MessageRecognizerDefaultSettings)connParams.RecognizerSettings;
-                    messageRecognizer = new DefaultMessageRecognizer(
-                        tcpCommunicator, 
-                        Encoding.GetEncoding(settingsRecognizerDefault.Encoding));
+                    messageRecognizerSettings = new DefaultMessageRecognizerSettings();
                     break;
 
                 case MessageRecognitionMode.EndSymbol:
                     var settingsRecognizerEndSymbol = (MessageRecognizerEndSymbolSettings)connParams.RecognizerSettings;
-                    messageRecognizer = new EndSymbolMessageRecognizer(
-                        tcpCommunicator, 
-                        Encoding.GetEncoding(settingsRecognizerEndSymbol.Encoding), 
-                        new[]{ '#', '#' });
+                    messageRecognizerSettings = new EndSymbolMessageRecognizerSettings(settingsRecognizerEndSymbol.EndSymbols);
                     break;
 
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            return (tcpCommunicator, messageRecognizer);
+            return new MessageCommunicator(
+                streamHandlerSettings, messageRecognizerSettings,
+                messageReceiveHandler,
+                Encoding.GetEncoding(connParams.Encoding),
+                messageCommunicatorLogger);
         }
 
         private static void LogTo(SynchronizationContext syncContext, LoggingMessage logMessage, ObservableCollection<LoggingMessageWrapper> collection)
@@ -138,17 +133,12 @@ namespace TcpCommunicator.TestGui.Logic
             }, null);
         }
 
-        private void OnLoggingMessage(LoggingMessage logMessage)
-        {
-            LogTo(_syncContext, logMessage, this.DetailLogging);
-        }
-
-        private void OnMessageReceived(Message message)
+        public void OnMessageReceived(Message message)
         {
             try
             {
                 var newLoggingMessage = new LoggingMessage(
-                    _tcpCommunicator, DateTime.UtcNow, LoggingMessageType.Info, "IN", message.ToString(), null);
+                    DateTime.UtcNow, LoggingMessageType.Info, "IN", message.ToString(), null);
 
                 LogTo(_syncContext, newLoggingMessage, this.DetailLogging);
                 LogTo(_syncContext, newLoggingMessage, this.Messages);
@@ -159,6 +149,11 @@ namespace TcpCommunicator.TestGui.Logic
             {
                 message.ClearAndReturnToPool();
             }
+        }
+
+        public void Log(LoggingMessage loggingMessage)
+        {
+            LogTo(_syncContext, loggingMessage, this.DetailLogging);
         }
     }
 }
