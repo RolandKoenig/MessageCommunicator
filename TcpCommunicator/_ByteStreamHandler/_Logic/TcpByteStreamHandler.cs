@@ -11,7 +11,7 @@ namespace TcpCommunicator
     {
         public ReconnectWaitTimeGetter ReconnectWaitTimeGetter { get; set; }
 
-        public string RemoteEndpointDescription
+        public override string RemoteEndpointDescription
         {
             get
             {
@@ -27,7 +27,7 @@ namespace TcpCommunicator
             }
         }
 
-        public string LocalEndpointDescription
+        public override string LocalEndpointDescription
         {
             get
             {
@@ -45,9 +45,9 @@ namespace TcpCommunicator
 
         public uint ReceiveBufferSize { get; set; } = 1024;
 
-        protected TcpByteStreamHandler(ReconnectWaitTimeGetter? reconnectWaitTimeGetter)
+        protected TcpByteStreamHandler(ReconnectWaitTimeGetter reconnectWaitTimeGetter)
         {
-            this.ReconnectWaitTimeGetter = reconnectWaitTimeGetter ?? new FixedReconnectWaitTimeGetter(TimeSpan.FromSeconds(1.0));
+            this.ReconnectWaitTimeGetter = reconnectWaitTimeGetter;
         }
 
         protected Task WaitByReconnectWaitTimeAsync(int errorCountSinceLastConnect)

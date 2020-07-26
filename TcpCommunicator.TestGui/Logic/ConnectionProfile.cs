@@ -12,7 +12,7 @@ namespace TcpCommunicator.TestGui.Logic
     {
         private SynchronizationContext _syncContext;
 
-        private TcpByteStreamHandler _tcpCommunicator;
+        private ByteStreamHandler _tcpCommunicator;
         private MessageRecognizer _messageRecognizer;
 
         public string Name => this.Parameters.Name;
@@ -80,20 +80,20 @@ namespace TcpCommunicator.TestGui.Logic
             _tcpCommunicator.Stop();
         }
 
-        private static (TcpByteStreamHandler, MessageRecognizer) SetupTcpCommunicator(ConnectionParameters connParams)
+        private static (ByteStreamHandler, MessageRecognizer) SetupTcpCommunicator(ConnectionParameters connParams)
         {
             //this.Parameters = connParams;
 
             // Build the TcpCommunicator
-            TcpByteStreamHandler tcpCommunicator;
+            ByteStreamHandler tcpCommunicator;
             switch (connParams.Mode)
             {
                 case ConnectionMode.Active:
-                    tcpCommunicator = new TcpActiveByteStreamHandler(connParams.Target, connParams.Port);
+                    tcpCommunicator = new TcpActiveByteSteamHandlerSettings(connParams.Target, connParams.Port).CreateByteStreamHandler();
                     break;
 
                 case ConnectionMode.Passive:
-                    tcpCommunicator = new TcpPassiveByteStreamHandler(IPAddress.Any, connParams.Port);
+                    tcpCommunicator = new TcpPassiveByteSteamHandlerSettings(IPAddress.Any, connParams.Port).CreateByteStreamHandler();
                     break;
 
                 default:

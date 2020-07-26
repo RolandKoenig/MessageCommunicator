@@ -11,6 +11,10 @@ namespace TcpCommunicator
 
         public abstract bool IsRunning { get; }
 
+        public abstract string LocalEndpointDescription { get; }
+
+        public abstract string RemoteEndpointDescription { get; }
+
         /// <summary>
         /// A custom logger. If set, this delegate will be called with all relevant events.
         /// </summary>

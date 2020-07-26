@@ -36,9 +36,9 @@ namespace TcpCommunicator
         }
 
         /// <inheritdoc />
-        public TcpActiveByteStreamHandler(
+        internal TcpActiveByteStreamHandler(
             string remoteHost, ushort remotePort, 
-            ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null) 
+            ReconnectWaitTimeGetter? reconnectWaitTimeGetter) 
             : base(reconnectWaitTimeGetter)
         {
             _startStopLock = new object();

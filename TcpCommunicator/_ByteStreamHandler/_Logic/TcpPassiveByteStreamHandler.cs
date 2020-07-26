@@ -40,10 +40,10 @@ namespace TcpCommunicator
             }
         }
 
-        public TcpPassiveByteStreamHandler(
+        internal TcpPassiveByteStreamHandler(
             IPAddress listeningIPAddress,
             ushort listeningPort, 
-            ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null)
+            ReconnectWaitTimeGetter reconnectWaitTimeGetter)
             : base(reconnectWaitTimeGetter)
         {
             _startStopLock = new object();

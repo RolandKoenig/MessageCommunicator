@@ -13,10 +13,12 @@ namespace TcpCommunicator
         private Encoding _encoding;
 
         public MessageCommunicator(
-            ByteStreamHandler byteStreamHandler, MessageRecognizer messageRecognizer, IMessageReceiveHandler receiveHandler,
+            ByteStreamHandlerSettings byteStreamHandlerSettings, 
+            MessageRecognizer messageRecognizer, 
+            IMessageReceiveHandler receiveHandler,
             Encoding? encoding = null)
         {
-            _byteStreamHandler = byteStreamHandler;
+            _byteStreamHandler = byteStreamHandlerSettings.CreateByteStreamHandler();
             _messageRecognizer = messageRecognizer;
             _receiveHandler = receiveHandler;
 
