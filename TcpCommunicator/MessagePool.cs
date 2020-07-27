@@ -1,49 +1,41 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
+using TcpCommunicator.Util;
 
 namespace TcpCommunicator
 {
     public static class MessagePool
     {
-        public const int MAX_POOL_SIZE = 16;
+        public static readonly int MAX_POOL_SIZE = 16;
 
-        private static ConcurrentBag<Message> s_pool;
+        private static ConcurrentObjectPool<Message> s_pool;
 
         static MessagePool()
         {
-            s_pool = new ConcurrentBag<Message>();
+            s_pool = new ConcurrentObjectPool<Message>(MAX_POOL_SIZE);
         }
 
         public static Message Take(int capacity)
         {
-            if (s_pool.TryTake(out var result))
-            {
-                result.EnsureCapacity(capacity);
-                return result;
-            }
-            else
+            var result = s_pool.TryRent();
+            if (result == null)
             {
                 result = new Message(capacity);
                 result.IsMessageFromPool = true;
-                return result;
             }
+            return result;
         }
 
         public static void ClearAndReturn(Message message)
         {
             message.Clear();
 
-            if (s_pool.Count < MAX_POOL_SIZE)
+            if (message.IsMessageFromPool)
             {
-                s_pool.Add(message);
-            }
-            else
-            {
-                message.IsMessageFromPool = false;
+                message.IsMessageFromPool = s_pool.Return(message);
             }
         }
 
-        public static int CountCachedMessages => s_pool.Count;
+        public static int CountCachedMessages => s_pool.CountItems;
     }
 }
