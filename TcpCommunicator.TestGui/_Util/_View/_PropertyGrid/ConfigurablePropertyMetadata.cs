@@ -74,7 +74,7 @@ namespace TcpCommunicator.TestGui
             {
                 this.ValueType = PropertyValueType.Bool;
             }
-            else if (propertyType == typeof(string) ||
+            else if (propertyType == typeof(string) || propertyType == typeof(char) ||
                     propertyType == typeof(double) || propertyType == typeof(float) || propertyType == typeof(decimal) ||
                     propertyType == typeof(int) || propertyType == typeof(uint) ||
                     propertyType == typeof(byte) ||

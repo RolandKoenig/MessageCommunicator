@@ -11,6 +11,8 @@
     {
         Default,
 
-        EndSymbol
+        EndSymbol,
+
+        FixedLengthAndEndSymbol
     }
 }

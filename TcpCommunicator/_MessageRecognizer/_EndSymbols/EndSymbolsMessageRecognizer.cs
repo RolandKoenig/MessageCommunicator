@@ -6,13 +6,13 @@ using TcpCommunicator.Util;
 
 namespace TcpCommunicator
 {
-    public class EndSymbolMessageRecognizer : MessageRecognizer
+    public class EndSymbolsMessageRecognizer : MessageRecognizer
     {
         private Encoding _encoding;
         private string _endSymbols;
         private StringBuffer _receiveStringBuffer;
 
-        public EndSymbolMessageRecognizer(Encoding encoding, string endSymbols)
+        public EndSymbolsMessageRecognizer(Encoding encoding, string endSymbols)
         {
             _encoding = encoding;
             _endSymbols = endSymbols;

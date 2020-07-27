@@ -4,13 +4,13 @@ using System.Text;
 
 namespace TcpCommunicator
 {
-    public class EndSymbolMessageRecognizerSettings : MessageRecognizerSettings
+    public class EndSymbolsMessageRecognizerSettings : MessageRecognizerSettings
     {
         public Encoding Encoding { get; set; }
 
         public string EndSymbols { get; set; }
 
-        public EndSymbolMessageRecognizerSettings(Encoding encoding, string endSymbols)
+        public EndSymbolsMessageRecognizerSettings(Encoding encoding, string endSymbols)
         {
             this.Encoding = encoding;
             this.EndSymbols = endSymbols;
@@ -19,7 +19,7 @@ namespace TcpCommunicator
         /// <inheritdoc />
         public override MessageRecognizer CreateMessageRecognizer()
         {
-            return new EndSymbolMessageRecognizer(this.Encoding, this.EndSymbols);
+            return new EndSymbolsMessageRecognizer(this.Encoding, this.EndSymbols);
         }
     }
 }

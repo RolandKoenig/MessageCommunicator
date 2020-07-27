@@ -17,6 +17,9 @@ namespace TcpCommunicator.TestGui.Data
                 case MessageRecognitionMode.EndSymbol:
                     return new MessageRecognizerEndSymbolSettings();
 
+                case MessageRecognitionMode.FixedLengthAndEndSymbol:
+                    return new MessageRecognizerFixedLengthAndEndSymbolsSettings();
+
                 default:
                     throw new ApplicationException($"Unknown message recognition mode: {recognitionMode}");
             }

@@ -106,9 +106,19 @@ namespace TcpCommunicator.TestGui.Logic
 
                 case MessageRecognitionMode.EndSymbol:
                     var settingsRecognizerEndSymbol = (MessageRecognizerEndSymbolSettings)connParams.RecognizerSettings;
-                    messageRecognizerSettings = new EndSymbolMessageRecognizerSettings(
+                    messageRecognizerSettings = new EndSymbolsMessageRecognizerSettings(
                         Encoding.GetEncoding(settingsRecognizerEndSymbol.Encoding),
                         settingsRecognizerEndSymbol.EndSymbols);
+                    break;
+
+                case MessageRecognitionMode.FixedLengthAndEndSymbol:
+                    var settingsRecognizerFixedLengthAndEndSymbol =
+                        (MessageRecognizerFixedLengthAndEndSymbolsSettings) connParams.RecognizerSettings;
+                    messageRecognizerSettings = new FixedLengthAndEndSymbolsMessageRecognizerSettings(
+                        Encoding.GetEncoding(settingsRecognizerFixedLengthAndEndSymbol.Encoding),
+                        settingsRecognizerFixedLengthAndEndSymbol.EndSymbols,
+                        settingsRecognizerFixedLengthAndEndSymbol.LengthIncludingEndSymbols,
+                        settingsRecognizerFixedLengthAndEndSymbol.FillSymbol);
                     break;
 
                 default:

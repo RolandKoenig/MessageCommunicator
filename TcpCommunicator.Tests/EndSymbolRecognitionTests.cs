@@ -14,7 +14,7 @@ namespace TcpCommunicator.Tests
         {
             var tcpCommunicatorMock = A.Fake<IByteStreamHandler>();
             
-            var messageRecognizer = new EndSymbolMessageRecognizer(
+            var messageRecognizer = new FixedLengthAndEndSymbolMessageRecognizer(
                 tcpCommunicatorMock,
                 Encoding.UTF8, new char[]{'#', '#'});
 
@@ -30,7 +30,7 @@ namespace TcpCommunicator.Tests
         {
             var tcpCommunicatorMock = A.Fake<IByteStreamHandler>();
             
-            var messageRecognizer = new EndSymbolMessageRecognizer(
+            var messageRecognizer = new FixedLengthAndEndSymbolMessageRecognizer(
                 tcpCommunicatorMock,
                 Encoding.UTF8, new char[]{'#', '#'});
 
@@ -47,7 +47,7 @@ namespace TcpCommunicator.Tests
         {
             var tcpCommunicatorMock = A.Fake<IByteStreamHandler>();
             
-            var messageRecognizer = new EndSymbolMessageRecognizer(
+            var messageRecognizer = new FixedLengthAndEndSymbolMessageRecognizer(
                 tcpCommunicatorMock,
                 Encoding.UTF8, new char[]{'#', '#'});
 
@@ -64,7 +64,7 @@ namespace TcpCommunicator.Tests
         {
             var tcpCommunicatorMock = A.Fake<IByteStreamHandler>();
             
-            var messageRecognizer = new EndSymbolMessageRecognizer(
+            var messageRecognizer = new FixedLengthAndEndSymbolMessageRecognizer(
                 tcpCommunicatorMock,
                 Encoding.UTF8, new char[]{'#', '#'});
 
