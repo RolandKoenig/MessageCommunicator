@@ -6,10 +6,17 @@ namespace TcpCommunicator
 {
     public class DefaultMessageRecognizerSettings : MessageRecognizerSettings
     {
-        /// <inheritdoc />
-        public override MessageRecognizer CreateMessageRecognizer(Encoding encoding)
+        public Encoding Encoding { get; set; }
+
+        public DefaultMessageRecognizerSettings(Encoding encoding)
         {
-            return new DefaultMessageRecognizer(encoding);
+            this.Encoding = encoding;
+        }
+
+        /// <inheritdoc />
+        public override MessageRecognizer CreateMessageRecognizer()
+        {
+            return new DefaultMessageRecognizer(this.Encoding);
         }
     }
 }

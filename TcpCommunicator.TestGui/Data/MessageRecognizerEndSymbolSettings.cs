@@ -8,13 +8,12 @@ namespace TcpCommunicator.TestGui.Data
     {
         private const string CATEGORY = "EndSymbol Recognizer";
 
-        [Category(CATEGORY)]
         [EncodingWebName]
-        [DisplayName("EndSymbol Encoding")]
-        public string EndSymbolEncoding { get; set; } = "utf-8";
+        [Category(CATEGORY)]
+        public string Encoding { get; set; } = "utf-8";
 
         [Category(CATEGORY)]
-        [TextAndHexadecimalEdit(nameof(EndSymbolEncoding))]
+        [TextAndHexadecimalEdit(nameof(Encoding))]
         public string EndSymbols { get; set; } = string.Empty;
     }
 }

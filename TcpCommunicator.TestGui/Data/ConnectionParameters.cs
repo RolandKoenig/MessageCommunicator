@@ -16,9 +16,6 @@ namespace TcpCommunicator.TestGui.Data
 
         public MessageRecognitionMode RecognitionMode { get; set; } = MessageRecognitionMode.Default;
 
-        [EncodingWebName]
-        public string Encoding { get; set; } = "utf-8";
-
         public object RecognizerSettings { get; set; } =
             MessageRecognizerSettingsFactory.CreateSettings(MessageRecognitionMode.Default);
     }

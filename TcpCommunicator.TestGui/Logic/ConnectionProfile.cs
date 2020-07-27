@@ -99,12 +99,16 @@ namespace TcpCommunicator.TestGui.Logic
             switch (connParams.RecognitionMode)
             {
                 case MessageRecognitionMode.Default:
-                    messageRecognizerSettings = new DefaultMessageRecognizerSettings();
+                    var settingsRecognizerDefault = (MessageRecognizerDefaultSettings)connParams.RecognizerSettings;
+                    messageRecognizerSettings = new DefaultMessageRecognizerSettings(
+                        Encoding.GetEncoding(settingsRecognizerDefault.Encoding));
                     break;
 
                 case MessageRecognitionMode.EndSymbol:
                     var settingsRecognizerEndSymbol = (MessageRecognizerEndSymbolSettings)connParams.RecognizerSettings;
-                    messageRecognizerSettings = new EndSymbolMessageRecognizerSettings(settingsRecognizerEndSymbol.EndSymbols);
+                    messageRecognizerSettings = new EndSymbolMessageRecognizerSettings(
+                        Encoding.GetEncoding(settingsRecognizerEndSymbol.Encoding),
+                        settingsRecognizerEndSymbol.EndSymbols);
                     break;
 
                 default:
@@ -114,7 +118,6 @@ namespace TcpCommunicator.TestGui.Logic
             return new MessageCommunicator(
                 streamHandlerSettings, messageRecognizerSettings,
                 messageReceiveHandler,
-                Encoding.GetEncoding(connParams.Encoding),
                 messageCommunicatorLogger);
         }
 

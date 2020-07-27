@@ -6,17 +6,20 @@ namespace TcpCommunicator
 {
     public class EndSymbolMessageRecognizerSettings : MessageRecognizerSettings
     {
+        public Encoding Encoding { get; set; }
+
         public string EndSymbols { get; set; }
 
-        public EndSymbolMessageRecognizerSettings(string endSymbols)
+        public EndSymbolMessageRecognizerSettings(Encoding encoding, string endSymbols)
         {
+            this.Encoding = encoding;
             this.EndSymbols = endSymbols;
         }
 
         /// <inheritdoc />
-        public override MessageRecognizer CreateMessageRecognizer(Encoding encoding)
+        public override MessageRecognizer CreateMessageRecognizer()
         {
-            return new EndSymbolMessageRecognizer(encoding, this.EndSymbols);
+            return new EndSymbolMessageRecognizer(this.Encoding, this.EndSymbols);
         }
     }
 }

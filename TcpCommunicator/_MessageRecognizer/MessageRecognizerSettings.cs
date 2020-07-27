@@ -6,6 +6,6 @@ namespace TcpCommunicator
 {
     public abstract class MessageRecognizerSettings
     {
-        public abstract MessageRecognizer CreateMessageRecognizer(Encoding encoding);
+        public abstract MessageRecognizer CreateMessageRecognizer();
     }
 }

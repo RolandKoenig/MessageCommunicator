@@ -18,23 +18,18 @@ namespace TcpCommunicator
 
         public string RemoteEndpointDescription => _byteStreamHandler.RemoteEndpointDescription;
 
-        public Encoding Encoding { get; }
-
         public IMessageReceiveHandler ReceiveHandler { get; }
 
         public MessageCommunicator(
             ByteStreamHandlerSettings byteStreamHandlerSettings, 
             MessageRecognizerSettings messageRecognizerSettings, 
             IMessageReceiveHandler receiveHandler,
-            Encoding? encoding = null,
             IMessageCommunicatorLogger? logger = null)
         {
-            this.Encoding = encoding ?? Encoding.ASCII;
-
             _byteStreamHandler = byteStreamHandlerSettings.CreateByteStreamHandler();
             _byteStreamHandler.Logger = logger;
 
-            _messageRecognizer = messageRecognizerSettings.CreateMessageRecognizer(this.Encoding);
+            _messageRecognizer = messageRecognizerSettings.CreateMessageRecognizer();
             _messageRecognizer.ReceiveHandler = receiveHandler;
             _messageRecognizer.Logger = logger;
 
