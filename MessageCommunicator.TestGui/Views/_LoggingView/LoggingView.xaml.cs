@@ -2,7 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace TcpCommunicator.TestGui.Views
+namespace MessageCommunicator.TestGui.Views
 {
     public class LoggingView : OwnUserControl<LoggingViewModel>
     {

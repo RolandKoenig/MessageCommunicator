@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     public class PropertyChangedBase : INotifyPropertyChanged
     {

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Avalonia.Controls;
 
-namespace TcpCommunicator.TestGui.ViewServices
+namespace MessageCommunicator.TestGui.ViewServices
 {
     public class MessageBoxControlService : IMessageBoxService
     {

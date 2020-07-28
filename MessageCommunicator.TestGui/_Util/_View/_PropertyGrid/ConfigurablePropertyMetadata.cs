@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Reflection;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     public class ConfigurablePropertyMetadata : PropertyChangedBase
     {

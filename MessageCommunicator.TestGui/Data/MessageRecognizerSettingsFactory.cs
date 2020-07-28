@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TcpCommunicator.Util;
+using MessageCommunicator.Util;
 
-namespace TcpCommunicator.TestGui.Data
+namespace MessageCommunicator.TestGui.Data
 {
     internal static class MessageRecognizerSettingsFactory
     {

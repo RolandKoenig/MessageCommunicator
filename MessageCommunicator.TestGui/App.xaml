@@ -1,7 +1,7 @@
 ﻿<Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="TcpCommunicator.TestGui.App"
-             xmlns:local="clr-namespace:TcpCommunicator.TestGui;assembly=TcpCommunicator.TestGui">
+             x:Class="MessageCommunicator.TestGui.App"
+             xmlns:local="clr-namespace:MessageCommunicator.TestGui;assembly=MessageCommunicator.TestGui">
     <Application.Resources>
         <SolidColorBrush x:Key="IconColorPositive" Color="Green" />
         <SolidColorBrush x:Key="IconColorNegative" Color="Red" />

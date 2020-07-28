@@ -4,7 +4,7 @@ using System.Text;
 using Avalonia.Controls;
 using Avalonia.Threading;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     public class CommonErrorHandling
     {

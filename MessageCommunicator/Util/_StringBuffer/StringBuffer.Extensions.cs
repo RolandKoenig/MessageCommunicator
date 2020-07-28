@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace TcpCommunicator.Util
+namespace MessageCommunicator.Util
 {
     internal sealed unsafe partial class StringBuffer
     {

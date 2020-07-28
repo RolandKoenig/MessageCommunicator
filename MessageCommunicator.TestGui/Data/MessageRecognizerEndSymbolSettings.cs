@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace TcpCommunicator.TestGui.Data
+namespace MessageCommunicator.TestGui.Data
 {
     public class MessageRecognizerEndSymbolSettings
     {

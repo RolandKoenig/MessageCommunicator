@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     internal class DummyDisposable : IDisposable
     {

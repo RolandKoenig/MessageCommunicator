@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Reactive;
+using MessageCommunicator.TestGui.Logic;
 using ReactiveUI;
-using TcpCommunicator.TestGui.Logic;
 
-namespace TcpCommunicator.TestGui.Views
+namespace MessageCommunicator.TestGui.Views
 {
     public class ConnectionProfileViewModel : OwnViewModelBase
     {

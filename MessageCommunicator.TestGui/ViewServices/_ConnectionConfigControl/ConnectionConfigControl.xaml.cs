@@ -1,6 +1,6 @@
 ﻿using Avalonia.Markup.Xaml;
 
-namespace TcpCommunicator.TestGui.ViewServices
+namespace MessageCommunicator.TestGui.ViewServices
 {
     public class ConnectionConfigControl : OwnUserControlDialog<ConnectionConfigControlViewModel>
     {

@@ -6,7 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     public class DialogHostControl : Grid
     {

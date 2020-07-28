@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     public class OwnUserControlDialog<T> : ReactiveUserControl<T>, IViewServiceHost
         where T : OwnViewModelBase

@@ -5,7 +5,7 @@ using Avalonia.Markup.Xaml;
 // Simple message box implementation
 // Based on: https://stackoverflow.com/questions/55706291/how-to-show-a-message-box-in-avaloniaui-beta
 
-namespace TcpCommunicator.TestGui.ViewServices
+namespace MessageCommunicator.TestGui.ViewServices
 {
     public class MessageBoxControl : UserControl
     {

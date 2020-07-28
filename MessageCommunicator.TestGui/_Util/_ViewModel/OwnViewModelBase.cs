@@ -2,7 +2,7 @@
 using System.Reactive.Disposables;
 using ReactiveUI;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     public abstract class OwnViewModelBase : ReactiveObject, IActivatableViewModel
     {

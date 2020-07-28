@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TcpCommunicator\MessageCommunicator.csproj" />
+    <ProjectReference Include="..\MessageCommunicator\MessageCommunicator.csproj" />
   </ItemGroup>
 
 </Project>

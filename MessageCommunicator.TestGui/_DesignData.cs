@@ -1,10 +1,10 @@
 ﻿using System.Threading;
-using TcpCommunicator.TestGui.Data;
-using TcpCommunicator.TestGui.Logic;
-using TcpCommunicator.TestGui.Views;
-using TcpCommunicator.TestGui.ViewServices;
+using MessageCommunicator.TestGui.Data;
+using MessageCommunicator.TestGui.Logic;
+using MessageCommunicator.TestGui.Views;
+using MessageCommunicator.TestGui.ViewServices;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     public static class DesignData
     {

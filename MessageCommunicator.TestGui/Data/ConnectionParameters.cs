@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using SharpDX.Text;
 
-namespace TcpCommunicator.TestGui.Data
+namespace MessageCommunicator.TestGui.Data
 {
     public class ConnectionParameters
     {

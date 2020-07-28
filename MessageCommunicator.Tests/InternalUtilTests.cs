@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MessageCommunicator.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TcpCommunicator.Util;
 
-namespace TcpCommunicator.Tests
+namespace MessageCommunicator.Tests
 {
     [TestClass]
     public class InternalUtilTests

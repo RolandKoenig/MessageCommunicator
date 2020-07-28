@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace TcpCommunicator.TestGui.ViewServices
+namespace MessageCommunicator.TestGui.ViewServices
 {
     public interface IMessageBoxService
     {

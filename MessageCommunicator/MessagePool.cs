@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using TcpCommunicator.Util;
+using MessageCommunicator.Util;
 
-namespace TcpCommunicator
+namespace MessageCommunicator
 {
     public static class MessagePool
     {

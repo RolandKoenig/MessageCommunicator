@@ -25,7 +25,7 @@ using System.ComponentModel;
 using System.Reflection;
 using ReactiveUI;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     public class PropertyGridViewModel : OwnViewModelBase
     {

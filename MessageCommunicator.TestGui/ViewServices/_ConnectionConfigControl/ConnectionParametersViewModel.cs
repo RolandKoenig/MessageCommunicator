@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using TcpCommunicator.TestGui.Data;
+using MessageCommunicator.TestGui.Data;
 
-namespace TcpCommunicator.TestGui.ViewServices
+namespace MessageCommunicator.TestGui.ViewServices
 {
     public class ConnectionParametersViewModel : PropertyChangedBase
     {

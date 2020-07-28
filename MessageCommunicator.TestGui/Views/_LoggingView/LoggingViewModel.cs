@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive;
 using Avalonia;
+using MessageCommunicator.TestGui.Logic;
 using ReactiveUI;
-using TcpCommunicator.TestGui.Logic;
 
-namespace TcpCommunicator.TestGui.Views
+namespace MessageCommunicator.TestGui.Views
 {
     public class LoggingViewModel : OwnViewModelBase
     {

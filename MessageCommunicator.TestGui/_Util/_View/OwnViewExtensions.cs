@@ -3,7 +3,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Avalonia.Controls;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     internal static class OwnViewExtensions
     {

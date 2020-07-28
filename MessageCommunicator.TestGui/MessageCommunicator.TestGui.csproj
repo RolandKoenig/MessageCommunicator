@@ -23,13 +23,13 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TcpCommunicator\MessageCommunicator.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <AvaloniaResource Include="Assets\*" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\_LoggingView\LoggingView.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MessageCommunicator\MessageCommunicator.csproj" />
   </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Update="Views\_LoggingView\LoggingView.xaml">

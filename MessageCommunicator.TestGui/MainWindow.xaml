@@ -2,15 +2,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TcpCommunicator.TestGui;assembly=TcpCommunicator.TestGui"
-        xmlns:localViews="clr-namespace:TcpCommunicator.TestGui.Views;assembly=TcpCommunicator.TestGui"
+        xmlns:local="clr-namespace:MessageCommunicator.TestGui;assembly=MessageCommunicator.TestGui"
+        xmlns:localViews="clr-namespace:MessageCommunicator.TestGui.Views;assembly=MessageCommunicator.TestGui"
         mc:Ignorable="d"
         MinWidth="200" MinHeight="200"
         Width="800" Height="550"
         Icon="Assets/Logo.ico"
         d:DataContext="{x:Static local:DesignData.MainWindowVM}"
-        x:Class="TcpCommunicator.TestGui.MainWindow"
-        Title="TcpCommunicator - Testing UI">
+        x:Class="MessageCommunicator.TestGui.MainWindow"
+        Title="MessageCommunicator - Testing UI">
     <Window.Resources>
         <local:ConnectionStateToColorConverter x:Key="ConnStateConverter" />
     </Window.Resources>

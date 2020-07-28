@@ -6,12 +6,12 @@ using System.Reactive.Disposables;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Threading;
+using MessageCommunicator.TestGui.Logic;
+using MessageCommunicator.TestGui.Views;
+using MessageCommunicator.TestGui.ViewServices;
 using ReactiveUI;
-using TcpCommunicator.TestGui.Logic;
-using TcpCommunicator.TestGui.Views;
-using TcpCommunicator.TestGui.ViewServices;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     public class MainWindowViewModel : OwnViewModelBase
     {

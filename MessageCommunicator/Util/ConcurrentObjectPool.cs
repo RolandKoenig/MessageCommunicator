@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace TcpCommunicator.Util
+namespace MessageCommunicator.Util
 {
     // Original code from book "Pro .Net Memory Management" by Konrad Kokosa (sample sourcecode chapter 6)
     // Changes:

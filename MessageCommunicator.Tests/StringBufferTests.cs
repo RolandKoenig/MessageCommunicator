@@ -1,7 +1,7 @@
+using MessageCommunicator.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TcpCommunicator.Util;
 
-namespace TcpCommunicator.Tests
+namespace MessageCommunicator.Tests
 {
     [TestClass]
     public class StringBufferTests

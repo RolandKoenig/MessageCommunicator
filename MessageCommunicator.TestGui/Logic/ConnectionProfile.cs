@@ -4,15 +4,15 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using TcpCommunicator.TestGui.Data;
+using MessageCommunicator.TestGui.Data;
 
-namespace TcpCommunicator.TestGui.Logic
+namespace MessageCommunicator.TestGui.Logic
 {
     public class ConnectionProfile : IMessageReceiveHandler, IMessageCommunicatorLogger
     {
         private SynchronizationContext _syncContext;
 
-        private MessageCommunicator _messageCommunicator;
+        private MessageChannel _messageChannel;
 
         public string Name => this.Parameters.Name;
 
@@ -22,40 +22,40 @@ namespace TcpCommunicator.TestGui.Logic
 
         public ObservableCollection<LoggingMessageWrapper> Messages { get; } = new ObservableCollection<LoggingMessageWrapper>();
 
-        public bool IsRunning => _messageCommunicator.IsRunning;
+        public bool IsRunning => _messageChannel.IsRunning;
 
-        public ConnectionState State => _messageCommunicator.State;
+        public ConnectionState State => _messageChannel.State;
 
-        public string RemoteEndpointDescription => _messageCommunicator.RemoteEndpointDescription;
+        public string RemoteEndpointDescription => _messageChannel.RemoteEndpointDescription;
 
         public ConnectionProfile(SynchronizationContext syncContext, ConnectionParameters connParams)
         {
             _syncContext = syncContext;
             this.Parameters = connParams;
 
-            _messageCommunicator = SetupMessageCommunicator(connParams, this, this);
+            _messageChannel = SetupMessageChannel(connParams, this, this);
         }
 
         public async Task ChangeParametersAsync(ConnectionParameters newConnParameters)
         {
             var prefWasRunning = false;
-            if (_messageCommunicator.IsRunning)
+            if (_messageChannel.IsRunning)
             {
-                await _messageCommunicator.StopAsync();
+                await _messageChannel.StopAsync();
                 prefWasRunning = true;
             }
 
-            _messageCommunicator = SetupMessageCommunicator(newConnParameters, this, this);
+            _messageChannel = SetupMessageChannel(newConnParameters, this, this);
 
             if (prefWasRunning)
             {
-                await _messageCommunicator.StartAsync();
+                await _messageChannel.StartAsync();
             }
         }
 
         public async Task SendMessageAsync(string message)
         {
-            if (await _messageCommunicator.SendAsync(new Message(message)))
+            if (await _messageChannel.SendAsync(new Message(message)))
             {
                 var newLoggingMessage = new LoggingMessage(
                     DateTime.UtcNow, LoggingMessageType.Info, "OUT", message, null);
@@ -67,15 +67,15 @@ namespace TcpCommunicator.TestGui.Logic
 
         public Task StartAsync()
         {
-            return _messageCommunicator.StartAsync();
+            return _messageChannel.StartAsync();
         }
 
         public Task StopAsync()
         {
-            return _messageCommunicator.StopAsync();
+            return _messageChannel.StopAsync();
         }
 
-        private static MessageCommunicator SetupMessageCommunicator(
+        private static MessageChannel SetupMessageChannel(
             ConnectionParameters connParams,
             IMessageReceiveHandler messageReceiveHandler,
             IMessageCommunicatorLogger messageCommunicatorLogger)
@@ -125,7 +125,7 @@ namespace TcpCommunicator.TestGui.Logic
                     throw new ArgumentOutOfRangeException();
             }
 
-            return new MessageCommunicator(
+            return new MessageChannel(
                 streamHandlerSettings, messageRecognizerSettings,
                 messageReceiveHandler,
                 messageCommunicatorLogger);

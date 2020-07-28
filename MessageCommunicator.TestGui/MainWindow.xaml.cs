@@ -1,9 +1,9 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using TcpCommunicator.TestGui.ViewServices;
+using MessageCommunicator.TestGui.ViewServices;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     public class MainWindow : OwnWindow<MainWindowViewModel>
     {

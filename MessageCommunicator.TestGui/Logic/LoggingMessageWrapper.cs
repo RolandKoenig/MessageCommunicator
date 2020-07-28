@@ -1,4 +1,4 @@
-﻿namespace TcpCommunicator.TestGui.Logic
+﻿namespace MessageCommunicator.TestGui.Logic
 {
     public class LoggingMessageWrapper
     {

@@ -2,9 +2,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:local="using:TcpCommunicator.TestGui"
+             xmlns:local="using:MessageCommunicator.TestGui"
              mc:Ignorable="d"
-             x:Class="TcpCommunicator.TestGui.PropertyGrid"
+             x:Class="MessageCommunicator.TestGui.PropertyGrid"
              d:DesignHeight="300"
              d:DesignWidth="400">
 

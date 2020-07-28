@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TcpCommunicator
+namespace MessageCommunicator
 {
-    public class MessageCommunicator
+    public class MessageChannel
     {
         private ByteStreamHandler _byteStreamHandler;
         private MessageRecognizer _messageRecognizer;
@@ -20,7 +20,7 @@ namespace TcpCommunicator
 
         public IMessageReceiveHandler ReceiveHandler { get; }
 
-        public MessageCommunicator(
+        public MessageChannel(
             ByteStreamHandlerSettings byteStreamHandlerSettings, 
             MessageRecognizerSettings messageRecognizerSettings, 
             IMessageReceiveHandler receiveHandler,

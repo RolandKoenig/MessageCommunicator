@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 
-namespace TcpCommunicator
+namespace MessageCommunicator
 {
     public class TcpPassiveByteSteamHandlerSettings : ByteStreamHandlerSettings
     {

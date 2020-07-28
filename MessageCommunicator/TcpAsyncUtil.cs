@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using TcpCommunicator.Util;
+using MessageCommunicator.Util;
 
-namespace TcpCommunicator
+namespace MessageCommunicator
 {
     internal static class TcpAsyncUtil
     {

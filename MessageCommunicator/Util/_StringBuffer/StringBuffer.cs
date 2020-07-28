@@ -34,7 +34,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Win32.SafeHandles;
 
-namespace TcpCommunicator.Util
+namespace MessageCommunicator.Util
 {
     /// <summary>
     /// Specifies an interface for types that act as a set of formatting arguments.

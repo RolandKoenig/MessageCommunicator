@@ -3,7 +3,7 @@ using System.Reactive.Disposables;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     public class OwnUserControl<T> : ReactiveUserControl<T>, IViewServiceHost
         where T : OwnViewModelBase

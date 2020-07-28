@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using MessageCommunicator.TestGui.Data;
 using Newtonsoft.Json;
-using TcpCommunicator.TestGui.Data;
 
-namespace TcpCommunicator.TestGui.Logic
+namespace MessageCommunicator.TestGui.Logic
 {
     public class ConnectionProfileStore
     {

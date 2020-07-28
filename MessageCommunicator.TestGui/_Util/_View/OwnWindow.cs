@@ -5,7 +5,7 @@ using System.Reactive.Linq;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     public class OwnWindow<T> : ReactiveWindow<T>, IViewServiceHost
         where T : OwnViewModelBase

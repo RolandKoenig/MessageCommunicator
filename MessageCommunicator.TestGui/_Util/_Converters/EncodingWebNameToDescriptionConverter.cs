@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using Avalonia.Data.Converters;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     public class EncodingWebNameToDescriptionConverter : IValueConverter
     {

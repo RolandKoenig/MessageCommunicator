@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace TcpCommunicator
+namespace MessageCommunicator
 {
     public enum LoggingMessageType
     {

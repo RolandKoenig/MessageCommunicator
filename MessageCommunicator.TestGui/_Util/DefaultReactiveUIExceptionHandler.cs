@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Avalonia.Controls;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     /// <summary>
     /// A dummy object which handles exception cached by ReactiveUI.

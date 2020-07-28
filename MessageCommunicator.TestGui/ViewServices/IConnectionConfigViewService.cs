@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using TcpCommunicator.TestGui.Data;
+using MessageCommunicator.TestGui.Data;
 
-namespace TcpCommunicator.TestGui.ViewServices
+namespace MessageCommunicator.TestGui.ViewServices
 {
     public interface IConnectionConfigViewService
     {

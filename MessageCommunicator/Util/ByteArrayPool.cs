@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace TcpCommunicator.Util
+namespace MessageCommunicator.Util
 {
     internal static class ByteArrayPool
     {

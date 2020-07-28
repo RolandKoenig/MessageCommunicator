@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     public class ViewServiceRequestEventArgs
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
-using TcpCommunicator.Util;
+using MessageCommunicator.Util;
 
-namespace TcpCommunicator
+namespace MessageCommunicator
 {
     public class DefaultMessageRecognizer : MessageRecognizer
     {

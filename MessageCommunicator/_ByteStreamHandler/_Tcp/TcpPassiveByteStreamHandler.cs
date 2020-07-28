@@ -3,9 +3,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using TcpCommunicator.Util;
+using MessageCommunicator.Util;
 
-namespace TcpCommunicator
+namespace MessageCommunicator
 {
     public class TcpPassiveByteStreamHandler : TcpByteStreamHandler
     {

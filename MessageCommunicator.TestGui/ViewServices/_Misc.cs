@@ -1,4 +1,4 @@
-﻿namespace TcpCommunicator.TestGui.ViewServices
+﻿namespace MessageCommunicator.TestGui.ViewServices
 {
     public enum MessageBoxButtons
     {

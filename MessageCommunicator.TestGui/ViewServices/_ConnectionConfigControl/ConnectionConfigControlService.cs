@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Avalonia.Controls;
-using TcpCommunicator.TestGui.Data;
+using MessageCommunicator.TestGui.Data;
 
-namespace TcpCommunicator.TestGui.ViewServices
+namespace MessageCommunicator.TestGui.ViewServices
 {
     public class ConnectionConfigControlService : IConnectionConfigViewService
     {

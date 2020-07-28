@@ -5,7 +5,7 @@ using System.Text;
 using DynamicData.Kernel;
 using ReactiveUI;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     public class ErrorDialogViewModel : OwnViewModelBase
     {

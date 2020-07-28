@@ -1,4 +1,4 @@
-﻿namespace TcpCommunicator.TestGui.Data
+﻿namespace MessageCommunicator.TestGui.Data
 {
     public enum ConnectionMode
     {

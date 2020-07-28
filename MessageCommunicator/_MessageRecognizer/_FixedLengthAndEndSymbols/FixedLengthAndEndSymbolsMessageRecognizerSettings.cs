@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TcpCommunicator
+namespace MessageCommunicator
 {
     public class FixedLengthAndEndSymbolsMessageRecognizerSettings : MessageRecognizerSettings
     {

@@ -6,7 +6,7 @@ using Avalonia.ReactiveUI;
 using Avalonia.Threading;
 using ReactiveUI;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     internal class Program
     {

@@ -2,10 +2,10 @@
 using System.ComponentModel;
 using System.Reactive;
 using Force.DeepCloner;
+using MessageCommunicator.TestGui.Data;
 using ReactiveUI;
-using TcpCommunicator.TestGui.Data;
 
-namespace TcpCommunicator.TestGui.ViewServices
+namespace MessageCommunicator.TestGui.ViewServices
 {
     public class ConnectionConfigControlViewModel : OwnViewModelBase
     {

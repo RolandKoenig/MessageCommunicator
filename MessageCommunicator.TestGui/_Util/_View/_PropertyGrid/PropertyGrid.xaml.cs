@@ -8,7 +8,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using System.Text;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     public class PropertyGrid : UserControl
     {

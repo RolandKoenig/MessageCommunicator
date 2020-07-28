@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TcpCommunicator.TestGui
+namespace MessageCommunicator.TestGui
 {
     public interface IViewServiceHost
     {
