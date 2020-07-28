@@ -1,12 +1,6 @@
-# TcpCommunicator
+# MessageCommunicator
 ### About
-A small testing project for async tcp communication and Avalonia UI. Further, the tool is meant to be of help when it comes to testing tcp connections with other machines / software.
-
-Some rules I follow by implementing the tcp/ip interface:
- - Start TcpCommunicator in passive (listening) or active mode
- - Only single point-to-point connections. If a passive TcpCommunicator receives a second connection request while it already has a connection, then it closes the old one and accepts the new one
- - Only Tcp mode
- - Send and receive of single line messages
+tbd.
 
 I use the following technologies / projects:
  - [Avalonia](https://github.com/AvaloniaUI/Avalonia): Crossplatform, Xaml based UI framework
