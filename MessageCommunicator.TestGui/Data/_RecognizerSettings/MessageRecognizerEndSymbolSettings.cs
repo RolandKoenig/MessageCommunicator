@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace MessageCommunicator.TestGui.Data
 {
-    public class MessageRecognizerEndSymbolSettings
+    public class MessageRecognizerEndSymbolSettings : IMessageRecognizerAppSettings
     {
         private const string CATEGORY = "EndSymbol Recognizer";
 
@@ -15,5 +15,13 @@ namespace MessageCommunicator.TestGui.Data
         [Category(CATEGORY)]
         [TextAndHexadecimalEdit(nameof(Encoding))]
         public string EndSymbols { get; set; } = string.Empty;
+
+        /// <inheritdoc />
+        public MessageRecognizerSettings CreateLibSettings()
+        {
+            return new EndSymbolsMessageRecognizerSettings(
+                System.Text.Encoding.GetEncoding(this.Encoding),
+                this.EndSymbols);
+        }
     }
 }

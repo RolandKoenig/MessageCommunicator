@@ -13,7 +13,7 @@ namespace MessageCommunicator.TestGui
         public object? Icon { get; set; }
 
         /// <inheritdoc />
-        public override object ProvideValue(IServiceProvider serviceProvider)
+        public override object? ProvideValue(IServiceProvider serviceProvider)
         {
             if (this.Icon is Drawing iconAsDrawing)
             {

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MessageCommunicator.Util;
 
 namespace MessageCommunicator.TestGui.Data
 {
     internal static class MessageRecognizerSettingsFactory
     {
-        public static object CreateSettings(MessageRecognitionMode recognitionMode)
+        public static IMessageRecognizerAppSettings CreateSettings(MessageRecognitionMode recognitionMode)
         {
             switch (recognitionMode)
             {

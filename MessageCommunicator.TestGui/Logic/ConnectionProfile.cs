@@ -80,6 +80,7 @@ namespace MessageCommunicator.TestGui.Logic
             IMessageReceiveHandler messageReceiveHandler,
             IMessageCommunicatorLogger messageCommunicatorLogger)
         {
+            // Create stream handler settings
             ByteStreamHandlerSettings streamHandlerSettings;
             switch (connParams.Mode)
             {
@@ -95,36 +96,10 @@ namespace MessageCommunicator.TestGui.Logic
                     throw new ArgumentOutOfRangeException($"Unknown connection mode: {connParams.Mode}");
             }
 
-            MessageRecognizerSettings messageRecognizerSettings;
-            switch (connParams.RecognitionMode)
-            {
-                case MessageRecognitionMode.Default:
-                    var settingsRecognizerDefault = (MessageRecognizerDefaultSettings)connParams.RecognizerSettings;
-                    messageRecognizerSettings = new DefaultMessageRecognizerSettings(
-                        Encoding.GetEncoding(settingsRecognizerDefault.Encoding));
-                    break;
+            // Create message recognizer settings
+            var messageRecognizerSettings = connParams.RecognizerSettings.CreateLibSettings();
 
-                case MessageRecognitionMode.EndSymbol:
-                    var settingsRecognizerEndSymbol = (MessageRecognizerEndSymbolSettings)connParams.RecognizerSettings;
-                    messageRecognizerSettings = new EndSymbolsMessageRecognizerSettings(
-                        Encoding.GetEncoding(settingsRecognizerEndSymbol.Encoding),
-                        settingsRecognizerEndSymbol.EndSymbols);
-                    break;
-
-                case MessageRecognitionMode.FixedLengthAndEndSymbol:
-                    var settingsRecognizerFixedLengthAndEndSymbol =
-                        (MessageRecognizerFixedLengthAndEndSymbolsSettings) connParams.RecognizerSettings;
-                    messageRecognizerSettings = new FixedLengthAndEndSymbolsMessageRecognizerSettings(
-                        Encoding.GetEncoding(settingsRecognizerFixedLengthAndEndSymbol.Encoding),
-                        settingsRecognizerFixedLengthAndEndSymbol.EndSymbols,
-                        settingsRecognizerFixedLengthAndEndSymbol.LengthIncludingEndSymbols,
-                        settingsRecognizerFixedLengthAndEndSymbol.FillSymbol);
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
+            // Create the message channel
             return new MessageChannel(
                 streamHandlerSettings, messageRecognizerSettings,
                 messageReceiveHandler,

@@ -19,7 +19,7 @@ namespace MessageCommunicator.Util
     internal class ConcurrentObjectPool<T> 
         where T : class
     {
-        private readonly T[] _items;
+        private readonly T?[] _items;
         private T? _firstItem;
 
         public int CountItems

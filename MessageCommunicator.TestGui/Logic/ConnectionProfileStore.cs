@@ -9,18 +9,9 @@ namespace MessageCommunicator.TestGui.Logic
 {
     public class ConnectionProfileStore
     {
-        private static ConnectionProfileStore s_current;
-
         private JsonSerializer _serializer;
 
-        public static ConnectionProfileStore Current
-        {
-            get
-            {
-                if(s_current == null){ s_current = new ConnectionProfileStore(); }
-                return s_current;
-            }
-        }
+        public static ConnectionProfileStore Current { get; } = new ConnectionProfileStore();
 
         public ConnectionProfileStore()
         {

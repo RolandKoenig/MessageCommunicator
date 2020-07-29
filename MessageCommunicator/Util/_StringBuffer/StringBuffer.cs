@@ -1,7 +1,7 @@
 ﻿// Original code from https://github.com/MikePopoloski/StringFormatter
 //
 // Modifications
-//  - Changed code format by Resharper to match local project rules
+//  - Changed code format by ReSharper to match local project rules
 //  - Some new methods (see StringBuffer.Extensions.cs)
 
 
@@ -32,7 +32,6 @@ using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Microsoft.Win32.SafeHandles;
 
 namespace MessageCommunicator.Util
 {
@@ -73,19 +72,21 @@ namespace MessageCommunicator.Util
     /// </summary>
     internal sealed unsafe partial class StringBuffer 
     {
-        private const int DefaultCapacity = 32;
-        private const int MaxCachedSize = 360;  // same as BCL's StringBuilderCache
-        private const int MaxArgs = 256;
-        private const int MaxSpacing = 1000000;
-        private const int MaxSpecifierSize = 32;
+        private const int DEFAULT_CAPACITY = 32;
+        private const int MAX_CACHED_SIZE = 360;  // same as BCL's StringBuilderCache
+        private const int MAX_ARGS = 256;
+        private const int MAX_SPACING = 1000000;
+        private const int MAX_SPECIFIER_SIZE = 32;
 
-        private const string TrueLiteral = "True";
-        private const string FalseLiteral = "False";
+        private const string TRUE_LITERAL = "True";
+        private const string FALSE_LITERAL = "False";
 
-        [ThreadStatic] private static StringBuffer CachedInstance;
+        [ThreadStatic] 
+        private static StringBuffer? s_cachedInstance;
 
-        private static readonly CachedCulture CachedInvariantCulture = new CachedCulture(CultureInfo.InvariantCulture);
-        private static readonly CachedCulture CachedCurrentCulture = new CachedCulture(CultureInfo.CurrentCulture);
+        private static readonly CachedCulture s_cachedInvariantCulture = new CachedCulture(CultureInfo.InvariantCulture);
+        private static readonly CachedCulture s_cachedCurrentCulture = new CachedCulture(CultureInfo.CurrentCulture);
+
         private CachedCulture _culture;
         private char[] _buffer;
         private int _currentCount;
@@ -117,11 +118,11 @@ namespace MessageCommunicator.Util
 
                 if (value == CultureInfo.InvariantCulture)
                 {
-                    _culture = CachedInvariantCulture;
+                    _culture = s_cachedInvariantCulture;
                 }
-                else if (value == CachedCurrentCulture.Culture)
+                else if (value == s_cachedCurrentCulture.Culture)
                 {
-                    _culture = CachedCurrentCulture;
+                    _culture = s_cachedCurrentCulture;
                 }
                 else
                 {
@@ -134,7 +135,7 @@ namespace MessageCommunicator.Util
         /// Initializes a new instance of the <see cref="StringBuffer"/> class.
         /// </summary>
         public StringBuffer ()
-            : this(DefaultCapacity) {
+            : this(DEFAULT_CAPACITY) {
         }
 
         /// <summary>
@@ -143,7 +144,7 @@ namespace MessageCommunicator.Util
         /// <param name="capacity">The initial size of the string buffer.</param>
         public StringBuffer (int capacity) {
             _buffer = new char[capacity];
-            _culture = CachedCurrentCulture;
+            _culture = s_cachedCurrentCulture;
         }
 
         /// <summary>
@@ -373,11 +374,11 @@ namespace MessageCommunicator.Util
         public void Append (bool value) {
             if (value)
             {
-                this.Append(TrueLiteral);
+                this.Append(TRUE_LITERAL);
             }
             else
             {
-                this.Append(FalseLiteral);
+                this.Append(FALSE_LITERAL);
             }
         }
 
@@ -501,10 +502,8 @@ namespace MessageCommunicator.Util
                 var end = curr + format.Length;
                 var segmentsLeft = false;
                 var prevArgIndex = 0;
-                var count = 0;
                 do
                 {
-                    count++;
                     this.CheckCapacity((int) (end - curr));
                     fixed (char* bufferPtr = &_buffer[_currentCount])
                     {
@@ -652,7 +651,7 @@ namespace MessageCommunicator.Util
             }
             else
             {
-                index = ParseNum(ref curr, end, MaxArgs);
+                index = ParseNum(ref curr, end, MAX_ARGS);
             }
             if (index >= args.Count)
             {
@@ -678,15 +677,15 @@ namespace MessageCommunicator.Util
                     }
                 }
 
-                width = ParseNum(ref curr, end, MaxSpacing);
+                width = ParseNum(ref curr, end, MAX_SPACING);
                 c = SkipWhitespace(ref curr, end);
             }
 
             // check for format specifier
             curr++;
             if (c == ':') {
-                var specifierBuffer = stackalloc char[MaxSpecifierSize];
-                var specifierEnd = specifierBuffer + MaxSpecifierSize;
+                var specifierBuffer = stackalloc char[MAX_SPECIFIER_SIZE];
+                var specifierEnd = specifierBuffer + MAX_SPECIFIER_SIZE;
                 var specifierPtr = specifierBuffer;
 
                 while (true) {
@@ -814,10 +813,10 @@ namespace MessageCommunicator.Util
         }
 
         internal static StringBuffer Acquire (int capacity) {
-            if (capacity <= MaxCachedSize) {
-                var buffer = CachedInstance;
+            if (capacity <= MAX_CACHED_SIZE) {
+                var buffer = s_cachedInstance;
                 if (buffer != null) {
-                    CachedInstance = null;
+                    s_cachedInstance = null;
                     buffer.Clear();
                     buffer.CheckCapacity(capacity);
                     return buffer;
@@ -828,9 +827,9 @@ namespace MessageCommunicator.Util
         }
 
         internal static void Release (StringBuffer buffer) {
-            if (buffer._buffer.Length <= MaxCachedSize)
+            if (buffer._buffer.Length <= MAX_CACHED_SIZE)
             {
-                CachedInstance = buffer;
+                s_cachedInstance = buffer;
             }
         }
 
@@ -840,13 +839,13 @@ namespace MessageCommunicator.Util
         // Instead we pay a one-time startup cost to create a delegate that will forward
         // the parameter to the appropriate method in a strongly typed fashion.
         private static class ValueHelper<T> {
-            public static Action<StringBuffer, T, StringView> Formatter = Prepare();
+            public static Action<StringBuffer, T, StringView>? Formatter = Prepare();
 
             public static Action<StringBuffer, U, StringView> Assign<U>() where U : IStringFormattable {
                 return (f, u, v) => u.Format(f, v);
             }
 
-            private static Action<StringBuffer, T, StringView> Prepare () {
+            private static Action<StringBuffer, T, StringView>? Prepare () {
                 // we only use this class for value types that also implement IStringFormattable
                 var type = typeof(T);
                 if (!typeof(IStringFormattable).GetTypeInfo().IsAssignableFrom(type.GetTypeInfo()))
@@ -1510,7 +1509,7 @@ namespace MessageCommunicator.Util
                             ptr,
                             ref number,
                             maxDigits,
-                            format, // TODO: fix casing
+                            format, 
                             cultureData.DecimalSeparator,
                             culture.PositiveSign,
                             culture.NegativeSign

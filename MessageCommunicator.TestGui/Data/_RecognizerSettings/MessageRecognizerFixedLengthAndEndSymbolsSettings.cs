@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace MessageCommunicator.TestGui.Data
 {
-    public class MessageRecognizerFixedLengthAndEndSymbolsSettings
+    public class MessageRecognizerFixedLengthAndEndSymbolsSettings : IMessageRecognizerAppSettings
     {
         private const string CATEGORY = "FixedLength and EndSymbols Recognizer";
 
@@ -21,5 +21,15 @@ namespace MessageCommunicator.TestGui.Data
 
         [Category(CATEGORY)]
         public char FillSymbol { get; set; } = '.';
+
+        /// <inheritdoc />
+        public MessageRecognizerSettings CreateLibSettings()
+        {
+            return new FixedLengthAndEndSymbolsMessageRecognizerSettings(
+                System.Text.Encoding.GetEncoding(this.Encoding),
+                this.EndSymbols,
+                this.LengthIncludingEndSymbols,
+                this.FillSymbol);
+        }
     }
 }

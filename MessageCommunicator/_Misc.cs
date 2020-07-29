@@ -22,15 +22,6 @@ namespace MessageCommunicator
         Connected,
     }
 
-    //public interface IByteStreamHandler
-    //{
-    //    public IByteResponseProcessor? MessageRecognizer { get; }
-
-    //    void RegisterResponseProcessor(IByteResponseProcessor messageRecognizer);
-
-    //    Task<bool> SendAsync(ReadOnlyMemory<byte> messageToSend);
-    //}
-
     public interface IMessageReceiveHandler
     {
         void OnMessageReceived(Message message);
