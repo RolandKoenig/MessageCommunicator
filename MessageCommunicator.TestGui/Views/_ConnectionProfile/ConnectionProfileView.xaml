@@ -7,7 +7,6 @@
              mc:Ignorable="d"
              d:Width="400" d:Height="400"
              x:Class="MessageCommunicator.TestGui.Views.ConnectionProfileView">
-
     <DockPanel LastChildFill="True">
         <DockPanel DockPanel.Dock="Bottom"
                    LastChildFill="True">

@@ -8,6 +8,10 @@
              d:Width="400" d:Height="400"
              x:Class="MessageCommunicator.TestGui.Views.LoggingView">
 
+    <UserControl.Resources>
+        <localRoot:LoggingMessageTypeToColorConverter x:Key="LoggingMessageTypeConverter" />
+    </UserControl.Resources>
+  
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
             <MenuItem ToolTip.Tip="Copy message"
@@ -33,6 +37,17 @@
                                     IsReadOnly="True"
                                     Binding="{Binding Path=TimeStamp}"
                                     Width="150" />
+                <DataGridTemplateColumn Header=" "
+                                        Width="24">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Rectangle
+                                Fill="{Binding Path=MessageType, Converter={StaticResource LoggingMessageTypeConverter}}"
+                                Margin="5"
+                                Name="StateRect" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Type"
                                     IsReadOnly="True"
                                     Binding="{Binding Path=MessageType}"
