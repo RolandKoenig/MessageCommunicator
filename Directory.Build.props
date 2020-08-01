@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+    <Authors>Roland König</Authors>
+    <Company>Roland König</Company>
+    <Description>Library and cross-platform Gui for message based communication (Tcp, ...).</Description>
+    <Copyright>©2020 by Roland König</Copyright>
+    <PackageProjectUrl>https://github.com/RolandKoenig/MessageCommunicator</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/RolandKoenig/MessageCommunicator</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Version>0.1.0</Version>
+    <PackageVersion>0.1.0</PackageVersion>
+    <Product>MessageCommunicator</Product>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+  </PropertyGroup>
+</Project>

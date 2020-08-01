@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -18,6 +18,10 @@
 
   <ItemGroup>
     <None Remove="MessageCommunicator.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE.md" Link="LICENSE.md" Pack="true" PackagePath="LICENSE.md" />
   </ItemGroup>
 
   <ItemGroup>

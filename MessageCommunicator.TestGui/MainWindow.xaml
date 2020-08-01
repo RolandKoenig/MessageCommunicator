@@ -10,7 +10,7 @@
         Icon="Assets/Logo.ico"
         d:DataContext="{x:Static local:DesignData.MainWindowVM}"
         x:Class="MessageCommunicator.TestGui.MainWindow"
-        Title="MessageCommunicator - Testing UI">
+        Title="MessageCommunicator">
     <Window.Resources>
         <local:ConnectionStateToColorConverter x:Key="ConnStateConverter" />
     </Window.Resources>

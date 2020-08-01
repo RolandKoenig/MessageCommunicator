@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System.Reflection;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using MessageCommunicator.TestGui.ViewServices;
@@ -10,6 +11,9 @@ namespace MessageCommunicator.TestGui
         public MainWindow()
         {
             AvaloniaXamlLoader.Load(this);
+
+            var versionString = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "";
+            this.Title = $"{this.Title} {versionString}";
 
             // Register view services
             var ctrlDialogHost = this.FindControl<DialogHostControl>("CrtlDialogHost");
