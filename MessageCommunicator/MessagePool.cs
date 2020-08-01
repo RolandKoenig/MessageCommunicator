@@ -21,19 +21,25 @@ namespace MessageCommunicator
             if (result == null)
             {
                 result = new Message(capacity);
-                result.IsMessageFromPool = true;
             }
+            else
+            {
+                result.Clear();
+            }
+
+            result.IsMessagePooled = false;
             return result;
         }
 
-        public static void ClearAndReturn(Message message)
+        public static void Return(Message message)
         {
-            message.Clear();
-
-            if (message.IsMessageFromPool)
+            if (message.IsMessagePooled)
             {
-                message.IsMessageFromPool = s_pool.Return(message);
+                throw new InvalidOperationException("Message is already pooled!");
             }
+
+            message.IsMessagePooled = true;
+            s_pool.Return(message);
         }
 
         public static int CountCachedMessages => s_pool.CountItems;

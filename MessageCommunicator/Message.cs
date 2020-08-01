@@ -8,7 +8,7 @@ namespace MessageCommunicator
     {
         internal StringBuffer RawMessage { get; }
 
-        public bool IsMessageFromPool { get; internal set; }
+        public bool IsMessagePooled { get; internal set; }
 
         public Message(int capacity)
         {
@@ -36,12 +36,9 @@ namespace MessageCommunicator
             this.RawMessage.Clear();
         }
 
-        public void ClearAndReturnToPool()
+        public void ReturnToPool()
         {
-            if (this.IsMessageFromPool)
-            {
-                MessagePool.ClearAndReturn(this);
-            }
+            MessagePool.Return(this);
         }
     }
 }

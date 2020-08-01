@@ -127,12 +127,10 @@ namespace MessageCommunicator.TestGui.Logic
 
                 LogTo(_syncContext, newLoggingMessage, this.DetailLogging);
                 LogTo(_syncContext, newLoggingMessage, this.Messages);
-
-                message.ClearAndReturnToPool();
             }
             finally
             {
-                message.ClearAndReturnToPool();
+                message.ReturnToPool();
             }
         }
 
