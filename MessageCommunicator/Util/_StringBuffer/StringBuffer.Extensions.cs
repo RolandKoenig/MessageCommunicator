@@ -7,6 +7,8 @@ namespace MessageCommunicator.Util
 {
     internal sealed unsafe partial class StringBuffer
     {
+        public int Capacity => _buffer.Length;
+
         public StringBuffer(string template)
             : this(template.Length)
         {
@@ -28,9 +30,14 @@ namespace MessageCommunicator.Util
             _currentCount = remaining;
         }
 
-        public ReadOnlySpan<char> GetPart(int offset, int count)
+        public Span<char> GetPart(int offset, int count)
         {
-            return new ReadOnlySpan<char>(
+            if (offset + count > _currentCount)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            return new Span<char>(
                 _buffer,
                 offset, count);
         }

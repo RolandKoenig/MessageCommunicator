@@ -15,7 +15,19 @@ namespace MessageCommunicator
             s_pool = new ConcurrentObjectPool<Message>(MAX_POOL_SIZE);
         }
 
-        public static Message Take(int capacity)
+        /// <summary>
+        /// Clears current message pool.
+        /// </summary>
+        public static void Clear()
+        {
+            s_pool = new ConcurrentObjectPool<Message>(MAX_POOL_SIZE);
+        }
+
+        /// <summary>
+        /// Rents a message from the pool. A new message will be created if there is no one inside the pool.
+        /// </summary>
+        /// <param name="capacity">The capacity of the returned message.</param>
+        public static Message Rent(int capacity)
         {
             var result = s_pool.TryRent();
             if (result == null)
@@ -24,13 +36,18 @@ namespace MessageCommunicator
             }
             else
             {
+                result.IsMessagePooled = false;
                 result.Clear();
             }
 
-            result.IsMessagePooled = false;
             return result;
         }
 
+        /// <summary>
+        /// Returns the given message to the message pool.
+        /// </summary>
+        /// <param name="message">The message to be returned.</param>
+        /// <exception cref="InvalidOperationException">The given message is already pooled.</exception>
         public static void Return(Message message)
         {
             if (message.IsMessagePooled)
@@ -42,6 +59,9 @@ namespace MessageCommunicator
             s_pool.Return(message);
         }
 
+        /// <summary>
+        /// Total count of messages within the pool.
+        /// </summary>
         public static int CountCachedMessages => s_pool.CountItems;
     }
 }

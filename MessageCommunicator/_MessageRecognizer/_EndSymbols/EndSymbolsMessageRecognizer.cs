@@ -94,7 +94,7 @@ namespace MessageCommunicator
                         var receiveHandler = this.ReceiveHandler;
                         if (receiveHandler != null)
                         {
-                            var recognizedMessage = MessagePool.Take(endSymbolIndex);
+                            var recognizedMessage = MessagePool.Rent(endSymbolIndex);
                             recognizedMessage.RawMessage.Append(_receiveStringBuffer.GetPart(0, endSymbolIndex));
                             receiveHandler.OnMessageReceived(recognizedMessage);
                         }

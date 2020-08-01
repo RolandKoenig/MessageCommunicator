@@ -32,13 +32,7 @@ namespace MessageCommunicator
             try
             {
                 sendBuffer.Append(SYMBOL_START);
-                unsafe
-                {
-                    var format = stackalloc char[2];
-                    format[0] = 'f';
-                    format[1] = '0';
-                    sendBuffer.Append(rawMessageLength, new StringView(format, 1));
-                }
+                sendBuffer.Append(rawMessageLength, StringView.Empty);
                 sendBuffer.Append(SYMBOL_DELIMITER);
                 sendBuffer.Append(rawMessage);
                 sendBuffer.Append(SYMBOL_END);
@@ -123,7 +117,7 @@ namespace MessageCommunicator
                 var receiveHandler = this.ReceiveHandler;
                 if (receiveHandler != null)
                 {
-                    var recognizedMessage = MessagePool.Take(rawMessageLength);
+                    var recognizedMessage = MessagePool.Rent(rawMessageLength);
                     recognizedMessage.RawMessage.Append(_receiveStringBuffer.GetPart(delimiterIndex + 1, rawMessageLength));
                     receiveHandler.OnMessageReceived(recognizedMessage);
                 }
