@@ -11,7 +11,7 @@ namespace MessageCommunicator.Samples
         {
             // Create and start receive channel
             var passiveTcpChannel = new MessageChannel(
-                new TcpPassiveByteSteamHandlerSettings(IPAddress.Loopback, 12000),
+                new TcpPassiveByteStreamHandlerSettings(IPAddress.Loopback, 12000),
                 new EndSymbolsMessageRecognizerSettings(Encoding.UTF8, "##"),
                 (message) =>
                 {
@@ -21,7 +21,7 @@ namespace MessageCommunicator.Samples
 
             // Create and start send channel
             var activeTcpChannel = new MessageChannel(
-                new TcpActiveByteSteamHandlerSettings("127.0.0.1", 12000), 
+                new TcpActiveByteStreamHandlerSettings("127.0.0.1", 12000), 
                 new EndSymbolsMessageRecognizerSettings(Encoding.UTF8, "##"),
                 (message) =>
                 {

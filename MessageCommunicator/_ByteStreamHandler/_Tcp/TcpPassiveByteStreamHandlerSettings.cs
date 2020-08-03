@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MessageCommunicator
 {
-    public class TcpPassiveByteSteamHandlerSettings : ByteStreamHandlerSettings
+    public class TcpPassiveByteStreamHandlerSettings : ByteStreamHandlerSettings
     {
         public IPAddress ListeningIPAddress
         {
@@ -25,7 +25,7 @@ namespace MessageCommunicator
             set;
         }
 
-        public TcpPassiveByteSteamHandlerSettings(
+        public TcpPassiveByteStreamHandlerSettings(
             IPAddress listeningIPAddress,
             ushort listeningPort,
             ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null)

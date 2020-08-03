@@ -12,7 +12,7 @@ port 12000. Messages are encoded by UTF8 and use ## as end sign.
 ```csharp
 // Create and start passive channel (listens for incoming tcp connection)
 var passiveTcpChannel = new MessageChannel(
-    new TcpPassiveByteSteamHandlerSettings(IPAddress.Loopback, 12000),
+    new TcpPassiveByteStreamHandlerSettings(IPAddress.Loopback, 12000),
     new EndSymbolsMessageRecognizerSettings(Encoding.UTF8, "##"),
     (message) =>
     {
@@ -27,7 +27,7 @@ listen. Here we are connecting to port 12000 on the localhost.
 ```csharp
 // Create and start send channel
 var activeTcpChannel = new MessageChannel(
-    new TcpActiveByteSteamHandlerSettings("127.0.0.1", 12000), 
+    new TcpActiveByteStreamHandlerSettings("127.0.0.1", 12000), 
     new EndSymbolsMessageRecognizerSettings(Encoding.UTF8, "##"),
     (message) =>
     {

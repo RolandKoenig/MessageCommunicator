@@ -85,11 +85,11 @@ namespace MessageCommunicator.TestGui.Logic
             switch (connParams.Mode)
             {
                 case ConnectionMode.Active:
-                    streamHandlerSettings = new TcpActiveByteSteamHandlerSettings(connParams.Target, connParams.Port);
+                    streamHandlerSettings = new TcpActiveByteStreamHandlerSettings(connParams.Target, connParams.Port);
                     break;
 
                 case ConnectionMode.Passive:
-                    streamHandlerSettings = new TcpPassiveByteSteamHandlerSettings(IPAddress.Any, connParams.Port);
+                    streamHandlerSettings = new TcpPassiveByteStreamHandlerSettings(IPAddress.Any, connParams.Port);
                     break;
 
                 default:

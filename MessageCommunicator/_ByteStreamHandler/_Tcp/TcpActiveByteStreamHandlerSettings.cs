@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MessageCommunicator
 {
-    public class TcpActiveByteSteamHandlerSettings : ByteStreamHandlerSettings
+    public class TcpActiveByteStreamHandlerSettings : ByteStreamHandlerSettings
     {
         public string RemoteHost
         {
@@ -24,7 +24,7 @@ namespace MessageCommunicator
             set;
         }
 
-        public TcpActiveByteSteamHandlerSettings(
+        public TcpActiveByteStreamHandlerSettings(
             string remoteHost, ushort remotePort,
             ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null)
         {
