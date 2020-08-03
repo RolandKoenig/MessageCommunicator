@@ -6,12 +6,17 @@ namespace MessageCommunicator.TestGui.Views
 {
     public class LoggingView : OwnUserControl<LoggingViewModel>
     {
+        private DataGridColumn _columnTypeColor;
         private DataGridColumn _columnType;
 
         public bool IsTypeColumnVisible
         {
             get => _columnType.IsVisible;
-            set => _columnType.IsVisible = value;
+            set
+            {
+                _columnType.IsVisible = value;
+                _columnTypeColor.IsVisible = value;
+            }
         }
 
         public LoggingView()
@@ -19,7 +24,8 @@ namespace MessageCommunicator.TestGui.Views
             AvaloniaXamlLoader.Load(this);
 
             var ctrlDataGrid = this.FindControl<DataGrid>("CtrlDataGrid");
-            _columnType = ctrlDataGrid.Columns[1];
+            _columnTypeColor = ctrlDataGrid.Columns[1];
+            _columnType = ctrlDataGrid.Columns[2];
         }
     }
 }
