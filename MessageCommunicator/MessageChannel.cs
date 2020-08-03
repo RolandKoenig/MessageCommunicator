@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using MessageCommunicator.Util;
 
 namespace MessageCommunicator
 {
@@ -36,6 +37,19 @@ namespace MessageCommunicator
             _byteStreamHandler.RegisterMessageRecognizer(_messageRecognizer);
 
             this.ReceiveHandler = receiveHandler;
+        }
+
+        public MessageChannel(
+            ByteStreamHandlerSettings byteStreamHandlerSettings,
+            MessageRecognizerSettings messageRecognizerSettings,
+            Action<Message> receiveHandler,
+            IMessageCommunicatorLogger? logger = null)
+            : this(
+                byteStreamHandlerSettings, messageRecognizerSettings,
+                new DelegateMessageReceiveHandler(receiveHandler),
+                logger)
+        {
+
         }
 
         public Task<bool> SendAsync(Message message)

@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageCommunicator.TestGui
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageCommunicator.Tests", "MessageCommunicator.Tests\MessageCommunicator.Tests.csproj", "{15833E1F-B893-4D4C-9A37-B29E7ACDD236}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageCommunicator.Samples", "MessageCommunicator.Samples\MessageCommunicator.Samples.csproj", "{7B36AA01-E6A4-49BD-9063-DA56DD25DBAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{15833E1F-B893-4D4C-9A37-B29E7ACDD236}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15833E1F-B893-4D4C-9A37-B29E7ACDD236}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15833E1F-B893-4D4C-9A37-B29E7ACDD236}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B36AA01-E6A4-49BD-9063-DA56DD25DBAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B36AA01-E6A4-49BD-9063-DA56DD25DBAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B36AA01-E6A4-49BD-9063-DA56DD25DBAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B36AA01-E6A4-49BD-9063-DA56DD25DBAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
