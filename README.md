@@ -44,14 +44,18 @@ await activeTcpChannel.SendAsync("Message 1 from active to passive...");
 **Nuget**: tbd.
 
 ### Gui
+Inside the testing Gui you can manage multiple profiles. Each profile has its own configuration
+for which stream it uses (tcp active, tcp passive. ...) and which message recognizer it uses
+(endsymbols, etc.). The Gui also displays all logging messages which come through the logger of 
+the corresponding message channel.
 
 ![alt text](_Misc/Screenshot_01.png "Screenshot of the testing UI")
 
-## Based on...
-MessageCommunicator is based on .Net Core and meant to be cross-platform. 
+## Project is based on...
+MessageCommunicator is based on .Net Core (currently 3.1) and meant to be cross-platform. 
 
 I use the following technologies / projects:
- - [Avalonia](https://github.com/AvaloniaUI/Avalonia): Crossplatform, Xaml based UI framework
+ - [Avalonia](https://github.com/AvaloniaUI/Avalonia): Cross-platform, Xaml based UI framework
  - [Avalonia.IconPacks](https://github.com/ahopper/Avalonia.IconPacks): A good collection of free vector icons ready to be used in Avalonia applications
- - [ReactiveUI](https://github.com/reactiveui/ReactiveUI): Crossplatform mvvm framework. Avalonia has additional integration for ReactiveUI
+ - [ReactiveUI](https://github.com/reactiveui/ReactiveUI): Cross-platform mvvm framework. Avalonia has additional integration for ReactiveUI
  - [StringFormatter](https://github.com/MikePopoloski/StringFormatter): A copy/paste ready alternative to StringBuilder. StringFormatter is optimized for less object allocations

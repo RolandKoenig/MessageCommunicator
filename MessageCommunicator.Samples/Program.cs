@@ -45,9 +45,6 @@ namespace MessageCommunicator.Samples
             await passiveTcpChannel.SendAsync("Message 2 from active to passive...");
             await passiveTcpChannel.SendAsync("Message 3 from active to passive...");
 
-            var message = MessagePool.Rent(100);
-            message.Append("Message 1 from active to passive...");
-
             // Wait 
             Console.ReadLine();
 
