@@ -36,14 +36,17 @@ namespace MessageCommunicator.Samples
             }
 
             // Send some messages (active -> passive)
-            await activeTcpChannel.SendAsync(new Message("Message 1 from active to passive..."));
-            await activeTcpChannel.SendAsync(new Message("Message 2 from active to passive..."));
-            await activeTcpChannel.SendAsync(new Message("Message 3 from active to passive..."));
+            await activeTcpChannel.SendAsync("Message 1 from active to passive...");
+            await activeTcpChannel.SendAsync("Message 2 from active to passive...");
+            await activeTcpChannel.SendAsync("Message 3 from active to passive...");
 
             // Send some messages (passive -> active)
-            await passiveTcpChannel.SendAsync(new Message("Message 1 from active to passive..."));
-            await passiveTcpChannel.SendAsync(new Message("Message 2 from active to passive..."));
-            await passiveTcpChannel.SendAsync(new Message("Message 3 from active to passive..."));
+            await passiveTcpChannel.SendAsync("Message 1 from active to passive...");
+            await passiveTcpChannel.SendAsync("Message 2 from active to passive...");
+            await passiveTcpChannel.SendAsync("Message 3 from active to passive...");
+
+            var message = MessagePool.Rent(100);
+            message.Append("Message 1 from active to passive...");
 
             // Wait 
             Console.ReadLine();

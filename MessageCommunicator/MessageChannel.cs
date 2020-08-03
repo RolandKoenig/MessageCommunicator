@@ -52,9 +52,19 @@ namespace MessageCommunicator
 
         }
 
+        public Task<bool> SendAsync(ReadOnlySpan<char> rawMessage)
+        {
+            return _messageRecognizer.SendAsync(rawMessage);
+        }
+
+        public Task<bool> SendAsync(string rawMessage)
+        {
+            return _messageRecognizer.SendAsync(rawMessage);
+        }
+
         public Task<bool> SendAsync(Message message)
         {
-            return _messageRecognizer.SendAsync(message.ToString());
+            return _messageRecognizer.SendAsync(message.GetSpanReadOnly());
         }
 
         public Task StartAsync()

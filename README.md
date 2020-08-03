@@ -38,7 +38,7 @@ await activeTcpChannel.StartAsync();
 
 Sending a message is as easy as:
 ```csharp
-await activeTcpChannel.SendAsync(new Message("Message 1 from active to passive..."));
+await activeTcpChannel.SendAsync("Message 1 from active to passive...");
 ```
 
 **Nuget**: tbd.

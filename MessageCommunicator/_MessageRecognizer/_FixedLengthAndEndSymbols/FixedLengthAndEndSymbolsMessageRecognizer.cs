@@ -32,7 +32,7 @@ namespace MessageCommunicator
         }
 
         /// <inheritdoc />
-        protected override async Task<bool> SendInternalAsync(ByteStreamHandler byteStreamHandler, string rawMessage)
+        protected override Task<bool> SendInternalAsync(ByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage)
         {
             // Check for valid message length
             if (rawMessage.Length > _lengthExcludingEndSymbols)
@@ -44,7 +44,7 @@ namespace MessageCommunicator
             }
             if (rawMessage.Length <= 0)
             {
-                return false;
+                return Task.FromResult(false);
             }
 
             var sendBuffer = StringBuffer.Acquire(_lengthIncludingEndSymbols);
@@ -66,7 +66,7 @@ namespace MessageCommunicator
                 StringBuffer.Release(sendBuffer);
                 sendBuffer = null;
 
-                return await byteStreamHandler.SendAsync(
+                return byteStreamHandler.SendAsync(
                     new ReadOnlyMemory<byte>(bytes, 0, sendMessageByteLength));
             }
             finally

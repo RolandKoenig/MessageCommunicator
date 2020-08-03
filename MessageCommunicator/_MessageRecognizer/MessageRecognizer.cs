@@ -12,7 +12,7 @@ namespace MessageCommunicator
 
         public IMessageCommunicatorLogger? Logger { get; internal set; }
 
-        public Task<bool> SendAsync(string rawMessage)
+        public Task<bool> SendAsync(ReadOnlySpan<char> rawMessage)
         {
             var byteStreamHandler = this.ByteStreamHandler;
             if (byteStreamHandler == null) { return Task.FromResult(false); }
@@ -20,7 +20,7 @@ namespace MessageCommunicator
             return this.SendInternalAsync(byteStreamHandler, rawMessage);
         }
 
-        protected abstract Task<bool> SendInternalAsync(ByteStreamHandler byteStreamHandler, string rawMessage);
+        protected abstract Task<bool> SendInternalAsync(ByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage);
 
         /// <inheritdoc />
         public abstract void OnReceivedBytes(bool isNewConnection, ReadOnlySpan<byte> receivedBytes);

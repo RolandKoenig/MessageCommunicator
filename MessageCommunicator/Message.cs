@@ -50,9 +50,19 @@ namespace MessageCommunicator
             return this.RawMessage.GetPart(offset, length);
         }
 
+        public Span<char> GetSpan()
+        {
+            return this.RawMessage.GetPart(0, this.RawMessage.Count);
+        }
+
         public ReadOnlySpan<char> GetSpanReadOnly(int offset, int length)
         {
             return this.RawMessage.GetPart(offset, length);
+        }
+
+        public ReadOnlySpan<char> GetSpanReadOnly()
+        {
+            return this.RawMessage.GetPart(0, this.RawMessage.Count);
         }
 
         /// <summary>
@@ -82,6 +92,11 @@ namespace MessageCommunicator
             }
 
             this.RawMessage.Clear();
+        }
+
+        public void Append(string value)
+        {
+            this.RawMessage.Append(value);
         }
 
         /// <summary>
