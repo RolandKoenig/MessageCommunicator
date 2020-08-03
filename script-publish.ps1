@@ -12,3 +12,25 @@ dotnet publish -c Release -f netcoreapp3.1 --self-contained true -p:PublishSingl
 Copy-Item "./publish/MessageCommunicator (Win X86)/MessageCommunicator.TestGui.exe" -Destination "./publish/MessageCommunicator-Win-X86.exe"
 Copy-Item "./publish/MessageCommunicator (Win X64)/MessageCommunicator.TestGui.exe" -Destination "./publish/MessageCommunicator-Win-X64.exe"
 Copy-Item "./publish/MessageCommunicator (Linux X64)/MessageCommunicator.TestGui" -Destination "./publish/MessageCommunicator-Linux-X64"
+
+# Compress each build for lower disk usage
+$compress = @{
+  Path = "./publish/MessageCommunicator-Win-X86.exe"
+  CompressionLevel = "Optimal"
+  DestinationPath = ".publish/MessageCommunicator-Win-X86.zip"
+}
+Compress-Archive @compress
+
+$compress = @{
+  Path = "./publish/MessageCommunicator-Win-X64.exe"
+  CompressionLevel = "Optimal"
+  DestinationPath = ".publish/MessageCommunicator-Win-X64.zip"
+}
+Compress-Archive @compress
+
+$compress = @{
+  Path = "./publish/MessageCommunicator-Linux-X64"
+  CompressionLevel = "Optimal"
+  DestinationPath = ".publish/MessageCommunicator-Linux-X64.zip"
+}
+Compress-Archive @compress
