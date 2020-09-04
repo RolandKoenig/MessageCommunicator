@@ -38,7 +38,7 @@
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Default.xaml" />
       
         <Style Selector="Separator">
-            <Setter Property="Background" Value="{DynamicResource  ThemeBorderLowBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource ThemeBorderLowBrush}"/>
         </Style>
         <Style Selector="Separator.Vertical">
             <Setter Property="Width" Value="1"/>
@@ -58,11 +58,11 @@
         </Style>
 
         <Style Selector="DataGrid">
-            <Setter Property="AlternatingRowBackground" Value="WhiteSmoke" />
-            <Setter Property="RowBackground" Value="White" />
+            <Setter Property="AlternatingRowBackground" Value="{DynamicResource ThemeBackgroundBrush}" />
+            <Setter Property="RowBackground" Value="{DynamicResource ThemeBackgroundBrush}" />
             <Setter Property="GridLinesVisibility" Value="All" />
-            <Setter Property="HorizontalGridLinesBrush" Value="LightGray" />
-            <Setter Property="VerticalGridLinesBrush" Value="LightGray" />
+            <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
+            <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
             <Setter Property="CanUserResizeColumns" Value="True" />
             <Setter Property="CanUserSortColumns" Value="False" />
             <Setter Property="CanUserReorderColumns" Value="False" />
@@ -73,7 +73,7 @@
         <Style Selector="DataGridColumnHeader">
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Border BorderBrush="LightGray" BorderThickness="0,1,1,1"
+                    <Border BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="0,1,1,1"
                             Background="{TemplateBinding Background}">
                         <Grid Margin="{TemplateBinding Padding}"
                               ColumnDefinitions="*,Auto">
@@ -102,7 +102,7 @@
                     <ControlTemplate>
                         <DockPanel LastChildFill="True" Margin="3">
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                                <Border BorderBrush="LightGray" BorderThickness="0"
+                                <Border BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="0"
                                         Margin="5,0,0,0">
                                     <ContentPresenter TextBlock.FontWeight="Bold" Margin="2"
                                                       Content="{TemplateBinding Header}" />
@@ -110,7 +110,7 @@
                             </StackPanel>
 
                             <Border
-                                BorderBrush="LightGray"
+                                BorderBrush="{DynamicResource ThemeBorderMidBrush}"
                                 BorderThickness="1"
                                 CornerRadius="5">
                                 <ContentPresenter Content="{TemplateBinding Content}" />
