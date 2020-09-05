@@ -32,6 +32,7 @@
     <ProjectReference Include="..\MessageCommunicator\MessageCommunicator.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\Styles\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 </Project>

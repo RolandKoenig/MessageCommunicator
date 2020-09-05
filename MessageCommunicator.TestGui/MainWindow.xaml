@@ -13,24 +13,45 @@
         Title="MessageCommunicator">
     <Window.Resources>
         <local:ConnectionStateToColorConverter x:Key="ConnStateConverter" />
+      
+        <StyleInclude x:Key="ThemeLight" Source="/Assets/Styles/Light.xaml" />
+        <StyleInclude x:Key="ThemeDark" Source="/Assets/Styles/Dark.xaml" />
     </Window.Resources>
-
+ 
+    <Window.Styles>
+        <StyleInclude Source="/Assets/Styles/Light.xaml" />
+    </Window.Styles>
+  
     <Grid>
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="250" MinWidth="100" />
                 <ColumnDefinition Width="3" MaxWidth="3" MinWidth="3" />
                 <ColumnDefinition Width="*" MinWidth="100" />
             </Grid.ColumnDefinitions>
+          
+            <Menu Grid.Row="0" Grid.ColumnSpan="3">
+                <MenuItem Header="File">
+                    <MenuItem Header="Exit" PointerPressed="OnMnuExit_PointerPressed" />
+                </MenuItem>
+                <MenuItem Header="Themes">
+                    <MenuItem Header="Light" PointerPressed="OnMnuThemeLight_PointerPressed" />
+                    <MenuItem Header="Dark" PointerPressed="OnMnuThemeDark_PointerPressed" />
+                </MenuItem>
+            </Menu>
 
-            <GridSplitter Grid.Column="1"
+            <GridSplitter Grid.Column="1" Grid.Row="1"
                           Background="Transparent"
                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
             <!-- Overview of all profiles -->
-            <HeaderedContentControl Header="Profiles"
-                                    Classes="GroupBox"
-                                    Grid.Column="0">
+            <HeaderedContentControl Grid.Column="0" Grid.Row="1"
+                                    Header="Profiles"
+                                    Classes="GroupBox">
                 <DockPanel LastChildFill="True">
 
                     <Menu DockPanel.Dock="Top">
@@ -100,8 +121,8 @@
             </HeaderedContentControl>
 
             <!-- Details of the selected profile -->
-            <HeaderedContentControl Classes="GroupBox"
-                                    Grid.Column="2"
+            <HeaderedContentControl Grid.Column="2" Grid.Row="1"
+                                    Classes="GroupBox"                                    
                                     IsEnabled="{Binding Path=IsProfileScreenEnabled}">
                 <HeaderedContentControl.Header>
                     <StackPanel Orientation="Horizontal">
