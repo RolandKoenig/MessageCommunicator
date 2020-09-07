@@ -1,0 +1,114 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:MessageCommunicator.TestGui;assembly=MessageCommunicator.TestGui">
+
+    <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml" />
+    <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Default.xaml" />
+  
+    <!-- DataGrid -->
+    <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+        <Setter Property="Fill" Value="{DynamicResource ThemeAccentBrush4}"/>
+    </Style>
+    <Style Selector="DataGridRow:pointerover /template/ Rectangle#BackgroundRectangle">
+        <Setter Property="Fill" Value="{DynamicResource ThemeControlHighlightMidBrush}"/>
+    </Style>
+    <Style Selector="DataGrid">
+        <Setter Property="AlternatingRowBackground" Value="{DynamicResource ThemeCustomAlternateBackgroundBrush}" />
+        <Setter Property="RowBackground" Value="{DynamicResource ThemeBackgroundBrush}" />
+        <Setter Property="GridLinesVisibility" Value="All" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource ThemeBorderLowBrush}" />
+        <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource ThemeBorderLowBrush}" />
+        <Setter Property="CanUserResizeColumns" Value="True" />
+        <Setter Property="CanUserSortColumns" Value="False" />
+        <Setter Property="CanUserReorderColumns" Value="False" />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="local:XamlExtensions.IsDefaultGridBehaviorActive" Value="True" />
+    </Style>
+    <Style Selector="DataGridColumnHeader">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="0,1,1,1"
+                        Background="{TemplateBinding Background}">
+                    <Grid Margin="{TemplateBinding Padding}"
+                          ColumnDefinitions="*,Auto">
+                        <ContentPresenter Grid.Column="0"
+                                          Content="{TemplateBinding Content}" />
+
+                        <Path Name="SortIcon"
+                              Grid.Column="1"
+                              Fill="{TemplateBinding Foreground}"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center"
+                              Stretch="Uniform"
+                              Width="8"
+                              Margin="4,0,0,0"
+                              Data="F1 M -5.215,6.099L 5.215,6.099L 0,0L -5.215,6.099 Z " />
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+  
+    <!-- Main menu -->
+    <Style Selector="Menu.MainMenu">
+        <Setter Property="Background" Value="#00CCFF" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="MenuItem.MainMenu">
+        <Setter Property="Background" Value="#00CCFF" />
+    </Style>
+  
+    <!-- DialogHostControl -->
+    <Style Selector="Border.DialogHostControlBorder">
+        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
+    </Style>
+  
+    <!-- PropertyGrid -->
+    <Style Selector="Rectangle.PropertyGridCategoryHeaderLine">
+        <Setter Property="Fill" Value="{DynamicResource ThemeForegroundBrush}" />
+    </Style>
+
+    <!-- GroupBoxes -->
+    <Style Selector="HeaderedContentControl.GroupBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <DockPanel LastChildFill="True" Margin="3">
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                            <Border BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="0"
+                                    Margin="5,0,0,0">
+                                <ContentPresenter TextBlock.FontWeight="Bold" Margin="2"
+                                                  Content="{TemplateBinding Header}" />
+                            </Border>
+                        </StackPanel>
+
+                        <Border
+                            BorderBrush="{DynamicResource ThemeBorderMidBrush}"
+                            BorderThickness="1">
+                            <ContentPresenter Content="{TemplateBinding Content}" />
+                        </Border>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+  
+    <!-- Misc... -->
+    <Style Selector="Separator">
+        <Setter Property="Background" Value="{DynamicResource ThemeBorderLowBrush}"/>
+    </Style>
+    <Style Selector="Separator.Vertical">
+        <Setter Property="Width" Value="1"/>
+    </Style>
+    <Style Selector="Button">
+        <Setter Property="Padding" Value="3" />
+    </Style>
+    <Style Selector="TextBlock.h1">
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style Selector="TextBlock.h2">
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+</Styles>

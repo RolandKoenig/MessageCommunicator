@@ -17,7 +17,7 @@ namespace MessageCommunicator.TestGui
         public DialogHostControl()
         {
             _backgroundNoDialog = Brushes.Transparent;
-            _backgroundDialog = new SolidColorBrush(Color.FromArgb(200, 200, 200, 200));
+            _backgroundDialog = new SolidColorBrush(Color.FromArgb(128, 128, 128, 128));
 
             this.Background = _backgroundNoDialog;
             this.IsHitTestVisible = false;
@@ -33,8 +33,7 @@ namespace MessageCommunicator.TestGui
             _currentChild = controlToShow;
 
             var borderControl = new Border();
-            borderControl.Background = Brushes.White;
-            borderControl.BorderBrush = Brushes.LightGray;
+            borderControl.Classes.Add("DialogHostControlBorder");
             borderControl.BorderThickness = new Thickness(1.0);
             borderControl.Child = _currentChild;
             borderControl.HorizontalAlignment = HorizontalAlignment.Center;

@@ -12,17 +12,29 @@
         x:Class="MessageCommunicator.TestGui.MainWindow"
         Title="MessageCommunicator">
     <Window.Resources>
-        <local:ConnectionStateToColorConverter x:Key="ConnStateConverter" />
-      
-        <StyleInclude x:Key="ThemeLight" Source="/Assets/Styles/Light.xaml" />
-        <StyleInclude x:Key="ThemeDark" Source="/Assets/Styles/Dark.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="/Assets/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+          
+            <local:ConnectionStateToColorConverter x:Key="ConnStateConverter" />
+
+            <StyleInclude x:Key="ThemeLight" Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml" />
+            <StyleInclude x:Key="ThemeLightCustom" Source="/Assets/Styles/Light.xaml" />
+            
+            <StyleInclude x:Key="ThemeDark" Source="avares://Avalonia.Themes.Default/Accents/BaseDark.xaml" />
+            <StyleInclude x:Key="ThemeDarkCustom" Source="/Assets/Styles/Dark.xaml" />
+        </ResourceDictionary>
     </Window.Resources>
  
     <Window.Styles>
+        <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml" />
         <StyleInclude Source="/Assets/Styles/Light.xaml" />
+      
+        <StyleInclude Source="/Assets/Common.xaml" />
     </Window.Styles>
   
-    <Grid x:Name="CtrlMainGrid">
+    <Grid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -34,11 +46,14 @@
                 <ColumnDefinition Width="*" MinWidth="100" />
             </Grid.ColumnDefinitions>
           
-            <Menu Grid.Row="0" Grid.ColumnSpan="3">
-                <MenuItem Header="File">
+            <Menu Grid.Row="0" Grid.ColumnSpan="3"
+                  Classes="MainMenu">
+                <MenuItem Header="File"
+                          Classes="MainMenu">
                     <MenuItem Header="Exit" PointerPressed="OnMnuExit_PointerPressed" />
                 </MenuItem>
-                <MenuItem Header="Themes">
+                <MenuItem Header="Themes"
+                          Classes="MainMenu">
                     <MenuItem Header="Light" PointerPressed="OnMnuThemeLight_PointerPressed" />
                     <MenuItem Header="Dark" PointerPressed="OnMnuThemeDark_PointerPressed" />
                 </MenuItem>

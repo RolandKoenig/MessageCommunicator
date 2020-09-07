@@ -93,10 +93,10 @@ namespace MessageCommunicator.TestGui
                     var rect = new Rectangle
                     {
                         Height = 1d,
-                        Fill = new SolidColorBrush(Colors.Black),
                         VerticalAlignment = VerticalAlignment.Bottom,
                         Margin = new Thickness(5d, 5d, 5d, 0d)
                     };
+                    rect.Classes.Add("PropertyGridCategoryHeaderLine");
 
                     rect.SetValue(Grid.RowProperty, actRowIndex);
                     rect.SetValue(Grid.ColumnSpanProperty, 2);

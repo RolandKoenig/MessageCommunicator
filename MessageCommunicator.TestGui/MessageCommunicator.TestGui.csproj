@@ -26,13 +26,22 @@
     <AvaloniaResource Include="Assets\*" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\Icons.xaml" />
+    <None Remove="Assets\Styles\Common.xaml" />
     <None Remove="MessageCommunicator.TestGui.csproj.DotSettings" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MessageCommunicator\MessageCommunicator.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\Styles\" />
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Update="Assets\Common.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaResource>
   </ItemGroup>
 </Project>
