@@ -5,13 +5,13 @@
     <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml" />
     <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml" />
     <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Default.xaml" />
-    
-    <!--<Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
-        <Setter Property="Fill" Value="Green"/>
+  
+    <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+        <Setter Property="Fill" Value="{DynamicResource ThemeAccentBrush4}"/>
     </Style>
     <Style Selector="DataGridRow:pointerover /template/ Rectangle#BackgroundRectangle">
-        <Setter Property="Fill" Value="Yellow"/>
-    </Style>-->
+        <Setter Property="Fill" Value="{DynamicResource ThemeControlHighlightMidBrush}"/>
+    </Style>
     
     <Style Selector="Separator">
         <Setter Property="Background" Value="{DynamicResource ThemeBorderLowBrush}"/>
@@ -37,8 +37,8 @@
         <Setter Property="AlternatingRowBackground" Value="{DynamicResource ThemeBackgroundBrush}" />
         <Setter Property="RowBackground" Value="{DynamicResource ThemeBackgroundBrush}" />
         <Setter Property="GridLinesVisibility" Value="All" />
-        <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
-        <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource ThemeBorderLowBrush}" />
+        <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource ThemeBorderLowBrush}" />
         <Setter Property="CanUserResizeColumns" Value="True" />
         <Setter Property="CanUserSortColumns" Value="False" />
         <Setter Property="CanUserReorderColumns" Value="False" />

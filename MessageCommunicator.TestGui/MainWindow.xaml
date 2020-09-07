@@ -22,7 +22,7 @@
         <StyleInclude Source="/Assets/Styles/Light.xaml" />
     </Window.Styles>
   
-    <Grid>
+    <Grid x:Name="CtrlMainGrid">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

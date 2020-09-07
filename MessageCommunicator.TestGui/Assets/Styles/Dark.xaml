@@ -7,10 +7,10 @@
     <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Default.xaml" />
     
     <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
-        <Setter Property="Fill" Value="DarkGray"/>
+        <Setter Property="Fill" Value="{DynamicResource ThemeAccentBrush4}"/>
     </Style>
     <Style Selector="DataGridRow:pointerover /template/ Rectangle#BackgroundRectangle">
-        <Setter Property="Fill" Value="Gray"/>
+        <Setter Property="Fill" Value="{DynamicResource ThemeControlHighlightMidBrush}"/>
     </Style>
     
     <Style Selector="Separator">
