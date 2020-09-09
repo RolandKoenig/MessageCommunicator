@@ -110,8 +110,21 @@ namespace MessageCommunicator.TestGui
             var connParams = await srvConnectionConfig.ConfigureConnectionAsync(selectedProfileVM.Model.Parameters);
             if (connParams != null)
             {
+                // Update connection logic
                 await selectedProfileVM.Model.ChangeParametersAsync(connParams);
 
+                // Simple trick here to trigger refresh on the view
+                var indexOfProfile = this.Profiles.IndexOf(selectedProfileVM);
+                if ((indexOfProfile >= 0) && (indexOfProfile < this.Profiles.Count))
+                {
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+                    this.Profiles[indexOfProfile] = null;
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+                    this.Profiles[indexOfProfile] = selectedProfileVM;
+                    this.SelectedProfile = selectedProfileVM;
+                }
+
+                // Trigger persistence
                 ConnectionProfileStore.Current.StoreConnectionProfiles(
                     this.Profiles.Select(actProfileVM => actProfileVM.Model));
             }

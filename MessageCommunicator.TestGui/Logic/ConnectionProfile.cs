@@ -16,7 +16,7 @@ namespace MessageCommunicator.TestGui.Logic
 
         public string Name => this.Parameters.Name;
 
-        public ConnectionParameters Parameters { get; }
+        public ConnectionParameters Parameters { get; private set; }
 
         public ObservableCollection<LoggingMessageWrapper> DetailLogging { get; } = new ObservableCollection<LoggingMessageWrapper>();
 
@@ -45,6 +45,7 @@ namespace MessageCommunicator.TestGui.Logic
                 prefWasRunning = true;
             }
 
+            this.Parameters = newConnParameters;
             _messageChannel = SetupMessageChannel(newConnParameters, this, this);
 
             if (prefWasRunning)
