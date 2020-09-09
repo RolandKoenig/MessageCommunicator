@@ -35,7 +35,7 @@
     </Window.Styles>
   
     <Grid>
-        <Grid>
+        <Grid x:Name="CtrlMainContent">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -150,6 +150,7 @@
             </HeaderedContentControl>
         </Grid>
       
-        <local:DialogHostControl Name="CrtlDialogHost" />
+        <local:DialogHostControl Name="CrtlDialogHost"
+                                 OccludedControl="{Binding ElementName=CtrlMainContent}" />
     </Grid>
 </Window>

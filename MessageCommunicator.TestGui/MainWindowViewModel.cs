@@ -124,7 +124,7 @@ namespace MessageCommunicator.TestGui
 
             var srvMessageBox = this.GetViewService<IMessageBoxService>();
             var msgResult = await srvMessageBox.ShowAsync(
-                "TcpCommunicator", $"This action will delete the profile {selectedProfile.Model.Name}",
+                "Remove Profile", $"This action will delete the profile '{selectedProfile.Model.Name}'",
                 MessageBoxButtons.OkCancel);
             if (msgResult != MessageBoxResult.Ok) { return; }
 

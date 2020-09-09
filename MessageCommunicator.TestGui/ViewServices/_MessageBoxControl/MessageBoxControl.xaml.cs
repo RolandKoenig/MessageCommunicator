@@ -48,8 +48,8 @@ namespace MessageCommunicator.TestGui.ViewServices
 
                 case MessageBoxButtons.YesNo:
                 case MessageBoxButtons.YesNoCancel:
-                    AddButton("Yes", MessageBoxResult.Yes);
-                    AddButton("No", MessageBoxResult.No, true);
+                    AddButton("Yes", MessageBoxResult.Yes, true);
+                    AddButton("No", MessageBoxResult.No);
                     break;
             }
 
@@ -58,7 +58,7 @@ namespace MessageCommunicator.TestGui.ViewServices
                 AddButton("Cancel", MessageBoxResult.Cancel, true);
             }
 
-            host.ShowDialog(msgbox);
+            host.ShowDialog(msgbox, title);
 
             return tcs.Task;
         }

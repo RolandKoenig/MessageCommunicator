@@ -22,7 +22,7 @@ namespace MessageCommunicator.TestGui
             this.WhenActivated(this.OnActivated);
         }
 
-        public Task<object?> ShowControlDialogAsync(DialogHostControl host)
+        public Task<object?> ShowControlDialogAsync(DialogHostControl host, string headerText)
         {
             if (_closeCompletionSource != null)
             {
@@ -31,7 +31,7 @@ namespace MessageCommunicator.TestGui
             _closeCompletionSource = new TaskCompletionSource<object?>();
 
             _host = host;
-            _host.ShowDialog(this);
+            _host.ShowDialog(this, headerText);
 
             return _closeCompletionSource.Task;
         }

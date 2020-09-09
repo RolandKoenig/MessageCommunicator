@@ -93,6 +93,28 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style Selector="HeaderedContentControl.DialogBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <DockPanel LastChildFill="True" Margin="3">
+                        <Border DockPanel.Dock="Top"
+                                Background="{DynamicResource ThemeCustomAlternateBackgroundBrush}" 
+                                BorderThickness="0"
+                                Padding="5">
+                            <ContentPresenter Content="{TemplateBinding Header}" />
+                        </Border>
+
+                        <Border Background="{DynamicResource ThemeBackgroundBrush}"
+                                BorderThickness="0"
+                                Padding="1">
+                            <ContentPresenter Content="{TemplateBinding Content}" />
+                        </Border>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
   
     <!-- Misc... -->
     <Style Selector="Separator">

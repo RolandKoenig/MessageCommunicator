@@ -16,10 +16,12 @@ namespace MessageCommunicator.TestGui.ViewServices
         /// <inheritdoc />
         public async Task<ConnectionParameters?> ConfigureConnectionAsync(ConnectionParameters? template)
         {
+            var dialogTitle = template == null ? "Create Profile" : "Edit Profile";
+
             var configDlg = new ConnectionConfigControl();
             configDlg.DataContext = new ConnectionConfigControlViewModel(template);
 
-            return await configDlg.ShowControlDialogAsync(_host) as ConnectionParameters;
+            return await configDlg.ShowControlDialogAsync(_host, dialogTitle) as ConnectionParameters;
         }
     }
 }
