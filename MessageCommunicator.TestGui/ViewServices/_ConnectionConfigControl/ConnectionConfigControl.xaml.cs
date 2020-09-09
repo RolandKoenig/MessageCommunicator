@@ -1,4 +1,10 @@
-﻿using Avalonia.Markup.Xaml;
+﻿using System;
+using System.Reactive.Disposables;
+using System.Threading.Tasks;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
+using Avalonia.Threading;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
@@ -7,6 +13,18 @@ namespace MessageCommunicator.TestGui.ViewServices
         public ConnectionConfigControl()
         {
             AvaloniaXamlLoader.Load(this);
+            
+        }
+
+        /// <inheritdoc />
+        protected override async void OnActivated(CompositeDisposable disposables)
+        {
+            base.OnActivated(disposables);
+
+            await Task.Delay(100);
+
+            var mainPropertyGrid = this.FindControl<PropertyGrid>("CtrlMainPropertyGrid");
+            mainPropertyGrid?.FocusFirstValueRowEditor();
         }
     }
 }

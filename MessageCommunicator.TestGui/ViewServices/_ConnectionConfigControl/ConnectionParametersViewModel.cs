@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using MessageCommunicator.TestGui.Data;
 
 namespace MessageCommunicator.TestGui.ViewServices
@@ -11,6 +12,7 @@ namespace MessageCommunicator.TestGui.ViewServices
 
         private ConnectionParameters _connParameters;
 
+        [Required]
         [Category(CATEGORY)]
         public string Name
         {
@@ -18,6 +20,7 @@ namespace MessageCommunicator.TestGui.ViewServices
             set => _connParameters.Name = value;
         }
 
+        [Required]
         [Category(CATEGORY)]
         public string Target
         {

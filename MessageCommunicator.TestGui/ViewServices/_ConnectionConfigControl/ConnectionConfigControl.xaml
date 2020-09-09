@@ -19,13 +19,13 @@
                 </Style>
             </StackPanel.Styles>
           
-            <Button Content="OK" Command="{Binding Path=Command_OK}" />
+            <Button Content="OK" IsDefault="True" Command="{Binding Path=Command_OK}" />
             <Button Content="Cancel" Command="{Binding Path=Command_Cancel}" />
         </StackPanel>
       
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
-                <localRoot:PropertyGrid SelectedObject="{Binding Path=ModelInteractive}" />
+                <localRoot:PropertyGrid x:Name="CtrlMainPropertyGrid" SelectedObject="{Binding Path=ModelInteractive}" />
                 <localRoot:PropertyGrid SelectedObject="{Binding Path=ModelInteractive.RecognizerSettings}" />
             </StackPanel>
         </ScrollViewer>

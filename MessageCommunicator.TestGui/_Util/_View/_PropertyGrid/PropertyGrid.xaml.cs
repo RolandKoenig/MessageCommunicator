@@ -7,6 +7,7 @@ using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using System.Text;
+using Avalonia.Input;
 
 namespace MessageCommunicator.TestGui
 {
@@ -24,6 +25,7 @@ namespace MessageCommunicator.TestGui
 
         private PropertyGridViewModel _propertyGridVM;
         private Grid _gridMain;
+        private Control? _firstValueRowEditor;
 
         public object? SelectedObject
         {
@@ -45,6 +47,11 @@ namespace MessageCommunicator.TestGui
 
             _propertyGridVM = new PropertyGridViewModel();
             _gridMain.DataContext = _propertyGridVM;
+        }
+
+        public void FocusFirstValueRowEditor()
+        {
+            FocusManager.Instance.Focus(_firstValueRowEditor, NavigationMethod.Tab);
         }
 
         private static void OnSelectedObjectChanged(IAvaloniaObject sender, bool beforeChanging)
@@ -129,6 +136,11 @@ namespace MessageCommunicator.TestGui
                     ctrlValueEdit.SetValue(Grid.ColumnProperty, 1);
                     ctrlValueEdit.DataContext = actProperty;
                     _gridMain.Children.Add(ctrlValueEdit);
+
+                    if(_firstValueRowEditor == null)
+                    {
+                        _firstValueRowEditor = ctrlValueEdit;
+                    }
                 }
                 else
                 {

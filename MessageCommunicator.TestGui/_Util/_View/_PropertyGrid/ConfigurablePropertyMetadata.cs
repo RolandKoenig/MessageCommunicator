@@ -1,10 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
 namespace MessageCommunicator.TestGui
 {
-    public class ConfigurablePropertyMetadata : PropertyChangedBase
+    public class ConfigurablePropertyMetadata : ValidatableViewModelBase
     {
         private object _hostObject;
         private PropertyInfo _propertyInfo;
@@ -16,8 +17,18 @@ namespace MessageCommunicator.TestGui
             {
                 if (value != this.GetValue())
                 {
-                    this.SetValue(value);
-                    this.RaisePropertyChanged(nameof(this.ValueAccessor));
+                    try
+                    {
+                        this.SetValue(value);
+                    }
+                    catch (Exception e)
+                    {
+                        this.RaisePropertyChanged(nameof(this.ValueAccessor));
+                        this.SetError(nameof(this.ValueAccessor), e.Message);
+                        return;
+                    }
+
+                    this.ValidateCurrentValue();
                 }
             }
         }
@@ -95,6 +106,8 @@ namespace MessageCommunicator.TestGui
             {
                 throw new ApplicationException($"Unsupported property type {propertyType.FullName}!");
             }
+
+            this.ValidateCurrentValue();
         }
 
         public override string ToString()
@@ -140,6 +153,26 @@ namespace MessageCommunicator.TestGui
             where T : Attribute
         {
             return _propertyInfo.GetCustomAttribute<T>();
+        }
+
+        private void ValidateCurrentValue()
+        {
+            var errorsFound = false;
+            var ctx = new ValidationContext(_hostObject);
+            foreach (var actValidAttrib in _propertyInfo.GetCustomAttributes<ValidationAttribute>())
+            {
+                var validationResult = actValidAttrib.GetValidationResult(this.ValueAccessor, ctx);
+                if (validationResult != null)
+                {
+                    this.SetError(nameof(this.ValueAccessor), validationResult.ErrorMessage);
+                    errorsFound = true;
+                }
+            }
+
+            if (!errorsFound)
+            {
+                this.RemoveErrors(nameof(this.ValueAccessor));
+            }
         }
     }
 }
