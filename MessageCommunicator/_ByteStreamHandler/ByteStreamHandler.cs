@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MessageCommunicator
@@ -43,6 +44,32 @@ namespace MessageCommunicator
         }
 
         protected abstract Task StopInternalAsync();
+
+        /// <summary>
+        /// Waits for successful connection with a partner.
+        /// </summary>
+        public virtual async Task WaitForConnectionAsync(CancellationToken cancelToken)
+        {
+            // Default implementation polls the State property
+
+            // Fast path when connection is established already
+            if (this.State == ConnectionState.Connected) { return; }
+
+            const int MAX_WAIT_TIME = 1000;
+            var currentWaitTime = 100;
+
+            while (!cancelToken.IsCancellationRequested)
+            {
+                await Task.Delay(currentWaitTime);
+                if (currentWaitTime < MAX_WAIT_TIME)
+                {
+                    currentWaitTime *= 2;
+                    if (currentWaitTime > MAX_WAIT_TIME) { currentWaitTime = MAX_WAIT_TIME; }
+                }
+
+                if (this.State == ConnectionState.Connected) { return; }
+            }
+        }
 
         /// <summary>
         /// Calls current logger with the given message.
