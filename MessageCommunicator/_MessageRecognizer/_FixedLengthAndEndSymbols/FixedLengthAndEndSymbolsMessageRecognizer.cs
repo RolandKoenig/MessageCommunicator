@@ -32,7 +32,7 @@ namespace MessageCommunicator
         }
 
         /// <inheritdoc />
-        protected override Task<bool> SendInternalAsync(ByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage)
+        protected override Task<bool> SendInternalAsync(IByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage)
         {
             // Check for valid message length
             if (rawMessage.Length > _lengthExcludingEndSymbols)

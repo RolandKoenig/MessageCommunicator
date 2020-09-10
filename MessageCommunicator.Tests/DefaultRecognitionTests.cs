@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FakeItEasy;
@@ -8,62 +9,71 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MessageCommunicator.Tests
 {
     [TestClass]
-    public class DefaultRecognitionTests
+    public class DefaultMessageFormattingTests
     {
-        //[TestMethod]
-        //public async Task Test_DefaultRecognition_Send_Standard()
-        //{
-        //    var fullMessageSent = string.Empty;
+        private Encoding[] _encodings = Encoding.GetEncodings()
+            .Select(actEncodingInfo => actEncodingInfo.GetEncoding())
+            .ToArray();
 
-        //    var tcpCommunicatorMock = A.Fake<IByteStreamHandler>();
-        //    A.CallTo(tcpCommunicatorMock)
-        //        .Where(info => info.Method.Name == nameof(TcpByteStreamHandler.SendAsync))
-        //        .Invokes(args =>
-        //        {
-        //            var bytesToSend = (ReadOnlyMemory<byte>)args.Arguments[0];
-        //            fullMessageSent = Encoding.UTF8.GetString(bytesToSend.Span);
-        //        });
+        [TestMethod]
+        [DataRow(data1: "This is a dummy message", "<23|This is a dummy message>")]
+        [DataRow(data1: "a", "<1|a>")]
+        [DataRow(data1: "\r\n", "<2|\r\n>")]
+        public async Task Check_DefaultMessageRecognizer(string sendMessage, string expectedMessage)
+        {
+            foreach (var actEncoding in _encodings)
+            {
+                var testObject = new DefaultMessageRecognizer(actEncoding);
+                await GenericTestMethodAsync(testObject, actEncoding, sendMessage, expectedMessage);
+            }
+        }
 
-        //    var messageRecognizer = new DefaultMessageRecognizer(
-        //        tcpCommunicatorMock,
-        //        Encoding.UTF8);
+        [TestMethod]
+        [DataRow("##", "This is a dummy message", "This is a dummy message##")]
+        [DataRow("\x03", "This is a dummy message", "This is a dummy message\x03")]
+        public async Task Check_EndSymbolMessageRecognizer(string endSymbols, string sendMessage, string expectedMessage)
+        {
+            foreach (var actEncoding in _encodings)
+            {
+                var testObject = new EndSymbolsMessageRecognizer(actEncoding, endSymbols);
+                await GenericTestMethodAsync(testObject, actEncoding, sendMessage, expectedMessage);
+            }
+        }
 
-        //    await messageRecognizer.SendAsync("Test");
+        [TestMethod]
+        [DataRow("##", 30, '.', "This is a dummy message", "This is a dummy message.....##")]
+        [DataRow("\x03", 30, '.', "This is a dummy message", "This is a dummy message......\x03")]
+        public async Task Check_FixedLengthWithEndSymbolMessageRecognizer(string endSymbols, int lengthIncludingEndSymbols, char fillSymbol, string sendMessage, string expectedMessage)
+        {
+            foreach (var actEncoding in _encodings)
+            {
+                var testObject = new FixedLengthAndEndSymbolsMessageRecognizer(actEncoding, endSymbols, lengthIncludingEndSymbols, fillSymbol);
+                await GenericTestMethodAsync(testObject, actEncoding, sendMessage, expectedMessage);
+            }
+        }
 
-        //    Assert.IsTrue(fullMessageSent == "<4|Test>");
-        //}
+        private static async Task GenericTestMethodAsync(MessageRecognizer testObject, Encoding testEncoding, string sendMessage, string expectedMessage)
+        {
+            // Prepare test
+            var generatedMessage = "";
+            var fakedByteStreamHandler = A.Fake<IByteStreamHandler>();
+            A.CallTo(fakedByteStreamHandler)
+                .WithReturnType<Task<bool>>()
+                .Where(info => info.Method.Name == nameof(IByteStreamHandler.SendAsync))
+                .Invokes(args =>
+                {
+                    var bytesToSend = (ReadOnlyMemory<byte>) args.Arguments[0];
+                    generatedMessage = testEncoding.GetString(bytesToSend.Span);
+                })
+                .Returns(Task.FromResult(true));
+            testObject.ByteStreamHandler = fakedByteStreamHandler;
 
-        //[TestMethod]
-        //public void Test_DefaultRecognition_Receive_Standard()
-        //{
-        //    var tcpCommunicatorMock = A.Fake<IByteStreamHandler>();
-            
-        //    var messageRecognizer = new DefaultMessageRecognizer(
-        //        tcpCommunicatorMock,
-        //        Encoding.UTF8);
+            // Call test method
+            var sendResult = await testObject.SendAsync(sendMessage);
 
-        //    Message? currentMessage = null;
-        //    messageRecognizer.ReceiveHandler = (msg) => currentMessage = msg;
-
-        //    //tcpCommunicatorMock.ReceiveHandler.Invoke(Encoding.UTF8.GetBytes("<4|Test>"));
-        //    //Assert.IsTrue(currentMessage.RawMessage.ToString() == "Test");
-        //}
-
-        //[TestMethod]
-        //public void Test_DefaultRecognition_Receive_TwoStandardMessages()
-        //{
-        //    var tcpCommunicatorMock = A.Fake<IByteStreamHandler>();
-            
-        //    var messageRecognizer = new DefaultMessageRecognizer(
-        //        tcpCommunicatorMock,
-        //        Encoding.UTF8);
-
-        //    var receivedMessages = new List<Message>(2);
-        //    messageRecognizer.ReceiveHandler = (msg) => receivedMessages.Add(msg);
-
-        //    tcpCommunicatorMock.ReceiveHandler.Invoke(Encoding.UTF8.GetBytes("<5|Test1><5|Test2>"));
-        //    Assert.IsTrue(receivedMessages[0].RawMessage.ToString() == "Test1");
-        //    Assert.IsTrue(receivedMessages[1].RawMessage.ToString() == "Test2");
-        //}
+            // Check results
+            Assert.IsTrue(sendResult, "Send returned false");
+            Assert.IsTrue(generatedMessage == expectedMessage, "Wrong message formatting");
+        }
     }
 }

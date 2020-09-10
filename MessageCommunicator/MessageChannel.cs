@@ -34,7 +34,8 @@ namespace MessageCommunicator
             _messageRecognizer.ReceiveHandler = receiveHandler;
             _messageRecognizer.Logger = logger;
 
-            _byteStreamHandler.RegisterMessageRecognizer(_messageRecognizer);
+            _byteStreamHandler.MessageRecognizer = _messageRecognizer;
+            _messageRecognizer.ByteStreamHandler = _byteStreamHandler;
 
             this.ReceiveHandler = receiveHandler;
         }

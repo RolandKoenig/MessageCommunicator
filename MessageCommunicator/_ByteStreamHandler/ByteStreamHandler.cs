@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MessageCommunicator
 {
-    public abstract class ByteStreamHandler
+    public abstract class ByteStreamHandler : IByteStreamHandler
     {
         public abstract ConnectionState State { get; }
 
@@ -19,11 +19,11 @@ namespace MessageCommunicator
         /// <summary>
         /// A custom logger. If set, this delegate will be called with all relevant events.
         /// </summary>
-        public IMessageCommunicatorLogger? Logger { get; internal set; }
+        public IMessageCommunicatorLogger? Logger { get; set; }
 
         protected bool IsLoggerSet => this.Logger != null;
 
-        public MessageRecognizer? MessageRecognizer { get; private set; }
+        public IMessageRecognizer? MessageRecognizer { get; set; }
 
         /// <summary>
         /// Start the communicator.
@@ -80,18 +80,7 @@ namespace MessageCommunicator
             logger?.Log(new LoggingMessage(DateTime.UtcNow, messageType, metaData, message, exception));
         }
 
-        internal void RegisterMessageRecognizer(MessageRecognizer messageRecognizer)
-        {
-            if (this.MessageRecognizer != null)
-            {
-                throw new InvalidOperationException(
-                    $"There is already a MessageRecognizer assigned to this ByteStreamHandler!");
-            }
-
-            this.MessageRecognizer = messageRecognizer;
-            this.MessageRecognizer.ByteStreamHandler = this;
-        }
-
+        /// <inheritdoc />
         public abstract Task<bool> SendAsync(ReadOnlyMemory<byte> buffer);
     }
 }

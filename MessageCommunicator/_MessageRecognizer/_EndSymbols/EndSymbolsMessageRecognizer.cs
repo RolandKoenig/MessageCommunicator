@@ -20,7 +20,7 @@ namespace MessageCommunicator
         }
 
         /// <inheritdoc />
-        protected override Task<bool> SendInternalAsync(ByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage)
+        protected override Task<bool> SendInternalAsync(IByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage)
         {
             var sendBuffer = StringBuffer.Acquire(rawMessage.Length + _endSymbols.Length);
             byte[]? bytes = null;

@@ -10,7 +10,6 @@ namespace MessageCommunicator
         private const char SYMBOL_START = '<';
         private const char SYMBOL_END = '>';
         private const char SYMBOL_DELIMITER = '|';
-        private const string FORMAT = "n";
 
         private Encoding _encoding;
         private StringBuffer _receiveStringBuffer;
@@ -22,7 +21,7 @@ namespace MessageCommunicator
         }
 
         /// <inheritdoc />
-        protected override Task<bool> SendInternalAsync(ByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage)
+        protected override Task<bool> SendInternalAsync(IByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage)
         {
             var rawMessageLength = rawMessage.Length;
             var lengthDigitCount = TcpCommunicatorUtil.GetCountOfDigits(rawMessageLength);
