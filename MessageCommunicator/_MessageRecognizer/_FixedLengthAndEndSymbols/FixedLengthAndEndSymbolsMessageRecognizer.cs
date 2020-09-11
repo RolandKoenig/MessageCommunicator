@@ -49,7 +49,7 @@ namespace MessageCommunicator
             byte[]? bytes = null;
             try
             {
-                sendBuffer.Append(rawMessage);
+                if(rawMessage.Length > 0){ sendBuffer.Append(rawMessage); }
                 while (sendBuffer.Count < _lengthExcludingEndSymbols)
                 {
                     sendBuffer.Append(_fillSymbol);

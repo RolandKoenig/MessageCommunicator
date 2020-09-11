@@ -19,11 +19,6 @@ namespace MessageCommunicator
         /// <exception cref="ArgumentException">Invalid message.</exception>
         public Task<bool> SendAsync(ReadOnlySpan<char> rawMessage)
         {
-            if (rawMessage.IsEmpty)
-            {
-                throw new ArgumentException("Given message is empty!", nameof(rawMessage));
-            }
-
             var byteStreamHandler = this.ByteStreamHandler;
             if (byteStreamHandler == null) { return Task.FromResult(false); }
 

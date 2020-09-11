@@ -35,7 +35,7 @@ namespace MessageCommunicator
             byte[]? bytes = null;
             try
             {
-                sendBuffer.Append(rawMessage);
+                if(rawMessage.Length > 0){ sendBuffer.Append(rawMessage); }
                 sendBuffer.Append(_endSymbols, 0, _endSymbols.Length);
                 sendBuffer.GetInternalData(out var buffer, out var currentCount);
 

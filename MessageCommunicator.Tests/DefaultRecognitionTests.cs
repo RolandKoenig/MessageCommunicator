@@ -21,6 +21,7 @@ namespace MessageCommunicator.Tests
         [DataRow(data1: "\r\n", "<2|\r\n>")]
         [DataRow(data1: "Message with <, | and > characters", "<34|Message with <, | and > characters>")]
         [DataRow(data1: "Message with inner message: <2|ab>", "<34|Message with inner message: <2|ab>>")]
+        [DataRow(data1: "", "<0|>")]
         public async Task Check_DefaultMessageRecognizer(string sendMessage, string expectedMessage)
         {
             foreach (var actEncoding in _encodings)
@@ -31,32 +32,11 @@ namespace MessageCommunicator.Tests
         }
 
         [TestMethod]
-        [DataRow(data1: "", typeof(ArgumentException))]
-        public async Task Check_DefaultMessageRecognizer_Errors(string sendMessage, Type expectedExceptionType)
-        {
-            foreach (var actEncoding in _encodings)
-            {
-                var anyException = false;
-                try
-                {
-                    var testObject = new DefaultMessageRecognizer(actEncoding);
-                    await GenericTestMethodAsync(testObject, actEncoding, sendMessage, "");
-                }
-                catch (Exception e)
-                {
-                    anyException = true;
-                    Assert.IsTrue(e.GetType() == expectedExceptionType, "Unexpected exception fired");
-                }
-
-                Assert.IsTrue(anyException, "No exception fired!");
-            }
-        }
-
-        [TestMethod]
         [DataRow("##", "This is a dummy message", "This is a dummy message##")]
         [DataRow("#C", "This is # a dummy message", "This is # a dummy message#C")] // <-- A part of the endsymbol is located inside the message
         [DataRow("\x03", "This is a dummy message", "This is a dummy message\x03")]
         [DataRow("##", "a", "a##")]
+        [DataRow("##", "", "##")]
         public async Task Check_EndSymbolMessageRecognizer(string endSymbols, string sendMessage, string expectedMessage)
         {
             foreach (var actEncoding in _encodings)
@@ -67,7 +47,6 @@ namespace MessageCommunicator.Tests
         }
 
         [TestMethod]
-        [DataRow(data1:"##", "", typeof(ArgumentException))]
         [DataRow("", "This is a dummy message", typeof(ArgumentException))]
         [DataRow(data1:"##", "Message contains endsymbols ## before end of message", typeof(ArgumentException))]
         [DataRow(data1:"#C", "Message contains endsymbols #C before end of message", typeof(ArgumentException))]
@@ -97,6 +76,7 @@ namespace MessageCommunicator.Tests
         [DataRow("##", 30, '.', "This is a dummy message", "This is a dummy message.....##")]
         [DataRow("\x03", 30, '.', "This is a dummy message", "This is a dummy message......\x03")]
         [DataRow("##", 10, '.', "12345678", "12345678##")]
+        [DataRow("##", 10, '.', "", "........##")]
         public async Task Check_FixedLengthWithEndSymbolMessageRecognizer(string endSymbols, int lengthIncludingEndSymbols, char fillSymbol, string sendMessage, string expectedMessage)
         {
             foreach (var actEncoding in _encodings)
@@ -107,7 +87,6 @@ namespace MessageCommunicator.Tests
         }
 
         [TestMethod]
-        [DataRow("##", 10, '.', "", typeof(ArgumentException))]
         [DataRow("##", 10, '.', "1234567891234", typeof(ArgumentException))]
         [DataRow("##", 10, '.', "123456789", typeof(ArgumentException))]
         public async Task Check_FixedLengthWithEndSymbolMessageRecognizer_Errors(string endSymbols, int lengthIncludingEndSymbols, char fillSymbol, string sendMessage, Type expectedExceptionType)

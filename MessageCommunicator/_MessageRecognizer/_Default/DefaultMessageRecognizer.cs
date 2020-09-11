@@ -33,7 +33,7 @@ namespace MessageCommunicator
                 sendBuffer.Append(SYMBOL_START);
                 sendBuffer.Append(rawMessageLength, StringView.Empty);
                 sendBuffer.Append(SYMBOL_DELIMITER);
-                sendBuffer.Append(rawMessage);
+                if(rawMessage.Length > 0){ sendBuffer.Append(rawMessage); }
                 sendBuffer.Append(SYMBOL_END);
                 sendBuffer.GetInternalData(out var buffer, out var currentCount);
 
