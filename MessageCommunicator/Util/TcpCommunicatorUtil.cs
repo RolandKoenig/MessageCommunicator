@@ -5,6 +5,30 @@ namespace MessageCommunicator.Util
 {
     internal static class TcpCommunicatorUtil
     {
+        public static void EnsureNoEndsymbolsInMessage(ReadOnlySpan<char> rawMessage, string endSymbols)
+        {
+            for (var loop = 0; loop < rawMessage.Length; loop++)
+            {
+                if (rawMessage[loop] == endSymbols[0])
+                {
+                    var endsymbolFound = true;
+                    for (var loopEndSymbol = 1; (loopEndSymbol < endSymbols.Length) && 
+                                                (loop + loopEndSymbol < rawMessage.Length); loopEndSymbol++)
+                    {
+                        if (rawMessage[loop + loopEndSymbol] != endSymbols[loopEndSymbol])
+                        {
+                            endsymbolFound = false;
+                            break;
+                        }
+                    }
+                    if (endsymbolFound)
+                    {
+                        throw new ArgumentException($"Endsymbols found at index {loop} of the given message. Given message must not contain configured endsymbols! ", nameof(rawMessage));
+                    }
+                }
+            }
+        }
+
         public static int ParseInt32FromStringPart(StringBuffer toParse, int index, int length)
         {
             var endIndex = index + length;

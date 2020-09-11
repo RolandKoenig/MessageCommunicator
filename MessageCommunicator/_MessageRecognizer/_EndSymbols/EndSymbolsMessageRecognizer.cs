@@ -14,6 +14,11 @@ namespace MessageCommunicator
 
         public EndSymbolsMessageRecognizer(Encoding encoding, string endSymbols)
         {
+            if (string.IsNullOrEmpty(endSymbols))
+            {
+                throw new ArgumentException("Endsymbols must not be empty!", nameof(endSymbols));
+            }
+
             _encoding = encoding;
             _endSymbols = endSymbols;
             _receiveStringBuffer = new StringBuffer(1024);
@@ -22,6 +27,10 @@ namespace MessageCommunicator
         /// <inheritdoc />
         protected override Task<bool> SendInternalAsync(IByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage)
         {
+            // Check for endsymbols inside the message
+            TcpCommunicatorUtil.EnsureNoEndsymbolsInMessage(rawMessage, _endSymbols);
+
+            // Perform message formatting
             var sendBuffer = StringBuffer.Acquire(rawMessage.Length + _endSymbols.Length);
             byte[]? bytes = null;
             try

@@ -34,19 +34,17 @@ namespace MessageCommunicator
         /// <inheritdoc />
         protected override Task<bool> SendInternalAsync(IByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage)
         {
-            // Check for valid message length
+            // Check for valid message
             if (rawMessage.Length > _lengthExcludingEndSymbols)
             {
-                throw new MessageRecognitionException(
+                throw new ArgumentException(
                     "Given message too long. " +
                     $"Maximum length: {(_lengthExcludingEndSymbols)}, " +
-                    $"given message length: {rawMessage.Length}");
-            }
-            if (rawMessage.Length <= 0)
-            {
-                return Task.FromResult(false);
+                    $"given message length: {rawMessage.Length}",
+                    nameof(rawMessage));
             }
 
+            // Perform message formatting
             var sendBuffer = StringBuffer.Acquire(_lengthIncludingEndSymbols);
             byte[]? bytes = null;
             try
