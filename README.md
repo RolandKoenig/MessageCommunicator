@@ -41,7 +41,7 @@ Sending a message is as easy as:
 await activeTcpChannel.SendAsync("Message 1 from active to passive...");
 ```
 
-**Nuget**: tbd.
+**Nuget**: https://www.nuget.org/packages/MessageCommunicator
 
 ### Gui
 Inside the testing Gui you can manage multiple profiles. Each profile has its own configuration
