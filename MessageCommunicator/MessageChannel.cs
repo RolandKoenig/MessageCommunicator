@@ -26,6 +26,12 @@ namespace MessageCommunicator
             set => _messageRecognizer.ReceiveHandler = value;
         }
 
+        /// <summary>
+        /// Access to internal objects.
+        /// Be careful when using them, wrong method calls can cause unexpected state!
+        /// </summary>
+        public MessageChannelInternals Internals { get; }
+
         public MessageChannel(
             ByteStreamHandlerSettings byteStreamHandlerSettings, 
             MessageRecognizerSettings messageRecognizerSettings, 
@@ -43,6 +49,8 @@ namespace MessageCommunicator
             _messageRecognizer.ByteStreamHandler = _byteStreamHandler;
 
             this.ReceiveHandler = receiveHandler;
+            
+            this.Internals = new MessageChannelInternals(this);
         }
 
         public MessageChannel(
@@ -89,6 +97,23 @@ namespace MessageCommunicator
         public Task StopAsync()
         {
             return _byteStreamHandler.StopAsync();
+        }
+
+        //*********************************************************************
+        //*********************************************************************
+        //*********************************************************************
+        public class MessageChannelInternals
+        {
+            private MessageChannel _owner;
+
+            public MessageChannelInternals(MessageChannel owner)
+            {
+                _owner = owner;
+            }
+
+            public IByteStreamHandler ByteStreamHandler => _owner._byteStreamHandler;
+
+            public IMessageRecognizer MessageRecognizer => _owner._messageRecognizer;
         }
     }
 }
