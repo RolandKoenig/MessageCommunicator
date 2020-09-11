@@ -20,6 +20,7 @@ namespace MessageCommunicator.TestGui
                     try
                     {
                         this.SetValue(value);
+                        this.RaisePropertyChanged(nameof(this.ValueAccessor));
                     }
                     catch (Exception e)
                     {
