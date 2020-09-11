@@ -20,12 +20,16 @@ namespace MessageCommunicator
 
         public string RemoteEndpointDescription => _byteStreamHandler.RemoteEndpointDescription;
 
-        public IMessageReceiveHandler ReceiveHandler { get; }
+        public IMessageReceiveHandler? ReceiveHandler
+        {
+            get => _messageRecognizer.ReceiveHandler;
+            set => _messageRecognizer.ReceiveHandler = value;
+        }
 
         public MessageChannel(
             ByteStreamHandlerSettings byteStreamHandlerSettings, 
             MessageRecognizerSettings messageRecognizerSettings, 
-            IMessageReceiveHandler receiveHandler,
+            IMessageReceiveHandler? receiveHandler = null,
             IMessageCommunicatorLogger? logger = null)
         {
             _byteStreamHandler = byteStreamHandlerSettings.CreateByteStreamHandler();

@@ -122,6 +122,7 @@ namespace MessageCommunicator
             CancellationTokenSource? lastCancelTokenSource = null;
             TcpListener? tcpListener = null;
             var reconnectErrorCount = 0;
+            var currentListenerPort = this.ListeningPort;
             while(loopId == _runningLoopCounter)
             {
                 if (tcpListener == null)
@@ -136,6 +137,7 @@ namespace MessageCommunicator
                         }
                         tcpListener = new TcpListener(this.ListeningIPAddress, this.ListeningPort);
                         tcpListener.Start();
+                        currentListenerPort = (ushort)((IPEndPoint)tcpListener.LocalEndpoint).Port;
 
                         reconnectErrorCount = 0;
                         _currentListener = tcpListener;
@@ -144,7 +146,7 @@ namespace MessageCommunicator
                         {
                             this.Log(
                                 LoggingMessageType.Info, 
-                                StringBuffer.Format("TcpListener created for port {0}", this.ListeningPort));
+                                StringBuffer.Format("TcpListener created for port {0}", currentListenerPort));
                         }
                     }
                     catch (Exception ex)
@@ -153,7 +155,7 @@ namespace MessageCommunicator
                         {
                             this.Log(
                                 LoggingMessageType.Error, 
-                                StringBuffer.Format("Error while creating TcpListener for port {0}: {1}", this.ListeningPort, ex.Message),
+                                StringBuffer.Format("Error while creating TcpListener for port {0}: {1}", currentListenerPort, ex.Message),
                                 exception: ex);
                         }
 
@@ -180,7 +182,7 @@ namespace MessageCommunicator
                         this.Log(
                             LoggingMessageType.Info,
                             StringBuffer.Format("Listening for incoming connections on port {0}...",
-                                this.ListeningPort));
+                                currentListenerPort));
                     }
 
                     actTcpClient = await tcpListener.AcceptTcpClientAsync()
@@ -194,7 +196,7 @@ namespace MessageCommunicator
                             LoggingMessageType.Info,
                             StringBuffer.Format(
                                 "Got new connection on listening port {0}. Connection established between {1} and {2}", 
-                                this.ListeningPort, actLocalEndPoint.ToString(), actPartnerEndPoint.ToString()));
+                                currentListenerPort, actLocalEndPoint.ToString(), actPartnerEndPoint.ToString()));
                     }
                 }
                 catch (ObjectDisposedException)
@@ -210,7 +212,7 @@ namespace MessageCommunicator
                     {
                         this.Log(
                             LoggingMessageType.Error, 
-                            StringBuffer.Format("Error while listening for incoming connections on port {0}: {1}", this.ListeningPort, ex.Message),
+                            StringBuffer.Format("Error while listening for incoming connections on port {0}: {1}", currentListenerPort, ex.Message),
                             exception: ex);
                     }
 

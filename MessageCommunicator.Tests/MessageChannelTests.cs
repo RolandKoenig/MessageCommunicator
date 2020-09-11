@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MessageCommunicator.Tests.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MessageCommunicator.Tests
@@ -14,12 +15,14 @@ namespace MessageCommunicator.Tests
         [TestMethod]
         public async Task Check_SimpleTcpIPConnection()
         {
+            var testingPort = TestUtility.GetFreeTcpPort();
+
             var receiveTaskOnPassiveChannel = new TaskCompletionSource<string>();
             var receiveTaskOnActiveChannel = new TaskCompletionSource<string>();
 
             // Define channels
             var passiveChannel = new MessageChannel(
-                new TcpPassiveByteStreamHandlerSettings(IPAddress.Loopback, 40000),
+                new TcpPassiveByteStreamHandlerSettings(IPAddress.Loopback, testingPort),
                 new DefaultMessageRecognizerSettings(Encoding.UTF8),
                 (msg) =>
                 {
@@ -27,7 +30,7 @@ namespace MessageCommunicator.Tests
                     msg.ReturnToPool();
                 });
             var activeChannel = new MessageChannel(
-                new TcpActiveByteStreamHandlerSettings("127.0.0.1", 40000),
+                new TcpActiveByteStreamHandlerSettings("127.0.0.1", testingPort),
                 new DefaultMessageRecognizerSettings(Encoding.UTF8),
                 (msg) =>
                 {
