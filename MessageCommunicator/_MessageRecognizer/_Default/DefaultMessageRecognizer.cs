@@ -117,7 +117,11 @@ namespace MessageCommunicator
                 if (receiveHandler != null)
                 {
                     var recognizedMessage = MessagePool.Rent(rawMessageLength);
-                    recognizedMessage.RawMessage.Append(_receiveStringBuffer.GetPart(delimiterIndex + 1, rawMessageLength));
+                    if (rawMessageLength > 0)
+                    {
+                        recognizedMessage.RawMessage.Append(_receiveStringBuffer.GetPart(
+                            delimiterIndex + 1, rawMessageLength));
+                    }
                     receiveHandler.OnMessageReceived(recognizedMessage);
                 }
 

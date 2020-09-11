@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MessageCommunicator.Tests
 {
     [TestClass]
-    public class DefaultMessageFormattingTests
+    public class MessageFormattingTests
     {
         private Encoding[] _encodings = Encoding.GetEncodings()
             .Select(actEncodingInfo => actEncodingInfo.GetEncoding())
@@ -119,7 +119,7 @@ namespace MessageCommunicator.Tests
                 .Where(info => info.Method.Name == nameof(IByteStreamHandler.SendAsync))
                 .Invokes(args =>
                 {
-                    var bytesToSend = (ReadOnlyMemory<byte>) args.Arguments[0];
+                    var bytesToSend = (ReadOnlyMemory<byte>)args.Arguments[0]!;
                     generatedMessage = testEncoding.GetString(bytesToSend.Span);
                 })
                 .Returns(Task.FromResult(true));
