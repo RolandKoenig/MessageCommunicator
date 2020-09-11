@@ -34,6 +34,52 @@ namespace MessageCommunicator.Tests
             }
         }
 
+        [TestMethod]
+        [DataRow("##", "This is a test message##", "This is a test message")]
+        [DataRow("##", "This is # a test message##", "This is # a test message")]
+        [DataRow("#", "This is a test message#", "This is a test message")]
+        [DataRow("#C", "This is a test message#C", "This is a test message")]
+        [DataRow("\x03", "This is a test message\x03", "This is a test message")]
+        [DataRow("##", "a##", "a")]
+        [DataRow("##", "##", "")]
+        public void Check_EndSymbolMessageRecognizer(string endSymbols, string receivedData, string expectedMessage)
+        {
+            foreach (var actEncoding in _encodings)
+            {
+                // Test full receiving
+                GenericTestMethod_FullReceive(
+                    new EndSymbolsMessageRecognizer(actEncoding, endSymbols), 
+                    actEncoding, receivedData, expectedMessage);
+
+                // Test receiving of only single bytes
+                GenericTestMethod_SingleBytesReceive(
+                    new EndSymbolsMessageRecognizer(actEncoding, endSymbols),
+                    actEncoding, receivedData, expectedMessage);
+            }
+        }
+
+        [TestMethod]
+        [DataRow("##", 10, '.', "123##...##", "123##")]
+        [DataRow("##", 10, '.', "12345...##", "12345")]
+        [DataRow("##", 10, '.', "12345.####", "12345.##")]
+        [DataRow("\x03", 10, '.', "12345....\x03", "12345")]
+        [DataRow("##", 10, '.', "........##", "")]
+        public void Check_FixedLengthAndEndSymbolMessageRecognizer(string endSymbols, int lengthIncludingEndSymbols, char fillSymbol, string receivedData, string expectedMessage)
+        {
+            foreach (var actEncoding in _encodings)
+            {
+                // Test full receiving
+                GenericTestMethod_FullReceive(
+                    new FixedLengthAndEndSymbolsMessageRecognizer(actEncoding, endSymbols, lengthIncludingEndSymbols, fillSymbol), 
+                    actEncoding, receivedData, expectedMessage);
+
+                // Test receiving of only single bytes
+                GenericTestMethod_SingleBytesReceive(
+                    new FixedLengthAndEndSymbolsMessageRecognizer(actEncoding, endSymbols, lengthIncludingEndSymbols, fillSymbol),
+                    actEncoding, receivedData, expectedMessage);
+            }
+        }
+
         private static void GenericTestMethod_FullReceive(MessageRecognizer testObject, Encoding encoding, string receivedData, string expectedMessage)
         {
             Message? recognizedMessage = null;

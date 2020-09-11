@@ -42,7 +42,7 @@ namespace MessageCommunicator.Util
                 offset, count);
         }
 
-        public void Append(ReadOnlySpan<char> span)
+        public int Append(ReadOnlySpan<char> span)
         {
             if (span.Length <= 0)
             {
@@ -55,11 +55,30 @@ namespace MessageCommunicator.Util
                 _buffer[_currentCount + indexSource] = span[indexSource];
             }
             _currentCount += span.Length;
+
+            return span.Length;
         }
 
-        public void Append(ReadOnlySpan<byte> bytes, Encoding encoding)
+        public int Append(ReadOnlySpan<byte> bytes, Decoder decoder)
         {
-            if (bytes.Length <= 0) { return; }
+            if (bytes.Length <= 0) { return 0; }
+
+            var charCount = decoder.GetCharCount(bytes, false);
+            this.CheckCapacity(charCount);
+
+            decoder.GetChars(
+                bytes, 
+                new Span<char>(_buffer, _currentCount, charCount), 
+                false);
+
+            _currentCount += charCount;
+
+            return charCount;
+        }
+
+        public int Append(ReadOnlySpan<byte> bytes, Encoding encoding)
+        {
+            if (bytes.Length <= 0) { return 0; }
 
             var charCount = encoding.GetCharCount(bytes);
             this.CheckCapacity(charCount);
@@ -68,6 +87,8 @@ namespace MessageCommunicator.Util
                 bytes, new Span<char>(_buffer, _currentCount, charCount));
 
             _currentCount += charCount;
+
+            return charCount;
         }
 
         public void EnsureCapacity(int count)

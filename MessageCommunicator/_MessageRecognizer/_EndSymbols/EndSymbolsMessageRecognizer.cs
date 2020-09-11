@@ -9,6 +9,7 @@ namespace MessageCommunicator
     public class EndSymbolsMessageRecognizer : MessageRecognizer
     {
         private Encoding _encoding;
+        private Decoder _decoder;
         private string _endSymbols;
         private StringBuffer _receiveStringBuffer;
 
@@ -20,6 +21,7 @@ namespace MessageCommunicator
             }
 
             _encoding = encoding;
+            _decoder = encoding.GetDecoder();
             _endSymbols = endSymbols;
             _receiveStringBuffer = new StringBuffer(1024);
         }
@@ -65,10 +67,16 @@ namespace MessageCommunicator
         public override void OnReceivedBytes(bool isNewConnection, ReadOnlySpan<byte> receivedSegment)
         {
             // Clear receive buffer on new connections
-            if (isNewConnection) { _receiveStringBuffer.Clear(); }
+            if (isNewConnection)
+            {
+                _receiveStringBuffer.Clear();
+                _decoder.Reset();
+            }
 
+            // Parse characters
             if (receivedSegment.Length <= 0) { return; }
-            _receiveStringBuffer.Append(receivedSegment, _encoding);
+            var addedChars = _receiveStringBuffer.Append(receivedSegment, _decoder);
+            if (addedChars == 0) { return; }
 
             bool endSymbolsMatch;
             do
@@ -104,7 +112,10 @@ namespace MessageCommunicator
                         if (receiveHandler != null)
                         {
                             var recognizedMessage = MessagePool.Rent(endSymbolIndex);
-                            recognizedMessage.RawMessage.Append(_receiveStringBuffer.GetPart(0, endSymbolIndex));
+                            if (endSymbolIndex > 0)
+                            {
+                                recognizedMessage.RawMessage.Append(_receiveStringBuffer.GetPart(0, endSymbolIndex));
+                            }
                             receiveHandler.OnMessageReceived(recognizedMessage);
                         }
 

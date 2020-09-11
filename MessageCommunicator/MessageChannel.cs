@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using MessageCommunicator.Util;
 
@@ -51,6 +52,14 @@ namespace MessageCommunicator
                 logger)
         {
 
+        }
+
+        /// <summary>
+        /// Waits until we've got a valid connection.
+        /// </summary>
+        public Task WaitForConnectionAsync(CancellationToken cancelToken)
+        {
+            return _byteStreamHandler.WaitForConnectionAsync(cancelToken);
         }
 
         public Task<bool> SendAsync(ReadOnlySpan<char> rawMessage)

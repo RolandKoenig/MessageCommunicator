@@ -12,11 +12,13 @@ namespace MessageCommunicator
         private const char SYMBOL_DELIMITER = '|';
 
         private Encoding _encoding;
+        private Decoder _decoder;
         private StringBuffer _receiveStringBuffer;
 
         public DefaultMessageRecognizer(Encoding encoding)
         {
             _encoding = encoding;
+            _decoder = _encoding.GetDecoder();
             _receiveStringBuffer = new StringBuffer(1024);
         }
 
@@ -64,10 +66,16 @@ namespace MessageCommunicator
         public override void OnReceivedBytes(bool isNewConnection, ReadOnlySpan<byte> receivedBytes)
         {
             // Clear receive buffer on new connections
-            if (isNewConnection) { _receiveStringBuffer.Clear(); }
+            if (isNewConnection)
+            {
+                _receiveStringBuffer.Clear();
+                _decoder.Reset();
+            }
 
+            // Parse characters
             if (receivedBytes.Length == 0) { return; }
-            _receiveStringBuffer.Append(receivedBytes, _encoding);
+            var addedChars = _receiveStringBuffer.Append(receivedBytes, _decoder);
+            if (addedChars == 0) { return; }
 
             while(_receiveStringBuffer.Count > 0)
             {

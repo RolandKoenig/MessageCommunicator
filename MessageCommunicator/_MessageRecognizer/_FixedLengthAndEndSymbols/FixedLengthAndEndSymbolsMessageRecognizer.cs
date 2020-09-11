@@ -9,6 +9,7 @@ namespace MessageCommunicator
     public class FixedLengthAndEndSymbolsMessageRecognizer : MessageRecognizer
     {
         private Encoding _encoding;
+        private Decoder _decoder;
         private string _endSymbols;
         private int _lengthIncludingEndSymbols;
         private int _lengthExcludingEndSymbols;
@@ -18,6 +19,7 @@ namespace MessageCommunicator
         public FixedLengthAndEndSymbolsMessageRecognizer(Encoding encoding, string endSymbols, int lengthIncludingEndSymbols, char fillSymbol)
         {
             _encoding = encoding;
+            _decoder = _encoding.GetDecoder();
             _endSymbols = endSymbols;
             _receiveStringBuffer = new StringBuffer(1024);
             _lengthIncludingEndSymbols = lengthIncludingEndSymbols;
@@ -83,10 +85,16 @@ namespace MessageCommunicator
         public override void OnReceivedBytes(bool isNewConnection, ReadOnlySpan<byte> receivedSegment)
         {
             // Clear receive buffer on new connections
-            if (isNewConnection) { _receiveStringBuffer.Clear(); }
+            if (isNewConnection)
+            {
+                _receiveStringBuffer.Clear();
+                _decoder.Reset();
+            }
 
+            // Parse characters
             if (receivedSegment.Length <= 0) { return; }
-            _receiveStringBuffer.Append(receivedSegment, _encoding);
+            var addedChars = _receiveStringBuffer.Append(receivedSegment, _decoder);
+            if (addedChars == 0) { return; }
 
             while (_receiveStringBuffer.Count >= _lengthIncludingEndSymbols)
             {
@@ -113,10 +121,13 @@ namespace MessageCommunicator
 
                 // Cut out received message
                 var receiveHandler = this.ReceiveHandler;
-                if ((receiveHandler != null) && (messageLength > 0))
+                if (receiveHandler != null)
                 {
                     var recognizedMessage = MessagePool.Rent(messageLength);
-                    recognizedMessage.RawMessage.Append(_receiveStringBuffer.GetPart(0, messageLength));
+                    if (messageLength > 0)
+                    {
+                        recognizedMessage.RawMessage.Append(_receiveStringBuffer.GetPart(0, messageLength));
+                    }
                     receiveHandler.OnMessageReceived(recognizedMessage);
                 }
 
