@@ -20,12 +20,14 @@ namespace MessageCommunicator.TestGui
                     try
                     {
                         this.SetValue(value);
+
                         this.RaisePropertyChanged(nameof(this.ValueAccessor));
+                        this.RaisePropertyChanged(nameof(this.ValueAccessor)); // <-- Call this twice because otherwise 'TextAndHexadecimal" edit control works not correctly
                     }
                     catch (Exception e)
                     {
-                        this.RaisePropertyChanged(nameof(this.ValueAccessor));
                         this.SetError(nameof(this.ValueAccessor), e.Message);
+                        this.RaisePropertyChanged(nameof(this.ValueAccessor));
                         return;
                     }
 
@@ -160,6 +162,8 @@ namespace MessageCommunicator.TestGui
         {
             var errorsFound = false;
             var ctx = new ValidationContext(_hostObject);
+            ctx.DisplayName = this.PropertyDisplayName;
+            ctx.MemberName = this.PropertyName;
             foreach (var actValidAttrib in _propertyInfo.GetCustomAttributes<ValidationAttribute>())
             {
                 var validationResult = actValidAttrib.GetValidationResult(this.ValueAccessor, ctx);
