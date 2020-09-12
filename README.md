@@ -1,8 +1,13 @@
 # MessageCommunicator
 ## About
-MessageCommunicator is a library + testing Gui for message-based communication. 
-The library is based on .Net Standard 2.1. The Gui is build using C# and Avalonia, 
+MessageCommunicator is a .Net library + testing Gui for message-based communication. 
+The library is based on .Net Standard 2.1 and distributed using Nuget. The Gui is build using C# and Avalonia, 
 therefore it supports the desktop environments on Windows, Linux and Mac.
+
+## Quick Links
+ - [Current progress / roadmap](/../../projects/1)
+ - [Releases](/../../releases)
+ - [Nuget](https://www.nuget.org/packages/MessageCommunicator)
 
 ### Library
 The library is designed to be cross-platform, asynchronous and to use as less object allocations as possible.
@@ -40,8 +45,6 @@ Sending a message is as easy as:
 ```csharp
 await activeTcpChannel.SendAsync("Message 1 from active to passive...");
 ```
-
-**Nuget**: https://www.nuget.org/packages/MessageCommunicator
 
 ### Gui
 Inside the testing Gui you can manage multiple profiles. Each profile has its own configuration

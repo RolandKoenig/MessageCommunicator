@@ -8,8 +8,8 @@
     <RepositoryUrl>https://github.com/RolandKoenig/MessageCommunicator</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Version>0.1.0</Version>
-    <PackageVersion>0.1.0</PackageVersion>
+    <Version>0.2.0</Version>
+    <PackageVersion>0.2.0</PackageVersion>
     <Product>MessageCommunicator</Product>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
