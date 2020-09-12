@@ -863,7 +863,10 @@ namespace MessageCommunicator.Util
         }
     }
 
+    // TODO: Implement Equals method on StringView
+#pragma warning disable 660,661
     public unsafe struct StringView 
+#pragma warning restore 660,661
     {
         public static readonly StringView Empty = new StringView();
 

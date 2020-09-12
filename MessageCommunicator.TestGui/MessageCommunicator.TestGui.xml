@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MessageCommunicator.TestGui</name>
+    </assembly>
+    <members>
+        <member name="M:MessageCommunicator.TestGui.Data.MessageRecognizerDefaultSettings.CreateLibSettings">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.Data.MessageRecognizerEndSymbolSettings.CreateLibSettings">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.Data.MessageRecognizerFixedLengthAndEndSymbolsSettings.CreateLibSettings">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.MainWindowViewModel.OnActivated(System.Reactive.Disposables.CompositeDisposable)">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.ViewServices.ConnectionConfigControl.OnActivated(System.Reactive.Disposables.CompositeDisposable)">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.ViewServices.ConnectionConfigControlService.ConfigureConnectionAsync(MessageCommunicator.TestGui.Data.ConnectionParameters)">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.ViewServices.MessageBoxControlService.ShowAsync(System.String,System.String,MessageCommunicator.TestGui.ViewServices.MessageBoxButtons)">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.DesignData.DummySynchronizationContext.Send(System.Threading.SendOrPostCallback,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.DesignData.DummySynchronizationContext.Post(System.Threading.SendOrPostCallback,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.CommonErrorHandling.ShowErrorDialog(System.Exception)">
+            <summary>
+            Shows a common error dialog for the given exception.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.TestGui.CommonErrorHandling.HandleFatalException(System.Exception)">
+            <summary>
+            Handles the given exception which causes the application to break.
+            </summary>
+        </member>
+        <member name="T:MessageCommunicator.TestGui.DefaultReactiveUIExceptionHandler">
+            <summary>
+            A dummy object which handles exception cached by ReactiveUI.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.TestGui.DummyDisposable.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.ValidatableViewModelBase.GetErrors(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="P:MessageCommunicator.TestGui.ValidatableViewModelBase.HasErrors">
+            <inheritdoc />
+        </member>
+        <member name="E:MessageCommunicator.TestGui.ValidatableViewModelBase.ErrorsChanged">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.ConnectionStateToColorConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.ConnectionStateToColorConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.EncodingWebNameToDescriptionConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.EncodingWebNameToDescriptionConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.LoggingMessageTypeToColorConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.LoggingMessageTypeToColorConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.TextToHexConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.TextToHexConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.VectorIconExtension.ProvideValue(System.IServiceProvider)">
+            <inheritdoc />
+        </member>
+        <member name="P:MessageCommunicator.TestGui.OwnViewModelBase.Activator">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.OwnViewModelBase.GetViewService``1">
+            <summary>
+            Gets the view service of the given type.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.TestGui.OwnUserControl`1.ViewServices">
+            <inheritdoc />
+        </member>
+        <member name="P:MessageCommunicator.TestGui.OwnUserControlDialog`1.ViewServices">
+            <inheritdoc />
+        </member>
+        <member name="P:MessageCommunicator.TestGui.OwnWindow`1.ViewServices">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
