@@ -11,9 +11,15 @@ namespace MessageCommunicator.Tests
     [TestClass]
     public class MessageFormattingTests
     {
-        private Encoding[] _encodings = Encoding.GetEncodings()
-            .Select(actEncodingInfo => actEncodingInfo.GetEncoding())
-            .ToArray();
+        private Encoding[] _encodings =
+        {
+            Encoding.GetEncoding("utf-32"),
+            Encoding.GetEncoding("utf-16"),
+            Encoding.GetEncoding("utf-8"),
+            Encoding.GetEncoding("utf-7"),
+            Encoding.GetEncoding("us-ascii"),
+            Encoding.GetEncoding("iso-8859-1")
+        };
 
         [TestMethod]
         [DataRow(data1: "This is a dummy message", "<23|This is a dummy message>")]
@@ -119,18 +125,28 @@ namespace MessageCommunicator.Tests
                 .Where(info => info.Method.Name == nameof(IByteStreamHandler.SendAsync))
                 .Invokes(args =>
                 {
-                    var bytesToSend = (ReadOnlyMemory<byte>)args.Arguments[0]!;
-                    generatedMessage = testEncoding.GetString(bytesToSend.Span);
+                    var bytesToSend = (ReadOnlySendOrReceiveBuffer<byte>)args.Arguments[0]!;
+                    if (bytesToSend.ArraySegment.Array == null) { return; }
+
+                    generatedMessage = testEncoding.GetString(
+                        bytesToSend.ArraySegment.Array, 
+                        bytesToSend.ArraySegment.Offset, 
+                        bytesToSend.ArraySegment.Count);
                 })
                 .Returns(Task.FromResult(true));
             testObject.ByteStreamHandler = fakedByteStreamHandler;
 
             // Call test method
-            var sendResult = await testObject.SendAsync(sendMessage);
+            var sendResult = await SendInternalAsync(testObject, sendMessage);
 
             // Check results
             Assert.IsTrue(sendResult, "Send returned false");
             Assert.IsTrue(generatedMessage == expectedMessage, "Wrong message formatting");
+        }
+
+        private static Task<bool> SendInternalAsync(MessageRecognizer testObject, string sendMessage)
+        {
+            return testObject.SendAsync(sendMessage.AsSpan());
         }
     }
 }

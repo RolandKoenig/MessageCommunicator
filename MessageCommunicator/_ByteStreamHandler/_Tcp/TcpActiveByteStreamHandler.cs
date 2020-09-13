@@ -6,13 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MessageCommunicator.Util;
 
-// Type aliases for supporting lower .net standard
-#if NETSTANDARD1_3
-using ReadOnlySpanOfByte = MessageCommunicator.ReadOnlySegment<byte>;
-#else
-using ReadOnlySpanOfByte = System.ReadOnlySpan<byte>;
-#endif
-
 namespace MessageCommunicator
 {
     public class TcpActiveByteStreamHandler : TcpByteStreamHandler

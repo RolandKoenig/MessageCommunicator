@@ -5,13 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MessageCommunicator.Util;
 
-// Type aliases for supporting lower .net standard
-#if NETSTANDARD1_3
-using ReadOnlySpanOfChar = MessageCommunicator.ReadOnlySegment<char>;
-#else
-using ReadOnlySpanOfChar = System.ReadOnlySpan<char>;
-#endif
-
 namespace MessageCommunicator
 {
     public class MessageChannel
@@ -81,7 +74,7 @@ namespace MessageCommunicator
             return _byteStreamHandler.WaitForConnectionAsync(cancelToken);
         }
 
-        public Task<bool> SendAsync(ReadOnlySpanOfChar rawMessage)
+        public Task<bool> SendAsync(ReadOnlySpan<char> rawMessage)
         {
             return _messageRecognizer.SendAsync(rawMessage);
         }
@@ -98,7 +91,7 @@ namespace MessageCommunicator
                     return task.Result;
                 });
 #else
-            return _messageRecognizer.SendAsync(rawMessage);
+            return _messageRecognizer.SendAsync(rawMessage.AsSpan());
 #endif
         }
 

@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-// Type aliases for supporting lower .net standard
-#if NETSTANDARD1_3
-using ReadOnlySpanOfChar = MessageCommunicator.ReadOnlySegment<char>;
-#else
-using ReadOnlySpanOfChar = System.ReadOnlySpan<char>;
-#endif
-
 namespace MessageCommunicator.Util
 {
     internal static class TcpCommunicatorUtil
     {
-        public static void EnsureNoEndsymbolsInMessage(ReadOnlySpanOfChar rawMessage, string endSymbols)
+        public static void EnsureNoEndsymbolsInMessage(ReadOnlySpan<char> rawMessage, string endSymbols)
         {
             for (var loop = 0; loop < rawMessage.Length; loop++)
             {

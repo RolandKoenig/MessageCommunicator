@@ -10,9 +10,15 @@ namespace MessageCommunicator.Tests
     [TestClass]
     public class MessageRecognitionTests
     {
-        private Encoding[] _encodings = Encoding.GetEncodings()
-            .Select(actEncodingInfo => actEncodingInfo.GetEncoding())
-            .ToArray();
+        private Encoding[] _encodings =
+        {
+            Encoding.GetEncoding("utf-32"),
+            Encoding.GetEncoding("utf-16"),
+            Encoding.GetEncoding("utf-8"),
+            Encoding.GetEncoding("utf-7"),
+            Encoding.GetEncoding("us-ascii"),
+            Encoding.GetEncoding("iso-8859-1")
+        };
 
         [TestMethod]
         [DataRow("<22|This is a test message>", "This is a test message")]
@@ -93,7 +99,7 @@ namespace MessageCommunicator.Tests
                 });
 
             testObject.ReceiveHandler = fakeReceiveHandler;
-            testObject.OnReceivedBytes(true, encoding.GetBytes(receivedData));
+            testObject.OnReceivedBytes(true, new ReadOnlySendOrReceiveBuffer<byte>(encoding.GetBytes(receivedData)));
 
             Assert.IsNotNull(recognizedMessage, "No message recognized!");
             Assert.IsTrue(recognizedMessage!.ToString() == expectedMessage);
@@ -116,7 +122,8 @@ namespace MessageCommunicator.Tests
             var bytesToReceive = encoding.GetBytes(receivedData);
             for (var loop = 0; loop < bytesToReceive.Length; loop++)
             {
-                testObject.OnReceivedBytes(loop == 0, bytesToReceive.AsSpan(loop, 1));
+                testObject.OnReceivedBytes(loop == 0, new ReadOnlySendOrReceiveBuffer<byte>(
+                    bytesToReceive, loop, 1));
             }
 
             Assert.IsNotNull(recognizedMessage, "No message recognized!");

@@ -3,15 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-// Type aliases for supporting lower .net standard
-#if NETSTANDARD1_3
-using ReadOnlySpanOfByte = MessageCommunicator.ReadOnlySegment<byte>;
-using ReadOnlySpanOfChar = MessageCommunicator.ReadOnlySegment<char>;
-#else
-using ReadOnlySpanOfByte = System.ReadOnlySpan<byte>;
-using ReadOnlySpanOfChar = System.ReadOnlySpan<char>;
-#endif
-
 namespace MessageCommunicator.Util
 {
     internal sealed unsafe partial class StringBuffer
@@ -51,19 +42,19 @@ namespace MessageCommunicator.Util
                 offset, count);
         }
 
-        public ReadOnlySpanOfChar GetPartReadOnly(int offset, int count)
+        public ReadOnlySpan<char> GetPartReadOnly(int offset, int count)
         {
             if (offset + count > _currentCount)
             {
                 throw new IndexOutOfRangeException();
             }
 
-            return new ReadOnlySpanOfChar(
+            return new ReadOnlySpan<char>(
                 _buffer,
                 offset, count);
         }
 
-        public int Append(ReadOnlySpanOfChar span)
+        public int Append(ReadOnlySpan<char> span)
         {
             if (span.Length <= 0)
             {
@@ -80,24 +71,24 @@ namespace MessageCommunicator.Util
             return span.Length;
         }
 
-        public int Append(ReadOnlySpanOfByte bytes, Decoder decoder)
+        public int Append(ReadOnlySendOrReceiveBuffer<byte> bytes, Decoder decoder)
         {
             if (bytes.Length <= 0) { return 0; }
 
 #if NETSTANDARD1_3
-            var array = bytes.Array;
-            var charCount = decoder.GetCharCount(bytes.Array, bytes.Offset, bytes.Length);
+            var arraySegment = bytes.ArraySegment;
+            var charCount = decoder.GetCharCount(arraySegment.Array, arraySegment.Offset, arraySegment.Count);
             this.CheckCapacity(charCount);
 
             decoder.GetChars(
-                bytes.Array, bytes.Offset, bytes.Length,
+                arraySegment.Array, arraySegment.Offset, arraySegment.Count,
                 _buffer, _currentCount, false);
 #else
-            var charCount = decoder.GetCharCount(bytes, false);
+            var charCount = decoder.GetCharCount(bytes.ReadOnlyMemory.Span, false);
             this.CheckCapacity(charCount);
 
             decoder.GetChars(
-                bytes, 
+                bytes.ReadOnlyMemory.Span, 
                 new Span<char>(_buffer, _currentCount, charCount), 
                 false);
 #endif

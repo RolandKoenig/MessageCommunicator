@@ -1,15 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-// Type aliases for supporting lower .net standard
-#if NETSTANDARD1_3
-using ReadOnlySpanOfByte = MessageCommunicator.ReadOnlySegment<byte>;
-using ReadOnlySpanOfChar = MessageCommunicator.ReadOnlySegment<char>;
-#else
-using ReadOnlySpanOfByte = System.ReadOnlySpan<byte>;
-using ReadOnlySpanOfChar = System.ReadOnlySpan<char>;
-#endif
-
 namespace MessageCommunicator
 {
     public abstract class MessageRecognizer : IMessageRecognizer
@@ -26,7 +17,7 @@ namespace MessageCommunicator
         /// <param name="rawMessage">The message to be sent.</param>
         /// <returns>True if sending was successful, otherwise false.</returns>
         /// <exception cref="ArgumentException">Invalid message.</exception>
-        public Task<bool> SendAsync(ReadOnlySpanOfChar rawMessage)
+        public Task<bool> SendAsync(ReadOnlySpan<char> rawMessage)
         {
             var byteStreamHandler = this.ByteStreamHandler;
             if (byteStreamHandler == null) { return Task.FromResult(false); }
@@ -34,9 +25,9 @@ namespace MessageCommunicator
             return this.SendInternalAsync(byteStreamHandler, rawMessage);
         }
 
-        protected abstract Task<bool> SendInternalAsync(IByteStreamHandler byteStreamHandler, ReadOnlySpanOfChar rawMessage);
+        protected abstract Task<bool> SendInternalAsync(IByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage);
 
         /// <inheritdoc />
-        public abstract void OnReceivedBytes(bool isNewConnection, ReadOnlySpanOfByte receivedBytes);
+        public abstract void OnReceivedBytes(bool isNewConnection, ReadOnlySendOrReceiveBuffer<byte> receivedBytes);
     }
 }

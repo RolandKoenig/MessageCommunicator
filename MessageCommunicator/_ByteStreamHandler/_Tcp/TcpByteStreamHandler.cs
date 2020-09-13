@@ -5,15 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MessageCommunicator.Util;
 
-// Type aliases for supporting lower .net standard
-#if NETSTANDARD1_3
-using ReadOnlySpanOfByte = MessageCommunicator.ReadOnlySegment<byte>;
-using ReadOnlyMemoryOfByte = MessageCommunicator.ReadOnlySegment<byte>;
-#else
-using ReadOnlySpanOfByte = System.ReadOnlySpan<byte>;
-using ReadOnlyMemoryOfByte = System.ReadOnlyMemory<byte>;
-#endif
-
 namespace MessageCommunicator
 {
     public abstract class TcpByteStreamHandler : ByteStreamHandler
@@ -75,7 +66,7 @@ namespace MessageCommunicator
         /// </summary>
         /// <param name="buffer">The bytes to be sent</param>
         /// <returns>True when sending was successful</returns>
-        public override async Task<bool> SendAsync(ReadOnlyMemoryOfByte buffer)
+        public override async Task<bool> SendAsync(ReadOnlySendOrReceiveBuffer<byte> buffer)
         {
             if(buffer.Length <= 0)
             {
@@ -96,7 +87,7 @@ namespace MessageCommunicator
                 await currentClient.Client.SendAsync(buffer.ArraySegment, SocketFlags.None)
                     .ConfigureAwait(false);
 #else
-                await currentClient.Client.SendAsync(buffer, SocketFlags.None)
+                await currentClient.Client.SendAsync(buffer.ReadOnlyMemory, SocketFlags.None)
                     .ConfigureAwait(false);
 #endif
 
@@ -214,21 +205,21 @@ namespace MessageCommunicator
             TcpAsyncUtil.SafeDispose(ref tcpClient);
         }
 
-        private void ProcessReceivedBytes(bool newConnection, byte[] receiveBuffer, int receivedBytesCount)
+        private void ProcessReceivedBytes(bool newConnection, byte[] buffer, int receivedBytesCount)
         {
-            var receivedSpan = new ReadOnlySpanOfByte(receiveBuffer, 0, receivedBytesCount);
+            var receiveBuffer = new ReadOnlySendOrReceiveBuffer<byte>(buffer, 0, receivedBytesCount);
 
             // Log currently received bytes
             if (this.IsLoggerSet)
             {
                 this.Log(
                     LoggingMessageType.Info,
-                    StringBuffer.Format("Received {0} bytes: {1}", receivedSpan.Length, TcpAsyncUtil.ToHexString(receivedSpan)));
+                    StringBuffer.Format("Received {0} bytes: {1}", receiveBuffer.Length, TcpAsyncUtil.ToHexString(receiveBuffer)));
             }
 
             // Notify received bytes
             var messageRecognizer = this.MessageRecognizer;
-            messageRecognizer?.OnReceivedBytes(newConnection, receivedSpan);
+            messageRecognizer?.OnReceivedBytes(newConnection, receiveBuffer);
         }
     }
 }

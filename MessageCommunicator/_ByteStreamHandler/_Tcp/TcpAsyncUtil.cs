@@ -5,13 +5,6 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using MessageCommunicator.Util;
 
-// Type aliases for supporting lower .net standard
-#if NETSTANDARD1_3
-using ReadOnlySpanOfByte = MessageCommunicator.ReadOnlySegment<byte>;
-#else
-using ReadOnlySpanOfByte = System.ReadOnlySpan<byte>;
-#endif
-
 namespace MessageCommunicator
 {
     internal static class TcpAsyncUtil
@@ -63,14 +56,7 @@ namespace MessageCommunicator
             socket = null;
         }
 
-#if NETSTANDARD2_1
-        public static string ToHexString(ReadOnlyMemory<byte> bytes)
-        {
-            return ToHexString(bytes.Span);
-        }
-#endif
-
-        public static string ToHexString(ReadOnlySpanOfByte bytes)
+        public static string ToHexString(ReadOnlySendOrReceiveBuffer<byte> bytes)
         {
             if (bytes.Length == 0) { return string.Empty; }
 
@@ -79,13 +65,14 @@ namespace MessageCommunicator
             var length = bytes.Length;
             if (length > 1) { length += (length - 1); }
             var stringBuffer = StringBuffer.Acquire(length);
+            var bytesSpan = bytes.Span;
             try
             {
-                for (var loop = 0; loop < bytes.Length; loop++)
+                for (var loop = 0; loop < bytesSpan.Length; loop++)
                 {
                     if(stringBuffer.Count > 0){ stringBuffer.Append(' '); }
 
-                    var actByte = bytes[loop];
+                    var actByte = bytesSpan[loop];
                     stringBuffer.Append(HEX_ALPHABET[actByte >> 4]);
                     stringBuffer.Append(HEX_ALPHABET[actByte & 0xF]);
                 }

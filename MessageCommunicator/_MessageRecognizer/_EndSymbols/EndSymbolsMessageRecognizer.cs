@@ -4,17 +4,6 @@ using System.Text;
 using System.Threading.Tasks;
 using MessageCommunicator.Util;
 
-// Type aliases for supporting lower .net standard
-#if NETSTANDARD1_3
-using MemoryOfByte = MessageCommunicator.ReadOnlySegment<byte>;
-using ReadOnlySpanOfByte = MessageCommunicator.ReadOnlySegment<byte>;
-using ReadOnlySpanOfChar = MessageCommunicator.ReadOnlySegment<char>;
-#else
-using MemoryOfByte = System.Memory<byte>;
-using ReadOnlySpanOfByte = System.ReadOnlySpan<byte>;
-using ReadOnlySpanOfChar = System.ReadOnlySpan<char>;
-#endif
-
 namespace MessageCommunicator
 {
     public class EndSymbolsMessageRecognizer : MessageRecognizer
@@ -38,7 +27,7 @@ namespace MessageCommunicator
         }
 
         /// <inheritdoc />
-        protected override Task<bool> SendInternalAsync(IByteStreamHandler byteStreamHandler, ReadOnlySpanOfChar rawMessage)
+        protected override Task<bool> SendInternalAsync(IByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage)
         {
             // Check for endsymbols inside the message
             TcpCommunicatorUtil.EnsureNoEndsymbolsInMessage(rawMessage, _endSymbols);
@@ -60,7 +49,7 @@ namespace MessageCommunicator
                 sendBuffer = null;
 
                 return byteStreamHandler.SendAsync(
-                    new MemoryOfByte(bytes, 0, sendMessageByteLength));
+                    new ReadOnlySendOrReceiveBuffer<byte>(bytes, 0, sendMessageByteLength));
             }
             finally
             {
@@ -75,7 +64,7 @@ namespace MessageCommunicator
             }
         }
 
-        public override void OnReceivedBytes(bool isNewConnection, ReadOnlySpanOfByte receivedSegment)
+        public override void OnReceivedBytes(bool isNewConnection, ReadOnlySendOrReceiveBuffer<byte> receivedSegment)
         {
             // Clear receive buffer on new connections
             if (isNewConnection)

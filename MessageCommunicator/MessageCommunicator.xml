@@ -528,7 +528,7 @@
             Calls current logger with the given message.
             </summary>
         </member>
-        <member name="M:MessageCommunicator.ByteStreamHandler.SendAsync(System.ReadOnlyMemory{System.Byte})">
+        <member name="M:MessageCommunicator.ByteStreamHandler.SendAsync(MessageCommunicator.ReadOnlySendOrReceiveBuffer{System.Byte})">
             <inheritdoc />
         </member>
         <member name="P:MessageCommunicator.IByteStreamHandler.MessageRecognizer">
@@ -536,7 +536,7 @@
             Gets or sets the <see cref="T:MessageCommunicator.IMessageRecognizer"/> which gets notified when we received bytes from the connected partner.
             </summary>
         </member>
-        <member name="M:MessageCommunicator.IByteStreamHandler.SendAsync(System.ReadOnlyMemory{System.Byte})">
+        <member name="M:MessageCommunicator.IByteStreamHandler.SendAsync(MessageCommunicator.ReadOnlySendOrReceiveBuffer{System.Byte})">
             <summary>
             Sends the given bytes to the connected partner.
             </summary>
@@ -564,7 +564,7 @@
         <member name="M:MessageCommunicator.TcpActiveByteStreamHandlerSettings.CreateByteStreamHandler">
             <inheritdoc />
         </member>
-        <member name="M:MessageCommunicator.TcpByteStreamHandler.SendAsync(System.ReadOnlyMemory{System.Byte})">
+        <member name="M:MessageCommunicator.TcpByteStreamHandler.SendAsync(MessageCommunicator.ReadOnlySendOrReceiveBuffer{System.Byte})">
             <summary>
             Tries to send the given message to the currently connected partner
             </summary>
@@ -599,7 +599,7 @@
             Gets or sets the <see cref="T:MessageCommunicator.IByteStreamHandler"/> which will be called inside the send method.
             </summary>
         </member>
-        <member name="M:MessageCommunicator.IMessageRecognizer.OnReceivedBytes(System.Boolean,System.ReadOnlySpan{System.Byte})">
+        <member name="M:MessageCommunicator.IMessageRecognizer.OnReceivedBytes(System.Boolean,MessageCommunicator.ReadOnlySendOrReceiveBuffer{System.Byte})">
             <summary>
             Notifies received bytes.
             Be careful, this method is called from the receive event of the <see cref="T:MessageCommunicator.TcpByteStreamHandler"/> loop.
@@ -616,13 +616,13 @@
             <returns>True if sending was successful, otherwise false.</returns>
             <exception cref="T:System.ArgumentException">Invalid message.</exception>
         </member>
-        <member name="M:MessageCommunicator.MessageRecognizer.OnReceivedBytes(System.Boolean,System.ReadOnlySpan{System.Byte})">
+        <member name="M:MessageCommunicator.MessageRecognizer.OnReceivedBytes(System.Boolean,MessageCommunicator.ReadOnlySendOrReceiveBuffer{System.Byte})">
             <inheritdoc />
         </member>
         <member name="M:MessageCommunicator.DefaultMessageRecognizer.SendInternalAsync(MessageCommunicator.IByteStreamHandler,System.ReadOnlySpan{System.Char})">
             <inheritdoc />
         </member>
-        <member name="M:MessageCommunicator.DefaultMessageRecognizer.OnReceivedBytes(System.Boolean,System.ReadOnlySpan{System.Byte})">
+        <member name="M:MessageCommunicator.DefaultMessageRecognizer.OnReceivedBytes(System.Boolean,MessageCommunicator.ReadOnlySendOrReceiveBuffer{System.Byte})">
             <inheritdoc />
         </member>
         <member name="M:MessageCommunicator.DefaultMessageRecognizerSettings.CreateMessageRecognizer">
