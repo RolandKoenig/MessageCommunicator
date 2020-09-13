@@ -4,6 +4,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+// Type aliases for supporting lower .net standard
+#if NETSTANDARD1_3
+using ReadOnlyMemoryOfByte = MessageCommunicator.ReadOnlySegment<byte>;
+#else
+using ReadOnlyMemoryOfByte = System.ReadOnlyMemory<byte>;
+#endif
+
 namespace MessageCommunicator
 {
     public abstract class ByteStreamHandler : IByteStreamHandler
@@ -81,6 +88,6 @@ namespace MessageCommunicator
         }
 
         /// <inheritdoc />
-        public abstract Task<bool> SendAsync(ReadOnlyMemory<byte> buffer);
+        public abstract Task<bool> SendAsync(ReadOnlyMemoryOfByte buffer);
     }
 }

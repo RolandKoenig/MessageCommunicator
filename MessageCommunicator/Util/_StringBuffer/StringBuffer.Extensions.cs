@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 
+// Type aliases for supporting lower .net standard
+#if NETSTANDARD1_3
+using ReadOnlySpanOfByte = MessageCommunicator.ReadOnlySegment<byte>;
+using ReadOnlySpanOfChar = MessageCommunicator.ReadOnlySegment<char>;
+#else
+using ReadOnlySpanOfByte = System.ReadOnlySpan<byte>;
+using ReadOnlySpanOfChar = System.ReadOnlySpan<char>;
+#endif
+
 namespace MessageCommunicator.Util
 {
     internal sealed unsafe partial class StringBuffer
@@ -42,7 +51,19 @@ namespace MessageCommunicator.Util
                 offset, count);
         }
 
-        public int Append(ReadOnlySpan<char> span)
+        public ReadOnlySpanOfChar GetPartReadOnly(int offset, int count)
+        {
+            if (offset + count > _currentCount)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            return new ReadOnlySpanOfChar(
+                _buffer,
+                offset, count);
+        }
+
+        public int Append(ReadOnlySpanOfChar span)
         {
             if (span.Length <= 0)
             {
@@ -59,10 +80,19 @@ namespace MessageCommunicator.Util
             return span.Length;
         }
 
-        public int Append(ReadOnlySpan<byte> bytes, Decoder decoder)
+        public int Append(ReadOnlySpanOfByte bytes, Decoder decoder)
         {
             if (bytes.Length <= 0) { return 0; }
 
+#if NETSTANDARD1_3
+            var array = bytes.Array;
+            var charCount = decoder.GetCharCount(bytes.Array, bytes.Offset, bytes.Length);
+            this.CheckCapacity(charCount);
+
+            decoder.GetChars(
+                bytes.Array, bytes.Offset, bytes.Length,
+                _buffer, _currentCount, false);
+#else
             var charCount = decoder.GetCharCount(bytes, false);
             this.CheckCapacity(charCount);
 
@@ -70,7 +100,7 @@ namespace MessageCommunicator.Util
                 bytes, 
                 new Span<char>(_buffer, _currentCount, charCount), 
                 false);
-
+#endif
             _currentCount += charCount;
 
             return charCount;

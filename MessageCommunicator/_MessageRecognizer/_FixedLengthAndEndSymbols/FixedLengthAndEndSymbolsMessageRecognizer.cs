@@ -4,6 +4,17 @@ using System.Text;
 using System.Threading.Tasks;
 using MessageCommunicator.Util;
 
+// Type aliases for supporting lower .net standard
+#if NETSTANDARD1_3
+using MemoryOfByte = MessageCommunicator.ReadOnlySegment<byte>;
+using ReadOnlySpanOfByte = MessageCommunicator.ReadOnlySegment<byte>;
+using ReadOnlySpanOfChar = MessageCommunicator.ReadOnlySegment<char>;
+#else
+using MemoryOfByte = System.Memory<byte>;
+using ReadOnlySpanOfByte = System.ReadOnlySpan<byte>;
+using ReadOnlySpanOfChar = System.ReadOnlySpan<char>;
+#endif
+
 namespace MessageCommunicator
 {
     public class FixedLengthAndEndSymbolsMessageRecognizer : MessageRecognizer
@@ -34,7 +45,7 @@ namespace MessageCommunicator
         }
 
         /// <inheritdoc />
-        protected override Task<bool> SendInternalAsync(IByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage)
+        protected override Task<bool> SendInternalAsync(IByteStreamHandler byteStreamHandler, ReadOnlySpanOfChar rawMessage)
         {
             // Check for valid message
             if (rawMessage.Length > _lengthExcludingEndSymbols)
@@ -67,7 +78,7 @@ namespace MessageCommunicator
                 sendBuffer = null;
 
                 return byteStreamHandler.SendAsync(
-                    new ReadOnlyMemory<byte>(bytes, 0, sendMessageByteLength));
+                    new MemoryOfByte(bytes, 0, sendMessageByteLength));
             }
             finally
             {
@@ -82,7 +93,7 @@ namespace MessageCommunicator
             }
         }
 
-        public override void OnReceivedBytes(bool isNewConnection, ReadOnlySpan<byte> receivedSegment)
+        public override void OnReceivedBytes(bool isNewConnection, ReadOnlySpanOfByte receivedSegment)
         {
             // Clear receive buffer on new connections
             if (isNewConnection)
@@ -126,7 +137,8 @@ namespace MessageCommunicator
                     var recognizedMessage = MessagePool.Rent(messageLength);
                     if (messageLength > 0)
                     {
-                        recognizedMessage.RawMessage.Append(_receiveStringBuffer.GetPart(0, messageLength));
+                        recognizedMessage.RawMessage.Append(
+                            _receiveStringBuffer.GetPartReadOnly(0, messageLength));
                     }
                     receiveHandler.OnMessageReceived(recognizedMessage);
                 }

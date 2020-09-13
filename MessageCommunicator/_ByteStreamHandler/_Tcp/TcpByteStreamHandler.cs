@@ -5,6 +5,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using MessageCommunicator.Util;
 
+// Type aliases for supporting lower .net standard
+#if NETSTANDARD1_3
+using ReadOnlySpanOfByte = MessageCommunicator.ReadOnlySegment<byte>;
+using ReadOnlyMemoryOfByte = MessageCommunicator.ReadOnlySegment<byte>;
+#else
+using ReadOnlySpanOfByte = System.ReadOnlySpan<byte>;
+using ReadOnlyMemoryOfByte = System.ReadOnlyMemory<byte>;
+#endif
+
 namespace MessageCommunicator
 {
     public abstract class TcpByteStreamHandler : ByteStreamHandler
@@ -66,7 +75,7 @@ namespace MessageCommunicator
         /// </summary>
         /// <param name="buffer">The bytes to be sent</param>
         /// <returns>True when sending was successful</returns>
-        public override async Task<bool> SendAsync(ReadOnlyMemory<byte> buffer)
+        public override async Task<bool> SendAsync(ReadOnlyMemoryOfByte buffer)
         {
             if(buffer.Length <= 0)
             {
@@ -83,14 +92,19 @@ namespace MessageCommunicator
 
             try
             {
+#if NETSTANDARD1_3
+                await currentClient.Client.SendAsync(buffer.ArraySegment, SocketFlags.None)
+                    .ConfigureAwait(false);
+#else
                 await currentClient.Client.SendAsync(buffer, SocketFlags.None)
                     .ConfigureAwait(false);
+#endif
 
                 if (this.IsLoggerSet)
                 {
                     this.Log(
                         LoggingMessageType.Info,
-                        StringBuffer.Format("Sent {0} bytes: {1}", buffer.Length, TcpAsyncUtil.ToHexString(buffer.Span)));
+                        StringBuffer.Format("Sent {0} bytes: {1}", buffer.Length, TcpAsyncUtil.ToHexString(buffer)));
                 }
                 
                 return true;
@@ -134,9 +148,15 @@ namespace MessageCommunicator
                 try
                 {
                     // Read next bytes
+#if NETSTANDARD1_3
+                    lastReceiveResult = await tcpClient.Client
+                        .ReceiveAsync(new ArraySegment<byte>(receiveBuffer), SocketFlags.None)
+                        .ConfigureAwait(false);
+#else
                     lastReceiveResult = await tcpClient.Client
                         .ReceiveAsync(new Memory<byte>(receiveBuffer), SocketFlags.None)
                         .ConfigureAwait(false);
+#endif
 
                     // Reset receive result if we where canceled already
                     if (lastReceiveResult == 0)
@@ -196,7 +216,7 @@ namespace MessageCommunicator
 
         private void ProcessReceivedBytes(bool newConnection, byte[] receiveBuffer, int receivedBytesCount)
         {
-            var receivedSpan = new ReadOnlySpan<byte>(receiveBuffer, 0, receivedBytesCount);
+            var receivedSpan = new ReadOnlySpanOfByte(receiveBuffer, 0, receivedBytesCount);
 
             // Log currently received bytes
             if (this.IsLoggerSet)

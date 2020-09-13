@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
+// Type aliases for supporting lower .net standard
+#if NETSTANDARD1_3
+using ReadOnlyMemoryOfByte = MessageCommunicator.ReadOnlySegment<byte>;
+#else
+using ReadOnlyMemoryOfByte = System.ReadOnlyMemory<byte>;
+#endif
+
 namespace MessageCommunicator
 {
     public interface IByteStreamHandler
@@ -17,6 +24,6 @@ namespace MessageCommunicator
         /// </summary>
         /// <param name="buffer">The bytes to be sent.</param>
         /// <returns>True if sending was successful, otherwise false.</returns>
-        Task<bool> SendAsync(ReadOnlyMemory<byte> buffer);
+        Task<bool> SendAsync(ReadOnlyMemoryOfByte buffer);
     }
 }

@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using MessageCommunicator.Util;
 
+// Type aliases for supporting lower .net standard
+#if NETSTANDARD1_3
+using ReadOnlySpanOfChar = MessageCommunicator.ReadOnlySegment<char>;
+#else
+using ReadOnlySpanOfChar = System.ReadOnlySpan<char>;
+#endif
+
 namespace MessageCommunicator
 {
     public class Message
@@ -55,14 +62,14 @@ namespace MessageCommunicator
             return this.RawMessage.GetPart(0, this.RawMessage.Count);
         }
 
-        public ReadOnlySpan<char> GetSpanReadOnly(int offset, int length)
+        public ReadOnlySpanOfChar GetSpanReadOnly(int offset, int length)
         {
-            return this.RawMessage.GetPart(offset, length);
+            return this.RawMessage.GetPartReadOnly(offset, length);
         }
 
-        public ReadOnlySpan<char> GetSpanReadOnly()
+        public ReadOnlySpanOfChar GetSpanReadOnly()
         {
-            return this.RawMessage.GetPart(0, this.RawMessage.Count);
+            return this.RawMessage.GetPartReadOnly(0, this.RawMessage.Count);
         }
 
         /// <summary>
