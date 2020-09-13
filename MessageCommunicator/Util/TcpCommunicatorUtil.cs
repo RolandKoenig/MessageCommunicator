@@ -38,7 +38,7 @@ namespace MessageCommunicator.Util
                 var actChar = toParse[actIndex];
                 if((actChar < '0') || (actChar > '9'))
                 {
-                    throw new ApplicationException($"Unable to parse number out of string on index {index} with length {length}: {toParse}!");
+                    throw new InvalidOperationException($"Unable to parse number out of string on index {index} with length {length}: {toParse}!");
                 }
 
                 result = result * 10 + (actChar - '0');

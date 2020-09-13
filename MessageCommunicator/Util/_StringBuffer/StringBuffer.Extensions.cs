@@ -76,21 +76,6 @@ namespace MessageCommunicator.Util
             return charCount;
         }
 
-        public int Append(ReadOnlySpan<byte> bytes, Encoding encoding)
-        {
-            if (bytes.Length <= 0) { return 0; }
-
-            var charCount = encoding.GetCharCount(bytes);
-            this.CheckCapacity(charCount);
-
-            encoding.GetChars(
-                bytes, new Span<char>(_buffer, _currentCount, charCount));
-
-            _currentCount += charCount;
-
-            return charCount;
-        }
-
         public void EnsureCapacity(int count)
         {
             if (_buffer.Length < count)

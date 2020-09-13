@@ -54,7 +54,7 @@ namespace MessageCommunicator
             var loopId = 0;
             lock (_startStopLock)
             {
-                if(_isRunning){ throw new ApplicationException($"Unable to start {nameof(TcpActiveByteStreamHandler)} for host {this.RemoteHost} and port {this.RemotePort}: This object is started already!"); }
+                if(_isRunning){ throw new InvalidOperationException($"Unable to start {nameof(TcpActiveByteStreamHandler)} for host {this.RemoteHost} and port {this.RemotePort}: This object is started already!"); }
 
                 _isRunning = true;
                 _connState = ConnectionState.Connecting;
@@ -82,7 +82,7 @@ namespace MessageCommunicator
             {
                 if (!_isRunning)
                 {
-                    throw new ApplicationException($"Unable to stop {nameof(TcpActiveByteStreamHandler)} for host {this.RemoteHost} and port {this.RemotePort}: This object is stopped already!");
+                    throw new InvalidOperationException($"Unable to stop {nameof(TcpActiveByteStreamHandler)} for host {this.RemoteHost} and port {this.RemotePort}: This object is stopped already!");
                 }
 
                 _isRunning = false;

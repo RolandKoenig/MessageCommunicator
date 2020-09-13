@@ -161,9 +161,9 @@ namespace MessageCommunicator
                         this.Log(
                             LoggingMessageType.Error,
                             StringBuffer.Format(
-                                "Error while receiving bytes from {0}: (Code: {1} - {2}) {3}", 
+                                "Error while receiving bytes from {0}: (Code: {1}) {2}", 
                                 partnerEndPointStr, 
-                                socketException.ErrorCode, socketException.SocketErrorCode.ToString(),
+                                socketException.SocketErrorCode.ToString(),
                                 socketException.Message),
                             exception: socketException);
                     }
