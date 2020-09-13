@@ -38,7 +38,7 @@ namespace MessageCommunicator.Tests
 
                 dummyMessage.ReturnToPool();
 
-                InvalidOperationException expectedException = null;
+                InvalidOperationException? expectedException = null;
                 try
                 {
                     dummyMessage.ReturnToPool();
@@ -66,7 +66,7 @@ namespace MessageCommunicator.Tests
 
                 dummyMessage.ReturnToPool();
 
-                InvalidOperationException expectedException = null;
+                InvalidOperationException? expectedException = null;
                 try
                 {
                     dummyMessage.EnsureCapacity(500);
