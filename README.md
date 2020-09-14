@@ -9,6 +9,9 @@ therefore it supports the desktop environments on Windows, Linux and Mac.
  - [Releases](/../../releases)
  - [Nuget](https://www.nuget.org/packages/MessageCommunicator)
 
+## Build
+[![Actions Status](https://github.com/RolandKoenig/MessageCommunicator/workflows/Build%20and%20test/badge.svg)](https://github.com/RolandKoenig/MessageCommunicator/actions)
+
 ### Library
 The library is designed to be cross-platform, asynchronous and to use as less object allocations as possible.
 In the following example we are creating a channel which listens for incoming tcp connections on
