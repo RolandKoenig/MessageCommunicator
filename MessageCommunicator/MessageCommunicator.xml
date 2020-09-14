@@ -640,5 +640,14 @@
         <member name="M:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizerSettings.CreateMessageRecognizer">
             <inheritdoc />
         </member>
+        <member name="M:MessageCommunicator.StartAndEndSymbolsRecognizer.SendInternalAsync(MessageCommunicator.IByteStreamHandler,System.ReadOnlySpan{System.Char})">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.StartAndEndSymbolsRecognizer.OnReceivedBytes(System.Boolean,MessageCommunicator.ReadOnlySendOrReceiveBuffer{System.Byte})">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.StartAndEndSymbolsRecognizerSettings.CreateMessageRecognizer">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

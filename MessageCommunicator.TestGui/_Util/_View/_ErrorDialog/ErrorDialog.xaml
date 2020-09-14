@@ -9,6 +9,13 @@
         ShowInTaskbar="False" 
         Width="500" Height="300"
         d:DataContext="{x:Static local:DesignData.ErrorDialogVM}">
+    <Window.Styles>
+        <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml" />
+        <StyleInclude Source="/Assets/Styles/Light.xaml" />
+      
+        <StyleInclude Source="/Assets/Common.xaml" />
+    </Window.Styles>
+  
     <DockPanel LastChildFill="True">
         <Grid DockPanel.Dock="Bottom"
               Background="LightGray">

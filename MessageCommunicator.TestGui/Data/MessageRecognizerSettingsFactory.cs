@@ -19,6 +19,9 @@ namespace MessageCommunicator.TestGui.Data
                 case MessageRecognitionMode.FixedLengthAndEndSymbol:
                     return new MessageRecognizerFixedLengthAndEndSymbolsSettings();
 
+                case MessageRecognitionMode.StartAndEndSymbol:
+                    return new MessageRecognizerStartAndEndSymbolSettings();
+
                 default:
                     throw new ApplicationException($"Unknown message recognition mode: {recognitionMode}");
             }

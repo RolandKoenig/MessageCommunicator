@@ -13,6 +13,8 @@
 
         EndSymbol,
 
-        FixedLengthAndEndSymbol
+        FixedLengthAndEndSymbol,
+
+        StartAndEndSymbol
     }
 }
