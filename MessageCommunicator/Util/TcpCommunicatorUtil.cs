@@ -5,6 +5,30 @@ namespace MessageCommunicator.Util
 {
     internal static class TcpCommunicatorUtil
     {
+        public static void EnsureNoStartSymbolsInMessage(ReadOnlySpan<char> rawMessage, string startSymbols)
+        {
+            var startSymbolsMatch = false;
+            var messageIndex = 0;
+            for (var loop = 0; loop < startSymbols.Length; loop++)
+            {
+                if (startSymbols[loop] == rawMessage[messageIndex])
+                {
+                    messageIndex++;
+                    startSymbolsMatch = true;
+                }
+                else
+                {
+                    startSymbolsMatch = false;
+                    messageIndex = 0;
+                }
+            }
+
+            if(startSymbolsMatch)
+            {
+                throw new ArgumentException($"StartSymbols found at index at the given message. Given message must not contain configured StartSymbols! ", nameof(rawMessage));
+            }
+        }
+
         public static void EnsureNoEndsymbolsInMessage(ReadOnlySpan<char> rawMessage, string endSymbols)
         {
             for (var loop = 0; loop < rawMessage.Length; loop++)

@@ -27,7 +27,7 @@ namespace MessageCommunicator
         /// <inheritdoc />
         protected override Task<bool> SendInternalAsync(IByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage)
         {
-            // Check for endsymbols inside the message
+            // Check for start- and endsymbols inside the message
             TcpCommunicatorUtil.EnsureNoEndsymbolsInMessage(rawMessage, _endSymbols);
 
             // Perform message formatting

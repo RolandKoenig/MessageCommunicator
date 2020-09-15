@@ -115,6 +115,47 @@ namespace MessageCommunicator.Tests
             }
         }
 
+        [TestMethod]
+        [DataRow("<", ">", "This is a dummy message", "<This is a dummy message>")]
+        [DataRow("||", "##", "This is a dummy message", "||This is a dummy message##")]
+        [DataRow("\x02", "\x03", "This is a dummy message", "\x02This is a dummy message\x03")]
+        [DataRow("<", ">", "This is < a dummy message", "<This is < a dummy message>")]
+        [DataRow("<", ">", "<This is a dummy message", "<<This is a dummy message>")]
+        [DataRow("<", ">", "", "<>")]
+        public async Task Check_StartAndEndSymbolMessageRecognizer(string startSymbols, string endSymbols, string sendMessage, string expectedMessage)
+        {
+            foreach (var actEncoding in _encodings)
+            {
+                var testObject = new StartAndEndSymbolsRecognizer(actEncoding, startSymbols, endSymbols);
+                await GenericTestMethodAsync(testObject, actEncoding, sendMessage, expectedMessage);
+            }
+        }
+
+        [TestMethod]
+        [DataRow("<", ">", "This is a > dummy message", typeof(ArgumentException))]
+        [DataRow(data1:"<","##", "Message contains endsymbols ## before end of message", typeof(ArgumentException))]
+        [DataRow(data1:"<", "#C", "Message contains endsymbols #C before end of message", typeof(ArgumentException))]
+        [DataRow(data1:"<", "##", "Message contains part of endsymbols at the end #", typeof(ArgumentException))]
+        public async Task Check_StartAndEndSymbolMessageRecognizer_Errors(string startSymbols, string endSymbols, string sendMessage, Type expectedExceptionType)
+        {
+            foreach (var actEncoding in _encodings)
+            {
+                var anyException = false;
+                try
+                {
+                    var testObject = new StartAndEndSymbolsRecognizer(actEncoding, startSymbols, endSymbols);
+                    await GenericTestMethodAsync(testObject, actEncoding, sendMessage, "");
+                }
+                catch (Exception e)
+                {
+                    anyException = true;
+                    Assert.IsTrue(e.GetType() == expectedExceptionType, "Unexpected exception fired");
+                }
+
+                Assert.IsTrue(anyException, "No exception fired!");
+            }
+        }
+
         private static async Task GenericTestMethodAsync(MessageRecognizer testObject, Encoding testEncoding, string sendMessage, string expectedMessage)
         {
             // Prepare test

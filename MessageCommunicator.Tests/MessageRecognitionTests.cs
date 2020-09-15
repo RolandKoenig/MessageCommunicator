@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -82,6 +81,30 @@ namespace MessageCommunicator.Tests
                 // Test receiving of only single bytes
                 GenericTestMethod_SingleBytesReceive(
                     new FixedLengthAndEndSymbolsMessageRecognizer(actEncoding, endSymbols, lengthIncludingEndSymbols, fillSymbol),
+                    actEncoding, receivedData, expectedMessage);
+            }
+        }
+
+        [TestMethod]
+        [DataRow("<", ">", "<This is a test message>", "This is a test message")]
+        [DataRow("<", ">", "<<This is a test message>", "<This is a test message")]
+        [DataRow("<", ">", "<This is a < test message>", "This is a < test message")]
+        [DataRow("\x02", "\x03", "\x02This is a test message\x03", "This is a test message")]
+        [DataRow("||", "##", "||This is a test message##", "This is a test message")]
+        [DataRow("<", ">", "<>", "")]
+        [DataRow("<", ">", "<a>", "a")]
+        public void Check_StartAndEndSymbolMessageRecognizer(string startSymbols, string endSymbols, string receivedData, string expectedMessage)
+        {
+            foreach (var actEncoding in _encodings)
+            {
+                // Test full receiving
+                GenericTestMethod_FullReceive(
+                    new StartAndEndSymbolsRecognizer(actEncoding, startSymbols,endSymbols), 
+                    actEncoding, receivedData, expectedMessage);
+
+                // Test receiving of only single bytes
+                GenericTestMethod_SingleBytesReceive(
+                    new StartAndEndSymbolsRecognizer(actEncoding, startSymbols,endSymbols),
                     actEncoding, receivedData, expectedMessage);
             }
         }
