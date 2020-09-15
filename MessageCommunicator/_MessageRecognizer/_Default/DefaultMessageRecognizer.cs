@@ -94,6 +94,15 @@ namespace MessageCommunicator
                         delimiterIndex = loop;
                         break;
                     }
+
+                    if (!TcpCommunicatorUtil.IsNumeric(_receiveStringBuffer[loop]))
+                    {
+                        throw new MessageRecognitionException($"Error during message recognition. Symbol in length field is not numeric (current index: {loop})!");
+                    }
+                    if (loop > 11)
+                    {
+                        throw new MessageRecognitionException($"Error during message recognition. Length field too long (current index: {loop})!");
+                    }
                 }
                 if (delimiterIndex == -1) { break; }
 

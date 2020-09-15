@@ -53,6 +53,11 @@ namespace MessageCommunicator.Util
             }
         }
 
+        public static bool IsNumeric(char charToCheck)
+        {
+            return (charToCheck >= '0') && (charToCheck <= '9');
+        }
+
         public static int ParseInt32FromStringPart(StringBuffer toParse, int index, int length)
         {
             var endIndex = index + length;

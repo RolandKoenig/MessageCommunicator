@@ -40,6 +40,47 @@ namespace MessageCommunicator.Tests
         }
 
         [TestMethod]
+        [DataRow("22|This is a test message>")]                 // No start symbol
+        [DataRow("<12345678912345|This is a test message>")]    // Length field too long
+        [DataRow("<22|This is a test message_")]                // Wrong end symbol symbol
+        [DataRow("<22_This is a test message>")]                // Missing separator
+        public void Check_DefaultMessageRecognizer_Errors(string receivedData)
+        {
+            foreach (var actEncoding in _encodings)
+            {
+                // Test full receiving
+                MessageRecognitionException? catchedException = null;
+                try
+                {
+                    GenericTestMethod_FullReceive(
+                        new DefaultMessageRecognizer(actEncoding),
+                        actEncoding, receivedData, "");
+                }
+                catch (MessageRecognitionException e)
+                {
+                    catchedException = e;
+                }
+                Assert.IsNotNull(catchedException,
+                    $"No exception at encoding {actEncoding.EncodingName} on full receive!");
+
+                // Test receiving of only single bytes
+                catchedException = null;
+                try
+                {
+                    GenericTestMethod_SingleBytesReceive(
+                        new DefaultMessageRecognizer(actEncoding),
+                        actEncoding, receivedData, "");
+                }
+                catch (MessageRecognitionException e)
+                {
+                    catchedException = e;
+                }
+                Assert.IsNotNull(catchedException,
+                    $"No exception at encoding {actEncoding.EncodingName} on single bytes receive!");
+            }
+        }
+
+        [TestMethod]
         [DataRow("##", "This is a test message##", "This is a test message")]
         [DataRow("##", "This is # a test message##", "This is # a test message")]
         [DataRow("#", "This is a test message#", "This is a test message")]
@@ -86,6 +127,46 @@ namespace MessageCommunicator.Tests
         }
 
         [TestMethod]
+        [DataRow("##", 10, '.', "123##...__")]  // Wrong end symbols
+        public void Check_FixedLengthAndEndSymbolMessageRecognizer_Errors(string endSymbols, int lengthIncludingEndSymbols, char fillSymbol, string receivedData)
+        {
+            foreach (var actEncoding in _encodings)
+            {
+                // Test full receiving
+                MessageRecognitionException? catchedException = null;
+                try
+                {
+                    GenericTestMethod_FullReceive(
+                        new FixedLengthAndEndSymbolsMessageRecognizer(actEncoding, endSymbols,
+                            lengthIncludingEndSymbols, fillSymbol),
+                        actEncoding, receivedData, "");
+                }
+                catch (MessageRecognitionException e)
+                {
+                    catchedException = e;
+                }
+                Assert.IsNotNull(catchedException,
+                    $"No exception at encoding {actEncoding.EncodingName} on full receive!");
+
+                // Test receiving of only single bytes
+                catchedException = null;
+                try
+                {
+                    GenericTestMethod_SingleBytesReceive(
+                        new FixedLengthAndEndSymbolsMessageRecognizer(actEncoding, endSymbols,
+                            lengthIncludingEndSymbols, fillSymbol),
+                        actEncoding, receivedData, "");
+                }
+                catch (MessageRecognitionException e)
+                {
+                    catchedException = e;
+                }
+                Assert.IsNotNull(catchedException,
+                    $"No exception at encoding {actEncoding.EncodingName} on single bytes receive!");
+            }
+        }
+
+        [TestMethod]
         [DataRow("<", ">", "<This is a test message>", "This is a test message")]
         [DataRow("<", ">", "<<This is a test message>", "<This is a test message")]
         [DataRow("<", ">", "<This is a < test message>", "This is a < test message")]
@@ -106,6 +187,44 @@ namespace MessageCommunicator.Tests
                 GenericTestMethod_SingleBytesReceive(
                     new StartAndEndSymbolsRecognizer(actEncoding, startSymbols,endSymbols),
                     actEncoding, receivedData, expectedMessage);
+            }
+        }
+
+        [TestMethod]
+        [DataRow("<", ">", "_This is a test message>")]   // Invalid start symbol
+        public void Check_StartAndEndSymbolMessageRecognizer_Errors(string startSymbols, string endSymbols, string receivedData)
+        {
+            foreach (var actEncoding in _encodings)
+            {
+                // Test full receiving
+                MessageRecognitionException? catchedException = null;
+                try
+                {
+                    GenericTestMethod_FullReceive(
+                        new StartAndEndSymbolsRecognizer(actEncoding, startSymbols, endSymbols),
+                        actEncoding, receivedData, "");
+                }
+                catch (MessageRecognitionException e)
+                {
+                    catchedException = e;
+                }
+                Assert.IsNotNull(catchedException,
+                    $"No exception at encoding {actEncoding.EncodingName} on full receive!");
+
+                // Test receiving of only single bytes
+                catchedException = null;
+                try
+                {
+                    GenericTestMethod_SingleBytesReceive(
+                        new StartAndEndSymbolsRecognizer(actEncoding, startSymbols, endSymbols),
+                        actEncoding, receivedData, "");
+                }
+                catch (MessageRecognitionException e)
+                {
+                    catchedException = e;
+                }
+                Assert.IsNotNull(catchedException,
+                    $"No exception at encoding {actEncoding.EncodingName} on single bytes receive!");
             }
         }
 
