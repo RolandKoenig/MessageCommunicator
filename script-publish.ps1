@@ -1,7 +1,7 @@
 Remove-Item -Path ./publish/* -Recurse -Force
 
 # Create nuget package for MessageCommunicator
-dotnet pack -c Release -o ./publish ./MessageCommunicator /p:ContinuousIntegrationBuild=true /p:IncludeSymbols=true /p:EmbedUntrackedSources=true
+dotnet pack -c Release -o ./publish ./MessageCommunicator /p:ContinuousIntegrationBuild=true /p:IncludeSymbols=true /p:EmbedUntrackedSources=true -p:SymbolPackageFormat=snupkg
 
 # Publish gui application
 dotnet publish -c Release -f netcoreapp3.1 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true --runtime win-x86 -o "./publish/MessageCommunicator (Win X86)" ./MessageCommunicator.TestGui
