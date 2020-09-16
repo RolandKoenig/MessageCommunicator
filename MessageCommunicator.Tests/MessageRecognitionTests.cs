@@ -241,7 +241,7 @@ namespace MessageCommunicator.Tests
                 });
 
             testObject.ReceiveHandler = fakeReceiveHandler;
-            testObject.OnReceivedBytes(true, new ReadOnlySendOrReceiveBuffer<byte>(encoding.GetBytes(receivedData)));
+            testObject.OnReceivedBytes(true, new ArraySegment<byte>(encoding.GetBytes(receivedData)));
 
             Assert.IsNotNull(recognizedMessage, "No message recognized!");
             Assert.IsTrue(recognizedMessage!.ToString() == expectedMessage);
@@ -264,7 +264,7 @@ namespace MessageCommunicator.Tests
             var bytesToReceive = encoding.GetBytes(receivedData);
             for (var loop = 0; loop < bytesToReceive.Length; loop++)
             {
-                testObject.OnReceivedBytes(loop == 0, new ReadOnlySendOrReceiveBuffer<byte>(
+                testObject.OnReceivedBytes(loop == 0, new ArraySegment<byte>(
                     bytesToReceive, loop, 1));
             }
 

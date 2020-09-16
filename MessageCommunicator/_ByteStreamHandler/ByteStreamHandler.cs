@@ -81,6 +81,6 @@ namespace MessageCommunicator
         }
 
         /// <inheritdoc />
-        public abstract Task<bool> SendAsync(ReadOnlySendOrReceiveBuffer<byte> buffer);
+        public abstract Task<bool> SendAsync(ArraySegment<byte> buffer);
     }
 }

@@ -28,6 +28,6 @@ namespace MessageCommunicator
         protected abstract Task<bool> SendInternalAsync(IByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage);
 
         /// <inheritdoc />
-        public abstract void OnReceivedBytes(bool isNewConnection, ReadOnlySendOrReceiveBuffer<byte> receivedBytes);
+        public abstract void OnReceivedBytes(bool isNewConnection, ArraySegment<byte> receivedBytes);
     }
 }

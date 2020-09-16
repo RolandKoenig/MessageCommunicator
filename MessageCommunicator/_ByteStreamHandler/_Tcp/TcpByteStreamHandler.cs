@@ -66,9 +66,9 @@ namespace MessageCommunicator
         /// </summary>
         /// <param name="buffer">The bytes to be sent</param>
         /// <returns>True when sending was successful</returns>
-        public override async Task<bool> SendAsync(ReadOnlySendOrReceiveBuffer<byte> buffer)
+        public override async Task<bool> SendAsync(ArraySegment<byte> buffer)
         {
-            if(buffer.Length <= 0)
+            if(buffer.Count <= 0)
             {
                 this.Log(LoggingMessageType.Error, "Unable to send message: Message is empty!");
                 return false;
@@ -83,19 +83,14 @@ namespace MessageCommunicator
 
             try
             {
-#if NETSTANDARD2_0
-                await currentClient.Client.SendAsync(buffer.ArraySegment, SocketFlags.None)
+                await currentClient.Client.SendAsync(buffer, SocketFlags.None)
                     .ConfigureAwait(false);
-#else
-                await currentClient.Client.SendAsync(buffer.ReadOnlyMemory, SocketFlags.None)
-                    .ConfigureAwait(false);
-#endif
 
                 if (this.IsLoggerSet)
                 {
                     this.Log(
                         LoggingMessageType.Info,
-                        StringBuffer.Format("Sent {0} bytes: {1}", buffer.Length, TcpAsyncUtil.ToHexString(buffer)));
+                        StringBuffer.Format("Sent {0} bytes: {1}", buffer.Count, TcpAsyncUtil.ToHexString(buffer)));
                 }
                 
                 return true;
@@ -207,14 +202,14 @@ namespace MessageCommunicator
 
         private void ProcessReceivedBytes(bool newConnection, byte[] buffer, int receivedBytesCount)
         {
-            var receiveBuffer = new ReadOnlySendOrReceiveBuffer<byte>(buffer, 0, receivedBytesCount);
+            var receiveBuffer = new ArraySegment<byte>(buffer, 0, receivedBytesCount);
 
             // Log currently received bytes
             if (this.IsLoggerSet)
             {
                 this.Log(
                     LoggingMessageType.Info,
-                    StringBuffer.Format("Received {0} bytes: {1}", receiveBuffer.Length, TcpAsyncUtil.ToHexString(receiveBuffer)));
+                    StringBuffer.Format("Received {0} bytes: {1}", receiveBuffer.Count, TcpAsyncUtil.ToHexString(receiveBuffer)));
             }
 
             // Notify received bytes

@@ -81,18 +81,7 @@ namespace MessageCommunicator
 
         public Task<bool> SendAsync(string rawMessage)
         {
-#if NETSTANDARD2_0
-            var messageToSend = MessagePool.Rent(rawMessage.Length);
-            messageToSend.Append(rawMessage);
-
-            return _messageRecognizer.SendAsync(messageToSend.GetSpanReadOnly())
-                .ContinueWith(task => { 
-                    messageToSend.ReturnToPool();
-                    return task.Result;
-                });
-#else
             return _messageRecognizer.SendAsync(rawMessage.AsSpan());
-#endif
         }
 
         public Task<bool> SendAsync(Message message)

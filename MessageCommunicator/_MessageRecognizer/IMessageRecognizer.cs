@@ -18,6 +18,6 @@ namespace MessageCommunicator
         /// </summary>
         /// <param name="isNewConnection">This flag is set to true when the given bytes are the first ones from a new connection. Typically this triggers receive buffer cleanup before processing received bytes.</param>
         /// <param name="receivedBytes">A span containing all received bytes.</param>
-        void OnReceivedBytes(bool isNewConnection, ReadOnlySendOrReceiveBuffer<byte> receivedBytes);
+        void OnReceivedBytes(bool isNewConnection, ArraySegment<byte> receivedBytes);
     }
 }

@@ -17,6 +17,6 @@ namespace MessageCommunicator
         /// </summary>
         /// <param name="buffer">The bytes to be sent.</param>
         /// <returns>True if sending was successful, otherwise false.</returns>
-        Task<bool> SendAsync(ReadOnlySendOrReceiveBuffer<byte> buffer);
+        Task<bool> SendAsync(ArraySegment<byte> buffer);
     }
 }

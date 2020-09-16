@@ -71,27 +71,17 @@ namespace MessageCommunicator.Util
             return span.Length;
         }
 
-        public int Append(ReadOnlySendOrReceiveBuffer<byte> bytes, Decoder decoder)
+        public int Append(ArraySegment<byte> bytes, Decoder decoder)
         {
-            if (bytes.Length <= 0) { return 0; }
+            if (bytes.Count <= 0) { return 0; }
 
-#if NETSTANDARD2_0
-            var arraySegment = bytes.ArraySegment;
-            var charCount = decoder.GetCharCount(arraySegment.Array, arraySegment.Offset, arraySegment.Count);
+            var charCount = decoder.GetCharCount(bytes, false);
             this.CheckCapacity(charCount);
 
             decoder.GetChars(
-                arraySegment.Array, arraySegment.Offset, arraySegment.Count,
-                _buffer, _currentCount, false);
-#else
-            var charCount = decoder.GetCharCount(bytes.ReadOnlyMemory.Span, false);
-            this.CheckCapacity(charCount);
-
-            decoder.GetChars(
-                bytes.ReadOnlyMemory.Span, 
-                new Span<char>(_buffer, _currentCount, charCount), 
+                bytes, 
+                new ArraySegment<char>(_buffer, _currentCount, charCount), 
                 false);
-#endif
             _currentCount += charCount;
 
             return charCount;

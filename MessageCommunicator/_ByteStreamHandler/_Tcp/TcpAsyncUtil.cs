@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using MessageCommunicator.Util;
 
@@ -56,16 +55,16 @@ namespace MessageCommunicator
             socket = null;
         }
 
-        public static string ToHexString(ReadOnlySendOrReceiveBuffer<byte> bytes)
+        public static string ToHexString(ArraySegment<byte> bytes)
         {
-            if (bytes.Length == 0) { return string.Empty; }
+            if (bytes.Count == 0) { return string.Empty; }
 
             const string HEX_ALPHABET = "0123456789ABCDEF";
 
-            var length = bytes.Length;
+            var length = bytes.Count;
             if (length > 1) { length += (length - 1); }
             var stringBuffer = StringBuffer.Acquire(length);
-            var bytesSpan = bytes.Span;
+            var bytesSpan = bytes.AsSpan();
             try
             {
                 for (var loop = 0; loop < bytesSpan.Length; loop++)

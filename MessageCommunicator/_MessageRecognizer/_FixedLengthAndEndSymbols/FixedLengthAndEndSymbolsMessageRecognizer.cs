@@ -67,7 +67,7 @@ namespace MessageCommunicator
                 sendBuffer = null;
 
                 return byteStreamHandler.SendAsync(
-                    new ReadOnlySendOrReceiveBuffer<byte>(bytes, 0, sendMessageByteLength));
+                    new ArraySegment<byte>(bytes, 0, sendMessageByteLength));
             }
             finally
             {
@@ -82,7 +82,7 @@ namespace MessageCommunicator
             }
         }
 
-        public override void OnReceivedBytes(bool isNewConnection, ReadOnlySendOrReceiveBuffer<byte> receivedSegment)
+        public override void OnReceivedBytes(bool isNewConnection, ArraySegment<byte> receivedSegment)
         {
             // Clear receive buffer on new connections
             if (isNewConnection)
@@ -92,7 +92,7 @@ namespace MessageCommunicator
             }
 
             // Parse characters
-            if (receivedSegment.Length <= 0) { return; }
+            if (receivedSegment.Count <= 0) { return; }
             var addedChars = _receiveStringBuffer.Append(receivedSegment, _decoder);
             if (addedChars == 0) { return; }
 

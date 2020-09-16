@@ -166,13 +166,13 @@ namespace MessageCommunicator.Tests
                 .Where(info => info.Method.Name == nameof(IByteStreamHandler.SendAsync))
                 .Invokes(args =>
                 {
-                    var bytesToSend = (ReadOnlySendOrReceiveBuffer<byte>)args.Arguments[0]!;
-                    if (bytesToSend.ArraySegment.Array == null) { return; }
+                    var bytesToSend = (ArraySegment<byte>)args.Arguments[0]!;
+                    if (bytesToSend.Array == null) { return; }
 
                     generatedMessage = testEncoding.GetString(
-                        bytesToSend.ArraySegment.Array, 
-                        bytesToSend.ArraySegment.Offset, 
-                        bytesToSend.ArraySegment.Count);
+                        bytesToSend.Array, 
+                        bytesToSend.Offset, 
+                        bytesToSend.Count);
                 })
                 .Returns(Task.FromResult(true));
             testObject.ByteStreamHandler = fakedByteStreamHandler;
