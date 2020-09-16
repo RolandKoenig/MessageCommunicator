@@ -75,7 +75,7 @@ namespace MessageCommunicator.Util
         {
             if (bytes.Length <= 0) { return 0; }
 
-#if NETSTANDARD1_3
+#if NETSTANDARD2_0
             var arraySegment = bytes.ArraySegment;
             var charCount = decoder.GetCharCount(arraySegment.Array, arraySegment.Offset, arraySegment.Count);
             this.CheckCapacity(charCount);

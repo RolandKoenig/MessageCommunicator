@@ -83,7 +83,7 @@ namespace MessageCommunicator
 
             try
             {
-#if NETSTANDARD1_3
+#if NETSTANDARD2_0
                 await currentClient.Client.SendAsync(buffer.ArraySegment, SocketFlags.None)
                     .ConfigureAwait(false);
 #else
@@ -139,7 +139,7 @@ namespace MessageCommunicator
                 try
                 {
                     // Read next bytes
-#if NETSTANDARD1_3
+#if NETSTANDARD2_0
                     lastReceiveResult = await tcpClient.Client
                         .ReceiveAsync(new ArraySegment<byte>(receiveBuffer), SocketFlags.None)
                         .ConfigureAwait(false);

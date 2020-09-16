@@ -81,7 +81,7 @@ namespace MessageCommunicator
 
         public Task<bool> SendAsync(string rawMessage)
         {
-#if NETSTANDARD1_3
+#if NETSTANDARD2_0
             var messageToSend = MessagePool.Rent(rawMessage.Length);
             messageToSend.Append(rawMessage);
 
