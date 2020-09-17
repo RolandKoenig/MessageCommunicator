@@ -7,19 +7,38 @@ using MessageCommunicator.Util;
 
 namespace MessageCommunicator
 {
+    /// <summary>
+    /// This class provides all functionality to build up a communication channel with a remote partner.
+    /// </summary>
     public class MessageChannel
     {
         private ByteStreamHandler _byteStreamHandler;
         private MessageRecognizer _messageRecognizer;
 
+        /// <summary>
+        /// Gets the current state of the underlying connection (<see cref="IByteStreamHandler"/>).
+        /// </summary>
         public ConnectionState State => _byteStreamHandler.State;
 
+        /// <summary>
+        /// Returns true if this <see cref="MessageChannel"/> is running currently.
+        /// If the <see cref="MessageChannel"/> is running than this does not mean automatically that it is connected to a remote partner.
+        /// </summary>
         public bool IsRunning => _byteStreamHandler.IsRunning;
 
+        /// <summary>
+        /// Gets a short description of the local endpoint when started / connected.
+        /// </summary>
         public string LocalEndpointDescription => _byteStreamHandler.LocalEndpointDescription;
 
+        /// <summary>
+        /// Gets a short description of the remote endpoint when started / connected.
+        /// </summary>
         public string RemoteEndpointDescription => _byteStreamHandler.RemoteEndpointDescription;
 
+        /// <summary>
+        /// Gets or sets the <see cref="IMessageReceiveHandler"/> which gets notified on a received <see cref="Message"/>.
+        /// </summary>
         public IMessageReceiveHandler? ReceiveHandler
         {
             get => _messageRecognizer.ReceiveHandler;
@@ -32,6 +51,13 @@ namespace MessageCommunicator
         /// </summary>
         public MessageChannelInternals Internals { get; }
 
+        /// <summary>
+        /// Creates a new <see cref="MessageChannel"/> object.
+        /// </summary>
+        /// <param name="byteStreamHandlerSettings">Settings for building the <see cref="IByteStreamHandler"/>.</param>
+        /// <param name="messageRecognizerSettings">Settings for building the <see cref="IMessageRecognizer"/>.</param>
+        /// <param name="receiveHandler">The <see cref="IMessageReceiveHandler"/> which gets notified on a received <see cref="Message"/>.</param>
+        /// <param name="logger">The <see cref="IMessageCommunicatorLogger"/> to which all logging messages are passed.</param>
         public MessageChannel(
             ByteStreamHandlerSettings byteStreamHandlerSettings, 
             MessageRecognizerSettings messageRecognizerSettings, 
@@ -53,6 +79,13 @@ namespace MessageCommunicator
             this.Internals = new MessageChannelInternals(this);
         }
 
+        /// <summary>
+        /// Creates a new <see cref="MessageChannel"/> object.
+        /// </summary>
+        /// <param name="byteStreamHandlerSettings">Settings for building the <see cref="IByteStreamHandler"/>.</param>
+        /// <param name="messageRecognizerSettings">Settings for building the <see cref="IMessageRecognizer"/>.</param>
+        /// <param name="receiveHandler">A delegate which gets notified on a received <see cref="Message"/>.</param>
+        /// <param name="logger">The <see cref="IMessageCommunicatorLogger"/> to which all logging messages are passed.</param>
         public MessageChannel(
             ByteStreamHandlerSettings byteStreamHandlerSettings,
             MessageRecognizerSettings messageRecognizerSettings,
@@ -69,31 +102,61 @@ namespace MessageCommunicator
         /// <summary>
         /// Waits until we've got a valid connection.
         /// </summary>
+        public Task WaitForConnectionAsync()
+        {
+            return _byteStreamHandler.WaitForConnectionAsync(CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Waits until we've got a valid connection.
+        /// </summary>
+        /// <param name="cancelToken">The <see cref="CancellationToken"/> which can be used to cancel the wait task.</param>
         public Task WaitForConnectionAsync(CancellationToken cancelToken)
         {
             return _byteStreamHandler.WaitForConnectionAsync(cancelToken);
         }
 
+        /// <summary>
+        /// Sends the given message to the remote partner.
+        /// </summary>
+        /// <param name="rawMessage">The message to be sent as <see cref="ReadOnlySpan{T}"/>.</param>
+        /// <returns>Returns true if message was sent successfully, otherwise false.</returns>
         public Task<bool> SendAsync(ReadOnlySpan<char> rawMessage)
         {
             return _messageRecognizer.SendAsync(rawMessage);
         }
 
+        /// <summary>
+        /// Sends the given message to the remote partner.
+        /// </summary>
+        /// <param name="rawMessage">The message to be sent as <see cref="string"/>.</param>
+        /// <returns>Returns true if message was sent successfully, otherwise false.</returns>
         public Task<bool> SendAsync(string rawMessage)
         {
             return _messageRecognizer.SendAsync(rawMessage.AsSpan());
         }
 
+        /// <summary>
+        /// Sends the given message to the remote partner.
+        /// </summary>
+        /// <param name="message">The message to be sent as <see cref="Message"/>.</param>
+        /// <returns>Returns true if message was sent successfully, otherwise false.</returns>
         public Task<bool> SendAsync(Message message)
         {
             return _messageRecognizer.SendAsync(message.GetSpanReadOnly());
         }
 
+        /// <summary>
+        /// Starts this channel.
+        /// </summary>
         public Task StartAsync()
         {
             return _byteStreamHandler.StartAsync();
         }
 
+        /// <summary>
+        /// Stops this channel.
+        /// </summary>
         public Task StopAsync()
         {
             return _byteStreamHandler.StopAsync();
@@ -102,17 +165,26 @@ namespace MessageCommunicator
         //*********************************************************************
         //*********************************************************************
         //*********************************************************************
+        /// <summary>
+        /// Gives access to underlying objects of a <see cref="MessageChannel"/>.
+        /// </summary>
         public class MessageChannelInternals
         {
             private MessageChannel _owner;
 
-            public MessageChannelInternals(MessageChannel owner)
+            internal MessageChannelInternals(MessageChannel owner)
             {
                 _owner = owner;
             }
 
+            /// <summary>
+            /// Gets the underlying <see cref="IByteStreamHandler"/> object.
+            /// </summary>
             public IByteStreamHandler ByteStreamHandler => _owner._byteStreamHandler;
 
+            /// <summary>
+            /// Gets the underlying <see cref="IMessageRecognizer"/> object.
+            /// </summary>
             public IMessageRecognizer MessageRecognizer => _owner._messageRecognizer;
         }
     }

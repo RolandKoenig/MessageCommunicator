@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace MessageCommunicator
 {
@@ -29,7 +28,7 @@ namespace MessageCommunicator
 
     public interface IMessageCommunicatorLogger
     {
-        public void Log(LoggingMessage loggingMessage);
+        void Log(LoggingMessage loggingMessage);
     }
 
     public readonly struct LoggingMessage

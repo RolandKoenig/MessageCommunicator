@@ -4,6 +4,9 @@ using MessageCommunicator.Util;
 
 namespace MessageCommunicator
 {
+    /// <summary>
+    /// This class provides an integrated pooling mechanism to avoid object allocations during communication between two partners.
+    /// </summary>
     public static class MessagePool
     {
         public static readonly int MAX_POOL_SIZE = 16;

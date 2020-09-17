@@ -75,13 +75,12 @@ namespace MessageCommunicator.Util
         {
             if (bytes.Count <= 0) { return 0; }
 
-            var charCount = decoder.GetCharCount(bytes, false);
+            var charCount = decoder.GetCharCount(bytes);
             this.CheckCapacity(charCount);
 
             decoder.GetChars(
                 bytes, 
-                new ArraySegment<char>(_buffer, _currentCount, charCount), 
-                false);
+                new ArraySegment<char>(_buffer, _currentCount, charCount));
             _currentCount += charCount;
 
             return charCount;

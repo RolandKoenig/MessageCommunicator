@@ -14,7 +14,6 @@ namespace MessageCommunicator.Util
 
     /// <summary>
     /// Helper class for reusing objects.
-    /// 
     /// </summary>
     internal class ConcurrentObjectPool<T> 
         where T : class

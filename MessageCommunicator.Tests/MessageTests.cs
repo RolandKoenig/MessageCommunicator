@@ -84,5 +84,30 @@ namespace MessageCommunicator.Tests
                 MessagePool.Clear();
             }
         }
+
+        [TestMethod]
+        public void CheckAccessBySpan()
+        {
+            var testObject = new Message("This is a dummy message");
+
+            var testSpan = testObject.GetSpan(5, 2);
+            testSpan[0] = '_';
+            testSpan[1] = '_';
+
+            Assert.IsTrue(testObject.ToString() == "This __ a dummy message");
+        }
+
+        [TestMethod]
+        public void CheckEmptyMessage()
+        {
+            var testObject = new Message("");
+
+            var testSpan = testObject.GetSpan();
+            var testSpanReadOnly = testObject.GetSpanReadOnly();
+
+            Assert.IsTrue(testObject.ToString() == "");
+            Assert.IsTrue(testSpan.ToString() == "");
+            Assert.IsTrue(testSpanReadOnly.ToString() == "");
+        }
     }
 }

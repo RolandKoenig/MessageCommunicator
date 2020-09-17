@@ -19,16 +19,50 @@
             Gets the total count of characters reserved in memory for this message.
             </summary>
         </member>
+        <member name="M:MessageCommunicator.Message.#ctor(System.Int32)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.Message"/> with tie given capacity.
+            </summary>
+            <param name="capacity">The total count of characters that are expected to be in this <see cref="T:MessageCommunicator.Message"/></param>
+        </member>
+        <member name="M:MessageCommunicator.Message.#ctor(System.String)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.Message"/> with the given content.
+            </summary>
+            <param name="rawMessage">Initial content of the <see cref="T:MessageCommunicator.Message"/>.</param>
+        </member>
         <member name="M:MessageCommunicator.Message.ToString">
             <inheritdoc />
         </member>
         <member name="M:MessageCommunicator.Message.GetSpan(System.Int32,System.Int32)">
             <summary>
-            Gets a span for given offset and length.
+            Gets a <see cref="T:System.Span`1"/> for given offset and length.
             </summary>
-            <param name="offset"></param>
-            <param name="length"></param>
+            <param name="offset">The offset where the <see cref="T:System.Span`1"/> should start.</param>
+            <param name="length">Total length for the <see cref="T:System.Span`1"/>.</param>
             <exception cref="T:System.IndexOutOfRangeException">Given offset and length do not match dimension of this message.</exception>
+            <returns>The requested <see cref="T:System.Span`1"/> structure.</returns>
+        </member>
+        <member name="M:MessageCommunicator.Message.GetSpan">
+            <summary>
+            Gets a <see cref="T:System.Span`1"/> for the full content of this <see cref="T:MessageCommunicator.Message"/>.
+            </summary>
+            <returns>The requested <see cref="T:System.Span`1"/> structure.</returns>
+        </member>
+        <member name="M:MessageCommunicator.Message.GetSpanReadOnly(System.Int32,System.Int32)">
+            <summary>
+            Gets a <see cref="T:System.ReadOnlySpan`1"/> for given offset and length.
+            </summary>
+            <param name="offset">The offset where the <see cref="T:System.ReadOnlySpan`1"/> should start.</param>
+            <param name="length">Total length for the <see cref="T:System.ReadOnlySpan`1"/>.</param>
+            <exception cref="T:System.IndexOutOfRangeException">Given offset and length do not match dimension of this message.</exception>
+            <returns>The requested <see cref="T:System.ReadOnlySpan`1"/> structure.</returns>
+        </member>
+        <member name="M:MessageCommunicator.Message.GetSpanReadOnly">
+            <summary>
+            Gets a <see cref="T:System.ReadOnlySpan`1"/> for the full content of this <see cref="T:MessageCommunicator.Message"/>.
+            </summary>
+            <returns>The requested <see cref="T:System.ReadOnlySpan`1"/> structure.</returns>
         </member>
         <member name="M:MessageCommunicator.Message.EnsureCapacity(System.Int32)">
             <summary>
@@ -593,6 +627,23 @@
         </member>
         <member name="M:MessageCommunicator.TcpPassiveByteStreamHandlerSettings.CreateByteStreamHandler">
             <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.MessageCommunicatorExtensions.GetCharCount(System.Text.Decoder,System.ArraySegment{System.Byte})">
+            <summary>
+            Gets the total count of characters in the given <see cref="T:System.ArraySegment`1"/>.
+            </summary>
+            <param name="decoder">The <see cref="T:System.Text.Decoder"/> object which is created by an <see cref="T:System.Text.Encoding"/>.</param>
+            <param name="arraySegment">The <see cref="T:System.ArraySegment`1"/> referencing all relevant bytes.</param>
+            <returns>Total count of characters inside given buffer.</returns>
+        </member>
+        <member name="M:MessageCommunicator.MessageCommunicatorExtensions.GetChars(System.Text.Decoder,System.ArraySegment{System.Byte},System.ArraySegment{System.Char})">
+            <summary>
+            Parses all characters in the given <see cref="T:System.ArraySegment`1"/>.
+            </summary>
+            <param name="decoder">The <see cref="T:System.Text.Decoder"/> object which is created by an <see cref="T:System.Text.Encoding"/>.</param>
+            <param name="source">The <see cref="T:System.ArraySegment`1"/> referencing all relevant bytes.</param>
+            <param name="target">The <see cref="T:System.ArraySegment`1"/> referencing to the target character buffer.</param>
+            <returns>Total count of characters parsed.</returns>
         </member>
         <member name="P:MessageCommunicator.IMessageRecognizer.ByteStreamHandler">
             <summary>
