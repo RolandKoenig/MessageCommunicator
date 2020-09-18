@@ -4,6 +4,12 @@
         <name>MessageCommunicator</name>
     </assembly>
     <members>
+        <member name="T:MessageCommunicator.Message">
+            <summary>
+            This class provides some manipulation methods for a character based message.
+            Also, there is an integration pooling mechanism using <see cref="T:MessageCommunicator.MessagePool"/> class to avoid object allocations during communication between two partners.
+            </summary>
+        </member>
         <member name="P:MessageCommunicator.Message.IsMessagePooled">
             <summary>
             Returns true if this message is located inside the <see cref="T:MessageCommunicator.MessagePool"/> currently.
@@ -41,12 +47,14 @@
             <param name="offset">The offset where the <see cref="T:System.Span`1"/> should start.</param>
             <param name="length">Total length for the <see cref="T:System.Span`1"/>.</param>
             <exception cref="T:System.IndexOutOfRangeException">Given offset and length do not match dimension of this message.</exception>
+            <exception cref="T:System.InvalidOperationException">The message is cached inside the pool currently.</exception>
             <returns>The requested <see cref="T:System.Span`1"/> structure.</returns>
         </member>
         <member name="M:MessageCommunicator.Message.GetSpan">
             <summary>
             Gets a <see cref="T:System.Span`1"/> for the full content of this <see cref="T:MessageCommunicator.Message"/>.
             </summary>
+            <exception cref="T:System.InvalidOperationException">The message is cached inside the pool currently.</exception>
             <returns>The requested <see cref="T:System.Span`1"/> structure.</returns>
         </member>
         <member name="M:MessageCommunicator.Message.GetSpanReadOnly(System.Int32,System.Int32)">
@@ -56,12 +64,14 @@
             <param name="offset">The offset where the <see cref="T:System.ReadOnlySpan`1"/> should start.</param>
             <param name="length">Total length for the <see cref="T:System.ReadOnlySpan`1"/>.</param>
             <exception cref="T:System.IndexOutOfRangeException">Given offset and length do not match dimension of this message.</exception>
+            <exception cref="T:System.InvalidOperationException">The message is cached inside the pool currently.</exception>
             <returns>The requested <see cref="T:System.ReadOnlySpan`1"/> structure.</returns>
         </member>
         <member name="M:MessageCommunicator.Message.GetSpanReadOnly">
             <summary>
             Gets a <see cref="T:System.ReadOnlySpan`1"/> for the full content of this <see cref="T:MessageCommunicator.Message"/>.
             </summary>
+            <exception cref="T:System.InvalidOperationException">The message is cached inside the pool currently.</exception>
             <returns>The requested <see cref="T:System.ReadOnlySpan`1"/> structure.</returns>
         </member>
         <member name="M:MessageCommunicator.Message.EnsureCapacity(System.Int32)">
@@ -77,10 +87,47 @@
             </summary>
             <exception cref="T:System.InvalidOperationException">The message is cached inside the pool currently.</exception>
         </member>
+        <member name="M:MessageCommunicator.Message.Append(System.String)">
+            <summary>
+            Appends the given <see cref="T:System.String"/> to this <see cref="T:MessageCommunicator.Message"/>.
+            </summary>
+            <param name="value">The value to be added.</param>
+        </member>
         <member name="M:MessageCommunicator.Message.ReturnToPool">
             <summary>
             Returns this message to the <see cref="T:MessageCommunicator.MessagePool"/>.
             The caller has to ensure that this message is not used after returning it to the pool.
+            </summary>
+        </member>
+        <member name="T:MessageCommunicator.MessageChannel">
+            <summary>
+            This class provides all functionality to build up a communication channel with a remote partner.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.MessageChannel.State">
+            <summary>
+            Gets the current state of the underlying connection (<see cref="T:MessageCommunicator.IByteStreamHandler"/>).
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.MessageChannel.IsRunning">
+            <summary>
+            Returns true if this <see cref="T:MessageCommunicator.MessageChannel"/> is running currently.
+            If the <see cref="T:MessageCommunicator.MessageChannel"/> is running than this does not mean automatically that it is connected to a remote partner.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.MessageChannel.LocalEndpointDescription">
+            <summary>
+            Gets a short description of the local endpoint when started / connected.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.MessageChannel.RemoteEndpointDescription">
+            <summary>
+            Gets a short description of the remote endpoint when started / connected.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.MessageChannel.ReceiveHandler">
+            <summary>
+            Gets or sets the <see cref="T:MessageCommunicator.IMessageReceiveHandler"/> which gets notified on a received <see cref="T:MessageCommunicator.Message"/>.
             </summary>
         </member>
         <member name="P:MessageCommunicator.MessageChannel.Internals">
@@ -89,9 +136,84 @@
             Be careful when using them, wrong method calls can cause unexpected state!
             </summary>
         </member>
+        <member name="M:MessageCommunicator.MessageChannel.#ctor(MessageCommunicator.ByteStreamHandlerSettings,MessageCommunicator.MessageRecognizerSettings,MessageCommunicator.IMessageReceiveHandler,MessageCommunicator.IMessageCommunicatorLogger)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.MessageChannel"/> object.
+            </summary>
+            <param name="byteStreamHandlerSettings">Settings for building the <see cref="T:MessageCommunicator.IByteStreamHandler"/>.</param>
+            <param name="messageRecognizerSettings">Settings for building the <see cref="T:MessageCommunicator.IMessageRecognizer"/>.</param>
+            <param name="receiveHandler">The <see cref="T:MessageCommunicator.IMessageReceiveHandler"/> which gets notified on a received <see cref="T:MessageCommunicator.Message"/>.</param>
+            <param name="logger">The <see cref="T:MessageCommunicator.IMessageCommunicatorLogger"/> to which all logging messages are passed.</param>
+        </member>
+        <member name="M:MessageCommunicator.MessageChannel.#ctor(MessageCommunicator.ByteStreamHandlerSettings,MessageCommunicator.MessageRecognizerSettings,System.Action{MessageCommunicator.Message},MessageCommunicator.IMessageCommunicatorLogger)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.MessageChannel"/> object.
+            </summary>
+            <param name="byteStreamHandlerSettings">Settings for building the <see cref="T:MessageCommunicator.IByteStreamHandler"/>.</param>
+            <param name="messageRecognizerSettings">Settings for building the <see cref="T:MessageCommunicator.IMessageRecognizer"/>.</param>
+            <param name="receiveHandler">A delegate which gets notified on a received <see cref="T:MessageCommunicator.Message"/>.</param>
+            <param name="logger">The <see cref="T:MessageCommunicator.IMessageCommunicatorLogger"/> to which all logging messages are passed.</param>
+        </member>
+        <member name="M:MessageCommunicator.MessageChannel.WaitForConnectionAsync">
+            <summary>
+            Waits until we've got a valid connection.
+            </summary>
+        </member>
         <member name="M:MessageCommunicator.MessageChannel.WaitForConnectionAsync(System.Threading.CancellationToken)">
             <summary>
             Waits until we've got a valid connection.
+            </summary>
+            <param name="cancelToken">The <see cref="T:System.Threading.CancellationToken"/> which can be used to cancel the wait task.</param>
+        </member>
+        <member name="M:MessageCommunicator.MessageChannel.SendAsync(System.ReadOnlySpan{System.Char})">
+            <summary>
+            Sends the given message to the remote partner.
+            </summary>
+            <param name="rawMessage">The message to be sent as <see cref="T:System.ReadOnlySpan`1"/>.</param>
+            <returns>Returns true if message was sent successfully, otherwise false.</returns>
+        </member>
+        <member name="M:MessageCommunicator.MessageChannel.SendAsync(System.String)">
+            <summary>
+            Sends the given message to the remote partner.
+            </summary>
+            <param name="rawMessage">The message to be sent as <see cref="T:System.String"/>.</param>
+            <returns>Returns true if message was sent successfully, otherwise false.</returns>
+        </member>
+        <member name="M:MessageCommunicator.MessageChannel.SendAsync(MessageCommunicator.Message)">
+            <summary>
+            Sends the given message to the remote partner.
+            </summary>
+            <param name="message">The message to be sent as <see cref="T:MessageCommunicator.Message"/>.</param>
+            <returns>Returns true if message was sent successfully, otherwise false.</returns>
+        </member>
+        <member name="M:MessageCommunicator.MessageChannel.StartAsync">
+            <summary>
+            Starts this channel.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.MessageChannel.StopAsync">
+            <summary>
+            Stops this channel.
+            </summary>
+        </member>
+        <member name="T:MessageCommunicator.MessageChannel.MessageChannelInternals">
+            <summary>
+            Gives access to underlying objects of a <see cref="T:MessageCommunicator.MessageChannel"/>.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.MessageChannel.MessageChannelInternals.ByteStreamHandler">
+            <summary>
+            Gets the underlying <see cref="T:MessageCommunicator.IByteStreamHandler"/> object.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.MessageChannel.MessageChannelInternals.MessageRecognizer">
+            <summary>
+            Gets the underlying <see cref="T:MessageCommunicator.IMessageRecognizer"/> object.
+            </summary>
+        </member>
+        <member name="T:MessageCommunicator.MessagePool">
+            <summary>
+            This class provides an integrated pooling mechanism to avoid object allocations during communication between two partners.
             </summary>
         </member>
         <member name="M:MessageCommunicator.MessagePool.Clear">
@@ -120,8 +242,18 @@
         <member name="T:MessageCommunicator.Util.ConcurrentObjectPool`1">
             <summary>
             Helper class for reusing objects.
-            
             </summary>
+        </member>
+        <member name="T:MessageCommunicator.Util.DelegateMessageReceiveHandler">
+            <summary>
+            Helper class for <see cref="T:MessageCommunicator.MessageChannel"/>.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.Util.DelegateMessageReceiveHandler.#ctor(System.Action{MessageCommunicator.Message})">
+            <summary>
+            Builds an <see cref="T:MessageCommunicator.IMessageReceiveHandler"/> implementation based on the given delegate.
+            </summary>
+            <param name="receiveHandler">The delegate to be called on received messages.</param>
         </member>
         <member name="M:MessageCommunicator.Util.DelegateMessageReceiveHandler.OnMessageReceived(MessageCommunicator.Message)">
             <inheritdoc />
@@ -537,19 +669,76 @@
             <param name="arg6">A value to format.</param>
             <param name="arg7">A value to format.</param>   
         </member>
+        <member name="T:MessageCommunicator.FixedReconnectWaitTimeGetter">
+            <summary>
+            This class is responsible to get the wait time before reconnect when a connection on a <see cref="T:MessageCommunicator.IByteStreamHandler"/> got lost.
+            In this implementation we use always the same wait time.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.FixedReconnectWaitTimeGetter.#ctor(System.TimeSpan)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.FixedReconnectWaitTimeGetter"/>.
+            </summary>
+            <param name="fixedWaitTime">The time to be waited before each reconnect.</param>
+        </member>
+        <member name="M:MessageCommunicator.FixedReconnectWaitTimeGetter.GetWaitTime(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="T:MessageCommunicator.ReconnectWaitTimeGetter">
+            <summary>
+            This class is responsible to get the wait time before reconnect when a connection on a <see cref="T:MessageCommunicator.IByteStreamHandler"/> got lost.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.ReconnectWaitTimeGetter.GetWaitTime(System.Int32)">
+            <summary>
+            Gets the next wait time before trying to reconnect.
+            </summary>
+            <param name="errorCountSinceLastConnect">Total count of connection errors since last established connection.</param>
+        </member>
+        <member name="T:MessageCommunicator.ByteStreamHandler">
+            <summary>
+            A <see cref="T:MessageCommunicator.ByteStreamHandler"/> is responsible for sending / receiving bytes to the connected partner. It also manages the connection, triggers reconnect after
+            disconnect and so on.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.ByteStreamHandler.State">
+            <summary>
+            Gets the current state of the connection.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.ByteStreamHandler.IsRunning">
+            <summary>
+            Returns true if this instance is in running state, otherwise false.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.ByteStreamHandler.LocalEndpointDescription">
+            <summary>
+            Gets a short description of the local endpoint when started / connected.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.ByteStreamHandler.RemoteEndpointDescription">
+            <summary>
+            Gets a short description of the remote endpoint when started / connected.
+            </summary>
+        </member>
         <member name="P:MessageCommunicator.ByteStreamHandler.Logger">
             <summary>
             A custom logger. If set, this delegate will be called with all relevant events.
             </summary>
         </member>
+        <member name="P:MessageCommunicator.ByteStreamHandler.MessageRecognizer">
+            <summary>
+            The <see cref="T:MessageCommunicator.IMessageRecognizer"/> to which to forward all received bytes.
+            </summary>
+        </member>
         <member name="M:MessageCommunicator.ByteStreamHandler.StartAsync">
             <summary>
-            Start the communicator.
+            Start this instance.
             </summary>
         </member>
         <member name="M:MessageCommunicator.ByteStreamHandler.StopAsync">
             <summary>
-            Stops the communicator.
+            Stops this instance.
             </summary>
         </member>
         <member name="M:MessageCommunicator.ByteStreamHandler.WaitForConnectionAsync(System.Threading.CancellationToken)">
@@ -564,6 +753,23 @@
         </member>
         <member name="M:MessageCommunicator.ByteStreamHandler.SendAsync(System.ArraySegment{System.Byte})">
             <inheritdoc />
+        </member>
+        <member name="T:MessageCommunicator.ByteStreamHandlerSettings">
+            <summary>
+            A container for all settings regarding a <see cref="T:MessageCommunicator.ByteStreamHandler"/> object.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.ByteStreamHandlerSettings.CreateByteStreamHandler">
+            <summary>
+            The factory method for a <see cref="T:MessageCommunicator.ByteStreamHandler"/> implementation.
+            </summary>
+            <returns>A new <see cref="T:MessageCommunicator.ByteStreamHandler"/> with configuration from this instance.</returns>
+        </member>
+        <member name="T:MessageCommunicator.IByteStreamHandler">
+            <summary>
+            A <see cref="T:MessageCommunicator.IByteStreamHandler"/> is responsible for sending / receiving bytes to the connected partner. It also manages the connection, triggers reconnect after
+            disconnect and so on.
+            </summary>
         </member>
         <member name="P:MessageCommunicator.IByteStreamHandler.MessageRecognizer">
             <summary>
@@ -597,6 +803,39 @@
         </member>
         <member name="M:MessageCommunicator.TcpActiveByteStreamHandlerSettings.CreateByteStreamHandler">
             <inheritdoc />
+        </member>
+        <member name="T:MessageCommunicator.TcpByteStreamHandler">
+            <summary>
+            This <see cref="T:MessageCommunicator.IByteStreamHandler"/> implementation sends/receives bytes over a TCP socket.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.TcpByteStreamHandler.ReconnectWaitTimeGetter">
+            <summary>
+            Gets or sets the <see cref="P:MessageCommunicator.TcpByteStreamHandler.ReconnectWaitTimeGetter"/> which controls the wait time before reconnect after lost connections.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.TcpByteStreamHandler.RemoteEndpointDescription">
+            <inheritdoc />
+        </member>
+        <member name="P:MessageCommunicator.TcpByteStreamHandler.LocalEndpointDescription">
+            <inheritdoc />
+        </member>
+        <member name="P:MessageCommunicator.TcpByteStreamHandler.ReceiveBufferSize">
+            <summary>
+            Gets or sets the size of the receive buffer.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.TcpByteStreamHandler.#ctor(MessageCommunicator.ReconnectWaitTimeGetter)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.TcpByteStreamHandler"/>.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.TcpByteStreamHandler.WaitByReconnectWaitTimeAsync(System.Int32)">
+            <summary>
+            A helper method
+            </summary>
+            <param name="errorCountSinceLastConnect"></param>
+            <returns></returns>
         </member>
         <member name="M:MessageCommunicator.TcpByteStreamHandler.SendAsync(System.ArraySegment{System.Byte})">
             <summary>

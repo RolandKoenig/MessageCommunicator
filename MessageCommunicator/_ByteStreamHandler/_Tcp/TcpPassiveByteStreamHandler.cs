@@ -7,6 +7,10 @@ using MessageCommunicator.Util;
 
 namespace MessageCommunicator
 {
+    /// <summary>
+    /// This <see cref="IByteStreamHandler"/> implementation sends/receives bytes over a TCP socket. This implementation listens on a defined port and waits for
+    /// an incoming connection.
+    /// </summary>
     public class TcpPassiveByteStreamHandler : TcpByteStreamHandler
     {
         private const int RUNNING_LOOP_COUNTER_MAX = 1000;
@@ -18,8 +22,14 @@ namespace MessageCommunicator
         private TcpClient? _currentSendSocket;
         private TcpListener? _currentListener;
 
+        /// <summary>
+        /// Gets the <see cref="IPAddress"/> this instance is listening on.
+        /// </summary>
         public IPAddress ListeningIPAddress { get; }
 
+        /// <summary>
+        /// Gets the configured listening port.
+        /// </summary>
         public ushort ListeningPort { get; }
 
         /// <summary>
@@ -27,6 +37,7 @@ namespace MessageCommunicator
         /// </summary>
         public ushort ActualListeningPort { get; private set; }
 
+        /// <inheritdoc />
         public override bool IsRunning => _isRunning;
 
         /// <inheritdoc />
@@ -46,6 +57,12 @@ namespace MessageCommunicator
             }
         }
 
+        /// <summary>
+        /// Create a new <see cref="TcpPassiveByteStreamHandler"/> instance.
+        /// </summary>
+        /// <param name="listeningIPAddress">The <see cref="IPAddress"/> this instance should listen on.</param>
+        /// <param name="listeningPort">The port his instance should listen on. Pass 0 here if the OS should decide which port to use.</param>
+        /// <param name="reconnectWaitTimeGetter">The <see cref="ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
         internal TcpPassiveByteStreamHandler(
             IPAddress listeningIPAddress,
             ushort listeningPort, 
@@ -257,6 +274,7 @@ namespace MessageCommunicator
             }
         }
 
+        /// <inheritdoc />
         protected override TcpClient? GetCurrentSendSocket() => _currentSendSocket;
     }
 }

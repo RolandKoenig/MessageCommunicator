@@ -7,10 +7,17 @@ using MessageCommunicator.Util;
 
 namespace MessageCommunicator
 {
+    /// <summary>
+    /// This <see cref="IByteStreamHandler"/> implementation sends/receives bytes over a TCP socket.
+    /// </summary>
     public abstract class TcpByteStreamHandler : ByteStreamHandler
     {
+        /// <summary>
+        /// Gets or sets the <see cref="ReconnectWaitTimeGetter"/> which controls the wait time before reconnect after lost connections.
+        /// </summary>
         public ReconnectWaitTimeGetter ReconnectWaitTimeGetter { get; set; }
 
+        /// <inheritdoc />
         public override string RemoteEndpointDescription
         {
             get
@@ -27,6 +34,7 @@ namespace MessageCommunicator
             }
         }
 
+        /// <inheritdoc />
         public override string LocalEndpointDescription
         {
             get
@@ -43,13 +51,24 @@ namespace MessageCommunicator
             }
         }
 
+        /// <summary>
+        /// Gets or sets the size of the receive buffer.
+        /// </summary>
         public uint ReceiveBufferSize { get; set; } = 1024;
 
+        /// <summary>
+        /// Creates a new <see cref="TcpByteStreamHandler"/>.
+        /// </summary>
         protected TcpByteStreamHandler(ReconnectWaitTimeGetter reconnectWaitTimeGetter)
         {
             this.ReconnectWaitTimeGetter = reconnectWaitTimeGetter;
         }
 
+        /// <summary>
+        /// A helper method
+        /// </summary>
+        /// <param name="errorCountSinceLastConnect"></param>
+        /// <returns></returns>
         protected Task WaitByReconnectWaitTimeAsync(int errorCountSinceLastConnect)
         {
             var waitTime = this.ReconnectWaitTimeGetter.GetWaitTime(errorCountSinceLastConnect);
@@ -107,6 +126,11 @@ namespace MessageCommunicator
             }
         }
 
+        /// <summary>
+        /// Gets the current <see cref="TcpClient"/> object for sending.
+        /// This method returns null when this <see cref="IByteStreamHandler"/> is not connected to a remote partner.
+        /// </summary>
+        /// <returns>The <see cref="TcpClient"/> object for sending</returns>
         protected abstract TcpClient? GetCurrentSendSocket();
          
         /// <summary>

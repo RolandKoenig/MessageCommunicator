@@ -8,6 +8,10 @@ using MessageCommunicator.Util;
 
 namespace MessageCommunicator
 {
+    /// <summary>
+    /// This <see cref="IByteStreamHandler"/> implementation sends/receives bytes over a TCP socket. This implementation connects defined port on a
+    /// defined <see cref="IPAddress"/>.
+    /// </summary>
     public class TcpActiveByteStreamHandler : TcpByteStreamHandler
     {
         private const int RUNNING_LOOP_COUNTER_MAX = 1000;
@@ -19,8 +23,19 @@ namespace MessageCommunicator
 
         private TcpClient? _currentClient;
 
+        /// <summary>
+        /// Gets the name er ip address of the remote host.
+        /// </summary>
         public string RemoteHost { get; }
 
+        /// <summary>
+        /// Gets the remote ip address.
+        /// </summary>
+        public IPAddress RemoteIPAddress { get; }
+
+        /// <summary>
+        /// Gets the remote port.
+        /// </summary>
         public ushort RemotePort { get; }
 
         /// <inheritdoc />
@@ -36,7 +51,12 @@ namespace MessageCommunicator
             }
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Creates a new <see cref="TcpActiveByteStreamHandler"/> instance.
+        /// </summary>
+        /// <param name="remoteHost">The dns name or string encoded ip address of the remote host.</param>
+        /// <param name="remotePort">The remote port.</param>
+        /// <param name="reconnectWaitTimeGetter">The <see cref="ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
         internal TcpActiveByteStreamHandler(
             string remoteHost, ushort remotePort, 
             ReconnectWaitTimeGetter reconnectWaitTimeGetter) 
@@ -44,6 +64,24 @@ namespace MessageCommunicator
         {
             _startStopLock = new object();
             this.RemoteHost = remoteHost;
+            this.RemoteIPAddress = IPAddress.None;
+            this.RemotePort = remotePort;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="TcpActiveByteStreamHandler"/> instance.
+        /// </summary>
+        /// <param name="remoteIP">The ip address of the remote host.</param>
+        /// <param name="remotePort">The remote port.</param>
+        /// <param name="reconnectWaitTimeGetter">The <see cref="ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
+        internal TcpActiveByteStreamHandler(
+            IPAddress remoteIP, ushort remotePort, 
+            ReconnectWaitTimeGetter reconnectWaitTimeGetter) 
+            : base(reconnectWaitTimeGetter)
+        {
+            _startStopLock = new object();
+            this.RemoteHost = remoteIP.ToString();
+            this.RemoteIPAddress = remoteIP;
             this.RemotePort = remotePort;
         }
 
@@ -120,11 +158,19 @@ namespace MessageCommunicator
                     {
                         this.Log(
                             LoggingMessageType.Info,
-                            StringBuffer.Format("Connecting to host {0} on port {1}", remoteAddressStr, this.RemotePort));
+                            StringBuffer.Format("Connecting to host {0} on port {1}", remoteAddressStr,
+                                this.RemotePort));
                     }
 
                     newClient = new TcpClient();
-                    await newClient.ConnectAsync(this.RemoteHost, this.RemotePort);
+                    if (!ReferenceEquals(this.RemoteIPAddress, IPAddress.None))
+                    {
+                        await newClient.ConnectAsync(this.RemoteIPAddress, this.RemotePort);
+                    }
+                    else
+                    {
+                        await newClient.ConnectAsync(this.RemoteHost, this.RemotePort);
+                    }
                     _currentClient = newClient;
                     reconnectErrorCount = 0;
 
@@ -133,7 +179,8 @@ namespace MessageCommunicator
                     {
                         this.Log(
                             LoggingMessageType.Info,
-                            StringBuffer.Format("Successfully connected to host {0} on port {1}", remoteAddressStr, this.RemotePort));
+                            StringBuffer.Format("Successfully connected to host {0} on port {1}", remoteAddressStr,
+                                this.RemotePort));
                     }
                 }
                 catch (Exception ex)
@@ -145,7 +192,7 @@ namespace MessageCommunicator
                     {
                         this.Log(
                             LoggingMessageType.Error,
-                            StringBuffer.Format("Error while connecting to host {0} on port {1}: {2}", 
+                            StringBuffer.Format("Error while connecting to host {0} on port {1}: {2}",
                                 remoteAddressStr, this.RemotePort, ex.Message),
                             exception: ex);
                     }

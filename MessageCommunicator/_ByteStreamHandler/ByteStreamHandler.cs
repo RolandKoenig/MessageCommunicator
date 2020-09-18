@@ -6,14 +6,30 @@ using System.Threading.Tasks;
 
 namespace MessageCommunicator
 {
+    /// <summary>
+    /// A <see cref="ByteStreamHandler"/> is responsible for sending / receiving bytes to the connected partner. It also manages the connection, triggers reconnect after
+    /// disconnect and so on.
+    /// </summary>
     public abstract class ByteStreamHandler : IByteStreamHandler
     {
+        /// <summary>
+        /// Gets the current state of the connection.
+        /// </summary>
         public abstract ConnectionState State { get; }
 
+        /// <summary>
+        /// Returns true if this instance is in running state, otherwise false.
+        /// </summary>
         public abstract bool IsRunning { get; }
 
+        /// <summary>
+        /// Gets a short description of the local endpoint when started / connected.
+        /// </summary>
         public abstract string LocalEndpointDescription { get; }
 
+        /// <summary>
+        /// Gets a short description of the remote endpoint when started / connected.
+        /// </summary>
         public abstract string RemoteEndpointDescription { get; }
 
         /// <summary>
@@ -23,10 +39,13 @@ namespace MessageCommunicator
 
         protected bool IsLoggerSet => this.Logger != null;
 
+        /// <summary>
+        /// The <see cref="IMessageRecognizer"/> to which to forward all received bytes.
+        /// </summary>
         public IMessageRecognizer? MessageRecognizer { get; set; }
 
         /// <summary>
-        /// Start the communicator.
+        /// Start this instance.
         /// </summary>
         internal Task StartAsync()
         {
@@ -36,7 +55,7 @@ namespace MessageCommunicator
         protected abstract Task StartInternalAsync();
 
         /// <summary>
-        /// Stops the communicator.
+        /// Stops this instance.
         /// </summary>
         internal Task StopAsync()
         {
@@ -50,14 +69,16 @@ namespace MessageCommunicator
         /// </summary>
         public virtual async Task WaitForConnectionAsync(CancellationToken cancelToken)
         {
-            // Default implementation polls the State property
+            // ## Default implementation polls the State property
 
             // Fast path when connection is established already
             if (this.State == ConnectionState.Connected) { return; }
 
+            // Some configuration for polling
             const int MAX_WAIT_TIME = 1000;
             var currentWaitTime = 100;
 
+            // Loop for polling connection state
             while (!cancelToken.IsCancellationRequested)
             {
                 await Task.Delay(currentWaitTime);
@@ -67,7 +88,11 @@ namespace MessageCommunicator
                     if (currentWaitTime > MAX_WAIT_TIME) { currentWaitTime = MAX_WAIT_TIME; }
                 }
 
-                if (this.State == ConnectionState.Connected) { return; }
+                if (this.State == ConnectionState.Connected)
+                {
+                    // State is on Connected, so finish the task
+                    return;
+                }
             }
         }
 
