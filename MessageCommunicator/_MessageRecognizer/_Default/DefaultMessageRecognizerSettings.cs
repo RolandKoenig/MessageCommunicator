@@ -4,10 +4,20 @@ using System.Text;
 
 namespace MessageCommunicator
 {
+    /// <summary>
+    /// This class provides all settings for <see cref="DefaultMessageRecognizer"/>.
+    /// </summary>
     public class DefaultMessageRecognizerSettings : MessageRecognizerSettings
     {
+        /// <summary>
+        /// Gets or sets the <see cref="Encoding"/> to be used when convert characters to/from bytes.
+        /// </summary>
         public Encoding Encoding { get; set; }
 
+        /// <summary>
+        /// Creates a new <see cref="DefaultMessageRecognizerSettings"/> instance.
+        /// </summary>
+        /// <param name="encoding">The <see cref="Encoding"/> to be used when convert characters to/from bytes.</param>
         public DefaultMessageRecognizerSettings(Encoding encoding)
         {
             this.Encoding = encoding;

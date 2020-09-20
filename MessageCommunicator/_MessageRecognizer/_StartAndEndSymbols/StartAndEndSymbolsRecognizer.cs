@@ -6,6 +6,9 @@ using MessageCommunicator.Util;
 
 namespace MessageCommunicator
 {
+    /// <summary>
+    /// This <see cref="MessageRecognizer"/> implementation recognizes messages with one or more start and end symbols.
+    /// </summary>
     public class StartAndEndSymbolsRecognizer : MessageRecognizer
     {
         private Encoding _encoding;
@@ -14,6 +17,12 @@ namespace MessageCommunicator
         private string _endSymbols;
         private StringBuffer _receiveStringBuffer;
 
+        /// <summary>
+        /// Creates a new <see cref="EndSymbolsMessageRecognizer"/> instance.
+        /// </summary>
+        /// <param name="encoding">The <see cref="Encoding"/> to be used when convert characters to/from bytes.</param>
+        /// <param name="startSymbols">The start symbols of received/sent messages.</param>
+        /// <param name="endSymbols">The end symbols of received/sent messages.</param>
         public StartAndEndSymbolsRecognizer(Encoding encoding, string startSymbols, string endSymbols)
         {
             _encoding = encoding;

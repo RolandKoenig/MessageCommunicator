@@ -5,6 +5,10 @@ using MessageCommunicator.Util;
 
 namespace MessageCommunicator
 {
+    /// <summary>
+    /// This <see cref="MessageRecognizer"/> implements a custom messages style of the MessageCommunicator
+    /// project. 
+    /// </summary>
     public class DefaultMessageRecognizer : MessageRecognizer
     {
         private const char SYMBOL_START = '<';
@@ -15,6 +19,10 @@ namespace MessageCommunicator
         private Decoder _decoder;
         private StringBuffer _receiveStringBuffer;
 
+        /// <summary>
+        /// Creates a new <see cref="DefaultMessageRecognizer"/> instance.
+        /// </summary>
+        /// <param name="encoding">The <see cref="Encoding"/> to be used when convert characters to/from bytes.</param>
         public DefaultMessageRecognizer(Encoding encoding)
         {
             _encoding = encoding;

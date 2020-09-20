@@ -723,7 +723,7 @@
         </member>
         <member name="P:MessageCommunicator.ByteStreamHandler.Logger">
             <summary>
-            A custom logger. If set, this delegate will be called with all relevant events.
+            Gets or sets a custom logger. If set, this delegate will be called with all relevant events.
             </summary>
         </member>
         <member name="P:MessageCommunicator.ByteStreamHandler.MessageRecognizer">
@@ -783,6 +783,27 @@
             <param name="buffer">The bytes to be sent.</param>
             <returns>True if sending was successful, otherwise false.</returns>
         </member>
+        <member name="T:MessageCommunicator.TcpActiveByteStreamHandler">
+            <summary>
+            This <see cref="T:MessageCommunicator.IByteStreamHandler"/> implementation sends/receives bytes over a TCP socket. This implementation connects defined port on a
+            defined <see cref="T:System.Net.IPAddress"/>.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.TcpActiveByteStreamHandler.RemoteHost">
+            <summary>
+            Gets the name er ip address of the remote host.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.TcpActiveByteStreamHandler.RemoteIPAddress">
+            <summary>
+            Gets the remote ip address.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.TcpActiveByteStreamHandler.RemotePort">
+            <summary>
+            Gets the remote port.
+            </summary>
+        </member>
         <member name="P:MessageCommunicator.TcpActiveByteStreamHandler.IsRunning">
             <inheritdoc />
         </member>
@@ -790,7 +811,20 @@
             <inheritdoc />
         </member>
         <member name="M:MessageCommunicator.TcpActiveByteStreamHandler.#ctor(System.String,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter)">
-            <inheritdoc />
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.TcpActiveByteStreamHandler"/> instance.
+            </summary>
+            <param name="remoteHost">The dns name or string encoded ip address of the remote host.</param>
+            <param name="remotePort">The remote port.</param>
+            <param name="reconnectWaitTimeGetter">The <see cref="T:MessageCommunicator.ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
+        </member>
+        <member name="M:MessageCommunicator.TcpActiveByteStreamHandler.#ctor(System.Net.IPAddress,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.TcpActiveByteStreamHandler"/> instance.
+            </summary>
+            <param name="remoteIP">The ip address of the remote host.</param>
+            <param name="remotePort">The remote port.</param>
+            <param name="reconnectWaitTimeGetter">The <see cref="T:MessageCommunicator.ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
         </member>
         <member name="M:MessageCommunicator.TcpActiveByteStreamHandler.StartInternalAsync">
             <inheritdoc />
@@ -800,6 +834,47 @@
         </member>
         <member name="M:MessageCommunicator.TcpActiveByteStreamHandler.GetCurrentSendSocket">
             <inheritdoc />
+        </member>
+        <member name="T:MessageCommunicator.TcpActiveByteStreamHandlerSettings">
+            <summary>
+            This class provides all relevant settings for <see cref="T:MessageCommunicator.TcpActiveByteStreamHandler"/>.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.TcpActiveByteStreamHandlerSettings.RemoteHost">
+            <summary>
+            Gets or sets the hostname or ip address of the remote host.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.TcpActiveByteStreamHandlerSettings.RemoteIP">
+            <summary>
+            Gets or sets the <see cref="T:System.Net.IPAddress"/> of the remote host.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.TcpActiveByteStreamHandlerSettings.RemotePort">
+            <summary>
+            Gets or sets the remote port.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.TcpActiveByteStreamHandlerSettings.ReconnectWaitTimeGetter">
+            <summary>
+            Gets or sets the <see cref="P:MessageCommunicator.TcpActiveByteStreamHandlerSettings.ReconnectWaitTimeGetter"/> instance.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.TcpActiveByteStreamHandlerSettings.#ctor(System.String,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.TcpActiveByteStreamHandlerSettings"/> instance.
+            </summary>
+            <param name="remoteHost">The dns name or string encoded ip address of the remote host.</param>
+            <param name="remotePort">The remote port.</param>
+            <param name="reconnectWaitTimeGetter">The <see cref="P:MessageCommunicator.TcpActiveByteStreamHandlerSettings.ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
+        </member>
+        <member name="M:MessageCommunicator.TcpActiveByteStreamHandlerSettings.#ctor(System.Net.IPAddress,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.TcpActiveByteStreamHandlerSettings"/> instance.
+            </summary>
+            <param name="remoteIP">The ip address of the remote host.</param>
+            <param name="remotePort">The remote port.</param>
+            <param name="reconnectWaitTimeGetter">The <see cref="P:MessageCommunicator.TcpActiveByteStreamHandlerSettings.ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
         </member>
         <member name="M:MessageCommunicator.TcpActiveByteStreamHandlerSettings.CreateByteStreamHandler">
             <inheritdoc />
@@ -844,10 +919,33 @@
             <param name="buffer">The bytes to be sent</param>
             <returns>True when sending was successful</returns>
         </member>
+        <member name="M:MessageCommunicator.TcpByteStreamHandler.GetCurrentSendSocket">
+            <summary>
+            Gets the current <see cref="T:System.Net.Sockets.TcpClient"/> object for sending.
+            This method returns null when this <see cref="T:MessageCommunicator.IByteStreamHandler"/> is not connected to a remote partner.
+            </summary>
+            <returns>The <see cref="T:System.Net.Sockets.TcpClient"/> object for sending</returns>
+        </member>
         <member name="M:MessageCommunicator.TcpByteStreamHandler.RunReceiveLoopAsync(System.Net.Sockets.TcpClient,System.Net.IPEndPoint,System.Net.IPEndPoint,System.Threading.CancellationToken)">
             <summary>
             Internal method which reacts on incoming bytes on the currently active tcp client connection.
             Only one of this connection is active at one time.
+            </summary>
+        </member>
+        <member name="T:MessageCommunicator.TcpPassiveByteStreamHandler">
+            <summary>
+            This <see cref="T:MessageCommunicator.IByteStreamHandler"/> implementation sends/receives bytes over a TCP socket. This implementation listens on a defined port and waits for
+            an incoming connection.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.TcpPassiveByteStreamHandler.ListeningIPAddress">
+            <summary>
+            Gets the <see cref="T:System.Net.IPAddress"/> this instance is listening on.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.TcpPassiveByteStreamHandler.ListeningPort">
+            <summary>
+            Gets the configured listening port.
             </summary>
         </member>
         <member name="P:MessageCommunicator.TcpPassiveByteStreamHandler.ActualListeningPort">
@@ -855,14 +953,56 @@
             Gets the true listening port in case ListeningPort is set to 0.
             </summary>
         </member>
+        <member name="P:MessageCommunicator.TcpPassiveByteStreamHandler.IsRunning">
+            <inheritdoc />
+        </member>
         <member name="P:MessageCommunicator.TcpPassiveByteStreamHandler.State">
             <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TcpPassiveByteStreamHandler.#ctor(System.Net.IPAddress,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter)">
+            <summary>
+            Create a new <see cref="T:MessageCommunicator.TcpPassiveByteStreamHandler"/> instance.
+            </summary>
+            <param name="listeningIPAddress">The <see cref="T:System.Net.IPAddress"/> this instance should listen on.</param>
+            <param name="listeningPort">The port his instance should listen on. Pass 0 here if the OS should decide which port to use.</param>
+            <param name="reconnectWaitTimeGetter">The <see cref="T:MessageCommunicator.ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
         </member>
         <member name="M:MessageCommunicator.TcpPassiveByteStreamHandler.StartInternalAsync">
             <inheritdoc />
         </member>
         <member name="M:MessageCommunicator.TcpPassiveByteStreamHandler.StopInternalAsync">
             <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TcpPassiveByteStreamHandler.GetCurrentSendSocket">
+            <inheritdoc />
+        </member>
+        <member name="T:MessageCommunicator.TcpPassiveByteStreamHandlerSettings">
+            <summary>
+            This class provides all relevant settings for <see cref="T:MessageCommunicator.TcpPassiveByteStreamHandler"/>.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.TcpPassiveByteStreamHandlerSettings.ListeningIPAddress">
+            <summary>
+            Gets or sets the <see cref="T:System.Net.IPAddress"/> to listening on.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.TcpPassiveByteStreamHandlerSettings.ListeningPort">
+            <summary>
+            Gets or sets the port to listen on.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.TcpPassiveByteStreamHandlerSettings.ReconnectWaitTimeGetter">
+            <summary>
+            Gets or sets the <see cref="P:MessageCommunicator.TcpPassiveByteStreamHandlerSettings.ReconnectWaitTimeGetter"/> instance.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.TcpPassiveByteStreamHandlerSettings.#ctor(System.Net.IPAddress,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter)">
+            <summary>
+            Create a new <see cref="T:MessageCommunicator.TcpPassiveByteStreamHandler"/> instance.
+            </summary>
+            <param name="listeningIPAddress">The <see cref="T:System.Net.IPAddress"/> to listen on.</param>
+            <param name="listeningPort">The port to listen on. Pass 0 here if the OS should decide which port to use.</param>
+            <param name="reconnectWaitTimeGetter">The <exception cref="P:MessageCommunicator.TcpPassiveByteStreamHandlerSettings.ReconnectWaitTimeGetter"> which generates wait times after broke connection and before reconnect.</exception></param>
         </member>
         <member name="M:MessageCommunicator.TcpPassiveByteStreamHandlerSettings.CreateByteStreamHandler">
             <inheritdoc />
@@ -884,6 +1024,12 @@
             <param name="target">The <see cref="T:System.ArraySegment`1"/> referencing to the target character buffer.</param>
             <returns>Total count of characters parsed.</returns>
         </member>
+        <member name="T:MessageCommunicator.IMessageRecognizer">
+            <summary>
+            A <see cref="T:MessageCommunicator.IMessageRecognizer"/> is responsible to recognize incoming messages and for formatting
+            outgoing messages.
+            </summary>
+        </member>
         <member name="P:MessageCommunicator.IMessageRecognizer.ByteStreamHandler">
             <summary>
             Gets or sets the <see cref="T:MessageCommunicator.IByteStreamHandler"/> which will be called inside the send method.
@@ -898,6 +1044,32 @@
             <param name="isNewConnection">This flag is set to true when the given bytes are the first ones from a new connection. Typically this triggers receive buffer cleanup before processing received bytes.</param>
             <param name="receivedBytes">A span containing all received bytes.</param>
         </member>
+        <member name="T:MessageCommunicator.MessageRecognitionException">
+            <summary>
+            This exception type is thrown during message recognition in an <see cref="T:MessageCommunicator.IMessageRecognizer"/> implementation.
+            </summary>
+        </member>
+        <member name="T:MessageCommunicator.MessageRecognizer">
+            <summary>
+            A <see cref="T:MessageCommunicator.MessageRecognizer"/> is responsible to recognize incoming messages and for formatting
+            outgoing messages.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.MessageRecognizer.ByteStreamHandler">
+            <summary>
+            Gets or sets the <see cref="T:MessageCommunicator.IByteStreamHandler"/> implementation to which to forward messages to be sent.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.MessageRecognizer.ReceiveHandler">
+            <summary>
+            Gets or sets the <see cref="T:MessageCommunicator.IMessageReceiveHandler"/> implementation to which to forward all recognized messages.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.MessageRecognizer.Logger">
+            <summary>
+            Gets or sets a custom logger. If set, this delegate will be called with all relevant events.
+            </summary>
+        </member>
         <member name="M:MessageCommunicator.MessageRecognizer.SendAsync(System.ReadOnlySpan{System.Char})">
             <summary>
             Sends the given message to the partner.
@@ -909,11 +1081,40 @@
         <member name="M:MessageCommunicator.MessageRecognizer.OnReceivedBytes(System.Boolean,System.ArraySegment{System.Byte})">
             <inheritdoc />
         </member>
+        <member name="T:MessageCommunicator.MessageRecognizerSettings">
+            <summary>
+            Encapsulates all settings for an <see cref="T:MessageCommunicator.IMessageRecognizer"/> implementation.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.MessageRecognizerSettings.CreateMessageRecognizer">
+            <summary>
+            Factory method which creates an <see cref="T:MessageCommunicator.IMessageRecognizer"/> implementation.
+            </summary>
+            <returns>The created <see cref="T:MessageCommunicator.IMessageRecognizer"/> implementation.</returns>
+        </member>
+        <member name="T:MessageCommunicator.DefaultMessageRecognizer">
+            <summary>
+            This <see cref="T:MessageCommunicator.MessageRecognizer"/> implements a custom messages style of the MessageCommunicator
+            project. 
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.DefaultMessageRecognizer.#ctor(System.Text.Encoding)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.DefaultMessageRecognizer"/> instance.
+            </summary>
+            <param name="encoding">The <see cref="T:System.Text.Encoding"/> to be used when convert characters to/from bytes.</param>
+        </member>
         <member name="M:MessageCommunicator.DefaultMessageRecognizer.SendInternalAsync(MessageCommunicator.IByteStreamHandler,System.ReadOnlySpan{System.Char})">
             <inheritdoc />
         </member>
         <member name="M:MessageCommunicator.DefaultMessageRecognizer.OnReceivedBytes(System.Boolean,System.ArraySegment{System.Byte})">
             <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.DefaultMessageRecognizerSettings.#ctor(System.Text.Encoding)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.DefaultMessageRecognizerSettings"/> instance.
+            </summary>
+            <param name="encoding">The <see cref="P:MessageCommunicator.DefaultMessageRecognizerSettings.Encoding"/> to be used when convert characters to/from bytes.</param>
         </member>
         <member name="M:MessageCommunicator.DefaultMessageRecognizerSettings.CreateMessageRecognizer">
             <inheritdoc />

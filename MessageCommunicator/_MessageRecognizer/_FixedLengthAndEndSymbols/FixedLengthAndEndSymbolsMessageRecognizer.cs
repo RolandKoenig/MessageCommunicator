@@ -6,6 +6,10 @@ using MessageCommunicator.Util;
 
 namespace MessageCommunicator
 {
+    /// <summary>
+    /// This <see cref="MessageRecognizer"/> implementation recognizes messages with one or more end symbols and
+    /// a fixed length.
+    /// </summary>
     public class FixedLengthAndEndSymbolsMessageRecognizer : MessageRecognizer
     {
         private Encoding _encoding;
@@ -16,6 +20,13 @@ namespace MessageCommunicator
         private char _fillSymbol;
         private StringBuffer _receiveStringBuffer;
 
+        /// <summary>
+        /// Creates a new <see cref="FixedLengthAndEndSymbolsMessageRecognizer"/> instance.
+        /// </summary>
+        /// <param name="encoding">The <see cref="Encoding"/> to be used when convert characters to/from bytes.</param>
+        /// <param name="endSymbols">The end symbols of received/sent messages.</param>
+        /// <param name="lengthIncludingEndSymbols">Total length of received/sent messages.</param>
+        /// <param name="fillSymbol">Fill symbol for messages shorter than the fixed length.</param>
         public FixedLengthAndEndSymbolsMessageRecognizer(Encoding encoding, string endSymbols, int lengthIncludingEndSymbols, char fillSymbol)
         {
             _encoding = encoding;
@@ -82,6 +93,7 @@ namespace MessageCommunicator
             }
         }
 
+        /// <inheritdoc />
         public override void OnReceivedBytes(bool isNewConnection, ArraySegment<byte> receivedSegment)
         {
             // Clear receive buffer on new connections

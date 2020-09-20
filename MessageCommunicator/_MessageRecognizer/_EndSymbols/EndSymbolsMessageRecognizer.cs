@@ -6,6 +6,9 @@ using MessageCommunicator.Util;
 
 namespace MessageCommunicator
 {
+    /// <summary>
+    /// This <see cref="MessageRecognizer"/> implementation recognizes messages with one or more end symbols.
+    /// </summary>
     public class EndSymbolsMessageRecognizer : MessageRecognizer
     {
         private Encoding _encoding;
@@ -13,6 +16,11 @@ namespace MessageCommunicator
         private string _endSymbols;
         private StringBuffer _receiveStringBuffer;
 
+        /// <summary>
+        /// Creates a new <see cref="EndSymbolsMessageRecognizer"/> instance.
+        /// </summary>
+        /// <param name="encoding">The <see cref="Encoding"/> to be used when convert characters to/from bytes.</param>
+        /// <param name="endSymbols">The end symbols of received/sent messages.</param>
         public EndSymbolsMessageRecognizer(Encoding encoding, string endSymbols)
         {
             if (string.IsNullOrEmpty(endSymbols))
@@ -64,6 +72,7 @@ namespace MessageCommunicator
             }
         }
 
+        /// <inheritdoc />
         public override void OnReceivedBytes(bool isNewConnection, ArraySegment<byte> receivedSegment)
         {
             // Clear receive buffer on new connections

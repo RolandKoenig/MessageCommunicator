@@ -4,6 +4,10 @@ using System.Text;
 
 namespace MessageCommunicator
 {
+    /// <summary>
+    /// A <see cref="IMessageRecognizer"/> is responsible to recognize incoming messages and for formatting
+    /// outgoing messages.
+    /// </summary>
     public interface IMessageRecognizer
     {
         /// <summary>

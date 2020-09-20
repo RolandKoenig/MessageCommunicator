@@ -33,7 +33,7 @@ namespace MessageCommunicator
         public abstract string RemoteEndpointDescription { get; }
 
         /// <summary>
-        /// A custom logger. If set, this delegate will be called with all relevant events.
+        /// Gets or sets a custom logger. If set, this delegate will be called with all relevant events.
         /// </summary>
         public IMessageCommunicatorLogger? Logger { get; set; }
 

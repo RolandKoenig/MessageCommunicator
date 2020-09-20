@@ -3,12 +3,25 @@ using System.Threading.Tasks;
 
 namespace MessageCommunicator
 {
+    /// <summary>
+    /// A <see cref="MessageRecognizer"/> is responsible to recognize incoming messages and for formatting
+    /// outgoing messages.
+    /// </summary>
     public abstract class MessageRecognizer : IMessageRecognizer
     {
+        /// <summary>
+        /// Gets or sets the <see cref="IByteStreamHandler"/> implementation to which to forward messages to be sent.
+        /// </summary>
         public IByteStreamHandler? ByteStreamHandler { get; set; }
 
+        /// <summary>
+        /// Gets or sets the <see cref="IMessageReceiveHandler"/> implementation to which to forward all recognized messages.
+        /// </summary>
         public IMessageReceiveHandler? ReceiveHandler { get; set; }
 
+        /// <summary>
+        /// Gets or sets a custom logger. If set, this delegate will be called with all relevant events.
+        /// </summary>
         public IMessageCommunicatorLogger? Logger { get; set; }
 
         /// <summary>
