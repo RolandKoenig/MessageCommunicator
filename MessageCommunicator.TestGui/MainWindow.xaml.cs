@@ -16,7 +16,9 @@ namespace MessageCommunicator.TestGui
         {
             AvaloniaXamlLoader.Load(this);
 
-            var versionString = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "";
+            var versionInfoAttrib = Assembly.GetExecutingAssembly()
+                .GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+            var versionString = versionInfoAttrib?.InformationalVersion ?? "";
             this.Title = $"{this.Title} {versionString}";
 
             // Register view services
