@@ -29,9 +29,9 @@
     <DocumentationSources>
       <DocumentationSource sourceFile="..\MessageCommunicator\MessageCommunicator.csproj" xmlns="" />
     </DocumentationSources>
-    <HelpFileFormat>Markdown</HelpFileFormat>
+    <HelpFileFormat>Website</HelpFileFormat>
     <SyntaxFilters>C#</SyntaxFilters>
-    <PresentationStyle>Markdown</PresentationStyle>
+    <PresentationStyle>VS2013</PresentationStyle>
     <CleanIntermediates>True</CleanIntermediates>
     <KeepLogFile>True</KeepLogFile>
     <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
