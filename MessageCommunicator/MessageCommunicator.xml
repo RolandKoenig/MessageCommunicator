@@ -1110,6 +1110,16 @@
         <member name="M:MessageCommunicator.DefaultMessageRecognizer.OnReceivedBytes(System.Boolean,System.ArraySegment{System.Byte})">
             <inheritdoc />
         </member>
+        <member name="T:MessageCommunicator.DefaultMessageRecognizerSettings">
+            <summary>
+            This class provides all settings for <see cref="T:MessageCommunicator.DefaultMessageRecognizer"/>.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.DefaultMessageRecognizerSettings.Encoding">
+            <summary>
+            Gets or sets the <see cref="P:MessageCommunicator.DefaultMessageRecognizerSettings.Encoding"/> to be used when convert characters to/from bytes.
+            </summary>
+        </member>
         <member name="M:MessageCommunicator.DefaultMessageRecognizerSettings.#ctor(System.Text.Encoding)">
             <summary>
             Creates a new <see cref="T:MessageCommunicator.DefaultMessageRecognizerSettings"/> instance.
@@ -1119,23 +1129,153 @@
         <member name="M:MessageCommunicator.DefaultMessageRecognizerSettings.CreateMessageRecognizer">
             <inheritdoc />
         </member>
+        <member name="T:MessageCommunicator.EndSymbolsMessageRecognizer">
+            <summary>
+            This <see cref="T:MessageCommunicator.MessageRecognizer"/> implementation recognizes messages with one or more end symbols.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.EndSymbolsMessageRecognizer.#ctor(System.Text.Encoding,System.String)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.EndSymbolsMessageRecognizer"/> instance.
+            </summary>
+            <param name="encoding">The <see cref="T:System.Text.Encoding"/> to be used when convert characters to/from bytes.</param>
+            <param name="endSymbols">The end symbols of received/sent messages.</param>
+        </member>
         <member name="M:MessageCommunicator.EndSymbolsMessageRecognizer.SendInternalAsync(MessageCommunicator.IByteStreamHandler,System.ReadOnlySpan{System.Char})">
             <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.EndSymbolsMessageRecognizer.OnReceivedBytes(System.Boolean,System.ArraySegment{System.Byte})">
+            <inheritdoc />
+        </member>
+        <member name="T:MessageCommunicator.EndSymbolsMessageRecognizerSettings">
+            <summary>
+            This class provides all settings for <see cref="T:MessageCommunicator.EndSymbolsMessageRecognizer"/>.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.EndSymbolsMessageRecognizerSettings.Encoding">
+            <summary>
+            Gets or sets the <see cref="P:MessageCommunicator.EndSymbolsMessageRecognizerSettings.Encoding"/> to be used when convert characters to/from bytes.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.EndSymbolsMessageRecognizerSettings.EndSymbols">
+            <summary>
+            Gets or sets the end symbols of received/sent messages.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.EndSymbolsMessageRecognizerSettings.#ctor(System.Text.Encoding,System.String)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.EndSymbolsMessageRecognizerSettings"/> instance.
+            </summary>
+            <param name="encoding">The <see cref="P:MessageCommunicator.EndSymbolsMessageRecognizerSettings.Encoding"/> to be used when convert characters to/from bytes.</param>
+            <param name="endSymbols">The end symbols of received/sent messages.</param>
         </member>
         <member name="M:MessageCommunicator.EndSymbolsMessageRecognizerSettings.CreateMessageRecognizer">
             <inheritdoc />
         </member>
+        <member name="T:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizer">
+            <summary>
+            This <see cref="T:MessageCommunicator.MessageRecognizer"/> implementation recognizes messages with one or more end symbols and
+            a fixed length.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizer.#ctor(System.Text.Encoding,System.String,System.Int32,System.Char)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizer"/> instance.
+            </summary>
+            <param name="encoding">The <see cref="T:System.Text.Encoding"/> to be used when convert characters to/from bytes.</param>
+            <param name="endSymbols">The end symbols of received/sent messages.</param>
+            <param name="lengthIncludingEndSymbols">Total length of received/sent messages.</param>
+            <param name="fillSymbol">Fill symbol for messages shorter than the fixed length.</param>
+        </member>
         <member name="M:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizer.SendInternalAsync(MessageCommunicator.IByteStreamHandler,System.ReadOnlySpan{System.Char})">
             <inheritdoc />
         </member>
+        <member name="M:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizer.OnReceivedBytes(System.Boolean,System.ArraySegment{System.Byte})">
+            <inheritdoc />
+        </member>
+        <member name="T:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizerSettings">
+            <summary>
+            This class provides all settings for <see cref="T:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizer"/>.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizerSettings.Encoding">
+            <summary>
+            Gets or sets the <see cref="P:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizerSettings.Encoding"/> to be used when convert characters to/from bytes.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizerSettings.EndSymbols">
+            <summary>
+            Gets or sets the end symbols of received/sent messages.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizerSettings.LengthIncludingEndSymbols">
+            <summary>
+            Gets or sets the total length of received/sent messages.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizerSettings.FillSymbol">
+            <summary>
+            Gets or sets the fill symbol for messages shorter than the fixed length.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizerSettings.#ctor(System.Text.Encoding,System.String,System.Int32,System.Char)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizerSettings"/> instance.
+            </summary>
+            <param name="encoding">The <see cref="P:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizerSettings.Encoding"/> to be used when convert characters to/from bytes.</param>
+            <param name="endSymbols">The end symbols of received/sent messages.</param>
+            <param name="lengthIncludingEndSymbols">Total length of received/sent messages.</param>
+            <param name="fillSymbol">Fill symbol for messages shorter than the fixed length.</param>
+        </member>
         <member name="M:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizerSettings.CreateMessageRecognizer">
             <inheritdoc />
+        </member>
+        <member name="T:MessageCommunicator.StartAndEndSymbolsRecognizer">
+            <summary>
+            This <see cref="T:MessageCommunicator.MessageRecognizer"/> implementation recognizes messages with one or more start and end symbols.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.StartAndEndSymbolsRecognizer.#ctor(System.Text.Encoding,System.String,System.String)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.EndSymbolsMessageRecognizer"/> instance.
+            </summary>
+            <param name="encoding">The <see cref="T:System.Text.Encoding"/> to be used when convert characters to/from bytes.</param>
+            <param name="startSymbols">The start symbols of received/sent messages.</param>
+            <param name="endSymbols">The end symbols of received/sent messages.</param>
         </member>
         <member name="M:MessageCommunicator.StartAndEndSymbolsRecognizer.SendInternalAsync(MessageCommunicator.IByteStreamHandler,System.ReadOnlySpan{System.Char})">
             <inheritdoc />
         </member>
         <member name="M:MessageCommunicator.StartAndEndSymbolsRecognizer.OnReceivedBytes(System.Boolean,System.ArraySegment{System.Byte})">
             <inheritdoc />
+        </member>
+        <member name="T:MessageCommunicator.StartAndEndSymbolsRecognizerSettings">
+            <summary>
+            This class provides all settings for <see cref="T:MessageCommunicator.StartAndEndSymbolsRecognizer"/>.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.StartAndEndSymbolsRecognizerSettings.Encoding">
+            <summary>
+            Gets or sets the <see cref="P:MessageCommunicator.StartAndEndSymbolsRecognizerSettings.Encoding"/> to be used when convert characters to/from bytes.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.StartAndEndSymbolsRecognizerSettings.StartSymbols">
+            <summary>
+            Gets or sets the start symbols of received/sent messages.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.StartAndEndSymbolsRecognizerSettings.EndSymbols">
+            <summary>
+            Gets or sets the end symbols of received/sent messages.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.StartAndEndSymbolsRecognizerSettings.#ctor(System.Text.Encoding,System.String,System.String)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.StartAndEndSymbolsRecognizerSettings"/> instance.
+            </summary>
+            <param name="encoding">The <see cref="P:MessageCommunicator.StartAndEndSymbolsRecognizerSettings.Encoding"/> to be used when convert characters to/from bytes.</param>
+            <param name="startSymbols">The start symbols of received/sent messages.</param>
+            <param name="endSymbols">The end symbols of received/sent messages.</param>
         </member>
         <member name="M:MessageCommunicator.StartAndEndSymbolsRecognizerSettings.CreateMessageRecognizer">
             <inheritdoc />
