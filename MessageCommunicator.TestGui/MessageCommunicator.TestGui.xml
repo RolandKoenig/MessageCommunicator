@@ -96,6 +96,9 @@
             Gets the view service of the given type.
             </summary>
         </member>
+        <member name="M:MessageCommunicator.TestGui.DialogHostControl.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)">
+            <inheritdoc />
+        </member>
         <member name="P:MessageCommunicator.TestGui.OwnUserControl`1.ViewServices">
             <inheritdoc />
         </member>

@@ -5,7 +5,7 @@
         xmlns:local="clr-namespace:MessageCommunicator.TestGui.ViewServices;assembly=MessageCommunicator.TestGui"
         xmlns:localRoot="clr-namespace:MessageCommunicator.TestGui;assembly=MessageCommunicator.TestGui"
         mc:Ignorable="d"
-        Width="400" Height="350"
+        Width="810" Height="400"
         x:Class="MessageCommunicator.TestGui.ViewServices.ConnectionConfigControl"
         d:DataContext="{x:Static local:DesignData.ConnectionConfigVM}">
     
@@ -23,12 +23,22 @@
             <Button Content="Cancel" Command="{Binding Path=Command_Cancel}" />
         </StackPanel>
       
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Vertical">
-                <localRoot:PropertyGrid x:Name="CtrlMainPropertyGrid" SelectedObject="{Binding Path=ModelInteractive}" />
-                <localRoot:PropertyGrid SelectedObject="{Binding Path=ModelInteractive.RecognizerSettings}" />
-            </StackPanel>
-        </ScrollViewer>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="400" />
+            </Grid.ColumnDefinitions>
         
+            <ScrollViewer Grid.Column="0" 
+                          VerticalScrollBarVisibility="Auto">
+                <localRoot:PropertyGrid x:Name="CtrlMainPropertyGrid" SelectedObject="{Binding Path=ModelInteractive}" />
+            </ScrollViewer>
+          
+           <ScrollViewer Grid.Column="2" 
+                         VerticalScrollBarVisibility="Auto">
+               <localRoot:PropertyGrid SelectedObject="{Binding Path=ModelInteractive.RecognizerSettings}" />
+           </ScrollViewer>
+        </Grid>
     </DockPanel>
 </UserControl>

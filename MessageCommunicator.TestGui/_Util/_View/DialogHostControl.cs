@@ -18,6 +18,8 @@ namespace MessageCommunicator.TestGui
                 (o, v) => o.OccludedControl = v);
 
         private Control? _currentChild;
+        private Control? _currentChildBorder;
+        private Size _currentChildInitialSize;
         private Control? _occludedControl;
         private readonly IBrush _backgroundDialog;
         private readonly IBrush _backgroundNoDialog;
@@ -35,6 +37,7 @@ namespace MessageCommunicator.TestGui
 
             this.Background = _backgroundNoDialog;
             this.IsHitTestVisible = false;
+
         }
 
         public void ShowDialog(Control controlToShow, string headerText)
@@ -45,6 +48,7 @@ namespace MessageCommunicator.TestGui
             }
 
             _currentChild = controlToShow;
+            _currentChildInitialSize = new Size(_currentChild.Width, _currentChild.Height);
 
             var borderControl = new HeaderedContentControl();
             borderControl.Classes.Add("DialogHostControlBorder");
@@ -55,6 +59,7 @@ namespace MessageCommunicator.TestGui
             borderControl.Padding = new Thickness(5.0);
             borderControl.Header = headerText;
             borderControl.Classes.Add("DialogBox");
+            _currentChildBorder = borderControl;
 
             this.Background = _backgroundDialog;
             this.Children.Add(borderControl);
@@ -64,6 +69,8 @@ namespace MessageCommunicator.TestGui
             {
                 this.OccludedControl.IsEnabled = false;
             }
+
+            this.UpdateBorderSize();
         }
 
         public void CloseDialog()
@@ -72,6 +79,8 @@ namespace MessageCommunicator.TestGui
 
             this.Children.Clear();
             _currentChild = null;
+            _currentChildBorder = null;
+            _currentChildInitialSize = Size.Empty;
 
             this.Background = _backgroundNoDialog;
             this.IsHitTestVisible = false;
@@ -79,6 +88,45 @@ namespace MessageCommunicator.TestGui
             if (this.OccludedControl != null)
             {
                 this.OccludedControl.IsEnabled = true;
+            }
+        }
+
+        private void UpdateBorderSize()
+        {
+            if (_currentChild == null) { return; }
+            if (_currentChildBorder == null){ return; }
+
+            const double BORDER_PADDING = 50.0;
+
+            // Update height
+            if (this.Bounds.Height < _currentChildInitialSize.Height + BORDER_PADDING)
+            {
+                _currentChild.Height = this.Bounds.Height - BORDER_PADDING;
+            }
+            else
+            {
+                _currentChild.Height = _currentChildInitialSize.Height;
+            }
+
+            // Update width
+            if (this.Bounds.Width < _currentChildInitialSize.Width + BORDER_PADDING)
+            {
+                _currentChild.Width = this.Bounds.Width - BORDER_PADDING;
+            }
+            else
+            {
+                _currentChild.Width = _currentChildInitialSize.Width;
+            }
+        }
+
+        /// <inheritdoc />
+        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+
+            if (e.Property == Grid.BoundsProperty)
+            {
+                this.UpdateBorderSize();
             }
         }
     }
