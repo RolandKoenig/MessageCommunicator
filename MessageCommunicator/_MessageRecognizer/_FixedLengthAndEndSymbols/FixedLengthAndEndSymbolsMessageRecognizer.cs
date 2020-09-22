@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Light.GuardClauses;
 using MessageCommunicator.Util;
 
 namespace MessageCommunicator
@@ -29,6 +30,10 @@ namespace MessageCommunicator
         /// <param name="fillSymbol">Fill symbol for messages shorter than the fixed length.</param>
         public FixedLengthAndEndSymbolsMessageRecognizer(Encoding encoding, string endSymbols, int lengthIncludingEndSymbols, char fillSymbol)
         {
+            encoding.MustNotBeNull(nameof(encoding));
+            endSymbols.MustNotBeNullOrEmpty(nameof(endSymbols));
+            lengthIncludingEndSymbols.MustBeGreaterThan(endSymbols.Length, nameof(lengthIncludingEndSymbols));
+
             _encoding = encoding;
             _decoder = _encoding.GetDecoder();
             _endSymbols = endSymbols;
@@ -47,6 +52,8 @@ namespace MessageCommunicator
         /// <inheritdoc />
         protected override Task<bool> SendInternalAsync(IByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage)
         {
+            byteStreamHandler.MustNotBeNull(nameof(byteStreamHandler));
+
             // Check for valid message
             if (rawMessage.Length > _lengthExcludingEndSymbols)
             {
@@ -96,6 +103,8 @@ namespace MessageCommunicator
         /// <inheritdoc />
         public override void OnReceivedBytes(bool isNewConnection, ArraySegment<byte> receivedSegment)
         {
+            receivedSegment.MustNotBeDefault(nameof(receivedSegment));
+
             // Clear receive buffer on new connections
             if (isNewConnection)
             {

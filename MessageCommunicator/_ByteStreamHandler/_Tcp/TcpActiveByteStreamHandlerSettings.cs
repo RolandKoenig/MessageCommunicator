@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using Light.GuardClauses;
 
 namespace MessageCommunicator
 {
@@ -56,6 +57,8 @@ namespace MessageCommunicator
             string remoteHost, ushort remotePort,
             ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null)
         {
+            remoteHost.MustNotBeNullOrEmpty(nameof(remoteHost));
+
             this.RemoteHost = remoteHost;
             this.RemoteIP = IPAddress.None;
             this.RemotePort = remotePort;
@@ -74,6 +77,8 @@ namespace MessageCommunicator
             IPAddress remoteIP, ushort remotePort,
             ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null)
         {
+            remoteIP.MustNotBeNull(nameof(remoteIP));
+
             this.RemoteHost = string.Empty;
             this.RemoteIP = remoteIP;
             this.RemotePort = remotePort;

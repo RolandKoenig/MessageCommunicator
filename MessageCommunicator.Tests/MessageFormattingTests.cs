@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FakeItEasy;
+using Light.GuardClauses.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MessageCommunicator.Tests
@@ -53,7 +53,7 @@ namespace MessageCommunicator.Tests
         }
 
         [TestMethod]
-        [DataRow("", "This is a dummy message", typeof(ArgumentException))]
+        [DataRow("", "This is a dummy message", typeof(EmptyStringException))]
         [DataRow(data1:"##", "Message contains endsymbols ## before end of message", typeof(ArgumentException))]
         [DataRow(data1:"#C", "Message contains endsymbols #C before end of message", typeof(ArgumentException))]
         [DataRow(data1:"##", "Message contains part of endsymbols at the end #", typeof(ArgumentException))]

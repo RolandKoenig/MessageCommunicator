@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Light.GuardClauses;
 
 namespace MessageCommunicator
 {
@@ -14,6 +15,9 @@ namespace MessageCommunicator
         /// <returns>Total count of characters inside given buffer.</returns>
         public static int GetCharCount(this Decoder decoder, ArraySegment<byte> arraySegment)
         {
+            decoder.MustNotBeNull(nameof(decoder));
+            arraySegment.MustNotBeDefault(nameof(arraySegment));
+
             return decoder.GetCharCount(
                 arraySegment.Array ?? throw new ArgumentNullException(nameof(arraySegment)), 
                 arraySegment.Offset, arraySegment.Count, false);
@@ -28,6 +32,10 @@ namespace MessageCommunicator
         /// <returns>Total count of characters parsed.</returns>
         public static int GetChars(this Decoder decoder, ArraySegment<byte> source, ArraySegment<char> target)
         {
+            decoder.MustNotBeNull(nameof(decoder));
+            source.MustNotBeDefault(nameof(source));
+            target.MustNotBeDefault(nameof(target));
+
             return decoder.GetChars(
                 source.Array ?? throw new ArgumentNullException(nameof(source)),
                 source.Offset, source.Count,

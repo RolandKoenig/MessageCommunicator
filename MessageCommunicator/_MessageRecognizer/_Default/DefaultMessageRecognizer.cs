@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using Light.GuardClauses;
 using MessageCommunicator.Util;
 
 namespace MessageCommunicator
@@ -25,6 +26,8 @@ namespace MessageCommunicator
         /// <param name="encoding">The <see cref="Encoding"/> to be used when convert characters to/from bytes.</param>
         public DefaultMessageRecognizer(Encoding encoding)
         {
+            encoding.MustNotBeNull(nameof(encoding));
+
             _encoding = encoding;
             _decoder = _encoding.GetDecoder();
             _receiveStringBuffer = new StringBuffer(1024);
@@ -33,6 +36,8 @@ namespace MessageCommunicator
         /// <inheritdoc />
         protected override Task<bool> SendInternalAsync(IByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage)
         {
+            byteStreamHandler.MustNotBeNull(nameof(byteStreamHandler));
+
             var rawMessageLength = rawMessage.Length;
             var lengthDigitCount = TcpCommunicatorUtil.GetCountOfDigits(rawMessageLength);
             var sendBuffer = StringBuffer.Acquire(rawMessageLength + 3 + lengthDigitCount);
@@ -73,6 +78,8 @@ namespace MessageCommunicator
         /// <inheritdoc />
         public override void OnReceivedBytes(bool isNewConnection, ArraySegment<byte> receivedBytes)
         {
+            receivedBytes.MustNotBeDefault(nameof(receivedBytes));
+
             // Clear receive buffer on new connections
             if (isNewConnection)
             {

@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using Light.GuardClauses;
 using MessageCommunicator.Util;
 
 namespace MessageCommunicator
@@ -61,6 +62,8 @@ namespace MessageCommunicator
         /// </summary>
         protected TcpByteStreamHandler(ReconnectWaitTimeGetter reconnectWaitTimeGetter)
         {
+            reconnectWaitTimeGetter.MustNotBeNull(nameof(reconnectWaitTimeGetter));
+
             this.ReconnectWaitTimeGetter = reconnectWaitTimeGetter;
         }
 
@@ -71,6 +74,8 @@ namespace MessageCommunicator
         /// <returns></returns>
         protected Task WaitByReconnectWaitTimeAsync(int errorCountSinceLastConnect)
         {
+            errorCountSinceLastConnect.MustBeGreaterThanOrEqualTo(0, nameof(errorCountSinceLastConnect));
+
             var waitTime = this.ReconnectWaitTimeGetter.GetWaitTime(errorCountSinceLastConnect);
             if (waitTime <= TimeSpan.Zero)
             {
@@ -87,6 +92,8 @@ namespace MessageCommunicator
         /// <returns>True when sending was successful</returns>
         public override async Task<bool> SendAsync(ArraySegment<byte> buffer)
         {
+            buffer.MustNotBeDefault(nameof(buffer));
+
             if(buffer.Count <= 0)
             {
                 this.Log(LoggingMessageType.Error, "Unable to send message: Message is empty!");
@@ -137,8 +144,12 @@ namespace MessageCommunicator
         /// Internal method which reacts on incoming bytes on the currently active tcp client connection.
         /// Only one of this connection is active at one time.
         /// </summary>
-        protected async Task RunReceiveLoopAsync(TcpClient? tcpClient, IPEndPoint localEndPoint, IPEndPoint partnerEndPoint, CancellationToken cancelToken)
+        protected async Task RunReceiveLoopAsync(TcpClient tcpClient, IPEndPoint localEndPoint, IPEndPoint partnerEndPoint, CancellationToken cancelToken)
         {
+            tcpClient.MustNotBeNull(nameof(tcpClient));
+            localEndPoint.MustNotBeNull(nameof(localEndPoint));
+            partnerEndPoint.MustNotBeNull(nameof(partnerEndPoint));
+
             var localEndPointStr = localEndPoint.ToString();
             var partnerEndPointStr = partnerEndPoint.ToString();
             var newConnection = true;
@@ -150,9 +161,9 @@ namespace MessageCommunicator
                     StringBuffer.Format("Starting receive loop for connection {0} to {1}", localEndPointStr, partnerEndPointStr));
             }
 
+            var tcpClientInternal = tcpClient;
             var receiveBuffer = new byte[this.ReceiveBufferSize];
-            while ((!cancelToken.IsCancellationRequested) &&
-                   (tcpClient != null))
+            while (!cancelToken.IsCancellationRequested)
             {
                 int lastReceiveResult;
                 try
@@ -181,7 +192,7 @@ namespace MessageCommunicator
                 }
                 catch (ObjectDisposedException)
                 {
-                    tcpClient = null;
+                    tcpClientInternal = null;
                     break;
                 }
                 catch (SocketException socketException)
@@ -221,11 +232,13 @@ namespace MessageCommunicator
             }
 
             // Ensure that the socket is closed after ending this method
-            TcpAsyncUtil.SafeDispose(ref tcpClient);
+            TcpAsyncUtil.SafeDispose(ref tcpClientInternal);
         }
 
         private void ProcessReceivedBytes(bool newConnection, byte[] buffer, int receivedBytesCount)
         {
+            buffer.MustNotBeNull(nameof(buffer));
+
             var receiveBuffer = new ArraySegment<byte>(buffer, 0, receivedBytesCount);
 
             // Log currently received bytes

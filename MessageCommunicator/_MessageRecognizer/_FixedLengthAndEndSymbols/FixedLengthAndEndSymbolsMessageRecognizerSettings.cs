@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Light.GuardClauses;
 
 namespace MessageCommunicator
 {
@@ -38,6 +39,10 @@ namespace MessageCommunicator
         /// <param name="fillSymbol">Fill symbol for messages shorter than the fixed length.</param>
         public FixedLengthAndEndSymbolsMessageRecognizerSettings(Encoding encoding, string endSymbols, int lengthIncludingEndSymbols, char fillSymbol)
         {
+            encoding.MustNotBeNull(nameof(encoding));
+            endSymbols.MustNotBeNullOrEmpty(nameof(endSymbols));
+            lengthIncludingEndSymbols.MustBeGreaterThan(endSymbols.Length, nameof(lengthIncludingEndSymbols));
+
             this.Encoding = encoding;
             this.EndSymbols = endSymbols;
             this.LengthIncludingEndSymbols = lengthIncludingEndSymbols;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Light.GuardClauses;
 using MessageCommunicator.Util;
 
 namespace MessageCommunicator
@@ -53,6 +54,8 @@ namespace MessageCommunicator
         /// <exception cref="InvalidOperationException">The given message is already pooled.</exception>
         public static void Return(Message message)
         {
+            message.MustNotBeNull(nameof(message));
+
             if (message.IsMessagePooled)
             {
                 throw new InvalidOperationException("Message is already pooled!");

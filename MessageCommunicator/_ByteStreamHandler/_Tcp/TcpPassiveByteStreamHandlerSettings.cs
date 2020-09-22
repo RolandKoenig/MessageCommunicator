@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using Light.GuardClauses;
 
 namespace MessageCommunicator
 {
@@ -48,6 +49,8 @@ namespace MessageCommunicator
             ushort listeningPort,
             ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null)
         {
+            listeningIPAddress.MustNotBeNull(nameof(listeningIPAddress));
+
             this.ListeningIPAddress = listeningIPAddress;
             this.ListeningPort = listeningPort;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Light.GuardClauses;
 
 namespace MessageCommunicator
 {
@@ -20,6 +21,8 @@ namespace MessageCommunicator
         /// <param name="encoding">The <see cref="Encoding"/> to be used when convert characters to/from bytes.</param>
         public DefaultMessageRecognizerSettings(Encoding encoding)
         {
+            encoding.MustNotBeNull(nameof(encoding));
+
             this.Encoding = encoding;
         }
 

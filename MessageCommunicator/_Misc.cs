@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Light.GuardClauses;
 
 namespace MessageCommunicator
 {
@@ -45,6 +46,9 @@ namespace MessageCommunicator
 
         public LoggingMessage(DateTime timestamp, LoggingMessageType messageType, string metaData, string message, Exception? exception)
         {
+            metaData.MustNotBeNull(nameof(metaData));
+            message.MustNotBeNull(nameof(message));
+
             this.TimeStamp = timestamp;
             this.MessageType = messageType;
             this.MetaData = metaData;

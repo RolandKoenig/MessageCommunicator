@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Light.GuardClauses;
 using MessageCommunicator.Util;
 
 namespace MessageCommunicator
@@ -64,6 +65,9 @@ namespace MessageCommunicator
             IMessageReceiveHandler? receiveHandler = null,
             IMessageCommunicatorLogger? logger = null)
         {
+            byteStreamHandlerSettings.MustNotBeNull(nameof(byteStreamHandlerSettings));
+            messageRecognizerSettings.MustNotBeNull(nameof(messageRecognizerSettings));
+
             _byteStreamHandler = byteStreamHandlerSettings.CreateByteStreamHandler();
             _byteStreamHandler.Logger = logger;
 
@@ -133,6 +137,8 @@ namespace MessageCommunicator
         /// <returns>Returns true if message was sent successfully, otherwise false.</returns>
         public Task<bool> SendAsync(string rawMessage)
         {
+            rawMessage.MustNotBeNull(nameof(rawMessage));
+
             return _messageRecognizer.SendAsync(rawMessage.AsSpan());
         }
 
@@ -143,6 +149,8 @@ namespace MessageCommunicator
         /// <returns>Returns true if message was sent successfully, otherwise false.</returns>
         public Task<bool> SendAsync(Message message)
         {
+            message.MustNotBeNull(nameof(message));
+
             return _messageRecognizer.SendAsync(message.GetSpanReadOnly());
         }
 

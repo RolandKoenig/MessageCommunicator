@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using Light.GuardClauses;
 using MessageCommunicator.Util;
 
 namespace MessageCommunicator
@@ -69,6 +70,9 @@ namespace MessageCommunicator
             ReconnectWaitTimeGetter reconnectWaitTimeGetter)
             : base(reconnectWaitTimeGetter)
         {
+            listeningIPAddress.MustNotBeNull(nameof(listeningIPAddress));
+            reconnectWaitTimeGetter.MustNotBeNull(nameof(reconnectWaitTimeGetter));
+
             _startStopLock = new object();
 
             this.ListeningIPAddress = listeningIPAddress;

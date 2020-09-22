@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Light.GuardClauses;
 
 namespace MessageCommunicator
 {
@@ -32,6 +33,10 @@ namespace MessageCommunicator
         /// <param name="endSymbols">The end symbols of received/sent messages.</param>
         public StartAndEndSymbolsRecognizerSettings(Encoding encoding, string startSymbols, string endSymbols)
         {
+            encoding.MustNotBeNull(nameof(encoding));
+            startSymbols.MustNotBeNullOrEmpty(nameof(startSymbols));
+            endSymbols.MustNotBeNullOrEmpty(nameof(endSymbols));
+
             this.Encoding = encoding;
             this.StartSymbols = startSymbols;
             this.EndSymbols = endSymbols;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Light.GuardClauses;
 
 namespace MessageCommunicator
 {
@@ -101,6 +102,9 @@ namespace MessageCommunicator
         /// </summary>
         protected void Log(LoggingMessageType messageType, string message, string metaData = "", Exception? exception = null)
         {
+            message.MustNotBeNullOrEmpty(nameof(message));
+            metaData.MustNotBeNull(nameof(metaData));
+
             var logger = this.Logger;
             logger?.Log(new LoggingMessage(DateTime.UtcNow, messageType, metaData, message, exception));
         }

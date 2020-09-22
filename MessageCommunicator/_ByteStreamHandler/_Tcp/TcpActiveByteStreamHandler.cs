@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using Light.GuardClauses;
 using MessageCommunicator.Util;
 
 namespace MessageCommunicator
@@ -62,6 +63,9 @@ namespace MessageCommunicator
             ReconnectWaitTimeGetter reconnectWaitTimeGetter) 
             : base(reconnectWaitTimeGetter)
         {
+            remoteHost.MustNotBeNullOrEmpty(nameof(remoteHost));
+            reconnectWaitTimeGetter.MustNotBeNull(nameof(reconnectWaitTimeGetter));
+
             _startStopLock = new object();
             this.RemoteHost = remoteHost;
             this.RemoteIPAddress = IPAddress.None;
@@ -79,6 +83,9 @@ namespace MessageCommunicator
             ReconnectWaitTimeGetter reconnectWaitTimeGetter) 
             : base(reconnectWaitTimeGetter)
         {
+            remoteIP.MustNotBeNull(nameof(remoteIP));
+            reconnectWaitTimeGetter.MustNotBeNull(nameof(reconnectWaitTimeGetter));
+
             _startStopLock = new object();
             this.RemoteHost = remoteIP.ToString();
             this.RemoteIPAddress = remoteIP;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Light.GuardClauses;
 using MessageCommunicator.Util;
 
 namespace MessageCommunicator
@@ -57,6 +58,8 @@ namespace MessageCommunicator
 
         public static string ToHexString(ArraySegment<byte> bytes)
         {
+            bytes.MustNotBeDefault(nameof(bytes));
+
             if (bytes.Count == 0) { return string.Empty; }
 
             const string HEX_ALPHABET = "0123456789ABCDEF";

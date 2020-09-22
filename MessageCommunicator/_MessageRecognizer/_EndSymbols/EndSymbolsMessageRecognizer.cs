@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Light.GuardClauses;
 using MessageCommunicator.Util;
 
 namespace MessageCommunicator
@@ -23,10 +24,8 @@ namespace MessageCommunicator
         /// <param name="endSymbols">The end symbols of received/sent messages.</param>
         public EndSymbolsMessageRecognizer(Encoding encoding, string endSymbols)
         {
-            if (string.IsNullOrEmpty(endSymbols))
-            {
-                throw new ArgumentException("Endsymbols must not be empty!", nameof(endSymbols));
-            }
+            encoding.MustNotBeNull(nameof(encoding));
+            endSymbols.MustNotBeNullOrEmpty(nameof(endSymbols));
 
             _encoding = encoding;
             _decoder = encoding.GetDecoder();
@@ -37,6 +36,8 @@ namespace MessageCommunicator
         /// <inheritdoc />
         protected override Task<bool> SendInternalAsync(IByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage)
         {
+            byteStreamHandler.MustNotBeNull(nameof(byteStreamHandler));
+
             // Check for endsymbols inside the message
             TcpCommunicatorUtil.EnsureNoEndsymbolsInMessage(rawMessage, _endSymbols);
 
@@ -75,6 +76,8 @@ namespace MessageCommunicator
         /// <inheritdoc />
         public override void OnReceivedBytes(bool isNewConnection, ArraySegment<byte> receivedSegment)
         {
+            receivedSegment.MustNotBeDefault(nameof(receivedSegment));
+
             // Clear receive buffer on new connections
             if (isNewConnection)
             {
