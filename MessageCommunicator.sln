@@ -15,6 +15,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Misc", "_Misc", "{8E0807B9-6F5F-4BB1-AA23-2AED4FD99B71}"
 	ProjectSection(SolutionItems) = preProject
 		_Misc\Screenshot_01.png = _Misc\Screenshot_01.png
+		_Misc\Screenshot_02.png = _Misc\Screenshot_02.png
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageCommunicator", "MessageCommunicator\MessageCommunicator.csproj", "{0160AE6B-2303-4058-8918-9B7EEE66EC13}"

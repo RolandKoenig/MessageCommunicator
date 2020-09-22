@@ -1,7 +1,8 @@
 # MessageCommunicator
 ## About
 MessageCommunicator is a .Net library + testing Gui for message-based communication. 
-The library is based on .Net Standard 2.1 and distributed using Nuget. The Gui is build using C# and Avalonia, 
+The library can be integrated into .Net Standard 2.1 oder 2.0 compatible frameworks. It 
+is distributed using Nuget. The Gui is build using C# and Avalonia, 
 therefore it supports the desktop environments on Windows, Linux and Mac.
 
 ## Quick Links
@@ -35,7 +36,7 @@ listen. Here we are connecting to port 12000 on the localhost.
 ```csharp
 // Create and start send channel
 var activeTcpChannel = new MessageChannel(
-    new TcpActiveByteStreamHandlerSettings("127.0.0.1", 12000), 
+    new TcpActiveByteStreamHandlerSettings(IPAddress.Loopback, 12000), 
     new EndSymbolsMessageRecognizerSettings(Encoding.UTF8, "##"),
     (message) =>
     {
@@ -57,6 +58,8 @@ the corresponding message channel.
 
 ![alt text](_Misc/Screenshot_01.png "Screenshot of the testing UI")
 
+![alt text](_Misc/Screenshot_02.png "Screenshot of the testing UI")
+
 ## Project is based on...
 MessageCommunicator is based on .Net Core (currently 3.1) and meant to be cross-platform. 
 
@@ -65,3 +68,4 @@ I use the following technologies / projects:
  - [Avalonia.IconPacks](https://github.com/ahopper/Avalonia.IconPacks): A good collection of free vector icons ready to be used in Avalonia applications
  - [ReactiveUI](https://github.com/reactiveui/ReactiveUI): Cross-platform mvvm framework. Avalonia has additional integration for ReactiveUI
  - [StringFormatter](https://github.com/MikePopoloski/StringFormatter): A copy/paste ready alternative to StringBuilder. StringFormatter is optimized for less object allocations
+ - [Light.GuardClauses](https://github.com/feO2x/Light.GuardClauses): A lightweight .NET library for expressive Guard Clauses

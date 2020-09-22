@@ -21,7 +21,7 @@ namespace MessageCommunicator.Samples
 
             // Create and start send channel
             var activeTcpChannel = new MessageChannel(
-                new TcpActiveByteStreamHandlerSettings("127.0.0.1", 12000), 
+                new TcpActiveByteStreamHandlerSettings(IPAddress.Loopback, 12000), 
                 new EndSymbolsMessageRecognizerSettings(Encoding.UTF8, "##"),
                 (message) =>
                 {

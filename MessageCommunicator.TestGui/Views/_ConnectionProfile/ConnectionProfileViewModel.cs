@@ -95,7 +95,7 @@ namespace MessageCommunicator.TestGui.Views
             {
                 try
                 {
-                    if (message == null) { return; }
+                    if (message == null) { message = string.Empty; }
                     await this.Model.SendMessageAsync(message);
                 }
                 catch (Exception e)
