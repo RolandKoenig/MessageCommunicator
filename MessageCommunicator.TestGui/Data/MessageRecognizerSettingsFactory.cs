@@ -16,6 +16,9 @@ namespace MessageCommunicator.TestGui.Data
                 case MessageRecognitionMode.EndSymbol:
                     return new MessageRecognizerEndSymbolSettings();
 
+                case MessageRecognitionMode.FixedLength:
+                    return new MessageRecognizerFixedLengthSettings();
+
                 case MessageRecognitionMode.FixedLengthAndEndSymbol:
                     return new MessageRecognizerFixedLengthAndEndSymbolsSettings();
 

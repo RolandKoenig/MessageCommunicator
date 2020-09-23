@@ -8,16 +8,13 @@ using MessageCommunicator.Util;
 namespace MessageCommunicator
 {
     /// <summary>
-    /// This <see cref="MessageRecognizer"/> implementation recognizes messages with one or more end symbols and
-    /// a fixed length.
+    /// This <see cref="MessageRecognizer"/> implementation recognizes messages with a fixed length.
     /// </summary>
-    public class FixedLengthAndEndSymbolsMessageRecognizer : MessageRecognizer
+    public class FixedLengthMessageRecognizer : MessageRecognizer
     {
         private Encoding _encoding;
         private Decoder _decoder;
-        private string _endSymbols;
-        private int _lengthIncludingEndSymbols;
-        private int _lengthExcludingEndSymbols;
+        private int _length;
         private char _fillSymbol;
         private StringBuffer _receiveStringBuffer;
 
@@ -25,21 +22,17 @@ namespace MessageCommunicator
         /// Creates a new <see cref="FixedLengthAndEndSymbolsMessageRecognizer"/> instance.
         /// </summary>
         /// <param name="encoding">The <see cref="Encoding"/> to be used when convert characters to/from bytes.</param>
-        /// <param name="endSymbols">The end symbols of received/sent messages.</param>
-        /// <param name="lengthIncludingEndSymbols">Total length of received/sent messages.</param>
+        /// <param name="length">Total length of received/sent messages.</param>
         /// <param name="fillSymbol">Fill symbol for messages shorter than the fixed length.</param>
-        public FixedLengthAndEndSymbolsMessageRecognizer(Encoding encoding, string endSymbols, int lengthIncludingEndSymbols, char fillSymbol)
+        public FixedLengthMessageRecognizer(Encoding encoding, int length, char fillSymbol)
         {
             encoding.MustNotBeNull(nameof(encoding));
-            endSymbols.MustNotBeNullOrEmpty(nameof(endSymbols));
-            lengthIncludingEndSymbols.MustBeGreaterThan(endSymbols.Length, nameof(lengthIncludingEndSymbols));
+            length.MustBeGreaterThan(0, nameof(length));
 
             _encoding = encoding;
             _decoder = _encoding.GetDecoder();
-            _endSymbols = endSymbols;
             _receiveStringBuffer = new StringBuffer(1024);
-            _lengthIncludingEndSymbols = lengthIncludingEndSymbols;
-            _lengthExcludingEndSymbols = lengthIncludingEndSymbols - endSymbols.Length;
+            _length = length;
             _fillSymbol = fillSymbol;
         }
 
@@ -49,26 +42,25 @@ namespace MessageCommunicator
             byteStreamHandler.MustNotBeNull(nameof(byteStreamHandler));
 
             // Check for valid message
-            if (rawMessage.Length > _lengthExcludingEndSymbols)
+            if (rawMessage.Length > _length)
             {
                 throw new ArgumentException(
                     "Given message too long. " +
-                    $"Maximum length: {(_lengthExcludingEndSymbols)}, " +
+                    $"Maximum length: {(_length)}, " +
                     $"given message length: {rawMessage.Length}",
                     nameof(rawMessage));
             }
 
             // Perform message formatting
-            var sendBuffer = StringBuffer.Acquire(_lengthIncludingEndSymbols);
+            var sendBuffer = StringBuffer.Acquire(_length);
             byte[]? bytes = null;
             try
             {
                 if(rawMessage.Length > 0){ sendBuffer.Append(rawMessage); }
-                while (sendBuffer.Count < _lengthExcludingEndSymbols)
+                while (sendBuffer.Count < _length)
                 {
                     sendBuffer.Append(_fillSymbol);
                 }
-                sendBuffer.Append(_endSymbols, 0, _endSymbols.Length);
                 sendBuffer.GetInternalData(out var buffer, out var currentCount);
 
                 var sendMessageByteLength = _encoding.GetByteCount(buffer, 0, currentCount);
@@ -111,21 +103,11 @@ namespace MessageCommunicator
             var addedChars = _receiveStringBuffer.Append(receivedSegment, _decoder);
             if (addedChars == 0) { return; }
 
-            while (_receiveStringBuffer.Count >= _lengthIncludingEndSymbols)
+            while (_receiveStringBuffer.Count >= _length)
             {
-                // Check for correct end symbol
-                for (var loop = _lengthExcludingEndSymbols; loop < _lengthIncludingEndSymbols; loop++)
-                {
-                    var endSymbolIndex = loop - _lengthExcludingEndSymbols;
-                    if (_receiveStringBuffer[loop] != _endSymbols[endSymbolIndex])
-                    {
-                        throw new MessageRecognitionException($"Invalid end symbol at index {loop}: Got {_receiveStringBuffer[loop]}, expected {_endSymbols[endSymbolIndex]}!");
-                    }
-                }
-
                 // Check for fill symbols
                 var messageLength = 0;
-                for (var loop = _lengthExcludingEndSymbols - 1; loop >= 0; loop--)
+                for (var loop = _length - 1; loop >= 0; loop--)
                 {
                     if (_receiveStringBuffer[loop] != _fillSymbol)
                     {
@@ -148,7 +130,7 @@ namespace MessageCommunicator
                 }
 
                 // Remove the message with endsymbols from receive buffer
-                _receiveStringBuffer.RemoveFromStart(_lengthIncludingEndSymbols);
+                _receiveStringBuffer.RemoveFromStart(_length);
             }
         }
     }

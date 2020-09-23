@@ -13,6 +13,9 @@
         <member name="M:MessageCommunicator.TestGui.Data.MessageRecognizerFixedLengthAndEndSymbolsSettings.CreateLibSettings">
             <inheritdoc />
         </member>
+        <member name="M:MessageCommunicator.TestGui.Data.MessageRecognizerFixedLengthSettings.CreateLibSettings">
+            <inheritdoc />
+        </member>
         <member name="M:MessageCommunicator.TestGui.Data.MessageRecognizerStartAndEndSymbolSettings.CreateLibSettings">
             <inheritdoc />
         </member>

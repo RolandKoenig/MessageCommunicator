@@ -2,19 +2,21 @@
 {
     public enum ConnectionMode
     {
-        Passive,
+        Passive = 0,
 
-        Active
+        Active = 1
     }
 
     public enum MessageRecognitionMode
     {
-        Default,
+        Default = 0,
 
-        EndSymbol,
+        EndSymbol = 1,
 
-        FixedLengthAndEndSymbol,
+        FixedLength = 4,
 
-        StartAndEndSymbol
+        FixedLengthAndEndSymbol = 2,
+
+        StartAndEndSymbol = 3
     }
 }

@@ -1230,6 +1230,56 @@
         <member name="M:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizerSettings.CreateMessageRecognizer">
             <inheritdoc />
         </member>
+        <member name="T:MessageCommunicator.FixedLengthMessageRecognizer">
+            <summary>
+            This <see cref="T:MessageCommunicator.MessageRecognizer"/> implementation recognizes messages with a fixed length.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.FixedLengthMessageRecognizer.#ctor(System.Text.Encoding,System.Int32,System.Char)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizer"/> instance.
+            </summary>
+            <param name="encoding">The <see cref="T:System.Text.Encoding"/> to be used when convert characters to/from bytes.</param>
+            <param name="length">Total length of received/sent messages.</param>
+            <param name="fillSymbol">Fill symbol for messages shorter than the fixed length.</param>
+        </member>
+        <member name="M:MessageCommunicator.FixedLengthMessageRecognizer.SendInternalAsync(MessageCommunicator.IByteStreamHandler,System.ReadOnlySpan{System.Char})">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.FixedLengthMessageRecognizer.OnReceivedBytes(System.Boolean,System.ArraySegment{System.Byte})">
+            <inheritdoc />
+        </member>
+        <member name="T:MessageCommunicator.FixedLengthMessageRecognizerSettings">
+            <summary>
+            This class provides all settings for <see cref="T:MessageCommunicator.FixedLengthMessageRecognizer"/>.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.FixedLengthMessageRecognizerSettings.Encoding">
+            <summary>
+            Gets or sets the <see cref="P:MessageCommunicator.FixedLengthMessageRecognizerSettings.Encoding"/> to be used when convert characters to/from bytes.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.FixedLengthMessageRecognizerSettings.Length">
+            <summary>
+            Gets or sets the total length of received/sent messages.
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.FixedLengthMessageRecognizerSettings.FillSymbol">
+            <summary>
+            Gets or sets the fill symbol for messages shorter than the fixed length.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.FixedLengthMessageRecognizerSettings.#ctor(System.Text.Encoding,System.Int32,System.Char)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.FixedLengthAndEndSymbolsMessageRecognizerSettings"/> instance.
+            </summary>
+            <param name="encoding">The <see cref="P:MessageCommunicator.FixedLengthMessageRecognizerSettings.Encoding"/> to be used when convert characters to/from bytes.</param>
+            <param name="length">Total length of received/sent messages.</param>
+            <param name="fillSymbol">Fill symbol for messages shorter than the fixed length.</param>
+        </member>
+        <member name="M:MessageCommunicator.FixedLengthMessageRecognizerSettings.CreateMessageRecognizer">
+            <inheritdoc />
+        </member>
         <member name="T:MessageCommunicator.StartAndEndSymbolsRecognizer">
             <summary>
             This <see cref="T:MessageCommunicator.MessageRecognizer"/> implementation recognizes messages with one or more start and end symbols.
