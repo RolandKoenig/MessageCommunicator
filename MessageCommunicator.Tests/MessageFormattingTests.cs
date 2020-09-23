@@ -79,6 +79,41 @@ namespace MessageCommunicator.Tests
         }
 
         [TestMethod]
+        [DataRow(30, '.', "This is a dummy message", "This is a dummy message.......")]
+        [DataRow(10, '.', "1234567890", "1234567890")]
+        [DataRow(10, '.', "", "..........")]
+        public async Task Check_FixedLengthMessageRecognizer(int length, char fillSymbol, string sendMessage, string expectedMessage)
+        {
+            foreach (var actEncoding in _encodings)
+            {
+                var testObject = new FixedLengthMessageRecognizer(actEncoding, length, fillSymbol);
+                await GenericTestMethodAsync(testObject, actEncoding, sendMessage, expectedMessage);
+            }
+        }
+
+        [TestMethod]
+        [DataRow(10, '.', "1234567891234", typeof(ArgumentException))]
+        public async Task Check_FixedLengthMessageRecognizer_Errors(int length, char fillSymbol, string sendMessage, Type expectedExceptionType)
+        {
+            foreach (var actEncoding in _encodings)
+            {
+                var anyException = false;
+                try
+                {
+                    var testObject = new FixedLengthMessageRecognizer(actEncoding, length, fillSymbol);
+                    await GenericTestMethodAsync(testObject, actEncoding, sendMessage, "");
+                }
+                catch (Exception e)
+                {
+                    anyException = true;
+                    Assert.IsTrue(e.GetType() == expectedExceptionType, "Unexpected exception fired");
+                }
+
+                Assert.IsTrue(anyException, "No exception fired!");
+            }
+        }
+
+        [TestMethod]
         [DataRow("##", 30, '.', "This is a dummy message", "This is a dummy message.....##")]
         [DataRow("\x03", 30, '.', "This is a dummy message", "This is a dummy message......\x03")]
         [DataRow("##", 10, '.', "12345678", "12345678##")]

@@ -105,6 +105,26 @@ namespace MessageCommunicator.Tests
         }
 
         [TestMethod]
+        [DataRow(10, '.', "123##...##", "123##...##")]
+        [DataRow(10, '.', "12345.....", "12345")]
+        [DataRow(10, '.', "..........", "")]
+        public void Check_FixedLengthMessageRecognizer(int lengthIncludingEndSymbols, char fillSymbol, string receivedData, string expectedMessage)
+        {
+            foreach (var actEncoding in _encodings)
+            {
+                // Test full receiving
+                GenericTestMethod_FullReceive(
+                    new FixedLengthMessageRecognizer(actEncoding, lengthIncludingEndSymbols, fillSymbol), 
+                    actEncoding, receivedData, expectedMessage);
+
+                // Test receiving of only single bytes
+                GenericTestMethod_SingleBytesReceive(
+                    new FixedLengthMessageRecognizer(actEncoding, lengthIncludingEndSymbols, fillSymbol),
+                    actEncoding, receivedData, expectedMessage);
+            }
+        }
+
+        [TestMethod]
         [DataRow("##", 10, '.', "123##...##", "123##")]
         [DataRow("##", 10, '.', "12345...##", "12345")]
         [DataRow("##", 10, '.', "12345.####", "12345.##")]
