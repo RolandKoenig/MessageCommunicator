@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Root", "_Root", "{907D9916
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Misc", "_Misc", "{8E0807B9-6F5F-4BB1-AA23-2AED4FD99B71}"
 	ProjectSection(SolutionItems) = preProject
+		_Misc\MessageCommunicator.svg = _Misc\MessageCommunicator.svg
 		_Misc\Screenshot_01.png = _Misc\Screenshot_01.png
 		_Misc\Screenshot_02.png = _Misc\Screenshot_02.png
 	EndProjectSection

@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
-    <ApplicationIcon>Assets/Logo.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\MessageCommunicator.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -32,6 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Icons.xaml" />
+    <None Remove="Assets\MessageCommunicator.ico" />
     <None Remove="Assets\Styles\Common.xaml" />
     <None Remove="MessageCommunicator.TestGui.csproj.DotSettings" />
   </ItemGroup>
