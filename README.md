@@ -1,4 +1,5 @@
-# MessageCommunicator
+# MessageCommunicator <img src="_Misc/MessageCommunicator.svg" width="32" />
+
 ## About
 MessageCommunicator is a .Net library + testing Gui for message-based communication. 
 The library can be integrated into .Net Standard 2.1 oder 2.0 compatible frameworks. It 
