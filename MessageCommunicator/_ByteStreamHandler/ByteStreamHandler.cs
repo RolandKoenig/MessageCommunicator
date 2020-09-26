@@ -111,5 +111,8 @@ namespace MessageCommunicator
 
         /// <inheritdoc />
         public abstract Task<bool> SendAsync(ArraySegment<byte> buffer);
+
+        /// <inheritdoc />
+        public abstract void TriggerReconnect();
     }
 }

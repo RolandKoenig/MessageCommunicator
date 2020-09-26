@@ -58,7 +58,7 @@ namespace MessageCommunicator.Util
         {
             if (span.Length <= 0)
             {
-                throw new ArgumentNullException(nameof(span));
+                return 0;
             }
 
             this.CheckCapacity(span.Length);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MessageCommunicator
@@ -25,6 +26,11 @@ namespace MessageCommunicator
         public IMessageCommunicatorLogger? Logger { get; set; }
 
         /// <summary>
+        /// Gets the timestamp in UTC when we've received the last <see cref="Message"/>.
+        /// </summary>
+        public DateTime LastReceivedTimestamp { get; private set; }
+
+        /// <summary>
         /// Sends the given message to the partner.
         /// </summary>
         /// <param name="rawMessage">The message to be sent.</param>
@@ -42,5 +48,22 @@ namespace MessageCommunicator
 
         /// <inheritdoc />
         public abstract void OnReceivedBytes(bool isNewConnection, ArraySegment<byte> receivedBytes);
+
+        /// <summary>
+        /// This method builds a <see cref="Message"/> out of given received characters and forwards it to the <see cref="IMessageReceiveHandler"/>.
+        /// </summary>
+        /// <param name="receivedChars">The characters which we received from the partner.</param>
+        protected void NotifyRecognizedMessage(ReadOnlySpan<char> receivedChars)
+        {
+            this.LastReceivedTimestamp = DateTime.UtcNow;
+
+            var receiveHandler = this.ReceiveHandler;
+            if (receiveHandler != null)
+            {
+                var recognizedMessage = MessagePool.Rent(receivedChars.Length);
+                recognizedMessage.RawMessage.Append(receivedChars);
+                receiveHandler.OnMessageReceived(recognizedMessage);
+            }
+        }
     }
 }

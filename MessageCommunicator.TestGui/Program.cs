@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Logging.Serilog;
 using Avalonia.ReactiveUI;
-using Avalonia.Threading;
 using ReactiveUI;
 
 namespace MessageCommunicator.TestGui

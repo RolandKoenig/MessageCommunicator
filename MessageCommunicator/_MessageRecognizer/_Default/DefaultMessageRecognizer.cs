@@ -145,17 +145,8 @@ namespace MessageCommunicator
                 }
 
                 // Raise found message
-                var receiveHandler = this.ReceiveHandler;
-                if (receiveHandler != null)
-                {
-                    var recognizedMessage = MessagePool.Rent(rawMessageLength);
-                    if (rawMessageLength > 0)
-                    {
-                        recognizedMessage.RawMessage.Append(_receiveStringBuffer.GetPartReadOnly(
-                            delimiterIndex + 1, rawMessageLength));
-                    }
-                    receiveHandler.OnMessageReceived(recognizedMessage);
-                }
+                base.NotifyRecognizedMessage(_receiveStringBuffer.GetPartReadOnly(
+                    delimiterIndex + 1, rawMessageLength));
 
                 // Remove the message with endsymbols from receive buffer
                 _receiveStringBuffer.RemoveFromStart(fullMessageLength);

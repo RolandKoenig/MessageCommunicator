@@ -754,6 +754,9 @@
         <member name="M:MessageCommunicator.ByteStreamHandler.SendAsync(System.ArraySegment{System.Byte})">
             <inheritdoc />
         </member>
+        <member name="M:MessageCommunicator.ByteStreamHandler.TriggerReconnect">
+            <inheritdoc />
+        </member>
         <member name="T:MessageCommunicator.ByteStreamHandlerSettings">
             <summary>
             A container for all settings regarding a <see cref="T:MessageCommunicator.ByteStreamHandler"/> object.
@@ -782,6 +785,11 @@
             </summary>
             <param name="buffer">The bytes to be sent.</param>
             <returns>True if sending was successful, otherwise false.</returns>
+        </member>
+        <member name="M:MessageCommunicator.IByteStreamHandler.TriggerReconnect">
+            <summary>
+            Triggers reconnect in case of an established connection.
+            </summary>
         </member>
         <member name="T:MessageCommunicator.TcpActiveByteStreamHandler">
             <summary>
@@ -918,6 +926,9 @@
             </summary>
             <param name="buffer">The bytes to be sent</param>
             <returns>True when sending was successful</returns>
+        </member>
+        <member name="M:MessageCommunicator.TcpByteStreamHandler.TriggerReconnect">
+            <inheritdoc />
         </member>
         <member name="M:MessageCommunicator.TcpByteStreamHandler.GetCurrentSendSocket">
             <summary>
@@ -1070,6 +1081,11 @@
             Gets or sets a custom logger. If set, this delegate will be called with all relevant events.
             </summary>
         </member>
+        <member name="P:MessageCommunicator.MessageRecognizer.LastReceivedTimestamp">
+            <summary>
+            Gets the timestamp in UTC when we've received the last <see cref="T:MessageCommunicator.Message"/>.
+            </summary>
+        </member>
         <member name="M:MessageCommunicator.MessageRecognizer.SendAsync(System.ReadOnlySpan{System.Char})">
             <summary>
             Sends the given message to the partner.
@@ -1080,6 +1096,12 @@
         </member>
         <member name="M:MessageCommunicator.MessageRecognizer.OnReceivedBytes(System.Boolean,System.ArraySegment{System.Byte})">
             <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.MessageRecognizer.NotifyRecognizedMessage(System.ReadOnlySpan{System.Char})">
+            <summary>
+            This method builds a <see cref="T:MessageCommunicator.Message"/> out of given received characters and forwards it to the <see cref="T:MessageCommunicator.IMessageReceiveHandler"/>.
+            </summary>
+            <param name="receivedChars">The characters which we received from the partner.</param>
         </member>
         <member name="T:MessageCommunicator.MessageRecognizerSettings">
             <summary>

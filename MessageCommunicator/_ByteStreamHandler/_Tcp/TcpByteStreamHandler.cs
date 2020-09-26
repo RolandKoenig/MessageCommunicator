@@ -133,6 +133,22 @@ namespace MessageCommunicator
             }
         }
 
+        /// <inheritdoc />
+        public override void TriggerReconnect()
+        {
+            this.Log(LoggingMessageType.Info, "Triggering reconnect...!");
+
+            var currentClient = this.GetCurrentSendSocket();
+            if(currentClient == null)
+            {
+                this.Log(LoggingMessageType.Info, "Reconnect not possible because there is no open connection");
+                return;
+            }
+
+            TcpAsyncUtil.SafeDispose(currentClient.Client);
+            this.Log(LoggingMessageType.Info, "Successfully stopped connection");
+        }
+
         /// <summary>
         /// Gets the current <see cref="TcpClient"/> object for sending.
         /// This method returns null when this <see cref="IByteStreamHandler"/> is not connected to a remote partner.

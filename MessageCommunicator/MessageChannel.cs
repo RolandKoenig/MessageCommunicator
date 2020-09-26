@@ -104,6 +104,15 @@ namespace MessageCommunicator
         }
 
         /// <summary>
+        /// Triggers reconnect in case of an established connection.
+        /// If connection is not established currently, then this channel stays already in connect mode.
+        /// </summary>
+        public void TriggerReconnect()
+        {
+            _byteStreamHandler.TriggerReconnect();
+        }
+
+        /// <summary>
         /// Waits until we've got a valid connection.
         /// </summary>
         public Task WaitForConnectionAsync()
