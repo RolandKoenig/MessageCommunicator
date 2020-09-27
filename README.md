@@ -57,9 +57,9 @@ for which stream it uses (tcp active, tcp passive. ...) and which message recogn
 (endsymbols, etc.). The Gui also displays all logging messages which come through the logger of 
 the corresponding message channel.
 
-![alt text](_Misc/Screenshot_01.png "Screenshot of the testing UI")
+![alt text](_Misc/WikiImages/Screenshot_01.png "Screenshot of the testing UI")
 
-![alt text](_Misc/Screenshot_02.png "Screenshot of the testing UI")
+![alt text](_Misc/WikiImages/Screenshot_02.png "Screenshot of the testing UI")
 
 ## Project is based on...
 MessageCommunicator is based on .Net Core (currently 3.1) and meant to be cross-platform. 

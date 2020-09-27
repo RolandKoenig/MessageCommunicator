@@ -15,8 +15,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Misc", "_Misc", "{8E0807B9-6F5F-4BB1-AA23-2AED4FD99B71}"
 	ProjectSection(SolutionItems) = preProject
 		_Misc\MessageCommunicator.svg = _Misc\MessageCommunicator.svg
-		_Misc\Screenshot_01.png = _Misc\Screenshot_01.png
-		_Misc\Screenshot_02.png = _Misc\Screenshot_02.png
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageCommunicator", "MessageCommunicator\MessageCommunicator.csproj", "{0160AE6B-2303-4058-8918-9B7EEE66EC13}"
@@ -32,6 +30,17 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{61C4FD8C-A0BC-4050-BD6C-1D48B45302E7}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build-and-test.yml = .github\workflows\build-and-test.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WikiImages", "WikiImages", "{2B5F93AC-82F3-486D-8A44-07E2E21FA6A9}"
+	ProjectSection(SolutionItems) = preProject
+		_Misc\WikiImages\Screenshot_01.png = _Misc\WikiImages\Screenshot_01.png
+		_Misc\WikiImages\Screenshot_02.png = _Misc\WikiImages\Screenshot_02.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{C55F0A61-2E52-49DF-8BF0-86288AC9DAC6}"
+	ProjectSection(SolutionItems) = preProject
+		_Misc\Nuget\MessageCommunicator_128.png = _Misc\Nuget\MessageCommunicator_128.png
 	EndProjectSection
 EndProject
 Global
@@ -63,6 +72,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{912C279A-570B-490B-B610-5357670BF0D8} = {907D9916-43F6-485A-AEB3-72560525088A}
 		{61C4FD8C-A0BC-4050-BD6C-1D48B45302E7} = {912C279A-570B-490B-B610-5357670BF0D8}
+		{2B5F93AC-82F3-486D-8A44-07E2E21FA6A9} = {8E0807B9-6F5F-4BB1-AA23-2AED4FD99B71}
+		{C55F0A61-2E52-49DF-8BF0-86288AC9DAC6} = {8E0807B9-6F5F-4BB1-AA23-2AED4FD99B71}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F611EC5F-305C-4179-91F2-741C52DAAFA0}
