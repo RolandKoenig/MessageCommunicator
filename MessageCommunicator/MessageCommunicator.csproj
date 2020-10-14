@@ -10,7 +10,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors></WarningsAsErrors>
-    <DocumentationFile>C:\Projekte\Github\MessageCommunicator\MessageCommunicator\MessageCommunicator.xml</DocumentationFile>
+    <DocumentationFile>$(TargetDir)MessageCommunicator.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
@@ -18,7 +18,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors></WarningsAsErrors>
-    <DocumentationFile>C:\Projekte\Github\MessageCommunicator\MessageCommunicator\MessageCommunicator.xml</DocumentationFile>
+    <DocumentationFile>$(TargetDir)MessageCommunicator.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
@@ -37,11 +37,12 @@
     <PackageIcon>MessageCommunicator_128.png</PackageIcon>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="../_Misc/Nuget/MessageCommunicator_128.png" Pack="true" PackagePath="\"/>
+    <None Include="../_Misc/Nuget/MessageCommunicator_128.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="MessageCommunicator.csproj.DotSettings" />
+    <None Remove="MessageCommunicator.xml" />
   </ItemGroup>
 
   <ItemGroup>

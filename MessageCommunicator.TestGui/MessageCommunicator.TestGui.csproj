@@ -8,7 +8,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>C:\Projekte\Github\MessageCommunicator\MessageCommunicator.TestGui\MessageCommunicator.TestGui.xml</DocumentationFile>
+    <DocumentationFile>$(TargetDir)MessageCommunicator.TestGui.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
