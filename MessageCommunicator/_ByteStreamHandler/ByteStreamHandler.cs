@@ -46,6 +46,11 @@ namespace MessageCommunicator
         public IMessageRecognizer? MessageRecognizer { get; set; }
 
         /// <summary>
+        /// Gets the timestamp from the last successful connection (utc).
+        /// </summary>
+        public abstract DateTime LastSuccessfulConnectTimestampUtc { get; }
+
+        /// <summary>
         /// Start this instance.
         /// </summary>
         internal Task StartAsync()

@@ -5,11 +5,15 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MessageCommunicator.TestGui.Data;
+using MessageCommunicator.Util;
 
 namespace MessageCommunicator.TestGui.Logic
 {
     public class ConnectionProfile : IMessageReceiveHandler, IMessageCommunicatorLogger
     {
+        private static DefaultMessageChannelConnectionObserver s_connectionObserver = 
+            new DefaultMessageChannelConnectionObserver();
+
         private SynchronizationContext _syncContext;
 
         private MessageChannel _messageChannel;
@@ -104,7 +108,8 @@ namespace MessageCommunicator.TestGui.Logic
             return new MessageChannel(
                 streamHandlerSettings, messageRecognizerSettings,
                 messageReceiveHandler,
-                messageCommunicatorLogger);
+                messageCommunicatorLogger,
+                s_connectionObserver);
         }
 
         private static void LogTo(SynchronizationContext syncContext, LoggingMessage logMessage, ObservableCollection<LoggingMessageWrapper> collection)

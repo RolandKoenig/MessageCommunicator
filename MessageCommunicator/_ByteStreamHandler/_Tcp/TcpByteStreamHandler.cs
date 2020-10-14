@@ -13,6 +13,8 @@ namespace MessageCommunicator
     /// </summary>
     public abstract class TcpByteStreamHandler : ByteStreamHandler
     {
+        private DateTime _lastSuccessfulConnectTimestampUtc;
+
         /// <summary>
         /// Gets or sets the <see cref="ReconnectWaitTimeGetter"/> which controls the wait time before reconnect after lost connections.
         /// </summary>
@@ -56,6 +58,9 @@ namespace MessageCommunicator
         /// Gets or sets the size of the receive buffer.
         /// </summary>
         public uint ReceiveBufferSize { get; set; } = 1024;
+
+        /// <inheritdoc />
+        public override DateTime LastSuccessfulConnectTimestampUtc => _lastSuccessfulConnectTimestampUtc;
 
         /// <summary>
         /// Creates a new <see cref="TcpByteStreamHandler"/>.
@@ -165,6 +170,8 @@ namespace MessageCommunicator
             tcpClient.MustNotBeNull(nameof(tcpClient));
             localEndPoint.MustNotBeNull(nameof(localEndPoint));
             partnerEndPoint.MustNotBeNull(nameof(partnerEndPoint));
+
+            _lastSuccessfulConnectTimestampUtc = DateTime.UtcNow;
 
             var localEndPointStr = localEndPoint.ToString();
             var partnerEndPointStr = partnerEndPoint.ToString();

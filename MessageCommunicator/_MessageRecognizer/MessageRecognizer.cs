@@ -28,7 +28,7 @@ namespace MessageCommunicator
         /// <summary>
         /// Gets the timestamp in UTC when we've received the last <see cref="Message"/>.
         /// </summary>
-        public DateTime LastReceivedTimestamp { get; private set; }
+        public DateTime LastReceivedTimestampUtc { get; private set; }
 
         /// <summary>
         /// Sends the given message to the partner.
@@ -55,7 +55,7 @@ namespace MessageCommunicator
         /// <param name="receivedChars">The characters which we received from the partner.</param>
         protected void NotifyRecognizedMessage(ReadOnlySpan<char> receivedChars)
         {
-            this.LastReceivedTimestamp = DateTime.UtcNow;
+            this.LastReceivedTimestampUtc = DateTime.UtcNow;
 
             var receiveHandler = this.ReceiveHandler;
             if (receiveHandler != null)
