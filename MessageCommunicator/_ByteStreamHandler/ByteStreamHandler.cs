@@ -51,6 +51,11 @@ namespace MessageCommunicator
         public abstract DateTime LastSuccessfulConnectTimestampUtc { get; }
 
         /// <summary>
+        /// GEts the timestamp from the last successfully received data block (utc).
+        /// </summary>
+        public abstract DateTime LastSuccessfulReceiveTimestampUtc { get; }
+
+        /// <summary>
         /// Start this instance.
         /// </summary>
         internal Task StartAsync()

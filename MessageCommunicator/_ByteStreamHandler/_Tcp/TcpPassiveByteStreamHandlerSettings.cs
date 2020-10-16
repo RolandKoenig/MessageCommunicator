@@ -39,20 +39,33 @@ namespace MessageCommunicator
         }
 
         /// <summary>
+        /// Connection will be closed when we don't receive anything in this period of time.
+        /// </summary>
+        public TimeSpan ReceiveTimeout
+        {
+            get; 
+            set;
+        }
+
+        /// <summary>
         /// Create a new <see cref="TcpPassiveByteStreamHandler"/> instance.
         /// </summary>
         /// <param name="listeningIPAddress">The <see cref="IPAddress"/> to listen on.</param>
         /// <param name="listeningPort">The port to listen on. Pass 0 here if the OS should decide which port to use.</param>
         /// <param name="reconnectWaitTimeGetter">The <exception cref="ReconnectWaitTimeGetter"> which generates wait times after broke connection and before reconnect.</exception></param>
+        /// <param name="receiveTimeoutMS">Connection will be closed when we don't receive anything in this period of time.</param>
         public TcpPassiveByteStreamHandlerSettings(
             IPAddress listeningIPAddress,
             ushort listeningPort,
-            ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null)
+            ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null,
+            int receiveTimeoutMS = 40000)
         {
             listeningIPAddress.MustNotBeNull(nameof(listeningIPAddress));
+            receiveTimeoutMS.MustBeGreaterThanOrEqualTo(0, nameof(receiveTimeoutMS));
 
             this.ListeningIPAddress = listeningIPAddress;
             this.ListeningPort = listeningPort;
+            this.ReceiveTimeout = TimeSpan.FromMilliseconds(receiveTimeoutMS);
 
             this.ReconnectWaitTimeGetter =
                 reconnectWaitTimeGetter ?? new FixedReconnectWaitTimeGetter(TimeSpan.FromSeconds(1.0));
@@ -63,7 +76,8 @@ namespace MessageCommunicator
         {
             return new TcpPassiveByteStreamHandler(
                 this.ListeningIPAddress, this.ListeningPort,
-                this.ReconnectWaitTimeGetter);
+                this.ReconnectWaitTimeGetter,
+                this.ReceiveTimeout);
         }
     }
 }

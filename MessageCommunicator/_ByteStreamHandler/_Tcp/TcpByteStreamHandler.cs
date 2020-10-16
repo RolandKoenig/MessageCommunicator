@@ -13,7 +13,18 @@ namespace MessageCommunicator
     /// </summary>
     public abstract class TcpByteStreamHandler : ByteStreamHandler
     {
+        // Dummy continuation for ReceiveAsync calls after timeout
+        private static readonly Action<Task<int>> s_dummyReceiveContinuation = (task) =>
+        {
+            try { _ = task.Result; }
+            catch
+            {
+                // ignored
+            }
+        };
+
         private DateTime _lastSuccessfulConnectTimestampUtc;
+        private DateTime _lastSuccessfulReceiveTimestampUtc;
 
         /// <summary>
         /// Gets or sets the <see cref="ReconnectWaitTimeGetter"/> which controls the wait time before reconnect after lost connections.
@@ -59,17 +70,26 @@ namespace MessageCommunicator
         /// </summary>
         public uint ReceiveBufferSize { get; set; } = 1024;
 
+        /// <summary>
+        /// Connection will be closed when we don't receive anything in this period of time.
+        /// </summary>
+        public TimeSpan ReceiveTimeout { get; set; }
+
         /// <inheritdoc />
         public override DateTime LastSuccessfulConnectTimestampUtc => _lastSuccessfulConnectTimestampUtc;
+
+        /// <inheritdoc />
+        public override DateTime LastSuccessfulReceiveTimestampUtc => _lastSuccessfulReceiveTimestampUtc;
 
         /// <summary>
         /// Creates a new <see cref="TcpByteStreamHandler"/>.
         /// </summary>
-        protected TcpByteStreamHandler(ReconnectWaitTimeGetter reconnectWaitTimeGetter)
+        protected TcpByteStreamHandler(ReconnectWaitTimeGetter reconnectWaitTimeGetter, TimeSpan receiveTimeout)
         {
             reconnectWaitTimeGetter.MustNotBeNull(nameof(reconnectWaitTimeGetter));
 
             this.ReconnectWaitTimeGetter = reconnectWaitTimeGetter;
+            this.ReceiveTimeout = receiveTimeout;
         }
 
         /// <summary>
@@ -193,13 +213,78 @@ namespace MessageCommunicator
                 {
                     // Read next bytes
 #if NETSTANDARD2_0
-                    lastReceiveResult = await tcpClient.Client
-                        .ReceiveAsync(new ArraySegment<byte>(receiveBuffer), SocketFlags.None)
-                        .ConfigureAwait(false);
+                    var receiveTask = tcpClient.Client.ReceiveAsync(new ArraySegment<byte>(receiveBuffer), SocketFlags.None);
+                    if (receiveTask.IsCompleted)
+                    {
+                        lastReceiveResult = receiveTask.Result;
+                    }
+                    else if (this.ReceiveTimeout == TimeSpan.Zero)
+                    {
+                        lastReceiveResult = await receiveTask
+                            .ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        var timeoutTask = Task.Delay(this.ReceiveTimeout);
+                        await Task.WhenAny(receiveTask, timeoutTask)
+                            .ConfigureAwait(false);
+
+                        if (receiveTask.IsCompleted)
+                        {
+                            lastReceiveResult = receiveTask.Result;
+                        }
+                        else
+                        {
+                            _ = receiveTask.ContinueWith(s_dummyReceiveContinuation);
+
+                            if (this.IsLoggerSet)
+                            {
+                                this.Log(
+                                    LoggingMessageType.Error,
+                                    StringBuffer.Format(
+                                        "Timeout while receiving from {0}!",
+                                        partnerEndPointStr));
+                            }
+                            break;
+                        }
+                    }
 #else
-                    lastReceiveResult = await tcpClient.Client
-                        .ReceiveAsync(new Memory<byte>(receiveBuffer), SocketFlags.None)
-                        .ConfigureAwait(false);
+                    var receiveTaskStruct = tcpClient.Client.ReceiveAsync(new Memory<byte>(receiveBuffer), SocketFlags.None);
+                    if (receiveTaskStruct.IsCompleted)
+                    {
+                        lastReceiveResult = receiveTaskStruct.Result;
+                    }
+                    else if (this.ReceiveTimeout == TimeSpan.Zero)
+                    {
+                        lastReceiveResult = await receiveTaskStruct
+                            .ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        var receiveTask = receiveTaskStruct.AsTask();
+                        var timeoutTask = Task.Delay(this.ReceiveTimeout);
+                        await Task.WhenAny(receiveTask, timeoutTask)
+                            .ConfigureAwait(false);
+
+                        if (receiveTask.IsCompleted)
+                        {
+                            lastReceiveResult = receiveTask.Result;
+                        }
+                        else 
+                        {
+                            _ = receiveTask.ContinueWith(s_dummyReceiveContinuation);
+
+                            if (this.IsLoggerSet)
+                            {
+                                this.Log(
+                                    LoggingMessageType.Error,
+                                    StringBuffer.Format(
+                                        "Timeout while receiving from {0}!",
+                                        partnerEndPointStr));
+                            }
+                            break;
+                        }
+                    }
 #endif
 
                     // Reset receive result if we where canceled already
@@ -211,6 +296,10 @@ namespace MessageCommunicator
                     {
                         this.Log(LoggingMessageType.Info, "Connection canceled by local program");
                         lastReceiveResult = 0;
+                    }
+                    else
+                    {
+                        _lastSuccessfulReceiveTimestampUtc = DateTime.UtcNow;
                     }
                 }
                 catch (ObjectDisposedException)
@@ -257,6 +346,15 @@ namespace MessageCommunicator
             // Ensure that the socket is closed after ending this method
             TcpAsyncUtil.SafeDispose(ref tcpClientInternal);
         }
+
+        //private async Task ObserveConnection(TcpClient tcpClientToObserve, CancellationToken cancelToken)
+        //{
+
+        //    while (!cancelToken.IsCancellationRequested)
+        //    {
+                
+        //    }
+        //}
 
         private void ProcessReceivedBytes(bool newConnection, byte[] buffer, int receivedBytesCount)
         {

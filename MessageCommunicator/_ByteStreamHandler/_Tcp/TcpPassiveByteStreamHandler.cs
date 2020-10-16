@@ -64,14 +64,17 @@ namespace MessageCommunicator
         /// <param name="listeningIPAddress">The <see cref="IPAddress"/> this instance should listen on.</param>
         /// <param name="listeningPort">The port his instance should listen on. Pass 0 here if the OS should decide which port to use.</param>
         /// <param name="reconnectWaitTimeGetter">The <see cref="ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
+        /// <param name="receiveTimeout">Connection will be closed when we don't receive anything in this period of time.</param>
         internal TcpPassiveByteStreamHandler(
             IPAddress listeningIPAddress,
             ushort listeningPort, 
-            ReconnectWaitTimeGetter reconnectWaitTimeGetter)
-            : base(reconnectWaitTimeGetter)
+            ReconnectWaitTimeGetter reconnectWaitTimeGetter,
+            TimeSpan receiveTimeout)
+            : base(reconnectWaitTimeGetter, receiveTimeout)
         {
             listeningIPAddress.MustNotBeNull(nameof(listeningIPAddress));
             reconnectWaitTimeGetter.MustNotBeNull(nameof(reconnectWaitTimeGetter));
+            receiveTimeout.MustBeGreaterThanOrEqualTo(TimeSpan.Zero, nameof(receiveTimeout));
 
             _startStopLock = new object();
 

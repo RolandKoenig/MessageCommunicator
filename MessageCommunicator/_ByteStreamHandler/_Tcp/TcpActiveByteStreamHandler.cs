@@ -58,13 +58,16 @@ namespace MessageCommunicator
         /// <param name="remoteHost">The dns name or string encoded ip address of the remote host.</param>
         /// <param name="remotePort">The remote port.</param>
         /// <param name="reconnectWaitTimeGetter">The <see cref="ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
+        /// <param name="receiveTimeout">Connection will be closed when we don't receive anything in this period of time.</param>
         internal TcpActiveByteStreamHandler(
             string remoteHost, ushort remotePort, 
-            ReconnectWaitTimeGetter reconnectWaitTimeGetter) 
-            : base(reconnectWaitTimeGetter)
+            ReconnectWaitTimeGetter reconnectWaitTimeGetter,
+            TimeSpan receiveTimeout) 
+            : base(reconnectWaitTimeGetter, receiveTimeout)
         {
             remoteHost.MustNotBeNullOrEmpty(nameof(remoteHost));
             reconnectWaitTimeGetter.MustNotBeNull(nameof(reconnectWaitTimeGetter));
+            receiveTimeout.MustBeGreaterThanOrEqualTo(TimeSpan.Zero, nameof(receiveTimeout));
 
             _startStopLock = new object();
             this.RemoteHost = remoteHost;
@@ -78,13 +81,16 @@ namespace MessageCommunicator
         /// <param name="remoteIP">The ip address of the remote host.</param>
         /// <param name="remotePort">The remote port.</param>
         /// <param name="reconnectWaitTimeGetter">The <see cref="ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
+        /// <param name="receiveTimeout">Connection will be closed when we don't receive anything in this period of time.</param>
         internal TcpActiveByteStreamHandler(
             IPAddress remoteIP, ushort remotePort, 
-            ReconnectWaitTimeGetter reconnectWaitTimeGetter) 
-            : base(reconnectWaitTimeGetter)
+            ReconnectWaitTimeGetter reconnectWaitTimeGetter,
+            TimeSpan receiveTimeout) 
+            : base(reconnectWaitTimeGetter, receiveTimeout)
         {
             remoteIP.MustNotBeNull(nameof(remoteIP));
             reconnectWaitTimeGetter.MustNotBeNull(nameof(reconnectWaitTimeGetter));
+            receiveTimeout.MustBeGreaterThanOrEqualTo(TimeSpan.Zero, nameof(receiveTimeout));
 
             _startStopLock = new object();
             this.RemoteHost = remoteIP.ToString();

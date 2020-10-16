@@ -48,20 +48,33 @@ namespace MessageCommunicator
         }
 
         /// <summary>
+        /// Connection will be closed when we don't receive anything in this period of time.
+        /// </summary>
+        public TimeSpan ReceiveTimeout
+        {
+            get; 
+            set;
+        }
+
+        /// <summary>
         /// Creates a new <see cref="TcpActiveByteStreamHandlerSettings"/> instance.
         /// </summary>
         /// <param name="remoteHost">The dns name or string encoded ip address of the remote host.</param>
         /// <param name="remotePort">The remote port.</param>
         /// <param name="reconnectWaitTimeGetter">The <see cref="ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
+        /// <param name="receiveTimeoutMS">Connection will be closed when we don't receive anything in this period of time.</param>
         public TcpActiveByteStreamHandlerSettings(
             string remoteHost, ushort remotePort,
-            ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null)
+            ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null,
+            int receiveTimeoutMS = 40000)
         {
             remoteHost.MustNotBeNullOrEmpty(nameof(remoteHost));
+            receiveTimeoutMS.MustBeGreaterThanOrEqualTo(0, nameof(receiveTimeoutMS));
 
             this.RemoteHost = remoteHost;
             this.RemoteIP = IPAddress.None;
             this.RemotePort = remotePort;
+            this.ReceiveTimeout = TimeSpan.FromMilliseconds(receiveTimeoutMS);
 
             this.ReconnectWaitTimeGetter =
                 reconnectWaitTimeGetter ?? new FixedReconnectWaitTimeGetter(TimeSpan.FromSeconds(1.0));
@@ -73,15 +86,19 @@ namespace MessageCommunicator
         /// <param name="remoteIP">The ip address of the remote host.</param>
         /// <param name="remotePort">The remote port.</param>
         /// <param name="reconnectWaitTimeGetter">The <see cref="ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
+        /// <param name="receiveTimeoutMS">Connection will be closed when we don't receive anything in this period of time.</param>
         public TcpActiveByteStreamHandlerSettings(
             IPAddress remoteIP, ushort remotePort,
-            ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null)
+            ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null,
+            int receiveTimeoutMS = 40000)
         {
             remoteIP.MustNotBeNull(nameof(remoteIP));
+            receiveTimeoutMS.MustBeGreaterThanOrEqualTo(0, nameof(receiveTimeoutMS));
 
             this.RemoteHost = string.Empty;
             this.RemoteIP = remoteIP;
             this.RemotePort = remotePort;
+            this.ReceiveTimeout = TimeSpan.FromMilliseconds(receiveTimeoutMS);
 
             this.ReconnectWaitTimeGetter =
                 reconnectWaitTimeGetter ?? new FixedReconnectWaitTimeGetter(TimeSpan.FromSeconds(1.0));
@@ -94,13 +111,15 @@ namespace MessageCommunicator
             {
                 return new TcpActiveByteStreamHandler(
                     this.RemoteIP, this.RemotePort,
-                    this.ReconnectWaitTimeGetter);
+                    this.ReconnectWaitTimeGetter,
+                    this.ReceiveTimeout);
             }
             else
             {
                 return new TcpActiveByteStreamHandler(
                     this.RemoteHost, this.RemotePort,
-                    this.ReconnectWaitTimeGetter);
+                    this.ReconnectWaitTimeGetter,
+                    this.ReceiveTimeout);
             }
         }
     }

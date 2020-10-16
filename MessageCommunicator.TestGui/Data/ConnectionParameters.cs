@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace MessageCommunicator.TestGui.Data
 {
     public class ConnectionParameters
@@ -12,6 +14,8 @@ namespace MessageCommunicator.TestGui.Data
         public ConnectionMode Mode { get; set; } = ConnectionMode.Passive;
 
         public MessageRecognitionMode RecognitionMode { get; set; } = MessageRecognitionMode.Default;
+
+        public int ReceiveTimeoutSec { get; set; } = 40;
 
         public IMessageRecognizerAppSettings RecognizerSettings { get; set; } =
             MessageRecognizerSettingsFactory.CreateSettings(MessageRecognitionMode.Default);

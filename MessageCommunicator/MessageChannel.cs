@@ -15,7 +15,6 @@ namespace MessageCommunicator
     {
         private ByteStreamHandler _byteStreamHandler;
         private MessageRecognizer _messageRecognizer;
-        private IMessageChannelConnectionObserver? _connectionObserver;
 
         /// <summary>
         /// Gets the current state of the underlying connection (<see cref="IByteStreamHandler"/>).
@@ -70,18 +69,14 @@ namespace MessageCommunicator
         /// <param name="messageRecognizerSettings">Settings for building the <see cref="IMessageRecognizer"/>.</param>
         /// <param name="receiveHandler">The <see cref="IMessageReceiveHandler"/> which gets notified on a received <see cref="Message"/>.</param>
         /// <param name="logger">The <see cref="IMessageCommunicatorLogger"/> to which all logging messages are passed.</param>
-        /// <param name="connectionObserver">An observer which can check for invalid connections (like no messages since a period of time).</param>
         public MessageChannel(
             ByteStreamHandlerSettings byteStreamHandlerSettings, 
             MessageRecognizerSettings messageRecognizerSettings, 
             IMessageReceiveHandler? receiveHandler = null,
-            IMessageCommunicatorLogger? logger = null,
-            IMessageChannelConnectionObserver? connectionObserver = null)
+            IMessageCommunicatorLogger? logger = null)
         {
             byteStreamHandlerSettings.MustNotBeNull(nameof(byteStreamHandlerSettings));
             messageRecognizerSettings.MustNotBeNull(nameof(messageRecognizerSettings));
-
-            _connectionObserver = connectionObserver;
 
             _byteStreamHandler = byteStreamHandlerSettings.CreateByteStreamHandler();
             _byteStreamHandler.Logger = logger;
@@ -183,14 +178,7 @@ namespace MessageCommunicator
         /// </summary>
         public Task StartAsync()
         {
-            return _byteStreamHandler.StartAsync()
-                .ContinueWith(task =>
-                {
-                    if (task.IsCompleted)
-                    {
-                        _connectionObserver?.RegisterMessageChannel(this);
-                    }
-                });
+            return _byteStreamHandler.StartAsync();
         }
 
         /// <summary>
@@ -198,14 +186,7 @@ namespace MessageCommunicator
         /// </summary>
         public Task StopAsync()
         {
-            return _byteStreamHandler.StopAsync()
-                .ContinueWith(task =>
-                {
-                    if (task.IsCompleted)
-                    {
-                        _connectionObserver?.DeregisterMessageChannel(this);
-                    }
-                });
+            return _byteStreamHandler.StopAsync();
         }
 
         //*********************************************************************
@@ -232,11 +213,6 @@ namespace MessageCommunicator
             /// Gets the underlying <see cref="IMessageRecognizer"/> object.
             /// </summary>
             public IMessageRecognizer MessageRecognizer => _owner._messageRecognizer;
-
-            /// <summary>
-            /// Gets the underlying <see cref="IMessageChannelConnectionObserver"/> object.
-            /// </summary>
-            public IMessageChannelConnectionObserver? ConnectionObserver => _owner._connectionObserver;
         }
     }
 }

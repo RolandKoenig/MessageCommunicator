@@ -146,7 +146,7 @@
             Be careful when using them, wrong method calls can cause unexpected state!
             </summary>
         </member>
-        <member name="M:MessageCommunicator.MessageChannel.#ctor(MessageCommunicator.ByteStreamHandlerSettings,MessageCommunicator.MessageRecognizerSettings,MessageCommunicator.IMessageReceiveHandler,MessageCommunicator.IMessageCommunicatorLogger,MessageCommunicator.Util.IMessageChannelConnectionObserver)">
+        <member name="M:MessageCommunicator.MessageChannel.#ctor(MessageCommunicator.ByteStreamHandlerSettings,MessageCommunicator.MessageRecognizerSettings,MessageCommunicator.IMessageReceiveHandler,MessageCommunicator.IMessageCommunicatorLogger)">
             <summary>
             Creates a new <see cref="T:MessageCommunicator.MessageChannel"/> object.
             </summary>
@@ -154,7 +154,6 @@
             <param name="messageRecognizerSettings">Settings for building the <see cref="T:MessageCommunicator.IMessageRecognizer"/>.</param>
             <param name="receiveHandler">The <see cref="T:MessageCommunicator.IMessageReceiveHandler"/> which gets notified on a received <see cref="T:MessageCommunicator.Message"/>.</param>
             <param name="logger">The <see cref="T:MessageCommunicator.IMessageCommunicatorLogger"/> to which all logging messages are passed.</param>
-            <param name="connectionObserver">An observer which can check for invalid connections (like no messages since a period of time).</param>
         </member>
         <member name="M:MessageCommunicator.MessageChannel.#ctor(MessageCommunicator.ByteStreamHandlerSettings,MessageCommunicator.MessageRecognizerSettings,System.Action{MessageCommunicator.Message},MessageCommunicator.IMessageCommunicatorLogger)">
             <summary>
@@ -228,11 +227,6 @@
             Gets the underlying <see cref="T:MessageCommunicator.IMessageRecognizer"/> object.
             </summary>
         </member>
-        <member name="P:MessageCommunicator.MessageChannel.MessageChannelInternals.ConnectionObserver">
-            <summary>
-            Gets the underlying <see cref="T:MessageCommunicator.Util.IMessageChannelConnectionObserver"/> object.
-            </summary>
-        </member>
         <member name="T:MessageCommunicator.MessagePool">
             <summary>
             This class provides an integrated pooling mechanism to avoid object allocations during communication between two partners.
@@ -284,15 +278,6 @@
             <summary>
             Gets the total count of digits for the given integer.
             </summary>
-        </member>
-        <member name="M:MessageCommunicator.Util.DefaultMessageChannelConnectionObserver.RegisterMessageChannel(MessageCommunicator.MessageChannel)">
-            <inheritdoc />
-        </member>
-        <member name="M:MessageCommunicator.Util.DefaultMessageChannelConnectionObserver.DeregisterMessageChannel(MessageCommunicator.MessageChannel)">
-            <inheritdoc />
-        </member>
-        <member name="M:MessageCommunicator.Util.DefaultMessageChannelConnectionObserver.Dispose">
-            <inheritdoc />
         </member>
         <member name="T:MessageCommunicator.Util.IArgSet">
             <summary>
@@ -767,6 +752,11 @@
             Gets the timestamp from the last successful connection (utc).
             </summary>
         </member>
+        <member name="P:MessageCommunicator.ByteStreamHandler.LastSuccessfulReceiveTimestampUtc">
+            <summary>
+            GEts the timestamp from the last successfully received data block (utc).
+            </summary>
+        </member>
         <member name="M:MessageCommunicator.ByteStreamHandler.StartAsync">
             <summary>
             Start this instance.
@@ -854,21 +844,23 @@
         <member name="P:MessageCommunicator.TcpActiveByteStreamHandler.State">
             <inheritdoc />
         </member>
-        <member name="M:MessageCommunicator.TcpActiveByteStreamHandler.#ctor(System.String,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter)">
+        <member name="M:MessageCommunicator.TcpActiveByteStreamHandler.#ctor(System.String,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter,System.TimeSpan)">
             <summary>
             Creates a new <see cref="T:MessageCommunicator.TcpActiveByteStreamHandler"/> instance.
             </summary>
             <param name="remoteHost">The dns name or string encoded ip address of the remote host.</param>
             <param name="remotePort">The remote port.</param>
             <param name="reconnectWaitTimeGetter">The <see cref="T:MessageCommunicator.ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
+            <param name="receiveTimeout">Connection will be closed when we don't receive anything in this period of time.</param>
         </member>
-        <member name="M:MessageCommunicator.TcpActiveByteStreamHandler.#ctor(System.Net.IPAddress,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter)">
+        <member name="M:MessageCommunicator.TcpActiveByteStreamHandler.#ctor(System.Net.IPAddress,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter,System.TimeSpan)">
             <summary>
             Creates a new <see cref="T:MessageCommunicator.TcpActiveByteStreamHandler"/> instance.
             </summary>
             <param name="remoteIP">The ip address of the remote host.</param>
             <param name="remotePort">The remote port.</param>
             <param name="reconnectWaitTimeGetter">The <see cref="T:MessageCommunicator.ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
+            <param name="receiveTimeout">Connection will be closed when we don't receive anything in this period of time.</param>
         </member>
         <member name="M:MessageCommunicator.TcpActiveByteStreamHandler.StartInternalAsync">
             <inheritdoc />
@@ -904,21 +896,28 @@
             Gets or sets the <see cref="P:MessageCommunicator.TcpActiveByteStreamHandlerSettings.ReconnectWaitTimeGetter"/> instance.
             </summary>
         </member>
-        <member name="M:MessageCommunicator.TcpActiveByteStreamHandlerSettings.#ctor(System.String,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter)">
+        <member name="P:MessageCommunicator.TcpActiveByteStreamHandlerSettings.ReceiveTimeout">
+            <summary>
+            Connection will be closed when we don't receive anything in this period of time.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.TcpActiveByteStreamHandlerSettings.#ctor(System.String,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter,System.Int32)">
             <summary>
             Creates a new <see cref="T:MessageCommunicator.TcpActiveByteStreamHandlerSettings"/> instance.
             </summary>
             <param name="remoteHost">The dns name or string encoded ip address of the remote host.</param>
             <param name="remotePort">The remote port.</param>
             <param name="reconnectWaitTimeGetter">The <see cref="P:MessageCommunicator.TcpActiveByteStreamHandlerSettings.ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
+            <param name="receiveTimeoutMS">Connection will be closed when we don't receive anything in this period of time.</param>
         </member>
-        <member name="M:MessageCommunicator.TcpActiveByteStreamHandlerSettings.#ctor(System.Net.IPAddress,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter)">
+        <member name="M:MessageCommunicator.TcpActiveByteStreamHandlerSettings.#ctor(System.Net.IPAddress,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter,System.Int32)">
             <summary>
             Creates a new <see cref="T:MessageCommunicator.TcpActiveByteStreamHandlerSettings"/> instance.
             </summary>
             <param name="remoteIP">The ip address of the remote host.</param>
             <param name="remotePort">The remote port.</param>
             <param name="reconnectWaitTimeGetter">The <see cref="P:MessageCommunicator.TcpActiveByteStreamHandlerSettings.ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
+            <param name="receiveTimeoutMS">Connection will be closed when we don't receive anything in this period of time.</param>
         </member>
         <member name="M:MessageCommunicator.TcpActiveByteStreamHandlerSettings.CreateByteStreamHandler">
             <inheritdoc />
@@ -944,10 +943,18 @@
             Gets or sets the size of the receive buffer.
             </summary>
         </member>
+        <member name="P:MessageCommunicator.TcpByteStreamHandler.ReceiveTimeout">
+            <summary>
+            Connection will be closed when we don't receive anything in this period of time.
+            </summary>
+        </member>
         <member name="P:MessageCommunicator.TcpByteStreamHandler.LastSuccessfulConnectTimestampUtc">
             <inheritdoc />
         </member>
-        <member name="M:MessageCommunicator.TcpByteStreamHandler.#ctor(MessageCommunicator.ReconnectWaitTimeGetter)">
+        <member name="P:MessageCommunicator.TcpByteStreamHandler.LastSuccessfulReceiveTimestampUtc">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TcpByteStreamHandler.#ctor(MessageCommunicator.ReconnectWaitTimeGetter,System.TimeSpan)">
             <summary>
             Creates a new <see cref="T:MessageCommunicator.TcpByteStreamHandler"/>.
             </summary>
@@ -1009,13 +1016,14 @@
         <member name="P:MessageCommunicator.TcpPassiveByteStreamHandler.State">
             <inheritdoc />
         </member>
-        <member name="M:MessageCommunicator.TcpPassiveByteStreamHandler.#ctor(System.Net.IPAddress,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter)">
+        <member name="M:MessageCommunicator.TcpPassiveByteStreamHandler.#ctor(System.Net.IPAddress,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter,System.TimeSpan)">
             <summary>
             Create a new <see cref="T:MessageCommunicator.TcpPassiveByteStreamHandler"/> instance.
             </summary>
             <param name="listeningIPAddress">The <see cref="T:System.Net.IPAddress"/> this instance should listen on.</param>
             <param name="listeningPort">The port his instance should listen on. Pass 0 here if the OS should decide which port to use.</param>
             <param name="reconnectWaitTimeGetter">The <see cref="T:MessageCommunicator.ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
+            <param name="receiveTimeout">Connection will be closed when we don't receive anything in this period of time.</param>
         </member>
         <member name="M:MessageCommunicator.TcpPassiveByteStreamHandler.StartInternalAsync">
             <inheritdoc />
@@ -1046,13 +1054,19 @@
             Gets or sets the <see cref="P:MessageCommunicator.TcpPassiveByteStreamHandlerSettings.ReconnectWaitTimeGetter"/> instance.
             </summary>
         </member>
-        <member name="M:MessageCommunicator.TcpPassiveByteStreamHandlerSettings.#ctor(System.Net.IPAddress,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter)">
+        <member name="P:MessageCommunicator.TcpPassiveByteStreamHandlerSettings.ReceiveTimeout">
+            <summary>
+            Connection will be closed when we don't receive anything in this period of time.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.TcpPassiveByteStreamHandlerSettings.#ctor(System.Net.IPAddress,System.UInt16,MessageCommunicator.ReconnectWaitTimeGetter,System.Int32)">
             <summary>
             Create a new <see cref="T:MessageCommunicator.TcpPassiveByteStreamHandler"/> instance.
             </summary>
             <param name="listeningIPAddress">The <see cref="T:System.Net.IPAddress"/> to listen on.</param>
             <param name="listeningPort">The port to listen on. Pass 0 here if the OS should decide which port to use.</param>
             <param name="reconnectWaitTimeGetter">The <exception cref="P:MessageCommunicator.TcpPassiveByteStreamHandlerSettings.ReconnectWaitTimeGetter"> which generates wait times after broke connection and before reconnect.</exception></param>
+            <param name="receiveTimeoutMS">Connection will be closed when we don't receive anything in this period of time.</param>
         </member>
         <member name="M:MessageCommunicator.TcpPassiveByteStreamHandlerSettings.CreateByteStreamHandler">
             <inheritdoc />

@@ -51,6 +51,14 @@ namespace MessageCommunicator.TestGui.ViewServices
         }
 
         [Category(CATEGORY)]
+        [Range(0, int.MaxValue / 1000)]
+        public int ReceiveTimeoutSec
+        {
+            get => _connParameters.ReceiveTimeoutSec;
+            set => _connParameters.ReceiveTimeoutSec = value;
+        }
+
+        [Category(CATEGORY)]
         public MessageRecognitionMode RecognitionMode
         {
             get => _connParameters.RecognitionMode;
@@ -68,7 +76,7 @@ namespace MessageCommunicator.TestGui.ViewServices
         }
 
         [Browsable(false)]
-        public object? RecognizerSettings
+        public object RecognizerSettings
         {
             get => _connParameters.RecognizerSettings;
         }

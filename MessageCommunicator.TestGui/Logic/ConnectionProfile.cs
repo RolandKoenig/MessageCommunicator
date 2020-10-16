@@ -5,15 +5,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MessageCommunicator.TestGui.Data;
-using MessageCommunicator.Util;
 
 namespace MessageCommunicator.TestGui.Logic
 {
     public class ConnectionProfile : IMessageReceiveHandler, IMessageCommunicatorLogger
     {
-        private static DefaultMessageChannelConnectionObserver s_connectionObserver = 
-            new DefaultMessageChannelConnectionObserver();
-
         private SynchronizationContext _syncContext;
 
         private MessageChannel _messageChannel;
@@ -90,11 +86,15 @@ namespace MessageCommunicator.TestGui.Logic
             switch (connParams.Mode)
             {
                 case ConnectionMode.Active:
-                    streamHandlerSettings = new TcpActiveByteStreamHandlerSettings(connParams.Target, connParams.Port);
+                    streamHandlerSettings = new TcpActiveByteStreamHandlerSettings(
+                        connParams.Target, connParams.Port,
+                        receiveTimeoutMS: connParams.ReceiveTimeoutSec * 1000);
                     break;
 
                 case ConnectionMode.Passive:
-                    streamHandlerSettings = new TcpPassiveByteStreamHandlerSettings(IPAddress.Any, connParams.Port);
+                    streamHandlerSettings = new TcpPassiveByteStreamHandlerSettings(
+                        IPAddress.Any, connParams.Port,
+                        receiveTimeoutMS: connParams.ReceiveTimeoutSec * 1000);
                     break;
 
                 default:
@@ -108,8 +108,7 @@ namespace MessageCommunicator.TestGui.Logic
             return new MessageChannel(
                 streamHandlerSettings, messageRecognizerSettings,
                 messageReceiveHandler,
-                messageCommunicatorLogger,
-                s_connectionObserver);
+                messageCommunicatorLogger);
         }
 
         private static void LogTo(SynchronizationContext syncContext, LoggingMessage logMessage, ObservableCollection<LoggingMessageWrapper> collection)
