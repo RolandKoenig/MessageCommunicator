@@ -22,10 +22,5 @@ namespace MessageCommunicator
         /// <param name="buffer">The bytes to be sent.</param>
         /// <returns>True if sending was successful, otherwise false.</returns>
         Task<bool> SendAsync(ArraySegment<byte> buffer);
-
-        /// <summary>
-        /// Triggers reconnect in case of an established connection.
-        /// </summary>
-        void TriggerReconnect();
     }
 }

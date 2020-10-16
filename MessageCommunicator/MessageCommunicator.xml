@@ -130,12 +130,17 @@
             Gets or sets the <see cref="T:MessageCommunicator.IMessageReceiveHandler"/> which gets notified on a received <see cref="T:MessageCommunicator.Message"/>.
             </summary>
         </member>
-        <member name="P:MessageCommunicator.MessageChannel.LastReceivedTimestampUtc">
+        <member name="P:MessageCommunicator.MessageChannel.LastReceivedMessageTimestampUtc">
             <summary>
             Gets the timestamp in UTC when we've received the last <see cref="T:MessageCommunicator.Message"/>.
             </summary>
         </member>
-        <member name="P:MessageCommunicator.MessageChannel.LastSuccessfulConnectTimestampUtc">
+        <member name="P:MessageCommunicator.MessageChannel.LastReceivedDataBlockTimestampUtc">
+            <summary>
+            Gets the timestamp from the last successfully received data block (utc).
+            </summary>
+        </member>
+        <member name="P:MessageCommunicator.MessageChannel.LastConnectTimestampUtc">
             <summary>
             Gets the timestamp from the last successful connection (utc).
             </summary>
@@ -163,12 +168,6 @@
             <param name="messageRecognizerSettings">Settings for building the <see cref="T:MessageCommunicator.IMessageRecognizer"/>.</param>
             <param name="receiveHandler">A delegate which gets notified on a received <see cref="T:MessageCommunicator.Message"/>.</param>
             <param name="logger">The <see cref="T:MessageCommunicator.IMessageCommunicatorLogger"/> to which all logging messages are passed.</param>
-        </member>
-        <member name="M:MessageCommunicator.MessageChannel.TriggerReconnect">
-            <summary>
-            Triggers reconnect in case of an established connection.
-            If connection is not established currently, then this channel stays already in connect mode.
-            </summary>
         </member>
         <member name="M:MessageCommunicator.MessageChannel.WaitForConnectionAsync">
             <summary>
@@ -747,14 +746,14 @@
             The <see cref="T:MessageCommunicator.IMessageRecognizer"/> to which to forward all received bytes.
             </summary>
         </member>
-        <member name="P:MessageCommunicator.ByteStreamHandler.LastSuccessfulConnectTimestampUtc">
+        <member name="P:MessageCommunicator.ByteStreamHandler.LastConnectTimestampUtc">
             <summary>
             Gets the timestamp from the last successful connection (utc).
             </summary>
         </member>
-        <member name="P:MessageCommunicator.ByteStreamHandler.LastSuccessfulReceiveTimestampUtc">
+        <member name="P:MessageCommunicator.ByteStreamHandler.LastReceivedDataBlockTimestampUtc">
             <summary>
-            GEts the timestamp from the last successfully received data block (utc).
+            Gets the timestamp from the last successfully received data block (utc).
             </summary>
         </member>
         <member name="M:MessageCommunicator.ByteStreamHandler.StartAsync">
@@ -778,9 +777,6 @@
             </summary>
         </member>
         <member name="M:MessageCommunicator.ByteStreamHandler.SendAsync(System.ArraySegment{System.Byte})">
-            <inheritdoc />
-        </member>
-        <member name="M:MessageCommunicator.ByteStreamHandler.TriggerReconnect">
             <inheritdoc />
         </member>
         <member name="T:MessageCommunicator.ByteStreamHandlerSettings">
@@ -811,11 +807,6 @@
             </summary>
             <param name="buffer">The bytes to be sent.</param>
             <returns>True if sending was successful, otherwise false.</returns>
-        </member>
-        <member name="M:MessageCommunicator.IByteStreamHandler.TriggerReconnect">
-            <summary>
-            Triggers reconnect in case of an established connection.
-            </summary>
         </member>
         <member name="T:MessageCommunicator.TcpActiveByteStreamHandler">
             <summary>
@@ -948,10 +939,10 @@
             Connection will be closed when we don't receive anything in this period of time.
             </summary>
         </member>
-        <member name="P:MessageCommunicator.TcpByteStreamHandler.LastSuccessfulConnectTimestampUtc">
+        <member name="P:MessageCommunicator.TcpByteStreamHandler.LastConnectTimestampUtc">
             <inheritdoc />
         </member>
-        <member name="P:MessageCommunicator.TcpByteStreamHandler.LastSuccessfulReceiveTimestampUtc">
+        <member name="P:MessageCommunicator.TcpByteStreamHandler.LastReceivedDataBlockTimestampUtc">
             <inheritdoc />
         </member>
         <member name="M:MessageCommunicator.TcpByteStreamHandler.#ctor(MessageCommunicator.ReconnectWaitTimeGetter,System.TimeSpan)">
@@ -972,9 +963,6 @@
             </summary>
             <param name="buffer">The bytes to be sent</param>
             <returns>True when sending was successful</returns>
-        </member>
-        <member name="M:MessageCommunicator.TcpByteStreamHandler.TriggerReconnect">
-            <inheritdoc />
         </member>
         <member name="M:MessageCommunicator.TcpByteStreamHandler.GetCurrentSendSocket">
             <summary>

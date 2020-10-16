@@ -76,10 +76,10 @@ namespace MessageCommunicator
         public TimeSpan ReceiveTimeout { get; set; }
 
         /// <inheritdoc />
-        public override DateTime LastSuccessfulConnectTimestampUtc => _lastSuccessfulConnectTimestampUtc;
+        public override DateTime LastConnectTimestampUtc => _lastSuccessfulConnectTimestampUtc;
 
         /// <inheritdoc />
-        public override DateTime LastSuccessfulReceiveTimestampUtc => _lastSuccessfulReceiveTimestampUtc;
+        public override DateTime LastReceivedDataBlockTimestampUtc => _lastSuccessfulReceiveTimestampUtc;
 
         /// <summary>
         /// Creates a new <see cref="TcpByteStreamHandler"/>.
@@ -156,22 +156,6 @@ namespace MessageCommunicator
                 }
                 return false;
             }
-        }
-
-        /// <inheritdoc />
-        public override void TriggerReconnect()
-        {
-            this.Log(LoggingMessageType.Info, "Triggering reconnect...!");
-
-            var currentClient = this.GetCurrentSendSocket();
-            if(currentClient == null)
-            {
-                this.Log(LoggingMessageType.Info, "Reconnect not possible because there is no open connection");
-                return;
-            }
-
-            TcpAsyncUtil.SafeDispose(currentClient.Client);
-            this.Log(LoggingMessageType.Info, "Successfully stopped connection");
         }
 
         /// <summary>

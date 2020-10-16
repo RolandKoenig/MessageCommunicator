@@ -49,12 +49,17 @@ namespace MessageCommunicator
         /// <summary>
         /// Gets the timestamp in UTC when we've received the last <see cref="Message"/>.
         /// </summary>
-        public DateTime LastReceivedTimestampUtc => _messageRecognizer.LastReceivedTimestampUtc;
+        public DateTime LastReceivedMessageTimestampUtc => _messageRecognizer.LastReceivedTimestampUtc;
+
+        /// <summary>
+        /// Gets the timestamp from the last successfully received data block (utc).
+        /// </summary>
+        public DateTime LastReceivedDataBlockTimestampUtc => _byteStreamHandler.LastReceivedDataBlockTimestampUtc;
 
         /// <summary>
         /// Gets the timestamp from the last successful connection (utc).
         /// </summary>
-        public DateTime LastSuccessfulConnectTimestampUtc => _byteStreamHandler.LastSuccessfulConnectTimestampUtc;
+        public DateTime LastConnectTimestampUtc => _byteStreamHandler.LastConnectTimestampUtc;
 
         /// <summary>
         /// Access to internal objects.
@@ -111,15 +116,6 @@ namespace MessageCommunicator
                 logger)
         {
 
-        }
-
-        /// <summary>
-        /// Triggers reconnect in case of an established connection.
-        /// If connection is not established currently, then this channel stays already in connect mode.
-        /// </summary>
-        public void TriggerReconnect()
-        {
-            _byteStreamHandler.TriggerReconnect();
         }
 
         /// <summary>

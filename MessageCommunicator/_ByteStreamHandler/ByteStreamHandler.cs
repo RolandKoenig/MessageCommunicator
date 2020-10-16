@@ -48,12 +48,12 @@ namespace MessageCommunicator
         /// <summary>
         /// Gets the timestamp from the last successful connection (utc).
         /// </summary>
-        public abstract DateTime LastSuccessfulConnectTimestampUtc { get; }
+        public abstract DateTime LastConnectTimestampUtc { get; }
 
         /// <summary>
-        /// GEts the timestamp from the last successfully received data block (utc).
+        /// Gets the timestamp from the last successfully received data block (utc).
         /// </summary>
-        public abstract DateTime LastSuccessfulReceiveTimestampUtc { get; }
+        public abstract DateTime LastReceivedDataBlockTimestampUtc { get; }
 
         /// <summary>
         /// Start this instance.
@@ -121,8 +121,5 @@ namespace MessageCommunicator
 
         /// <inheritdoc />
         public abstract Task<bool> SendAsync(ArraySegment<byte> buffer);
-
-        /// <inheritdoc />
-        public abstract void TriggerReconnect();
     }
 }
