@@ -35,6 +35,8 @@
     <None Remove="Assets\MessageCommunicator.ico" />
     <None Remove="Assets\Styles\Common.xaml" />
     <None Remove="MessageCommunicator.TestGui.csproj.DotSettings" />
+    <None Remove="ViewServices\_ExportDialog\ExportDialogControl.xaml" />
+    <None Remove="ViewServices\_ImportDialog\ImportDialogControl.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MessageCommunicator\MessageCommunicator.csproj" />
@@ -49,5 +51,19 @@
     <AvaloniaResource Update="Assets\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
     </AvaloniaResource>
+    <AvaloniaResource Update="ViewServices\_ExportDialog\ExportDialogControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaResource>
+    <AvaloniaResource Update="ViewServices\_ImportDialog\ImportDialogControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="ViewServices\_ExportDialog\ExportDialogControl.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="ViewServices\_ImportDialog\ImportDialogControl.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

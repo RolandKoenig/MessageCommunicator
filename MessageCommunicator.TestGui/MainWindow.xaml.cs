@@ -25,6 +25,8 @@ namespace MessageCommunicator.TestGui
             var ctrlDialogHost = this.FindControl<DialogHostControl>("CrtlDialogHost");
             this.ViewServices.Add(new ConnectionConfigControlService(ctrlDialogHost));
             this.ViewServices.Add(new MessageBoxControlService(ctrlDialogHost));
+            this.ViewServices.Add(new ExportViewService(ctrlDialogHost));
+            this.ViewServices.Add(new ImportViewService(ctrlDialogHost));
 
             // Load initial main view model
             this.ViewModel = new MainWindowViewModel();

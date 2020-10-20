@@ -36,6 +36,8 @@ namespace MessageCommunicator.TestGui
 
         public bool IsProfileScreenEnabled => _selectedProfile != null;
 
+        public ReactiveCommand<object?, Unit> Command_ExportProfiles { get; }
+
         public ReactiveCommand<object?, Unit> Command_CreateProfile { get; }
 
         public ReactiveCommand<object?, Unit> Command_EditProfile { get; }
@@ -44,6 +46,7 @@ namespace MessageCommunicator.TestGui
 
         public MainWindowViewModel()
         {
+            this.Command_ExportProfiles = ReactiveCommand.CreateFromTask<object?>(this.ExportProfilesAsync);
             this.Command_CreateProfile = ReactiveCommand.CreateFromTask<object?>(this.CreateProfileAsync);
             this.Command_EditProfile = ReactiveCommand.CreateFromTask<object?>(this.EditProfileAsync);
             this.Command_DeleteProfile = ReactiveCommand.CreateFromTask<object?>(this.DeleteSelectedProfile);
@@ -82,6 +85,15 @@ namespace MessageCommunicator.TestGui
                 });
             timer.Start();
             disposables.Add(new DummyDisposable(() => timer.Stop()));
+        }
+
+        private async Task ExportProfilesAsync(object? arg, CancellationToken cancelToken)
+        {
+            var srvExportDlg = this.GetViewService<IExportViewService>();
+            await srvExportDlg.ExportAsync(
+                this.Profiles.Select(actVM => actVM.Model),
+                this.SelectedProfile != null ? new ConnectionProfile[] { this.SelectedProfile.Model } : new ConnectionProfile[0],
+                nameof(ConnectionProfile.Name));
         }
 
         private async Task CreateProfileAsync(object? arg, CancellationToken cancelToken)

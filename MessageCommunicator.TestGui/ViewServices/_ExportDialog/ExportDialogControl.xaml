@@ -1,0 +1,36 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MessageCommunicator.TestGui.ViewServices;assembly=MessageCommunicator.TestGui"
+        xmlns:localRoot="clr-namespace:MessageCommunicator.TestGui;assembly=MessageCommunicator.TestGui"
+        mc:Ignorable="d"
+        Width="500" Height="400"
+        x:Class="MessageCommunicator.TestGui.ViewServices.ExportDialogControl">
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <StackPanel.Styles>
+                <Style Selector="Button">
+                    <Setter Property="Width" Value="125" />
+                    <Setter Property="Margin" Value="3" />
+                </Style>
+            </StackPanel.Styles>
+          
+            <Button Content="OK" IsDefault="True" Command="{Binding Path=Command_OK}" />
+            <Button Content="Cancel" Command="{Binding Path=Command_Cancel}" />
+        </StackPanel>
+    
+        <ListBox Items="{Binding Path=ExportLines}" Margin="10">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <CheckBox IsChecked="{Binding Path=DoExport}" />
+                        <TextBlock Margin="10,0,0,0" Text="{Binding Path=Name}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>    
+  </DockPanel>
+
+</UserControl>
