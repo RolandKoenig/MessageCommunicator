@@ -9,7 +9,7 @@
         x:Class="MessageCommunicator.TestGui.ViewServices.ConnectionConfigControl"
         d:DataContext="{x:Static local:DesignData.ConnectionConfigVM}">
     
-    <DockPanel LastChildFill="True">
+    <DockPanel LastChildFill="True">     
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right">
             <StackPanel.Styles>
@@ -22,6 +22,11 @@
             <Button Content="OK" IsDefault="True" Command="{Binding Path=Command_OK}" />
             <Button Content="Cancel" Command="{Binding Path=Command_Cancel}" />
         </StackPanel>
+      
+        <TextBlock DockPanel.Dock="Bottom" Margin="10"
+                   Text="{Binding Path=ValidationError}"
+                   IsVisible="{Binding Path=IsValidationErrorVisible}"
+                   Foreground="Red" />
       
         <Grid>
             <Grid.ColumnDefinitions>

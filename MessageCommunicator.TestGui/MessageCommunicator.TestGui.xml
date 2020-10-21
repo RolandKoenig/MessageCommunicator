@@ -42,6 +42,9 @@
         <member name="M:MessageCommunicator.TestGui.ViewServices.MessageBoxControlService.ShowAsync(System.String,System.String,MessageCommunicator.TestGui.ViewServices.MessageBoxButtons)">
             <inheritdoc />
         </member>
+        <member name="M:MessageCommunicator.TestGui.ViewServices.SaveFileDialogService.ShowSaveFileDialogAsync(System.Collections.Generic.IEnumerable{Avalonia.Controls.FileDialogFilter},System.String)">
+            <inheritdoc />
+        </member>
         <member name="M:MessageCommunicator.TestGui.DesignData.DummySynchronizationContext.Send(System.Threading.SendOrPostCallback,System.Object)">
             <inheritdoc />
         </member>

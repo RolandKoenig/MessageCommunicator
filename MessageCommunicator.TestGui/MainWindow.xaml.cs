@@ -27,6 +27,7 @@ namespace MessageCommunicator.TestGui
             this.ViewServices.Add(new MessageBoxControlService(ctrlDialogHost));
             this.ViewServices.Add(new ExportViewService(ctrlDialogHost));
             this.ViewServices.Add(new ImportViewService(ctrlDialogHost));
+            this.ViewServices.Add(new SaveFileDialogService(this));
 
             // Load initial main view model
             this.ViewModel = new MainWindowViewModel();

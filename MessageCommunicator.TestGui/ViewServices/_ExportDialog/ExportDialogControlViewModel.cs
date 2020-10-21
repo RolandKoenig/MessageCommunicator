@@ -5,7 +5,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reactive;
 using System.Linq;
+using System.Net.Sockets;
 using System.Reflection;
+using System.Threading.Tasks;
+using Avalonia.Controls;
 using MessageCommunicator.TestGui.Data;
 using ReactiveUI;
 
@@ -17,6 +20,10 @@ namespace MessageCommunicator.TestGui.ViewServices
         {
             get;
         } = new ObservableCollection<ExportLine>();
+
+        public ReactiveCommand<object?, Unit> Command_OK { get; }
+
+        public ReactiveCommand<object?, Unit> Command_Cancel { get; }
 
         public ExportDialogControlViewModel(IEnumerable allObjects, IEnumerable objectsToExport, string nameProperty)
         {
@@ -35,6 +42,44 @@ namespace MessageCommunicator.TestGui.ViewServices
                 var currentIsSelected = ContainsObject(objectsToExport, actObject);
                 this.ExportLines.Add(new ExportLine(currentName, actObject, currentIsSelected));
             }
+
+            this.Command_OK = ReactiveCommand.CreateFromTask<object?>(this.OnCommandOKAsync);
+            this.Command_Cancel = ReactiveCommand.Create<object?>(
+                arg => this.CloseWindow(null));
+        }
+
+        private async Task OnCommandOKAsync(object? arg)
+        {
+            var objectToExport =
+                from actLine in this.ExportLines
+                where actLine.DoExport
+                select actLine;
+            if (!objectToExport.Any())
+            {
+                // TODO: Show error info
+                return;
+            }
+
+            // Show save file dialog
+            var srvSaveFile = this.GetViewService<ISaveFileViewService>();
+            var fileName = await srvSaveFile.ShowSaveFileDialogAsync(
+                new FileDialogFilter[]
+                {
+                    new FileDialogFilter()
+                    {
+                        Name = "Json-File (*.json)", 
+                        Extensions = { "json" }
+                    }
+                }, "json" );
+            if (string.IsNullOrEmpty(fileName))
+            {
+                // TODO: Show 'no file selected' message
+                return;
+            }
+
+            // TODO: Save file
+
+            this.CloseWindow(null);
         }
 
         private static bool ContainsObject(IEnumerable enumerableToCheck, object objToCheckFor)

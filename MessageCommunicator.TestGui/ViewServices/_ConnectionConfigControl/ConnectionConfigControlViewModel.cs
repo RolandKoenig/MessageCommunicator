@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Reactive;
 using Force.DeepCloner;
 using MessageCommunicator.TestGui.Data;
@@ -9,6 +9,8 @@ namespace MessageCommunicator.TestGui.ViewServices
 {
     public class ConnectionConfigControlViewModel : OwnViewModelBase
     {
+        private string _validationError = string.Empty;
+
         public ConnectionParameters Model { get; }
 
         public ConnectionParametersViewModel ModelInteractive { get; }
@@ -18,6 +20,22 @@ namespace MessageCommunicator.TestGui.ViewServices
         public ReactiveCommand<object?, Unit> Command_Cancel { get; }
 
         public ConnectionMode[] ConnectionModes => (ConnectionMode[])Enum.GetValues(typeof(ConnectionMode));
+
+        public string ValidationError
+        {
+            get => _validationError;
+            set
+            {
+                if (_validationError != value)
+                {
+                    _validationError = value;
+                    this.RaisePropertyChanged(nameof(this.ValidationError));
+                    this.RaisePropertyChanged(nameof(this.IsValidationErrorVisible));
+                }
+            }
+        }
+
+        public bool IsValidationErrorVisible => !string.IsNullOrEmpty(this.ValidationError);
 
         public ConnectionConfigControlViewModel(ConnectionParameters? parameters = null)
         {
@@ -33,7 +51,18 @@ namespace MessageCommunicator.TestGui.ViewServices
         {
             var model = this.Model;
 
-            // TODO: validate model
+            // Perform validation
+            this.ValidationError = string.Empty;
+            try
+            {
+                Validator.ValidateObject(model, new ValidationContext(model), true);
+                Validator.ValidateObject(model.RecognizerSettings, new ValidationContext(model.RecognizerSettings), true);
+            }
+            catch (ValidationException e)
+            {
+                this.ValidationError = e.Message;
+                return;
+            }
 
             this.CloseWindow(model);
         }
