@@ -105,6 +105,14 @@
         <member name="M:MessageCommunicator.TestGui.VectorIconExtension.ProvideValue(System.IServiceProvider)">
             <inheritdoc />
         </member>
+        <member name="M:MessageCommunicator.TestGui.DataPackageFile.ReadDescriptor">
+            <summary>
+            Reads the descriptor of this package.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.TestGui.DataPackageFile.Dispose">
+            <inheritdoc />
+        </member>
         <member name="P:MessageCommunicator.TestGui.OwnViewModelBase.Activator">
             <inheritdoc />
         </member>

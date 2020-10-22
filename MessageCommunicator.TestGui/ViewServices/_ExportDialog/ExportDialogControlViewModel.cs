@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Reactive;
 using System.Linq;
 using System.Net.Sockets;
@@ -10,6 +11,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using MessageCommunicator.TestGui.Data;
+using MessageCommunicator.TestGui.Logic;
 using ReactiveUI;
 
 namespace MessageCommunicator.TestGui.ViewServices
@@ -53,7 +55,7 @@ namespace MessageCommunicator.TestGui.ViewServices
             var objectToExport =
                 from actLine in this.ExportLines
                 where actLine.DoExport
-                select actLine;
+                select actLine.ObjectToExport;
             if (!objectToExport.Any())
             {
                 // TODO: Show error info
@@ -67,10 +69,10 @@ namespace MessageCommunicator.TestGui.ViewServices
                 {
                     new FileDialogFilter()
                     {
-                        Name = "Json-File (*.json)", 
-                        Extensions = { "json" }
+                        Name = "Data-Package (*.dataPackage)", 
+                        Extensions = { "dataPackage" }
                     }
-                }, "json" );
+                }, "dataPackage" );
             if (string.IsNullOrEmpty(fileName))
             {
                 // TODO: Show 'no file selected' message
@@ -78,6 +80,10 @@ namespace MessageCommunicator.TestGui.ViewServices
             }
 
             // TODO: Save file
+            using (var packageFile = new DataPackageFile(fileName, FileMode.Create))
+            {
+                packageFile.WriteSingleFile(objectToExport.Cast<ConnectionProfile>().ToList(), "List<ConnectionProfile>");
+            }
 
             this.CloseWindow(null);
         }
