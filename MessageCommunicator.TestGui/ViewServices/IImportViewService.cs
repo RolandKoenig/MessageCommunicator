@@ -7,6 +7,6 @@ namespace MessageCommunicator.TestGui.ViewServices
 {
     public interface IImportViewService
     {
-        Task<IEnumerable<T>> ImportAsync<T>(string nameProperty);
+        Task ImportAsync<T>(ICollection<T> importTarget, string nameProperty);
     }
 }

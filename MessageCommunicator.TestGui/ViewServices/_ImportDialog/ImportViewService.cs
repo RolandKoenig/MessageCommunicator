@@ -15,9 +15,12 @@ namespace MessageCommunicator.TestGui.ViewServices
         }
 
         /// <inheritdoc />
-        public Task<IEnumerable<T>> ImportAsync<T>(string nameProperty)
+        public async Task ImportAsync<T>(ICollection<T> importTarget, string nameProperty)
         {
-            throw new NotImplementedException();
+            var importDlg = new ImportDialogControl();
+            importDlg.DataContext = new ImportDialogControlViewModel<T>(importTarget, nameProperty);
+
+            await importDlg.ShowControlDialogAsync(_host, "Import");
         }
     }
 }

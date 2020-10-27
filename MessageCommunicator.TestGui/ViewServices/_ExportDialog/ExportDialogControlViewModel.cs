@@ -8,7 +8,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using MessageCommunicator.TestGui.Logic;
 using ReactiveUI;
 
 namespace MessageCommunicator.TestGui.ViewServices
@@ -49,14 +48,15 @@ namespace MessageCommunicator.TestGui.ViewServices
 
         private async Task OnCommandOKAsync(object? arg)
         {
+            var srvMessageBox = this.GetViewService<IMessageBoxService>();
+
             var objectToExport =
                 from actLine in this.ExportLines
                 where actLine.DoExport
                 select actLine.ObjectToExport;
             if (!objectToExport.Any())
             {
-                await this.GetViewService<IMessageBoxService>()
-                    .ShowAsync("Export", "Nothing to export!", MessageBoxButtons.Ok);
+                await srvMessageBox.ShowAsync("Export", "Nothing to export!", MessageBoxButtons.Ok);
                 return;
             }
 
@@ -73,8 +73,7 @@ namespace MessageCommunicator.TestGui.ViewServices
                 }, "dataPackage" );
             if (string.IsNullOrEmpty(fileName))
             {
-                await this.GetViewService<IMessageBoxService>()
-                    .ShowAsync("Export", "No file selected!", MessageBoxButtons.Ok);
+                await srvMessageBox.ShowAsync("Export", "No file selected!", MessageBoxButtons.Ok);
                 return;
             }
 
@@ -83,19 +82,23 @@ namespace MessageCommunicator.TestGui.ViewServices
             {
                 using (var packageFile = new DataPackageFile(fileName, FileMode.Create))
                 {
-                    packageFile.WriteSingleFile(objectToExport.Cast<ConnectionProfile>().ToList(), "List<ConnectionProfile>");
+                    packageFile.WriteSingleFile(objectToExport, "");
                 }
             }
             catch (Exception ex)
             {
-                await this.GetViewService<IMessageBoxService>()
-                    .ShowAsync(
-                        "Export", 
-                        $"Error while exporting file:{Environment.NewLine}{ex.Message}", 
-                        MessageBoxButtons.Ok);
+                await srvMessageBox.ShowAsync(
+                    "Export", 
+                    $"Error while exporting file:{Environment.NewLine}{ex.Message}", 
+                    MessageBoxButtons.Ok);
                 return;
             }
 
+            // Show success message
+            await srvMessageBox.ShowAsync(
+                "Export", 
+                $"Successfully exported {objectToExport.Count()} object(s).",
+                MessageBoxButtons.Ok);
 
             this.CloseWindow(null);
         }

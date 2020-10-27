@@ -36,7 +36,7 @@
         <member name="M:MessageCommunicator.TestGui.ViewServices.ExportViewService.ExportAsync``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0},System.String)">
             <inheritdoc />
         </member>
-        <member name="M:MessageCommunicator.TestGui.ViewServices.ImportViewService.ImportAsync``1(System.String)">
+        <member name="M:MessageCommunicator.TestGui.ViewServices.ImportViewService.ImportAsync``1(System.Collections.Generic.ICollection{``0},System.String)">
             <inheritdoc />
         </member>
         <member name="M:MessageCommunicator.TestGui.ViewServices.MessageBoxControlService.ShowAsync(System.String,System.String,MessageCommunicator.TestGui.ViewServices.MessageBoxButtons)">
