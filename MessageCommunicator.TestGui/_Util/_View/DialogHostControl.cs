@@ -17,12 +17,9 @@ namespace MessageCommunicator.TestGui
                 o => o.OccludedControl,
                 (o, v) => o.OccludedControl = v);
 
-        private Control? _currentChild;
-        private Control? _currentChildBorder;
-        private Size _currentChildInitialSize;
+        private Stack<ChildInfo> _children;
         private Control? _occludedControl;
         private readonly IBrush _backgroundDialog;
-        private readonly IBrush _backgroundNoDialog;
 
         public Control? OccludedControl
         {
@@ -32,36 +29,35 @@ namespace MessageCommunicator.TestGui
 
         public DialogHostControl()
         {
-            _backgroundNoDialog = Brushes.Transparent;
+            _children = new Stack<ChildInfo>();
             _backgroundDialog = new SolidColorBrush(Color.FromArgb(128, 128, 128, 128));
 
-            this.Background = _backgroundNoDialog;
             this.IsHitTestVisible = false;
 
         }
 
         public void ShowDialog(Control controlToShow, string headerText)
         {
-            if (_currentChild != null)
-            {
-                throw new ApplicationException($"Unable to show multiple controls on {nameof(DialogHostControl)}");
-            }
-
-            _currentChild = controlToShow;
-            _currentChildInitialSize = new Size(_currentChild.Width, _currentChild.Height);
+            var currentChild = controlToShow;
+            var currentChildInitialSize = new Size(currentChild.Width, currentChild.Height);
 
             var borderControl = new HeaderedContentControl();
             borderControl.Classes.Add("DialogHostControlBorder");
             borderControl.BorderThickness = new Thickness(1.0);
-            borderControl.Content = _currentChild;
+            borderControl.Content = currentChild;
             borderControl.HorizontalAlignment = HorizontalAlignment.Center;
             borderControl.VerticalAlignment = VerticalAlignment.Center;
             borderControl.Padding = new Thickness(5.0);
             borderControl.Header = headerText;
             borderControl.Classes.Add("DialogBox");
-            _currentChildBorder = borderControl;
+            var currentChildBorder = borderControl;
 
-            this.Background = _backgroundDialog;
+            var currentBackground = new Grid();
+            currentBackground.Background = _backgroundDialog;
+
+            _children.Push(new ChildInfo(currentChild, currentChildBorder, currentChildInitialSize, currentBackground));
+
+            this.Children.Add(currentBackground);
             this.Children.Add(borderControl);
             this.IsHitTestVisible = true;
 
@@ -75,47 +71,52 @@ namespace MessageCommunicator.TestGui
 
         public void CloseDialog()
         {
-            if (_currentChild == null) { return; }
-
-            this.Children.Clear();
-            _currentChild = null;
-            _currentChildBorder = null;
-            _currentChildInitialSize = Size.Empty;
-
-            this.Background = _backgroundNoDialog;
-            this.IsHitTestVisible = false;
-
-            if (this.OccludedControl != null)
+            if (!_children.TryPop(out var removedChild))
             {
-                this.OccludedControl.IsEnabled = true;
+                return;
+            }
+            this.Children.Remove(removedChild.ChildBorder);
+            this.Children.Remove(removedChild.ChildBackground);
+
+            if (_children.Count == 0)
+            {
+                this.IsHitTestVisible = false;
+
+                if (this.OccludedControl != null)
+                {
+                    this.OccludedControl.IsEnabled = true;
+                }
             }
         }
 
         private void UpdateBorderSize()
         {
-            if (_currentChild == null) { return; }
-            if (_currentChildBorder == null){ return; }
-
             const double BORDER_PADDING = 50.0;
 
-            // Update height
-            if (this.Bounds.Height < _currentChildInitialSize.Height + BORDER_PADDING)
+            foreach (var actChildInfo in _children)
             {
-                _currentChild.Height = this.Bounds.Height - BORDER_PADDING;
-            }
-            else
-            {
-                _currentChild.Height = _currentChildInitialSize.Height;
-            }
+                var currentChild = actChildInfo.Child;
+                var currentChildInitialSize = actChildInfo.InitialSize;
 
-            // Update width
-            if (this.Bounds.Width < _currentChildInitialSize.Width + BORDER_PADDING)
-            {
-                _currentChild.Width = this.Bounds.Width - BORDER_PADDING;
-            }
-            else
-            {
-                _currentChild.Width = _currentChildInitialSize.Width;
+                // Update height
+                if (this.Bounds.Height < currentChildInitialSize.Height + BORDER_PADDING)
+                {
+                    currentChild.Height = this.Bounds.Height - BORDER_PADDING;
+                }
+                else
+                {
+                    currentChild.Height = currentChildInitialSize.Height;
+                }
+
+                // Update width
+                if (this.Bounds.Width < currentChildInitialSize.Width + BORDER_PADDING)
+                {
+                    currentChild.Width = this.Bounds.Width - BORDER_PADDING;
+                }
+                else
+                {
+                    currentChild.Width = currentChildInitialSize.Width;
+                }
             }
         }
 
@@ -127,6 +128,40 @@ namespace MessageCommunicator.TestGui
             if (e.Property == Grid.BoundsProperty)
             {
                 this.UpdateBorderSize();
+            }
+        }
+
+        //*********************************************************************
+        //*********************************************************************
+        //*********************************************************************
+        public class ChildInfo
+        {
+            public Control Child
+            {
+                get;
+            }
+
+            public Control ChildBorder
+            {
+                get;
+            }
+
+            public Grid ChildBackground
+            {
+                get;
+            }
+
+            public Size InitialSize
+            {
+                get;
+            }
+
+            internal ChildInfo(Control child, Control childBorder, Size initialSize, Grid childBackground)
+            {
+                this.Child = child;
+                this.ChildBorder = childBorder;
+                this.InitialSize = initialSize;
+                this.ChildBackground = childBackground;
             }
         }
     }

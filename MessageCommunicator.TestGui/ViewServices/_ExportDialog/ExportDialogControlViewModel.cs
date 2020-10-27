@@ -2,15 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Reactive;
 using System.Linq;
-using System.Net.Sockets;
 using System.Reflection;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using MessageCommunicator.TestGui.Data;
 using MessageCommunicator.TestGui.Logic;
 using ReactiveUI;
 
@@ -58,14 +55,15 @@ namespace MessageCommunicator.TestGui.ViewServices
                 select actLine.ObjectToExport;
             if (!objectToExport.Any())
             {
-                // TODO: Show error info
+                await this.GetViewService<IMessageBoxService>()
+                    .ShowAsync("Export", "Nothing to export!", MessageBoxButtons.Ok);
                 return;
             }
 
             // Show save file dialog
             var srvSaveFile = this.GetViewService<ISaveFileViewService>();
             var fileName = await srvSaveFile.ShowSaveFileDialogAsync(
-                new FileDialogFilter[]
+                new[]
                 {
                     new FileDialogFilter()
                     {
@@ -75,15 +73,29 @@ namespace MessageCommunicator.TestGui.ViewServices
                 }, "dataPackage" );
             if (string.IsNullOrEmpty(fileName))
             {
-                // TODO: Show 'no file selected' message
+                await this.GetViewService<IMessageBoxService>()
+                    .ShowAsync("Export", "No file selected!", MessageBoxButtons.Ok);
                 return;
             }
 
-            // TODO: Save file
-            using (var packageFile = new DataPackageFile(fileName, FileMode.Create))
+            // Export the file
+            try
             {
-                packageFile.WriteSingleFile(objectToExport.Cast<ConnectionProfile>().ToList(), "List<ConnectionProfile>");
+                using (var packageFile = new DataPackageFile(fileName, FileMode.Create))
+                {
+                    packageFile.WriteSingleFile(objectToExport.Cast<ConnectionProfile>().ToList(), "List<ConnectionProfile>");
+                }
             }
+            catch (Exception ex)
+            {
+                await this.GetViewService<IMessageBoxService>()
+                    .ShowAsync(
+                        "Export", 
+                        $"Error while exporting file:{Environment.NewLine}{ex.Message}", 
+                        MessageBoxButtons.Ok);
+                return;
+            }
+
 
             this.CloseWindow(null);
         }
