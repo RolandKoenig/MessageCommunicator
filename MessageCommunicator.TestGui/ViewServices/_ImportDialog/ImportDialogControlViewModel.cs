@@ -11,9 +11,9 @@ namespace MessageCommunicator.TestGui.ViewServices
 {
     public class ImportDialogControlViewModel<T> : OwnViewModelBase
     {
-        public ImportDialogControlViewModel(ICollection<T> importTarget, string nameProperty)
+        public ImportDialogControlViewModel(ICollection<T> importTarget, string nameProperty, string dataTypeName)
         {
-
+            
         }
     }
 }

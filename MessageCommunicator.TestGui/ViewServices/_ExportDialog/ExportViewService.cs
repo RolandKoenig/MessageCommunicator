@@ -15,10 +15,10 @@ namespace MessageCommunicator.TestGui.ViewServices
         }
 
         /// <inheritdoc />
-        public async Task ExportAsync<T>(IEnumerable<T> allObjects, IEnumerable<T> objectsToExport, string nameProperty)
+        public async Task ExportAsync<T>(IEnumerable<T> allObjects, IEnumerable<T> objectsToExport, string nameProperty, string dataTypeName)
         {
             var exportDlg = new ExportDialogControl();
-            exportDlg.DataContext = new ExportDialogControlViewModel(allObjects, objectsToExport, nameProperty);
+            exportDlg.DataContext = new ExportDialogControlViewModel(allObjects, objectsToExport, nameProperty, dataTypeName);
 
             await exportDlg.ShowControlDialogAsync(_host, "Export");
         }

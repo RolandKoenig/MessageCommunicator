@@ -23,11 +23,16 @@ namespace MessageCommunicator.TestGui
 
             // Register view services
             var ctrlDialogHost = this.FindControl<DialogHostControl>("CrtlDialogHost");
+
+            var srvOpenFileDialog = new OpenFileDialogService(this);
+            var srvMessageBox = new MessageBoxControlService(ctrlDialogHost);
+
             this.ViewServices.Add(new ConnectionConfigControlService(ctrlDialogHost));
-            this.ViewServices.Add(new MessageBoxControlService(ctrlDialogHost));
+            this.ViewServices.Add(srvMessageBox);
             this.ViewServices.Add(new ExportViewService(ctrlDialogHost));
-            this.ViewServices.Add(new ImportViewService(ctrlDialogHost));
+            this.ViewServices.Add(new ImportViewService(ctrlDialogHost, srvOpenFileDialog, srvMessageBox));
             this.ViewServices.Add(new SaveFileDialogService(this));
+            this.ViewServices.Add(srvOpenFileDialog);
 
             // Load initial main view model
             this.ViewModel = new MainWindowViewModel();

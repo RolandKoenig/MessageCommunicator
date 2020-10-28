@@ -4862,9 +4862,7 @@
             </code></item>
             </list></examples>
         </member>
-    </members>
-</doc>
-System.Diagnostics.CodeAnalysis.AllowNullAttribute">
+        <member name="T:System.Diagnostics.CodeAnalysis.AllowNullAttribute">
             <summary>
             Specifies that <see langword = "null"/> is allowed as an input even if the
             corresponding type disallows it.

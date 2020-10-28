@@ -14,6 +14,8 @@ namespace MessageCommunicator.TestGui.ViewServices
 {
     public class ExportDialogControlViewModel : OwnViewModelBase
     {
+        private string _dataTypeName;
+
         public ObservableCollection<ExportLine> ExportLines
         {
             get;
@@ -23,8 +25,10 @@ namespace MessageCommunicator.TestGui.ViewServices
 
         public ReactiveCommand<object?, Unit> Command_Cancel { get; }
 
-        public ExportDialogControlViewModel(IEnumerable allObjects, IEnumerable objectsToExport, string nameProperty)
+        public ExportDialogControlViewModel(IEnumerable allObjects, IEnumerable objectsToExport, string nameProperty, string dataTypeName)
         {
+            _dataTypeName = dataTypeName;
+
             PropertyInfo? namePropertyObj = null;
             foreach (var actObject in allObjects)
             {
@@ -82,7 +86,7 @@ namespace MessageCommunicator.TestGui.ViewServices
             {
                 using (var packageFile = new DataPackageFile(fileName, FileMode.Create))
                 {
-                    packageFile.WriteSingleFile(objectToExport, "");
+                    packageFile.WriteSingleFile(objectToExport, _dataTypeName);
                 }
             }
             catch (Exception ex)

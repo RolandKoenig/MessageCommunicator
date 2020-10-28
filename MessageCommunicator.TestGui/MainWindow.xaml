@@ -53,7 +53,7 @@
                   Classes="MainMenu">
                 <MenuItem Header="File"
                           Classes="MainMenu">
-                    <MenuItem Header="Import Profiles" />
+                    <MenuItem Header="Import Profiles" Command="{Binding Path=Command_ImportProfiles}" />
                     <MenuItem Header="Export Profiles" Command="{Binding Path=Command_ExportProfiles}" />
                     <Separator />
                     <MenuItem Header="Exit" PointerPressed="OnMnuExit_PointerPressed" />

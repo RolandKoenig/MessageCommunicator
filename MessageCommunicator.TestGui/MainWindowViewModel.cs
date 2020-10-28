@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
@@ -36,6 +37,8 @@ namespace MessageCommunicator.TestGui
 
         public bool IsProfileScreenEnabled => _selectedProfile != null;
 
+        public ReactiveCommand<object?, Unit> Command_ImportProfiles { get; }
+
         public ReactiveCommand<object?, Unit> Command_ExportProfiles { get; }
 
         public ReactiveCommand<object?, Unit> Command_CreateProfile { get; }
@@ -46,6 +49,7 @@ namespace MessageCommunicator.TestGui
 
         public MainWindowViewModel()
         {
+            this.Command_ImportProfiles = ReactiveCommand.CreateFromTask<object?>(this.ImportProfilesAsync);
             this.Command_ExportProfiles = ReactiveCommand.CreateFromTask<object?>(this.ExportProfilesAsync);
             this.Command_CreateProfile = ReactiveCommand.CreateFromTask<object?>(this.CreateProfileAsync);
             this.Command_EditProfile = ReactiveCommand.CreateFromTask<object?>(this.EditProfileAsync);
@@ -87,13 +91,26 @@ namespace MessageCommunicator.TestGui
             disposables.Add(new DummyDisposable(() => timer.Stop()));
         }
 
+        private async Task ImportProfilesAsync(object? arg, CancellationToken cancelToken)
+        {
+            var connectionProfiles = this.Profiles
+                .Select(actProfile => actProfile.Model)
+                .ToList();
+
+            var srvImportDlg = this.GetViewService<IImportViewService>();
+            await srvImportDlg.ImportAsync(
+                connectionProfiles,
+                nameof(ConnectionProfile.Name), Constants.DATA_TYPE_CONNECTION_PROFILES);
+        }
+
         private async Task ExportProfilesAsync(object? arg, CancellationToken cancelToken)
         {
             var srvExportDlg = this.GetViewService<IExportViewService>();
             await srvExportDlg.ExportAsync(
                 this.Profiles.Select(actVM => actVM.Model),
-                this.SelectedProfile != null ? new ConnectionProfile[] { this.SelectedProfile.Model } : new ConnectionProfile[0],
-                nameof(ConnectionProfile.Name));
+                this.SelectedProfile != null ? new[] { this.SelectedProfile.Model } : new ConnectionProfile[0],
+                nameof(ConnectionProfile.Name),
+                Constants.DATA_TYPE_CONNECTION_PROFILES);
         }
 
         private async Task CreateProfileAsync(object? arg, CancellationToken cancelToken)
