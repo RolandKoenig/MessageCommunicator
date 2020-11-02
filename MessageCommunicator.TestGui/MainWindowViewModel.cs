@@ -7,6 +7,7 @@ using System.Reactive.Disposables;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Threading;
+using MessageCommunicator.TestGui.Data;
 using MessageCommunicator.TestGui.Logic;
 using MessageCommunicator.TestGui.Views;
 using MessageCommunicator.TestGui.ViewServices;
@@ -94,22 +95,22 @@ namespace MessageCommunicator.TestGui
         private async Task ImportProfilesAsync(object? arg, CancellationToken cancelToken)
         {
             var connectionProfiles = this.Profiles
-                .Select(actProfile => actProfile.Model)
+                .Select(actProfile => actProfile.Model.Parameters)
                 .ToList();
 
             var srvImportDlg = this.GetViewService<IImportViewService>();
             await srvImportDlg.ImportAsync(
                 connectionProfiles,
-                nameof(ConnectionProfile.Name), Constants.DATA_TYPE_CONNECTION_PROFILES);
+                nameof(ConnectionParameters.Name), Constants.DATA_TYPE_CONNECTION_PROFILES);
         }
 
         private async Task ExportProfilesAsync(object? arg, CancellationToken cancelToken)
         {
             var srvExportDlg = this.GetViewService<IExportViewService>();
             await srvExportDlg.ExportAsync(
-                this.Profiles.Select(actVM => actVM.Model),
-                this.SelectedProfile != null ? new[] { this.SelectedProfile.Model } : new ConnectionProfile[0],
-                nameof(ConnectionProfile.Name),
+                this.Profiles.Select(actVM => actVM.Model.Parameters),
+                this.SelectedProfile != null ? new[] { this.SelectedProfile.Model.Parameters } : new ConnectionParameters[0],
+                nameof(ConnectionParameters.Name),
                 Constants.DATA_TYPE_CONNECTION_PROFILES);
         }
 

@@ -15,9 +15,9 @@ namespace MessageCommunicator.TestGui
         private Package _package;
         private bool _isClosed;
 
-        public DataPackageFile(string fileName, FileMode fileMode)
+        public DataPackageFile(string fileName, FileMode fileMode, FileAccess fileAccess)
         {
-            _package = Package.Open(fileName, fileMode);
+            _package = Package.Open(fileName, fileMode, fileAccess);
             _isClosed = false;
         }
 
@@ -34,7 +34,7 @@ namespace MessageCommunicator.TestGui
                 var descriptorPart = _package.GetPart(descriptorUri);
 
                 DataPackageDescriptor? result = null;
-                using (var inStream = descriptorPart.GetStream())
+                using (var inStream = descriptorPart.GetStream(FileMode.Open, FileAccess.Read))
                 {
                     result = SerializationHelper.DeserializeFromStream<DataPackageDescriptor>(inStream);
                 }
@@ -74,6 +74,51 @@ namespace MessageCommunicator.TestGui
             using (var outStream = outPartContent.GetStream(FileMode.Create))
             {
                 SerializationHelper.SerializeToStream(outStream, fileContents);
+            }
+        }
+
+        public T ReadSingleFile<T>(string dataType)
+            where T : class
+        {
+            if (_isClosed) { throw new ObjectDisposedException(nameof(DataPackageFile)); }
+
+            // Check descriptor
+            var descriptorUri = new Uri(FILE_DESCRIPTOR, UriKind.Relative);
+            if (!_package.PartExists(descriptorUri))
+            {
+                throw new InvalidOperationException("No descriptor found in package file!");
+            }
+
+            var descriptorPart = _package.GetPart(descriptorUri);
+            using (var inStream = descriptorPart.GetStream(FileMode.Open, FileAccess.Read))
+            {
+                var descriptor = SerializationHelper.DeserializeFromStream<DataPackageDescriptor>(inStream);
+                if (descriptor == null)
+                {
+                    throw new InvalidOperationException("Unable to deserialize descriptor from package file!");
+                }
+                else if (descriptor.DataType != dataType)
+                {
+                    throw new InvalidOperationException($"Invalid data type {descriptor.DataType}! (expected {dataType})");
+                }
+            }
+
+            // Check and load data file
+            var dataFileUri = new Uri(FILE_SINGLE_DATA_FILE, UriKind.Relative);
+            if (!_package.PartExists(dataFileUri))
+            {
+                throw new InvalidOperationException("No data file found in package file!");
+            }
+
+            var dataFilePart = _package.GetPart(dataFileUri);
+            using (var inStream = dataFilePart.GetStream(FileMode.Open, FileAccess.Read))
+            {
+                var result = SerializationHelper.DeserializeFromStream<T>(inStream);
+                if (result == null)
+                {
+                    throw new InvalidOperationException($"Unable to deserialize data file!");
+                }
+                return result;
             }
         }
 

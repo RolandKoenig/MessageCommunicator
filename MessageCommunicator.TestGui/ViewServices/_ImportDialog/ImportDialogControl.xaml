@@ -8,4 +8,30 @@
         Width="810" Height="400"
         x:Class="MessageCommunicator.TestGui.ViewServices.ImportDialogControl">
 
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <StackPanel.Styles>
+                <Style Selector="Button">
+                    <Setter Property="Width" Value="125" />
+                    <Setter Property="Margin" Value="3" />
+                </Style>
+            </StackPanel.Styles>
+          
+            <Button Content="OK" IsDefault="True" Command="{Binding Path=Command_OK}" />
+            <Button Content="Cancel" Command="{Binding Path=Command_Cancel}" />
+        </StackPanel>
+    
+        <ListBox Items="{Binding Path=ImportLines}" Margin="10">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <CheckBox IsChecked="{Binding Path=DoImport}" />
+                        <TextBlock Margin="10,0,0,0" Text="{Binding Path=DisplayText}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>    
+    </DockPanel>
+
 </UserControl>

@@ -9,15 +9,7 @@ namespace MessageCommunicator.TestGui.Logic
 {
     public class ConnectionProfileStore
     {
-        private JsonSerializer _serializer;
-
         public static ConnectionProfileStore Current { get; } = new ConnectionProfileStore();
-
-        public ConnectionProfileStore()
-        {
-            _serializer = new JsonSerializer();
-            _serializer.TypeNameHandling = TypeNameHandling.Auto;
-        }
 
         public void StoreConnectionProfiles(IEnumerable<ConnectionProfile> profiles)
         {
@@ -36,7 +28,7 @@ namespace MessageCommunicator.TestGui.Logic
                 using(var writer = new JsonTextWriter(new StreamWriter(new FileStream(safePath, FileMode.Create, FileAccess.Write))))
                 {
                     writer.Formatting = Formatting.Indented;
-                    _serializer.Serialize(writer, connParams);
+                    SerializationHelper.Serializer.Serialize(writer, connParams);
                 }
             }
             catch (Exception)
@@ -54,7 +46,7 @@ namespace MessageCommunicator.TestGui.Logic
             {
                 using (var reader = new JsonTextReader(new StreamReader(File.OpenRead(profileSafePath))))
                 {
-                    var loadedConnParameters = _serializer.Deserialize<List<ConnectionParameters>>(reader);
+                    var loadedConnParameters = SerializationHelper.Serializer.Deserialize<List<ConnectionParameters>>(reader);
                     if (loadedConnParameters == null) { return null; }
 
                     var result = new List<ConnectionProfile>(loadedConnParameters.Count);

@@ -9,7 +9,13 @@ namespace MessageCommunicator.TestGui
 {
     public static class SerializationHelper
     {
-        public static readonly JsonSerializer Serializer = new JsonSerializer();
+        public static readonly JsonSerializer Serializer;
+
+        static SerializationHelper()
+        {
+            Serializer = new JsonSerializer();
+            Serializer.TypeNameHandling = TypeNameHandling.Auto;
+        }
 
         public static T? DeserializeFromStream<T>(Stream inStream)
             where T : class
@@ -29,7 +35,7 @@ namespace MessageCommunicator.TestGui
                 outJsonStream.IndentChar = ' ';
                 outJsonStream.Indentation = 4;
 
-                Serializer.Serialize(outJsonStream, valueToSerialize);
+                Serializer.Serialize(outJsonStream, valueToSerialize, valueToSerialize.GetType());
             }
         }
     }

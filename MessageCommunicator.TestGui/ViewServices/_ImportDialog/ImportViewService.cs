@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -21,7 +22,9 @@ namespace MessageCommunicator.TestGui.ViewServices
 
         /// <inheritdoc />
         public async Task ImportAsync<T>(ICollection<T> importTarget, string nameProperty, string dataTypeName)
+            where T : class
         {
+            // Choose file to import
             var fileToImport = await _srvOpenFile.ShowOpenFileDialogAsync(
                 new[]
                 {
@@ -38,9 +41,23 @@ namespace MessageCommunicator.TestGui.ViewServices
                 return;
             }
 
+            // Import the file
+            List<T> importedLines;
+            using (var dataPackage = new DataPackageFile(fileToImport, FileMode.Open, FileAccess.Read))
+            {
+                try
+                {
+                    importedLines = dataPackage.ReadSingleFile<List<T>>(dataTypeName);
+                }
+                catch (Exception ex)
+                {
+                    await _srvMessageBox.ShowAsync("Import", $"Error while importing: {ex.Message}", MessageBoxButtons.Ok);
+                    return;
+                }
+            }
 
             var importDlg = new ImportDialogControl();
-            importDlg.DataContext = new ImportDialogControlViewModel<T>(importTarget, nameProperty, dataTypeName);
+            importDlg.DataContext = new ImportDialogControlViewModel<T>(importTarget, importedLines, nameProperty, dataTypeName);
 
             await importDlg.ShowControlDialogAsync(_host, "Import");
         }

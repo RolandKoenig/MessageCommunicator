@@ -84,9 +84,9 @@ namespace MessageCommunicator.TestGui.ViewServices
             // Export the file
             try
             {
-                using (var packageFile = new DataPackageFile(fileName, FileMode.Create))
+                using (var packageFile = new DataPackageFile(fileName, FileMode.Create, FileAccess.ReadWrite))
                 {
-                    packageFile.WriteSingleFile(objectToExport, _dataTypeName);
+                    packageFile.WriteSingleFile(objectToExport.ToArray(), _dataTypeName);
                 }
             }
             catch (Exception ex)

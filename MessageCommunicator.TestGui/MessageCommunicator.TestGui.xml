@@ -42,6 +42,11 @@
         <member name="M:MessageCommunicator.TestGui.ViewServices.SaveFileDialogService.ShowSaveFileDialogAsync(System.Collections.Generic.IEnumerable{Avalonia.Controls.FileDialogFilter},System.String)">
             <inheritdoc />
         </member>
+        <member name="T:MessageCommunicator.TestGui.ViewServices.ImportDialogControlViewModel`1.ImportLine">
+            <summary>
+            Helper for selecting/deselecting objects.
+            </summary>
+        </member>
         <member name="M:MessageCommunicator.TestGui.ViewServices.ImportViewService.ImportAsync``1(System.Collections.Generic.ICollection{``0},System.String,System.String)">
             <inheritdoc />
         </member>
