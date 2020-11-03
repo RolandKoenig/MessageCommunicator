@@ -12,7 +12,8 @@ using ReactiveUI;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
-    public class ExportDialogControlViewModel : OwnViewModelBase
+    public class ExportDialogControlViewModel<T> : OwnViewModelBase
+        where T : class
     {
         private string _dataTypeName;
 
@@ -25,7 +26,7 @@ namespace MessageCommunicator.TestGui.ViewServices
 
         public ReactiveCommand<object?, Unit> Command_Cancel { get; }
 
-        public ExportDialogControlViewModel(IEnumerable allObjects, IEnumerable objectsToExport, string nameProperty, string dataTypeName)
+        public ExportDialogControlViewModel(IEnumerable<T> allObjects, IEnumerable<T> objectsToExport, string nameProperty, string dataTypeName)
         {
             _dataTypeName = dataTypeName;
 
@@ -86,7 +87,7 @@ namespace MessageCommunicator.TestGui.ViewServices
             {
                 using (var packageFile = new DataPackageFile(fileName, FileMode.Create, FileAccess.ReadWrite))
                 {
-                    packageFile.WriteSingleFile(objectToExport.ToArray(), _dataTypeName);
+                    packageFile.WriteSingleFile(objectToExport, _dataTypeName);
                 }
             }
             catch (Exception ex)
@@ -126,11 +127,11 @@ namespace MessageCommunicator.TestGui.ViewServices
         {
             public string Name { get; }
 
-            public object ObjectToExport { get; }
+            public T ObjectToExport { get; }
 
             public bool DoExport { get; set; }
 
-            public ExportLine(string name, object objToExport, bool doExport)
+            public ExportLine(string name, T objToExport, bool doExport)
             {
                 this.Name = name;
                 this.ObjectToExport = objToExport;

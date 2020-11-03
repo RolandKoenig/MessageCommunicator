@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text;
 using Newtonsoft.Json;
 
@@ -35,7 +34,7 @@ namespace MessageCommunicator.TestGui
                 outJsonStream.IndentChar = ' ';
                 outJsonStream.Indentation = 4;
 
-                Serializer.Serialize(outJsonStream, valueToSerialize, valueToSerialize.GetType());
+                Serializer.Serialize(outJsonStream, valueToSerialize);
             }
         }
     }

@@ -28,7 +28,7 @@
         <member name="M:MessageCommunicator.TestGui.ViewServices.ConnectionConfigControlService.ConfigureConnectionAsync(MessageCommunicator.TestGui.Data.ConnectionParameters)">
             <inheritdoc />
         </member>
-        <member name="T:MessageCommunicator.TestGui.ViewServices.ExportDialogControlViewModel.ExportLine">
+        <member name="T:MessageCommunicator.TestGui.ViewServices.ExportDialogControlViewModel`1.ExportLine">
             <summary>
             Helper for selecting/deselecting objects.
             </summary>

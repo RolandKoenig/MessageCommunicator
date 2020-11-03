@@ -8,7 +8,7 @@ using Avalonia.Threading;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
-    public class ExportDialogControl : OwnUserControlDialog<ExportDialogControlViewModel>
+    public class ExportDialogControl : OwnUserControlDialog<OwnViewModelBase>
     {
         public ExportDialogControl()
         {

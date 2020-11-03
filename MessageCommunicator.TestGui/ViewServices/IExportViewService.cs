@@ -8,6 +8,9 @@ namespace MessageCommunicator.TestGui.ViewServices
 {
     public interface IExportViewService
     {
-        Task ExportAsync<T>(IEnumerable<T> allObjects, IEnumerable<T> objectsToExport, string nameProperty, string dataTypeName);
+        Task ExportAsync<T>(
+            IEnumerable<T> allObjects, IEnumerable<T> objectsToExport, 
+            string nameProperty, string dataTypeName)
+            where T : class;
     }
 }
