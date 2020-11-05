@@ -21,7 +21,7 @@ namespace MessageCommunicator.TestGui.ViewServices
         }
 
         /// <inheritdoc />
-        public async Task ImportAsync<T>(ICollection<T> importTarget, string nameProperty, string dataTypeName)
+        public async Task<ImportResult<T>?> ImportAsync<T>(ICollection<T> importTarget, string nameProperty, string dataTypeName)
             where T : class
         {
             // Choose file to import
@@ -38,7 +38,7 @@ namespace MessageCommunicator.TestGui.ViewServices
             if (string.IsNullOrEmpty(fileToImport))
             {
                 await _srvMessageBox.ShowAsync("Import", "No file selected!", MessageBoxButtons.Ok);
-                return;
+                return null;
             }
 
             // Import the file
@@ -52,14 +52,15 @@ namespace MessageCommunicator.TestGui.ViewServices
                 catch (Exception ex)
                 {
                     await _srvMessageBox.ShowAsync("Import", $"Error while importing: {ex.Message}", MessageBoxButtons.Ok);
-                    return;
+                    return null;
                 }
             }
 
             var importDlg = new ImportDialogControl();
             importDlg.DataContext = new ImportDialogControlViewModel<T>(importTarget, importedLines, nameProperty, dataTypeName);
 
-            await importDlg.ShowControlDialogAsync(_host, "Import");
+            return await importDlg.ShowControlDialogAsync(_host, "Import") 
+                as ImportResult<T>;
         }
     }
 }

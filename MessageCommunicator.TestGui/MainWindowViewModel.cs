@@ -99,9 +99,35 @@ namespace MessageCommunicator.TestGui
                 .ToList();
 
             var srvImportDlg = this.GetViewService<IImportViewService>();
-            await srvImportDlg.ImportAsync(
+            var importResult = await srvImportDlg.ImportAsync(
                 connectionProfiles,
                 nameof(ConnectionParameters.Name), Constants.DATA_TYPE_CONNECTION_PROFILES);
+            if (importResult != null)
+            {
+                // Replace updated objects
+                foreach (var actUpdatedObject in importResult.UpdatedObjects)
+                {
+                    var updatedProfile = this.Profiles.FirstOrDefault(actProfile =>
+                        actProfile.Model.Name == actUpdatedObject.OriginalObject.Name);
+                    if (updatedProfile == null)
+                    {
+                        importResult.NewObjects.Add(actUpdatedObject.NewObject);
+                        continue;
+                    }
+
+                    await updatedProfile.Model.ChangeParametersAsync(actUpdatedObject.NewObject);
+                }
+                
+                // Add new objects
+                foreach (var actNewObject in importResult.NewObjects)
+                {
+                    this.Profiles.Add(new ConnectionProfileViewModel(
+                        new ConnectionProfile(SynchronizationContext.Current!, actNewObject)));
+                }
+
+                ConnectionProfileStore.Current.StoreConnectionProfiles(
+                    this.Profiles.Select(actProfileVM => actProfileVM.Model));
+            }  
         }
 
         private async Task ExportProfilesAsync(object? arg, CancellationToken cancelToken)
