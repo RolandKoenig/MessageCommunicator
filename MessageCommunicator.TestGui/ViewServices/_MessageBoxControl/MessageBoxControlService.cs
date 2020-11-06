@@ -3,7 +3,7 @@ using Avalonia.Controls;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
-    public class MessageBoxControlService : IMessageBoxService
+    public class MessageBoxControlService : ViewServiceBase, IMessageBoxService
     {
         private DialogHostControl _host;
 

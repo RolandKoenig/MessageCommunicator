@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Avalonia.ReactiveUI;
@@ -30,7 +29,7 @@ namespace MessageCommunicator.TestGui
 
         protected virtual void OnActivated(CompositeDisposable disposables)
         {
-            _viewServices.ObserveForViewServiceRequest(disposables, this.ViewModel);
+            _viewServices.StartObserving(disposables, this.ViewModel);
 
             Observable.FromEventPattern<CloseWindowRequestEventArgs>(this.ViewModel, nameof(this.ViewModel.CloseWindowRequest))
                 .Subscribe(eArgs =>

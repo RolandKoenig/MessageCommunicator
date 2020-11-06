@@ -4,7 +4,7 @@ using MessageCommunicator.TestGui.Data;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
-    public class ConnectionConfigControlService : IConnectionConfigViewService
+    public class ConnectionConfigControlService : ViewServiceBase, IConnectionConfigViewService
     {
         private DialogHostControl _host;
 

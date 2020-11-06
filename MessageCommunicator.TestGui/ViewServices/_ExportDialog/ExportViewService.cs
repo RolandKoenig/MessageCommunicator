@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
-    public class ExportViewService : IExportViewService
+    public class ExportViewService : ViewServiceBase, IExportViewService
     {
         private DialogHostControl _host;
 

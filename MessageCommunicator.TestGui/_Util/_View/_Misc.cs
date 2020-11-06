@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace MessageCommunicator.TestGui
@@ -10,6 +11,6 @@ namespace MessageCommunicator.TestGui
 
     public interface IViewService
     {
-        
+        event EventHandler<ViewServiceRequestEventArgs>? ViewServiceRequest;
     }
 }

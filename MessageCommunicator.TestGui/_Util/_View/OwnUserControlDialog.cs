@@ -46,7 +46,7 @@ namespace MessageCommunicator.TestGui
 
         protected virtual void OnActivated(CompositeDisposable disposables)
         {
-            _viewServices.ObserveForViewServiceRequest(disposables, this.ViewModel);
+            _viewServices.StartObserving(disposables, this.ViewModel);
 
             Observable.FromEventPattern<CloseWindowRequestEventArgs>(this.ViewModel, nameof(this.ViewModel.CloseWindowRequest))
                 .Subscribe(eArgs =>

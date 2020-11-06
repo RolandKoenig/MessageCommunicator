@@ -7,25 +7,24 @@ using Avalonia.Controls;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
-    public class ImportViewService : IImportViewService
+    public class ImportViewService : ViewServiceBase, IImportViewService
     {
         private DialogHostControl _host;
-        private IOpenFileViewService _srvOpenFile;
-        private IMessageBoxService _srvMessageBox;
 
-        public ImportViewService(DialogHostControl host, IOpenFileViewService srvOpenFile, IMessageBoxService srvMessageBox)
+        public ImportViewService(DialogHostControl host)
         {
             _host = host;
-            _srvOpenFile = srvOpenFile;
-            _srvMessageBox = srvMessageBox;
         }
 
         /// <inheritdoc />
         public async Task<ImportResult<T>?> ImportAsync<T>(ICollection<T> importTarget, string nameProperty, string dataTypeName)
             where T : class
         {
+            var srvOpenFile = this.GetViewService<IOpenFileViewService>();
+            var srvMessageBox = this.GetViewService<IMessageBoxService>();
+
             // Choose file to import
-            var fileToImport = await _srvOpenFile.ShowOpenFileDialogAsync(
+            var fileToImport = await srvOpenFile.ShowOpenFileDialogAsync(
                 new[]
                 {
                     new FileDialogFilter()
@@ -37,7 +36,7 @@ namespace MessageCommunicator.TestGui.ViewServices
 
             if (string.IsNullOrEmpty(fileToImport))
             {
-                await _srvMessageBox.ShowAsync("Import", "No file selected!", MessageBoxButtons.Ok);
+                await srvMessageBox.ShowAsync("Import", "No file selected!", MessageBoxButtons.Ok);
                 return null;
             }
 
@@ -51,7 +50,7 @@ namespace MessageCommunicator.TestGui.ViewServices
                 }
                 catch (Exception ex)
                 {
-                    await _srvMessageBox.ShowAsync("Import", $"Error while importing: {ex.Message}", MessageBoxButtons.Ok);
+                    await srvMessageBox.ShowAsync("Import", $"Error while importing: {ex.Message}", MessageBoxButtons.Ok);
                     return null;
                 }
             }

@@ -141,5 +141,13 @@
         <member name="P:MessageCommunicator.TestGui.OwnWindow`1.ViewServices">
             <inheritdoc />
         </member>
+        <member name="M:MessageCommunicator.TestGui.ViewServiceBase.GetViewService``1">
+            <summary>
+            Gets the view service of the given type.
+            </summary>
+        </member>
+        <member name="M:MessageCommunicator.TestGui.ViewServiceContainer.ObserverStopAdapter.Dispose">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

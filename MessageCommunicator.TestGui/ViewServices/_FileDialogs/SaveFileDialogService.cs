@@ -6,7 +6,7 @@ using Avalonia.Controls;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
-    public class SaveFileDialogService : ISaveFileViewService
+    public class SaveFileDialogService : ViewServiceBase, ISaveFileViewService
     {
         private Window _parent;
 

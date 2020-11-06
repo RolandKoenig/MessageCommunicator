@@ -7,7 +7,7 @@ using Avalonia.Controls;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
-    public class OpenFileDialogService : IOpenFileViewService
+    public class OpenFileDialogService : ViewServiceBase, IOpenFileViewService
     {
         private Window _parent;
 
