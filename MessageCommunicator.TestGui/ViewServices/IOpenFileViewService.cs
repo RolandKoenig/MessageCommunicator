@@ -6,7 +6,7 @@ using Avalonia.Controls;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
-    public interface IOpenFileViewService
+    public interface IOpenFileViewService : IViewService
     {
         Task<string?> ShowOpenFileDialogAsync(IEnumerable<FileDialogFilter> filters, string defaultExtension);
     }

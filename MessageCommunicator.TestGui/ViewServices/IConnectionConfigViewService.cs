@@ -3,7 +3,7 @@ using MessageCommunicator.TestGui.Data;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
-    public interface IConnectionConfigViewService
+    public interface IConnectionConfigViewService : IViewService
     {
         Task<ConnectionParameters?> ConfigureConnectionAsync(ConnectionParameters? template);
     }

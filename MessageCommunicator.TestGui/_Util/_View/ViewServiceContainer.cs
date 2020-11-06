@@ -1,13 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Text;
 using Avalonia.Controls;
 
 namespace MessageCommunicator.TestGui
 {
-    internal static class OwnViewExtensions
+    public class ViewServiceContainer
     {
-        internal static void ObserveForViewServiceRequest(this IControl view, CompositeDisposable disposables, OwnViewModelBase? viewModel)
+        public ObservableCollection<IViewService> ViewServices { get; } = new ObservableCollection<IViewService>();
+
+        public IControl Owner { get; }
+
+        public ViewServiceContainer(IControl owner)
+        {
+            this.Owner = owner;
+
+            this.ViewServices.CollectionChanged += this.OnViewServices_CollectionChanged;
+        }
+
+        internal void ObserveForViewServiceRequest(CompositeDisposable disposables, OwnViewModelBase? viewModel)
         {
             if (viewModel == null) { return; }
 
@@ -15,7 +30,7 @@ namespace MessageCommunicator.TestGui
                 .Subscribe(onNext =>
                 {
                     var eArgs = onNext.EventArgs;
-                    var foundViewService = view.FindViewService(eArgs.ViewServiceType);
+                    var foundViewService = this.FindViewService(eArgs.ViewServiceType);
                     if (foundViewService != null)
                     {
                         eArgs.ViewService = foundViewService;
@@ -24,9 +39,9 @@ namespace MessageCommunicator.TestGui
                 .DisposeWith(disposables);
         }
 
-        internal static object? FindViewService(this IControl view, Type viewServiceType)
+        internal object? FindViewService(Type viewServiceType)
         {
-            var actParent = view;
+            var actParent = (IControl?)this.Owner;
             object? result = null;
             while (actParent != null)
             {
@@ -46,6 +61,11 @@ namespace MessageCommunicator.TestGui
                 actParent = actParent.Parent;
             }
             return result;
+        }
+
+        private void OnViewServices_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            
         }
     }
 }

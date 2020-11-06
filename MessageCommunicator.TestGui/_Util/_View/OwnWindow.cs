@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Avalonia.ReactiveUI;
@@ -10,22 +11,26 @@ namespace MessageCommunicator.TestGui
     public class OwnWindow<T> : ReactiveWindow<T>, IViewServiceHost
         where T : OwnViewModelBase
     {
+        private ViewServiceContainer _viewServices;
+
         /// <inheritdoc />
-        public List<object> ViewServices { get; } = new List<object>();
+        public ICollection<IViewService> ViewServices => _viewServices.ViewServices;
 
         public OwnWindow()
         {
+            _viewServices = new ViewServiceContainer(this);
+
             this.WhenActivated(this.OnActivated);
         }
 
-        public void RegisterViewService(object viewService)
+        public void RegisterViewService(IViewService viewService)
         {
             this.ViewServices.Add(viewService);
         }
 
         protected virtual void OnActivated(CompositeDisposable disposables)
         {
-            this.ObserveForViewServiceRequest(disposables, this.ViewModel);
+            _viewServices.ObserveForViewServiceRequest(disposables, this.ViewModel);
 
             Observable.FromEventPattern<CloseWindowRequestEventArgs>(this.ViewModel, nameof(this.ViewModel.CloseWindowRequest))
                 .Subscribe(eArgs =>

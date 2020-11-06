@@ -6,7 +6,7 @@ using Avalonia.Controls;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
-    public interface ISaveFileViewService
+    public interface ISaveFileViewService : IViewService
     {
         Task<string?> ShowSaveFileDialogAsync(IEnumerable<FileDialogFilter> filters, string defaultExtension);
     }

@@ -13,12 +13,15 @@ namespace MessageCommunicator.TestGui
     {
         private DialogHostControl? _host;
         private TaskCompletionSource<object?>? _closeCompletionSource;
+        private ViewServiceContainer _viewServices;
 
         /// <inheritdoc />
-        public List<object> ViewServices { get; } = new List<object>();
+        public ICollection<IViewService> ViewServices => _viewServices.ViewServices;
 
         public OwnUserControlDialog()
         {
+            _viewServices = new ViewServiceContainer(this);
+
             this.WhenActivated(this.OnActivated);
         }
 
@@ -36,14 +39,14 @@ namespace MessageCommunicator.TestGui
             return _closeCompletionSource.Task;
         }
 
-        public void RegisterViewService(object viewService)
+        public void RegisterViewService(IViewService viewService)
         {
             this.ViewServices.Add(viewService);
         }
 
         protected virtual void OnActivated(CompositeDisposable disposables)
         {
-            this.ObserveForViewServiceRequest(disposables, this.ViewModel);
+            _viewServices.ObserveForViewServiceRequest(disposables, this.ViewModel);
 
             Observable.FromEventPattern<CloseWindowRequestEventArgs>(this.ViewModel, nameof(this.ViewModel.CloseWindowRequest))
                 .Subscribe(eArgs =>

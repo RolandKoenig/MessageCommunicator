@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
-    public interface IExportViewService
+    public interface IExportViewService : IViewService
     {
         Task ExportAsync<T>(
             IEnumerable<T> allObjects, IEnumerable<T> objectsToExport, 
