@@ -43,6 +43,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{C55F0A61
 		_Misc\Nuget\MessageCommunicator_128.png = _Misc\Nuget\MessageCommunicator_128.png
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageCommunicator.TestGui.Tests", "MessageCommunicator.TestGui.Tests\MessageCommunicator.TestGui.Tests.csproj", "{890F521E-B731-44C1-9C73-D2E45B5FC2E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{7B36AA01-E6A4-49BD-9063-DA56DD25DBAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B36AA01-E6A4-49BD-9063-DA56DD25DBAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B36AA01-E6A4-49BD-9063-DA56DD25DBAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{890F521E-B731-44C1-9C73-D2E45B5FC2E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{890F521E-B731-44C1-9C73-D2E45B5FC2E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{890F521E-B731-44C1-9C73-D2E45B5FC2E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{890F521E-B731-44C1-9C73-D2E45B5FC2E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

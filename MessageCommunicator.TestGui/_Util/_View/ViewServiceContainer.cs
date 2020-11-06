@@ -27,14 +27,16 @@ namespace MessageCommunicator.TestGui
 
         public void StartObserving(CompositeDisposable disposables, OwnViewModelBase? viewModel)
         {
-            if (viewModel == null) { return; }
             if (_observerDisposable != null)
             {
                 throw new InvalidOperationException("This instance is already registered on the view!");
             }
 
             _observedViewModel = viewModel;
-            _observedViewModel.ViewServiceRequest += this.OnViewServiceRequest;
+            if (_observedViewModel != null)
+            {
+                _observedViewModel.ViewServiceRequest += this.OnViewServiceRequest;
+            }
 
             _observerDisposable = new ObserverStopAdapter(this);
             disposables.Add(_observerDisposable);
@@ -61,7 +63,7 @@ namespace MessageCommunicator.TestGui
             }
         }
 
-        private object? FindViewService(Type viewServiceType)
+        public object? FindViewService(Type viewServiceType)
         {
             var actParent = (IControl?)this.Owner;
             object? result = null;
@@ -89,17 +91,23 @@ namespace MessageCommunicator.TestGui
         {
             if (_observerDisposable == null) { return; }
 
-            foreach (IViewService? actNewItem in e.NewItems)
+            if (e.NewItems != null)
             {
-                if(actNewItem == null){ continue; }
+                foreach (IViewService? actNewItem in e.NewItems)
+                {
+                    if(actNewItem == null){ continue; }
 
-                actNewItem.ViewServiceRequest += this.OnViewServiceRequest;
+                    actNewItem.ViewServiceRequest += this.OnViewServiceRequest;
+                }
             }
-            foreach (IViewService? actOldItem in e.OldItems)
+            if (e.OldItems != null)
             {
-                if(actOldItem == null){ continue; }
+                foreach (IViewService? actOldItem in e.OldItems)
+                {
+                    if(actOldItem == null){ continue; }
 
-                actOldItem.ViewServiceRequest -= this.OnViewServiceRequest;
+                    actOldItem.ViewServiceRequest -= this.OnViewServiceRequest;
+                }
             }
         }
 
