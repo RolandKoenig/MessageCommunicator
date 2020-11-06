@@ -36,7 +36,6 @@ namespace MessageCommunicator.TestGui.ViewServices
 
             if (string.IsNullOrEmpty(fileToImport))
             {
-                await srvMessageBox.ShowAsync("Import", "No file selected!", MessageBoxButtons.Ok);
                 return null;
             }
 

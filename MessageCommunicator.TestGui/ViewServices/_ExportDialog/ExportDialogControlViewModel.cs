@@ -78,7 +78,6 @@ namespace MessageCommunicator.TestGui.ViewServices
                 }, "dataPackage" );
             if (string.IsNullOrEmpty(fileName))
             {
-                await srvMessageBox.ShowAsync("Export", "No file selected!", MessageBoxButtons.Ok);
                 return;
             }
 
