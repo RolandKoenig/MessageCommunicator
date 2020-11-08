@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Root", "_Root", "{907D9916
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
 		LICENSE.md = LICENSE.md
+		Privacy.md = Privacy.md
 		README.md = README.md
 		script-publish.ps1 = script-publish.ps1
 	EndProjectSection
@@ -122,7 +123,11 @@ Global
 		{C0147D75-D7F9-4D6A-AB94-4B5308B15F8A}.Debug|x86.ActiveCfg = Debug|x86
 		{C0147D75-D7F9-4D6A-AB94-4B5308B15F8A}.Release|Any CPU.ActiveCfg = Release|x86
 		{C0147D75-D7F9-4D6A-AB94-4B5308B15F8A}.Release|x64.ActiveCfg = Release|x64
+		{C0147D75-D7F9-4D6A-AB94-4B5308B15F8A}.Release|x64.Build.0 = Release|x64
+		{C0147D75-D7F9-4D6A-AB94-4B5308B15F8A}.Release|x64.Deploy.0 = Release|x64
 		{C0147D75-D7F9-4D6A-AB94-4B5308B15F8A}.Release|x86.ActiveCfg = Release|x86
+		{C0147D75-D7F9-4D6A-AB94-4B5308B15F8A}.Release|x86.Build.0 = Release|x86
+		{C0147D75-D7F9-4D6A-AB94-4B5308B15F8A}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
