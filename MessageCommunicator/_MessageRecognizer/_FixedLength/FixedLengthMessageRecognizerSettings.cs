@@ -26,7 +26,7 @@ namespace MessageCommunicator
         public char FillSymbol { get; set; }
 
         /// <summary>
-        /// Creates a new <see cref="FixedLengthAndEndSymbolsMessageRecognizerSettings"/> instance.
+        /// Creates a new <see cref="FixedLengthMessageRecognizerSettings"/> instance.
         /// </summary>
         /// <param name="encoding">The <see cref="Encoding"/> to be used when convert characters to/from bytes.</param>
         /// <param name="length">Total length of received/sent messages.</param>

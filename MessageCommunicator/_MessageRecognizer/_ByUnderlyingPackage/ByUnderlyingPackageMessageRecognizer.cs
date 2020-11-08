@@ -8,59 +8,39 @@ using MessageCommunicator.Util;
 namespace MessageCommunicator
 {
     /// <summary>
-    /// This <see cref="MessageRecognizer"/> implementation recognizes messages with a fixed length.
+    /// This <see cref="MessageRecognizer"/> implementation recognizes messages just as they come from the underlying messaging layer.
     /// </summary>
-    public class FixedLengthMessageRecognizer : MessageRecognizer
+    public class ByUnderlyingPackageMessageRecognizer : MessageRecognizer
     {
         private Encoding _encoding;
         private Decoder _decoder;
-        private int _length;
-        private char _fillSymbol;
         private StringBuffer _receiveStringBuffer;
 
         /// <summary>
-        /// Creates a new <see cref="FixedLengthMessageRecognizer"/> instance.
+        /// Creates a new <see cref="ByUnderlyingPackageMessageRecognizer"/> instance.
         /// </summary>
         /// <param name="encoding">The <see cref="Encoding"/> to be used when convert characters to/from bytes.</param>
-        /// <param name="length">Total length of received/sent messages.</param>
-        /// <param name="fillSymbol">Fill symbol for messages shorter than the fixed length.</param>
-        public FixedLengthMessageRecognizer(Encoding encoding, int length, char fillSymbol)
+        public ByUnderlyingPackageMessageRecognizer(Encoding encoding)
         {
             encoding.MustNotBeNull(nameof(encoding));
-            length.MustBeGreaterThan(0, nameof(length));
 
             _encoding = encoding;
             _decoder = _encoding.GetDecoder();
             _receiveStringBuffer = new StringBuffer(1024);
-            _length = length;
-            _fillSymbol = fillSymbol;
         }
 
         /// <inheritdoc />
         protected override Task<bool> SendInternalAsync(IByteStreamHandler byteStreamHandler, ReadOnlySpan<char> rawMessage)
         {
             byteStreamHandler.MustNotBeNull(nameof(byteStreamHandler));
-
-            // Check for valid message
-            if (rawMessage.Length > _length)
-            {
-                throw new ArgumentException(
-                    "Given message too long. " +
-                    $"Maximum length: {(_length)}, " +
-                    $"given message length: {rawMessage.Length}",
-                    nameof(rawMessage));
-            }
+            rawMessage.MustBeLongerThan(0, nameof(rawMessage));
 
             // Perform message formatting
-            var sendBuffer = StringBuffer.Acquire(_length);
+            var sendBuffer = StringBuffer.Acquire(rawMessage.Length);
             byte[]? bytes = null;
             try
             {
-                if(rawMessage.Length > 0){ sendBuffer.Append(rawMessage); }
-                while (sendBuffer.Count < _length)
-                {
-                    sendBuffer.Append(_fillSymbol);
-                }
+                sendBuffer.Append(rawMessage);
                 sendBuffer.GetInternalData(out var buffer, out var currentCount);
 
                 var sendMessageByteLength = _encoding.GetByteCount(buffer, 0, currentCount);
@@ -103,25 +83,15 @@ namespace MessageCommunicator
             var addedChars = _receiveStringBuffer.Append(receivedSegment, _decoder);
             if (addedChars == 0) { return; }
 
-            while (_receiveStringBuffer.Count >= _length)
+            var messageLength = _receiveStringBuffer.Count;
+            if (messageLength > 0)
             {
-                // Check for fill symbols
-                var messageLength = 0;
-                for (var loop = _length - 1; loop >= 0; loop--)
-                {
-                    if (_receiveStringBuffer[loop] != _fillSymbol)
-                    {
-                        messageLength = loop + 1;
-                        break;
-                    }
-                }
-
                 // Raise found message
                 base.NotifyRecognizedMessage(
                     _receiveStringBuffer.GetPartReadOnly(0, messageLength));
 
-                // Remove the message with endsymbols from receive buffer
-                _receiveStringBuffer.RemoveFromStart(_length);
+                // Clear current receive buffer
+                _receiveStringBuffer.Clear();
             }
         }
     }

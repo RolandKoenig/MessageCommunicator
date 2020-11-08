@@ -20,6 +20,21 @@ namespace MessageCommunicator.Tests
         };
 
         [TestMethod]
+        [DataRow("Test", "Test")]
+        [DataRow("<1|a>", "<1|a>")]
+        [DataRow("#", "#")]
+        public void Check_ByUnderlyingPackageMessageRecognizer(string receivedData, string expectedMessage)
+        {
+            foreach (var actEncoding in _encodings)
+            {
+                // Test full receiving
+                GenericTestMethod_FullReceive(
+                    new ByUnderlyingPackageMessageRecognizer(actEncoding),
+                    actEncoding, receivedData, expectedMessage);
+            }
+        }
+
+        [TestMethod]
         [DataRow("<22|This is a test message>", "This is a test message")]
         [DataRow("<1|a>", "a")]
         [DataRow("<0|>", "")]

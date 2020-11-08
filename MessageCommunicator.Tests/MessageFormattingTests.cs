@@ -22,6 +22,42 @@ namespace MessageCommunicator.Tests
         };
 
         [TestMethod]
+        [DataRow(data1: "Test", "Test")]
+        [DataRow(data1: "<1|a>", "<1|a>")]
+        [DataRow(data1: "#", "#")]
+        public async Task Check_ByUnderlyingPackageMessageRecognizer(string sendMessage, string expectedMessage)
+        {
+            foreach (var actEncoding in _encodings)
+            {
+                var testObject = new ByUnderlyingPackageMessageRecognizer(actEncoding);
+                await GenericTestMethodAsync(testObject, actEncoding, sendMessage, expectedMessage);
+            }
+        }
+
+        [TestMethod]
+        [DataRow("", typeof(InvalidCollectionCountException))]
+        public async Task Check_ByUnderlyingPackageMessageRecognizer_Errors(string sendMessage, Type expectedExceptionType)
+        {
+            foreach (var actEncoding in _encodings)
+            {
+                var anyException = false;
+                try
+                {
+                    var testObject = new ByUnderlyingPackageMessageRecognizer(actEncoding);
+                    await GenericTestMethodAsync(testObject, actEncoding, sendMessage, "");
+                }
+                catch (Exception e)
+                {
+                    anyException = true;
+                    Assert.IsTrue(e.GetType() == expectedExceptionType, "Unexpected exception fired");
+                }
+
+                Assert.IsTrue(anyException, "No exception fired!");
+            }
+        }
+
+
+        [TestMethod]
         [DataRow(data1: "This is a dummy message", "<23|This is a dummy message>")]
         [DataRow(data1: "a", "<1|a>")]
         [DataRow(data1: "\r\n", "<2|\r\n>")]
