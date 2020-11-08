@@ -7,13 +7,13 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="1fe81062-b870-4016-8b9c-03c08a4b774d"
-    Publisher="CN=rolan"
+    Name="35049RolandK.MessageCommunicator"
+    Publisher="CN=768032C6-916E-447E-BC21-CED6D927C479"
     Version="0.4.0.0" />
 
   <Properties>
-    <DisplayName>MessageCommunicator</DisplayName>
-    <PublisherDisplayName>Roland König</PublisherDisplayName>
+    <DisplayName>Message Communicator</DisplayName>
+    <PublisherDisplayName>RolandK</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
@@ -31,7 +31,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="MessageCommunicator"
+        DisplayName="Message Communicator"
         Description="MessageCommunicator is a testing Gui for message-based communication"
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"

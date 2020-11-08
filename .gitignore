@@ -198,3 +198,6 @@ Cert/
 
 # Visual Studio subfolder
 .vs/
+
+# WinStore Setup project
+BundleArtifacts/
