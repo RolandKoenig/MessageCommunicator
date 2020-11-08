@@ -48,6 +48,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageCommunicator.TestGui
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "MessageCommunicator.WinApp", "MessageCommunicator.WinApp\MessageCommunicator.WinApp.wapproj", "{C0147D75-D7F9-4D6A-AB94-4B5308B15F8A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Snap", "_Snap", "{12B77C58-A9A6-4AE1-BE6F-A7469C21F219}"
+ProjectSection(SolutionItems) = preProject
+	_Snap\snapcraft.yaml = _Snap\snapcraft.yaml
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
