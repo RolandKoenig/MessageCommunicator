@@ -25,6 +25,9 @@ namespace MessageCommunicator.TestGui.Data
                 case MessageRecognitionMode.StartAndEndSymbol:
                     return new MessageRecognizerStartAndEndSymbolSettings();
 
+                case MessageRecognitionMode.ByUnderlyingPackage:
+                    return new MessageRecognizerByUnderlyingPackageSettings();
+
                 default:
                     throw new ApplicationException($"Unknown message recognition mode: {recognitionMode}");
             }

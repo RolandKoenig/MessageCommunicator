@@ -4,6 +4,9 @@
         <name>MessageCommunicator.TestGui</name>
     </assembly>
     <members>
+        <member name="M:MessageCommunicator.TestGui.Data.MessageRecognizerByUnderlyingPackageSettings.CreateLibSettings">
+            <inheritdoc />
+        </member>
         <member name="M:MessageCommunicator.TestGui.Data.MessageRecognizerDefaultSettings.CreateLibSettings">
             <inheritdoc />
         </member>

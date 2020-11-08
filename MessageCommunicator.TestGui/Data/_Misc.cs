@@ -17,6 +17,8 @@
 
         FixedLengthAndEndSymbol = 2,
 
-        StartAndEndSymbol = 3
+        StartAndEndSymbol = 3,
+
+        ByUnderlyingPackage = 5
     }
 }
