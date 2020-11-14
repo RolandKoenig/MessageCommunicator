@@ -13,12 +13,15 @@ namespace MessageCommunicator.TestGui
         private Dictionary<string, List<string>> _errorsByPropertyName = new Dictionary<string, List<string>>();
 
         /// <inheritdoc />
-        public virtual IEnumerable GetErrors(string propertyName)
+        public virtual IEnumerable GetErrors(string? propertyName)
         {
+            if (propertyName == null) { return NO_ERRORS; }
+
             if (_errorsByPropertyName.TryGetValue(propertyName, out var errorList))
             {
                 return errorList;
             }
+
             return NO_ERRORS;
         }
 

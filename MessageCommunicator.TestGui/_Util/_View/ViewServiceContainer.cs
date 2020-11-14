@@ -87,7 +87,7 @@ namespace MessageCommunicator.TestGui
             return result;
         }
 
-        private void OnViewServices_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnViewServices_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             if (_observerDisposable == null) { return; }
 

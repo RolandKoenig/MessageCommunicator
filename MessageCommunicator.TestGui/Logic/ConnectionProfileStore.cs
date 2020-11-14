@@ -22,7 +22,7 @@ namespace MessageCommunicator.TestGui.Logic
             try
             {
                 var safePath = GetProfileSafePath();
-                var safeDirectory = Path.GetDirectoryName(safePath);
+                var safeDirectory = Path.GetDirectoryName(safePath)!;
                 if (!Directory.Exists(safeDirectory)) { Directory.CreateDirectory(safeDirectory); }
 
                 using(var writer = new JsonTextWriter(new StreamWriter(new FileStream(safePath, FileMode.Create, FileAccess.Write))))

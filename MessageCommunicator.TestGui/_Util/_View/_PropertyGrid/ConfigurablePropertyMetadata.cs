@@ -169,7 +169,7 @@ namespace MessageCommunicator.TestGui
                 var validationResult = actValidAttrib.GetValidationResult(this.ValueAccessor, ctx);
                 if (validationResult != null)
                 {
-                    this.SetError(nameof(this.ValueAccessor), validationResult.ErrorMessage);
+                    this.SetError(nameof(this.ValueAccessor), validationResult.ErrorMessage ?? "Unknown");
                     errorsFound = true;
                 }
             }
