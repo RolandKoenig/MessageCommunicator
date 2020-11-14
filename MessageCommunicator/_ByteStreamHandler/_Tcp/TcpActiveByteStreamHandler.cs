@@ -221,8 +221,8 @@ namespace MessageCommunicator
                 try
                 {
                     await this.RunReceiveLoopAsync(
-                        _currentClient, (IPEndPoint)_currentClient.Client.LocalEndPoint,
-                        (IPEndPoint)_currentClient.Client.RemoteEndPoint, CancellationToken.None);
+                        _currentClient, (IPEndPoint)_currentClient.Client.LocalEndPoint!,
+                        (IPEndPoint)_currentClient.Client.RemoteEndPoint!, CancellationToken.None);
                 }
                 catch (Exception ex)
                 {

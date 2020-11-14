@@ -215,10 +215,12 @@ namespace MessageCommunicator
                             this.ActualListeningPort));
                     }
 
+
+
                     actTcpClient = await tcpListener.AcceptTcpClientAsync()
                         .ConfigureAwait(false);
-                    actLocalEndPoint = (IPEndPoint) actTcpClient.Client.LocalEndPoint;
-                    actPartnerEndPoint = (IPEndPoint) actTcpClient.Client.RemoteEndPoint;
+                    actLocalEndPoint = (IPEndPoint) actTcpClient.Client.LocalEndPoint!;
+                    actPartnerEndPoint = (IPEndPoint) actTcpClient.Client.RemoteEndPoint!;
 
                     if (this.IsLoggerSet)
                     {

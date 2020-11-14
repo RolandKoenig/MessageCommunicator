@@ -14,7 +14,6 @@ namespace MessageCommunicator.Tests
             Encoding.GetEncoding("utf-32"),
             Encoding.GetEncoding("utf-16"),
             Encoding.GetEncoding("utf-8"),
-            Encoding.GetEncoding("utf-7"),
             Encoding.GetEncoding("us-ascii"),
             Encoding.GetEncoding("iso-8859-1")
         };

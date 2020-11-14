@@ -571,7 +571,7 @@ namespace MessageCommunicator.Util
             }
             else if (typeof(T) == typeof(string))
             {
-                Append(Unsafe.As<string>(value));
+                Append(Unsafe.As<string>(value) ?? string.Empty);
             }
             else {
                 // first, check to see if it's a value type implementing IStringFormattable
@@ -852,13 +852,13 @@ namespace MessageCommunicator.Util
                 {
                     return null;
                 }
-
+                
                 var result = typeof(ValueHelper<T>)
                     .GetTypeInfo()
-                    .GetDeclaredMethod("Assign")
+                    .GetDeclaredMethod(nameof(ValueHelper<T>.Assign))!
                     .MakeGenericMethod(type)
                     .Invoke(null, null);
-                return (Action<StringBuffer, T, StringView>)result;
+                return (Action<StringBuffer, T, StringView>)result!;
             }
         }
     }
