@@ -480,7 +480,7 @@ namespace Light.GuardClauses
         /// <param name = "exceptionFactory">The delegate that creates your custom exception. <paramref name = "parameter"/> and <paramref name = "other"/> are passed to this delegate.</param>
         /// <exception cref = "Exception">Your custom exception thrown when <paramref name = "parameter"/> and <paramref name = "other"/> are not equal.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T MustBe<T>(this T parameter, T other, Func<T?, T, Exception> exceptionFactory)
+        public static T MustBe<T>(this T parameter, T other, Func<T, T, Exception> exceptionFactory)
         {
             if (!EqualityComparer<T>.Default.Equals(parameter, other))
                 Throw.CustomException(exceptionFactory, parameter, other);
@@ -547,7 +547,7 @@ namespace Light.GuardClauses
         /// <param name = "exceptionFactory">The delegate that creates your custom exception. <paramref name = "parameter"/> and <paramref name = "other"/> are passed to this delegate.</param>
         /// <exception cref = "Exception">Your custom exception thrown when <paramref name = "parameter"/> and <paramref name = "other"/> are equal.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T MustNotBe<T>(this T parameter, T other, Func<T?, T, Exception> exceptionFactory)
+        public static T MustNotBe<T>(this T parameter, T other, Func<T, T, Exception> exceptionFactory)
         {
             if (EqualityComparer<T>.Default.Equals(parameter, other))
                 Throw.CustomException(exceptionFactory, parameter, other);
@@ -670,11 +670,11 @@ namespace Light.GuardClauses
         /// <exception cref = "Exception">Your custom exception thrown when the specified <paramref name = "parameter"/> is less than <paramref name = "other"/>, or when <paramref name = "parameter"/> is null.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("parameter:null => halt; parameter:notnull => notnull; exceptionFactory:null => halt")]
-        public static T MustNotBeLessThan<T>(this T parameter, T other, Func<T?, T, Exception> exceptionFactory)
+        public static T MustNotBeLessThan<T>(this T parameter, T other, Func<T, T, Exception> exceptionFactory)
             where T : IComparable<T>
         {
             if (parameter == null || parameter.CompareTo(other) < 0)
-                Throw.CustomException(exceptionFactory, parameter, other);
+                Throw.CustomException(exceptionFactory, parameter!, other);
             return parameter;
         }
 
@@ -706,11 +706,11 @@ namespace Light.GuardClauses
         /// <exception cref = "Exception">Your custom exception thrown when the specified <paramref name = "parameter"/> is less than <paramref name = "other"/>, or when <paramref name = "parameter"/> is null.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("parameter:null => halt; parameter:notnull => notnull; exceptionFactory:null => halt")]
-        public static T MustBeGreaterThanOrEqualTo<T>(this T parameter, T other, Func<T?, T, Exception> exceptionFactory)
+        public static T MustBeGreaterThanOrEqualTo<T>(this T parameter, T other, Func<T, T, Exception> exceptionFactory)
             where T : IComparable<T>
         {
             if (parameter == null || parameter.CompareTo(other) < 0)
-                Throw.CustomException(exceptionFactory, parameter, other);
+                Throw.CustomException(exceptionFactory, parameter!, other);
             return parameter;
         }
 
@@ -748,11 +748,11 @@ namespace Light.GuardClauses
         /// <exception cref = "Exception">Your custom exception thrown when the specified <paramref name = "parameter"/> is not less than <paramref name = "other"/>, or when <paramref name = "parameter"/> is null.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("parameter:null => halt; parameter:notnull => notnull; exceptionFactory:null => halt")]
-        public static T MustBeLessThan<T>(this T parameter, T other, Func<T?, T, Exception> exceptionFactory)
+        public static T MustBeLessThan<T>(this T parameter, T other, Func<T, T, Exception> exceptionFactory)
             where T : IComparable<T>
         {
             if (parameter == null || parameter.CompareTo(other) >= 0)
-                Throw.CustomException(exceptionFactory, parameter, other);
+                Throw.CustomException(exceptionFactory, parameter!, other);
             return parameter;
         }
 
@@ -784,11 +784,11 @@ namespace Light.GuardClauses
         /// <exception cref = "Exception">Your custom exception thrown when the specified <paramref name = "parameter"/> is not less than <paramref name = "other"/>, or when <paramref name = "parameter"/> is null.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("parameter:null => halt; parameter:notnull => notnull; exceptionFactory:null => halt")]
-        public static T MustNotBeGreaterThanOrEqualTo<T>(this T parameter, T other, Func<T?, T, Exception> exceptionFactory)
+        public static T MustNotBeGreaterThanOrEqualTo<T>(this T parameter, T other, Func<T, T, Exception> exceptionFactory)
             where T : IComparable<T>
         {
             if (parameter == null || parameter.CompareTo(other) >= 0)
-                Throw.CustomException(exceptionFactory, parameter, other);
+                Throw.CustomException(exceptionFactory, parameter!, other);
             return parameter;
         }
 
@@ -826,11 +826,11 @@ namespace Light.GuardClauses
         /// <exception cref = "Exception">Your custom exception thrown when the specified <paramref name = "parameter"/> is less than or equal to <paramref name = "other"/>, or when <paramref name = "parameter"/> is null.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("parameter:null => halt; parameter:notnull => notnull; exceptionFactory:null => halt")]
-        public static T MustBeGreaterThan<T>(this T parameter, T other, Func<T?, T, Exception> exceptionFactory)
+        public static T MustBeGreaterThan<T>(this T parameter, T other, Func<T, T, Exception> exceptionFactory)
             where T : IComparable<T>
         {
             if (parameter == null || parameter.CompareTo(other) <= 0)
-                Throw.CustomException(exceptionFactory, parameter, other);
+                Throw.CustomException(exceptionFactory, parameter!, other);
             return parameter;
         }
 
@@ -862,11 +862,11 @@ namespace Light.GuardClauses
         /// <exception cref = "Exception">Your custom exception thrown when the specified <paramref name = "parameter"/> is less than or equal to <paramref name = "other"/>, or when <paramref name = "parameter"/> is null.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("parameter:null => halt; parameter:notnull => notnull; exceptionFactory:null => halt")]
-        public static T MustNotBeLessThanOrEqualTo<T>(this T parameter, T other, Func<T?, T, Exception> exceptionFactory)
+        public static T MustNotBeLessThanOrEqualTo<T>(this T parameter, T other, Func<T, T, Exception> exceptionFactory)
             where T : IComparable<T>
         {
             if (parameter == null || parameter.CompareTo(other) <= 0)
-                Throw.CustomException(exceptionFactory, parameter, other);
+                Throw.CustomException(exceptionFactory, parameter!, other);
             return parameter;
         }
 
@@ -904,11 +904,11 @@ namespace Light.GuardClauses
         /// <exception cref = "Exception">Your custom exception thrown when the specified <paramref name = "parameter"/> is greater than <paramref name = "other"/>, or when <paramref name = "parameter"/> is null.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("parameter:null => halt; parameter:notnull => notnull; exceptionFactory:null => halt")]
-        public static T MustNotBeGreaterThan<T>(this T parameter, T other, Func<T?, T, Exception> exceptionFactory)
+        public static T MustNotBeGreaterThan<T>(this T parameter, T other, Func<T, T, Exception> exceptionFactory)
             where T : IComparable<T>
         {
             if (parameter == null || parameter.CompareTo(other) > 0)
-                Throw.CustomException(exceptionFactory, parameter, other);
+                Throw.CustomException(exceptionFactory, parameter!, other);
             return parameter;
         }
 
@@ -940,11 +940,11 @@ namespace Light.GuardClauses
         /// <exception cref = "Exception">Your custom exception thrown when the specified <paramref name = "parameter"/> is greater than <paramref name = "other"/>, or when <paramref name = "parameter"/> is null.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("parameter:null => halt; parameter:notnull => notnull; exceptionFactory:null => halt")]
-        public static T MustBeLessThanOrEqualTo<T>(this T parameter, T other, Func<T?, T, Exception> exceptionFactory)
+        public static T MustBeLessThanOrEqualTo<T>(this T parameter, T other, Func<T, T, Exception> exceptionFactory)
             where T : IComparable<T>
         {
             if (parameter == null || parameter.CompareTo(other) > 0)
-                Throw.CustomException(exceptionFactory, parameter, other);
+                Throw.CustomException(exceptionFactory, parameter!, other);
             return parameter;
         }
 
@@ -1002,11 +1002,11 @@ namespace Light.GuardClauses
         /// <exception cref = "Exception">Your custom exception thrown when <paramref name = "parameter"/> is not within <paramref name = "range"/>, or when <paramref name = "parameter"/> is null.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("parameter:null => halt; parameter:notnull => notnull; exceptionFactory:null => halt")]
-        public static T MustBeIn<T>(this T parameter, Range<T> range, Func<T?, Range<T>, Exception> exceptionFactory)
+        public static T MustBeIn<T>(this T parameter, Range<T> range, Func<T, Range<T>, Exception> exceptionFactory)
             where T : IComparable<T>
         {
             if (parameter == null || !range.IsValueWithinRange(parameter))
-                Throw.CustomException(exceptionFactory, parameter, range);
+                Throw.CustomException(exceptionFactory, parameter!, range);
             return parameter;
         }
 
@@ -1039,11 +1039,11 @@ namespace Light.GuardClauses
         /// <exception cref = "Exception">Your custom exception thrown when <paramref name = "parameter"/> is within <paramref name = "range"/>, or when <paramref name = "parameter"/> is null.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("parameter:null => halt; parameter:notnull => notnull; exceptionFactory:null => halt")]
-        public static T MustNotBeIn<T>(this T parameter, Range<T> range, Func<T?, Range<T>, Exception> exceptionFactory)
+        public static T MustNotBeIn<T>(this T parameter, Range<T> range, Func<T, Range<T>, Exception> exceptionFactory)
             where T : IComparable<T>
         {
             if (parameter == null || range.IsValueWithinRange(parameter))
-                Throw.CustomException(exceptionFactory, parameter, range);
+                Throw.CustomException(exceptionFactory, parameter!, range);
             return parameter;
         }
 
@@ -1361,7 +1361,7 @@ namespace Light.GuardClauses
         /// <exception cref = "Exception">Your custom exception thrown when <paramref name = "parameter"/> is not equal to one of the specified <paramref name = "items"/>, or when <paramref name = "items"/> is null.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("items:null => halt")]
-        public static TItem MustBeOneOf<TItem, TCollection>(this TItem parameter, TCollection items, Func<TItem?, TCollection, Exception> exceptionFactory)
+        public static TItem MustBeOneOf<TItem, TCollection>(this TItem parameter, TCollection items, Func<TItem, TCollection, Exception> exceptionFactory)
             where TCollection : class, IEnumerable<TItem>
         {
             if (items == null || !parameter.IsOneOf(items))
@@ -1398,7 +1398,7 @@ namespace Light.GuardClauses
         /// <exception cref = "Exception">Your custom exception thrown when <paramref name = "parameter"/> is equal to one of the specified <paramref name = "items"/>, or when <paramref name = "items"/> is null.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("items:null => halt")]
-        public static TItem MustNotBeOneOf<TItem, TCollection>(this TItem parameter, TCollection items, Func<TItem?, TCollection, Exception> exceptionFactory)
+        public static TItem MustNotBeOneOf<TItem, TCollection>(this TItem parameter, TCollection items, Func<TItem, TCollection, Exception> exceptionFactory)
             where TCollection : class, IEnumerable<TItem>
         {
             if (items == null || parameter.IsOneOf(items))
@@ -4627,7 +4627,7 @@ namespace Light.GuardClauses.Exceptions
         /// </summary>
         [ContractAnnotation("=> halt")]
         [DoesNotReturn]
-        public static void CustomException<T1, T2>(Func<T1?, T2, Exception> exceptionFactory, T1? first, T2 second) => throw exceptionFactory.MustNotBeNull(nameof(exceptionFactory))(first, second);
+        public static void CustomException<T1, T2>(Func<T1, T2, Exception> exceptionFactory, T1 first, T2 second) => throw exceptionFactory.MustNotBeNull(nameof(exceptionFactory))(first, second);
         /// <summary>
         /// Throws the exception that is returned by <paramref name = "exceptionFactory"/>. <paramref name = "first"/>, <paramref name = "second"/>, and <paramref name = "third"/> are passed to <paramref name = "exceptionFactory"/>.
         /// </summary>
