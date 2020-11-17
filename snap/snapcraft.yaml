@@ -9,8 +9,12 @@ description: |
   'Fixes Length' or 'End Symbols'. Currently only TCP is supported but may be expanded in the future 
   by UDP or by Serial Port.
 
-grade: stable # must be 'stable' to release into candidate/stable channels
-confinement: classic # use 'strict' once you have the right plugs and slots
+type: app
+architectures:  [amd64]
+
+
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: strict # use 'strict' once you have the right plugs and slots
 
 parts: 
   messagecommunicator:
@@ -20,3 +24,6 @@ parts:
 apps:
   messagecommunicator:
     command: MessageCommunicator-Linux-X64
+    environment:
+      DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
+    plugs: [network, network-bind, x11, unity7, opengl, home, desktop, desktop-legacy]

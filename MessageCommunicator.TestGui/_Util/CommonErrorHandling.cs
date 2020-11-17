@@ -40,8 +40,9 @@ namespace MessageCommunicator.TestGui
         /// </summary>
         public void HandleFatalException(Exception ex)
         {
-            // TODO: Fatal exception mechanism
-            //       GUI is not ensured to be available here
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("##### Fata Exception");
+            Console.WriteLine(ex.ToString());
         }
     }
 }

@@ -201,3 +201,6 @@ Cert/
 
 # WinStore Setup project
 BundleArtifacts/
+
+# Snaps
+*.snap
