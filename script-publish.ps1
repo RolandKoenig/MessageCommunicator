@@ -43,3 +43,5 @@ $compress = @{
   DestinationPath = "./publish/MessageCommunicator-macOS-X64.zip"
 }
 Compress-Archive @compress
+
+tar -C ./publish -cvzf ./publish/MessageCommunicator-Linux-X64.tar.gz MessageCommunicator-Linux-X64
