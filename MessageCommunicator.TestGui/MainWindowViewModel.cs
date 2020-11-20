@@ -132,6 +132,15 @@ namespace MessageCommunicator.TestGui
 
         private async Task ExportProfilesAsync(object? arg, CancellationToken cancelToken)
         {
+            if (this.Profiles.Count == 0)
+            {
+                await this.GetViewService<IMessageBoxService>().ShowAsync(
+                    "Export",
+                    "Nothing to export",
+                    MessageBoxButtons.Ok);
+                return;
+            }
+
             var srvExportDlg = this.GetViewService<IExportViewService>();
             await srvExportDlg.ExportAsync(
                 this.Profiles.Select(actVM => actVM.Model.Parameters),

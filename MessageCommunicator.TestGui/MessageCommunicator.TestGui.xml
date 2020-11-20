@@ -124,6 +124,14 @@
         <member name="M:MessageCommunicator.TestGui.DataPackageFile.Dispose">
             <inheritdoc />
         </member>
+        <member name="P:MessageCommunicator.TestGui.OwnViewModelBase.Activator">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.OwnViewModelBase.GetViewService``1">
+            <summary>
+            Gets the view service of the given type.
+            </summary>
+        </member>
         <member name="M:MessageCommunicator.TestGui.DialogHostControl.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)">
             <inheritdoc />
         </member>
@@ -143,14 +151,6 @@
         </member>
         <member name="M:MessageCommunicator.TestGui.ViewServiceContainer.ObserverStopAdapter.Dispose">
             <inheritdoc />
-        </member>
-        <member name="P:MessageCommunicator.TestGui.OwnViewModelBase.Activator">
-            <inheritdoc />
-        </member>
-        <member name="M:MessageCommunicator.TestGui.OwnViewModelBase.GetViewService``1">
-            <summary>
-            Gets the view service of the given type.
-            </summary>
         </member>
     </members>
 </doc>
