@@ -9,18 +9,35 @@
         x:Class="MessageCommunicator.TestGui.ViewServices.ImportDialogControl">
 
     <DockPanel LastChildFill="True">
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
-                    HorizontalAlignment="Right">
-            <StackPanel.Styles>
-                <Style Selector="Button">
-                    <Setter Property="Width" Value="125" />
-                    <Setter Property="Margin" Value="3" />
-                </Style>
-            </StackPanel.Styles>
+        <Grid DockPanel.Dock="Bottom">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <StackPanel.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Width" Value="32" />
+                        <Setter Property="Margin" Value="3" />
+                    </Style>
+                </StackPanel.Styles>
+              
+                <Button Content="{localRoot:VectorIconExtension Icon={StaticResource ResourceKey=IconCheckedList}}" 
+                        Command="{Binding Path=OnCommand_SelectAll}"
+                        ToolTip.Tip="Select all"/>
+                <Button Content="{localRoot:VectorIconExtension Icon={StaticResource ResourceKey=IconUncheckedList}}" 
+                        Command="{Binding Path=OnCommand_SelectNone}"
+                        ToolTip.Tip="Deselect all"/>
+            </StackPanel>
           
-            <Button Content="OK" IsDefault="True" Command="{Binding Path=Command_OK}" />
-            <Button Content="Cancel" Command="{Binding Path=Command_Cancel}" />
-        </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Width" Value="125" />
+                        <Setter Property="Margin" Value="3" />
+                    </Style>
+                </StackPanel.Styles>
+              
+                <Button Content="OK" IsDefault="True" Command="{Binding Path=Command_OK}" />
+                <Button Content="Cancel" Command="{Binding Path=Command_Cancel}" />
+            </StackPanel>
+        </Grid>
     
         <ListBox Items="{Binding Path=ImportLines}" Margin="10">
             <ListBox.ItemTemplate>

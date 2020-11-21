@@ -9,13 +9,6 @@
         x:Class="MessageCommunicator.TestGui.ViewServices.ExportDialogControl">
     <DockPanel LastChildFill="True">
         <Grid DockPanel.Dock="Bottom">
-            <Grid.Styles>
-                <Style Selector="Button">
-                    <Setter Property="Width" Value="125" />
-                    <Setter Property="Margin" Value="3" />
-                </Style>
-            </Grid.Styles>
-          
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <StackPanel.Styles>
                     <Style Selector="Button">
@@ -24,8 +17,12 @@
                     </Style>
                 </StackPanel.Styles>
               
-                <Button Content="All" Command="{Binding Path=OnCommand_SelectAll}" />
-                <Button Content="None" Command="{Binding Path=OnCommand_SelectNone}" />
+                <Button Content="{localRoot:VectorIconExtension Icon={StaticResource ResourceKey=IconCheckedList}}" 
+                        Command="{Binding Path=OnCommand_SelectAll}"
+                        ToolTip.Tip="Select all"/>
+                <Button Content="{localRoot:VectorIconExtension Icon={StaticResource ResourceKey=IconUncheckedList}}" 
+                        Command="{Binding Path=OnCommand_SelectNone}"
+                        ToolTip.Tip="Deselect all"/>
             </StackPanel>
           
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

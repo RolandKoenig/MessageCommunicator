@@ -5,6 +5,9 @@
     <SolidColorBrush x:Key="IconColorNegative" Color="Red" />
     <SolidColorBrush x:Key="IconColorNeutral" Color="#FF464646" />
     
+    <!-- Icons copied from Avalonia.IconPacks project
+         see: https://github.com/ahopper/Avalonia.IconPacks -->
+  
     <DrawingGroup x:Key="IconError">
         <GeometryDrawing Brush="#FFE51300" Geometry="F1M12.4141,11L11.0001,12.414 8.0001,9.414 5.0001,12.414 3.5861,11 6.5861,8 3.5861,5 5.0001,3.586 8.0001,6.586 11.0001,3.586 12.4141,5 9.4141,8z M8.0001,1C4.1341,1 1.0001,4.135 1.0001,8 1.0001,11.865 4.1341,15 8.0001,15 11.8651,15 15.0001,11.865 15.0001,8 15.0001,4.135 11.8651,1 8.0001,1" />
         <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1M12.4141,5L11.0001,3.586 8.0001,6.586 5.0001,3.586 3.5861,5 6.5861,8 3.5861,11 5.0001,12.414 8.0001,9.414 11.0001,12.414 12.4141,11 9.4141,8z" />
@@ -28,4 +31,10 @@
     <GeometryDrawing x:Key="IconCopy" 
                      Brush="{StaticResource IconColorNeutral}" 
                      Geometry="M296 48H176.5C154.4 48 136 65.4 136 87.5V96h-7.5C106.4 96 88 113.4 88 135.5v288c0 22.1 18.4 40.5 40.5 40.5h208c22.1 0 39.5-18.4 39.5-40.5V416h8.5c22.1 0 39.5-18.4 39.5-40.5V176L296 48zm0 44.6l83.4 83.4H296V92.6zm48 330.9c0 4.7-3.4 8.5-7.5 8.5h-208c-4.4 0-8.5-4.1-8.5-8.5v-288c0-4.1 3.8-7.5 8.5-7.5h7.5v255.5c0 22.1 10.4 32.5 32.5 32.5H344v7.5zm48-48c0 4.7-3.4 8.5-7.5 8.5h-208c-4.4 0-8.5-4.1-8.5-8.5v-288c0-4.1 3.8-7.5 8.5-7.5H264v128h128v167.5z"   />
+    <GeometryDrawing x:Key="IconCheckedList" 
+                     Brush="{StaticResource IconColorNeutral}" 
+                     Geometry="M3.75 4.48H3.04L2 3.43L2.71 2.73L3.4 3.41L4.81 2L5.52 2.71L3.75 4.48ZM6.98999 3H14.99V4H6.98999V3ZM6.98999 6H14.99V7H6.98999V6ZM14.99 9H6.98999V10H14.99V9ZM6.98999 12H14.99V13H6.98999V12ZM3.04 7.48001H3.75L5.52 5.71001L4.81 5.01001L3.4 6.42001L2.71 5.73001L2 6.44001L3.04 7.48001ZM3.75 10.49H3.04L2 9.45001L2.71 8.74001L3.4 9.43001L4.81 8.01001L5.52 8.72001L3.75 10.49ZM3.04 13.5H3.75L5.52 11.73L4.81 11.02L3.4 12.44L2.71 11.75L2 12.45L3.04 13.5Z"   />
+    <GeometryDrawing x:Key="IconUncheckedList" 
+                     Brush="{StaticResource IconColorNeutral}" 
+                     Geometry="M2 3H1V4H2V3ZM2 6H1V7H2V6ZM1 9H2V10H1V9ZM2 12H1V13H2V12ZM4 3H15V4H4V3ZM15 6H4V7H15V6ZM4 9H15V10H4V9ZM15 12H4V13H15V12Z"   />
 </ResourceDictionary>

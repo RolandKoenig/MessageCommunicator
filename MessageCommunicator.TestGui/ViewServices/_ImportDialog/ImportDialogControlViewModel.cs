@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive;
-using System.Threading.Tasks;
 using ReactiveUI;
 
 namespace MessageCommunicator.TestGui.ViewServices
@@ -10,10 +9,6 @@ namespace MessageCommunicator.TestGui.ViewServices
     public class ImportDialogControlViewModel<T> : OwnViewModelBase
         where T : class
     {
-        private ICollection<T> _importTarget;
-        private string _nameProperty;
-        private string _dataTypeName;
-
         public ObservableCollection<ImportLine> ImportLines
         {
             get;
@@ -23,14 +18,14 @@ namespace MessageCommunicator.TestGui.ViewServices
 
         public ReactiveCommand<object?, Unit> Command_Cancel { get; }
 
-        public ImportDialogControlViewModel(ICollection<T> importTarget, IEnumerable<T> importedObjects, string nameProperty, string dataTypeName)
-        {
-            _importTarget = importTarget;
-            _nameProperty = nameProperty;
-            _dataTypeName = dataTypeName;
+        public ReactiveCommand<object?, Unit> Command_SelectAll { get; }
 
-            var namePropertyObj = typeof(T).GetProperty(_nameProperty);
-            if(namePropertyObj == null){ throw new InvalidOperationException($"Property {_nameProperty} is not available on type {typeof(T).FullName}!"); }
+        public ReactiveCommand<object?, Unit> Command_SelectNone { get; }
+
+        public ImportDialogControlViewModel(ICollection<T> importTarget, IEnumerable<T> importedObjects, string nameProperty)
+        {
+            var namePropertyObj = typeof(T).GetProperty(nameProperty);
+            if(namePropertyObj == null){ throw new InvalidOperationException($"Property {nameProperty} is not available on type {typeof(T).FullName}!"); }
 
             foreach (var actImportedObject in importedObjects)
             {
@@ -53,6 +48,25 @@ namespace MessageCommunicator.TestGui.ViewServices
             this.Command_OK = ReactiveCommand.Create<object?>(this.OnCommandOK);
             this.Command_Cancel = ReactiveCommand.Create<object?>(
                 arg => this.CloseWindow(null));
+
+            this.Command_SelectAll = ReactiveCommand.Create<object?>(this.OnCommand_SelectAll);
+            this.Command_SelectNone = ReactiveCommand.Create<object?>(this.OnCommand_SelectNone);
+        }
+
+        private void OnCommand_SelectAll(object? arg)
+        {
+            foreach (var actItem in this.ImportLines)
+            {
+                actItem.DoImport = true;
+            }
+        }
+
+        private void OnCommand_SelectNone(object? arg)
+        {
+            foreach (var actItem in this.ImportLines)
+            {
+                actItem.DoImport = false;
+            }
         }
 
         private void OnCommandOK(object? arg)
@@ -82,17 +96,30 @@ namespace MessageCommunicator.TestGui.ViewServices
         /// <summary>
         /// Helper for selecting/deselecting objects.
         /// </summary>
-        public class ImportLine
+        public class ImportLine : PropertyChangedBase
         {
+            private bool _doImport;
+
             public string Name { get; }
 
             public T ObjectToImport { get; }
 
-            public bool DoImport { get; set; }
+            public bool DoImport
+            {
+                get => _doImport;
+                set
+                {
+                    if (_doImport != value)
+                    {
+                        _doImport = value;
+                        this.RaisePropertyChanged();
+                    }
+                }
+            }
 
-            public bool WouldOverride { get; set; }
+            public bool WouldOverride { get; }
 
-            public T? ExistingObject { get; set; }
+            public T? ExistingObject { get; }
 
             public string DisplayText
             {

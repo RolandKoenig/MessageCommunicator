@@ -55,7 +55,7 @@ namespace MessageCommunicator.TestGui.ViewServices
             }
 
             var importDlg = new ImportDialogControl();
-            importDlg.DataContext = new ImportDialogControlViewModel<T>(importTarget, importedLines, nameProperty, dataTypeName);
+            importDlg.DataContext = new ImportDialogControlViewModel<T>(importTarget, importedLines, nameProperty);
 
             return await importDlg.ShowControlDialogAsync(_host, "Import") 
                 as ImportResult<T>;
