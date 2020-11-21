@@ -21,12 +21,28 @@
         </DockPanel>
 
         <TabControl>
-            <TabItem Header="Messages">
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Messages (" />
+                        <TextBlock Text="{Binding Path=MessageLoggingViewModel.Logging.Count, FallbackValue=0}" />
+                        <TextBlock Text=")" />
+                    </StackPanel>
+                </TabItem.Header>
+              
                 <local:LoggingView DataContext="{Binding Path=MessageLoggingViewModel}"
                                    IsTypeColumnVisible="false" />
             </TabItem>
           
-            <TabItem Header="Details">
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Details (" />
+                        <TextBlock Text="{Binding Path=DetailLoggingViewModel.Logging.Count, FallbackValue=0}" />
+                        <TextBlock Text=")" />
+                    </StackPanel>
+                </TabItem.Header>
+              
                 <local:LoggingView DataContext="{Binding Path=DetailLoggingViewModel}" />
             </TabItem>
         </TabControl>
