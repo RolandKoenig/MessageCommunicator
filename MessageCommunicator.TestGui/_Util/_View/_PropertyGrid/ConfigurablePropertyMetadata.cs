@@ -8,7 +8,7 @@ namespace MessageCommunicator.TestGui
     public class ConfigurablePropertyMetadata : ValidatableViewModelBase
     {
         private object _hostObject;
-        private PropertyInfo _propertyInfo;
+        private PropertyDescriptor _propertyInfo;
 
         public object? ValueAccessor
         {
@@ -60,27 +60,26 @@ namespace MessageCommunicator.TestGui
             set;
         }
 
-        internal ConfigurablePropertyMetadata(PropertyInfo propertyInfo, object hostObject)
+        internal ConfigurablePropertyMetadata(PropertyDescriptor propertyInfo, object hostObject)
         {
             _propertyInfo = propertyInfo;
             _hostObject = hostObject;
 
-            this.CategoryName = propertyInfo.GetCustomAttribute<CategoryAttribute>()?.Category ?? string.Empty;
+            this.CategoryName = propertyInfo.Category ?? string.Empty;
 
             this.PropertyName = propertyInfo.Name;
             this.PropertyDisplayName = propertyInfo.Name;
-            var attribDisplayName = propertyInfo.GetCustomAttribute<DisplayNameAttribute>();
-            if (attribDisplayName != null)
+            if (!string.IsNullOrEmpty(propertyInfo.DisplayName))
             {
-                this.PropertyDisplayName = attribDisplayName.DisplayName;
+                this.PropertyDisplayName = propertyInfo.DisplayName;
             }
 
             var propertyType = _propertyInfo.PropertyType;
-            if (_propertyInfo.GetCustomAttribute<EncodingWebNameAttribute>() != null)
+            if (this.GetCustomAttribute<EncodingWebNameAttribute>() != null)
             {
                 this.ValueType = PropertyValueType.EncodingWebName;
             }
-            else if (_propertyInfo.GetCustomAttribute<TextAndHexadecimalEditAttribute>() != null)
+            else if (this.GetCustomAttribute<TextAndHexadecimalEditAttribute>() != null)
             {
                 this.ValueType = PropertyValueType.TextAndHexadecimalEdit;
             }
@@ -101,7 +100,7 @@ namespace MessageCommunicator.TestGui
             {
                 this.ValueType = PropertyValueType.Enum;
             }
-            else if(propertyInfo.GetCustomAttribute<DetailSettingsAttribute>() != null)
+            else if(this.GetCustomAttribute<DetailSettingsAttribute>() != null)
             {
                 this.ValueType = PropertyValueType.DetailSettings;
             }
@@ -155,7 +154,14 @@ namespace MessageCommunicator.TestGui
         public T? GetCustomAttribute<T>()
             where T : Attribute
         {
-            return _propertyInfo.GetCustomAttribute<T>();
+            foreach (var actAttribute in _propertyInfo.Attributes)
+            {
+                if (actAttribute is T foundAttribute)
+                {
+                    return foundAttribute;
+                }
+            }
+            return null;
         }
 
         private void ValidateCurrentValue()
@@ -164,8 +170,10 @@ namespace MessageCommunicator.TestGui
             var ctx = new ValidationContext(_hostObject);
             ctx.DisplayName = this.PropertyDisplayName;
             ctx.MemberName = this.PropertyName;
-            foreach (var actValidAttrib in _propertyInfo.GetCustomAttributes<ValidationAttribute>())
+            foreach (var actAttrib in _propertyInfo.Attributes)
             {
+                if(!(actAttrib is ValidationAttribute actValidAttrib)){ continue; }
+
                 var validationResult = actValidAttrib.GetValidationResult(this.ValueAccessor, ctx);
                 if (validationResult != null)
                 {

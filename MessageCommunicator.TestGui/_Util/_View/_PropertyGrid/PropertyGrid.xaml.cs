@@ -75,6 +75,8 @@ namespace MessageCommunicator.TestGui
             var actRowIndex = 0;
             var actCategory = string.Empty;
             var editControlFactory = this.EditControlFactory;
+            if (editControlFactory == null){ editControlFactory = new PropertyGridEditControlFactory(); }
+
             foreach (var actProperty in _propertyGridVM.PropertyMetadata)
             {
                 // Create category rows
@@ -126,7 +128,7 @@ namespace MessageCommunicator.TestGui
                 _gridMain.Children.Add(ctrlTextContainer);
 
                 // Create and configure row editor
-                var ctrlValueEdit = editControlFactory?.CreateControl(actProperty, _propertyGridVM.PropertyMetadata);
+                var ctrlValueEdit = editControlFactory.CreateControl(actProperty, _propertyGridVM.PropertyMetadata);
                 if (ctrlValueEdit != null)
                 {
                     _gridMain.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
@@ -137,10 +139,7 @@ namespace MessageCommunicator.TestGui
                     ctrlValueEdit.DataContext = actProperty;
                     _gridMain.Children.Add(ctrlValueEdit);
 
-                    if(_firstValueRowEditor == null)
-                    {
-                        _firstValueRowEditor = ctrlValueEdit;
-                    }
+                    _firstValueRowEditor ??= ctrlValueEdit;
                 }
                 else
                 {

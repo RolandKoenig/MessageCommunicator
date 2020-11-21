@@ -22,7 +22,9 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using System.Runtime.InteropServices.ComTypes;
 using ReactiveUI;
 
 namespace MessageCommunicator.TestGui
@@ -70,23 +72,29 @@ namespace MessageCommunicator.TestGui
             var newPropertyMetadata = new List<ConfigurablePropertyMetadata>();
 
             var selectedObject = this.SelectedObject;
-
             if (selectedObject == null)
             {
                 this.PropertyMetadata = newPropertyMetadata;
                 return;
             }
 
-            foreach (var actProperty in selectedObject.GetType().GetProperties())
+            // Get properties for PropertyGrid
+            PropertyDescriptorCollection properties;
+            var metadataAttrib = selectedObject.GetType().GetCustomAttribute<MetadataTypeAttribute>();
+            if (metadataAttrib != null)
             {
-                // Check browsable attribute
-                var browseAttrib = actProperty.GetCustomAttribute<BrowsableAttribute>();
+                properties = TypeDescriptor.GetProperties(metadataAttrib.MetadataClassType);
+            }
+            else
+            {
+                properties = TypeDescriptor.GetProperties(selectedObject);
+            }
 
-                if (browseAttrib != null &&
-                   !browseAttrib.Browsable)
-                {
-                    continue;
-                }
+            // Create a viewmodel for each property
+            foreach (PropertyDescriptor? actProperty in properties)
+            {
+                if (actProperty == null){ continue; }
+                if (!actProperty.IsBrowsable){ continue; }
 
                 newPropertyMetadata.Add(new ConfigurablePropertyMetadata(actProperty, selectedObject));
             }
