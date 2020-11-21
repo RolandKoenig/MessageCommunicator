@@ -26,6 +26,10 @@ namespace MessageCommunicator.TestGui.ViewServices
 
         public ReactiveCommand<object?, Unit> Command_Cancel { get; }
 
+        public ReactiveCommand<object?, Unit> Command_SelectAll { get; }
+
+        public ReactiveCommand<object?, Unit> Command_SelectNone { get; }
+
         public ExportDialogControlViewModel(IEnumerable<T> allObjects, IEnumerable<T> objectsToExport, string nameProperty, string dataTypeName)
         {
             _dataTypeName = dataTypeName;
@@ -46,12 +50,31 @@ namespace MessageCommunicator.TestGui.ViewServices
                 this.ExportLines.Add(new ExportLine(currentName, actObject, currentIsSelected));
             }
 
-            this.Command_OK = ReactiveCommand.CreateFromTask<object?>(this.OnCommandOKAsync);
+            this.Command_OK = ReactiveCommand.CreateFromTask<object?>(this.OnCommand_OKAsync);
             this.Command_Cancel = ReactiveCommand.Create<object?>(
                 arg => this.CloseWindow(null));
+
+            this.Command_SelectAll = ReactiveCommand.Create<object?>(this.OnCommand_SelectAll);
+            this.Command_SelectNone = ReactiveCommand.Create<object?>(this.OnCommand_SelectNone);
         }
 
-        private async Task OnCommandOKAsync(object? arg)
+        private void OnCommand_SelectAll(object? arg)
+        {
+            foreach (var actItem in this.ExportLines)
+            {
+                actItem.DoExport = true;
+            }
+        }
+
+        private void OnCommand_SelectNone(object? arg)
+        {
+            foreach (var actItem in this.ExportLines)
+            {
+                actItem.DoExport = false;
+            }
+        }
+
+        private async Task OnCommand_OKAsync(object? arg)
         {
             var srvMessageBox = this.GetViewService<IMessageBoxService>();
 
@@ -122,13 +145,26 @@ namespace MessageCommunicator.TestGui.ViewServices
         /// <summary>
         /// Helper for selecting/deselecting objects.
         /// </summary>
-        public class ExportLine
+        public class ExportLine : PropertyChangedBase
         {
+            private bool _doExport;
+
             public string Name { get; }
 
             public T ObjectToExport { get; }
 
-            public bool DoExport { get; set; }
+            public bool DoExport
+            {
+                get => _doExport;
+                set
+                {
+                    if (_doExport != value)
+                    {
+                        _doExport = value;
+                        this.RaisePropertyChanged(nameof(this.DoExport));
+                    }
+                }
+            }
 
             public ExportLine(string name, T objToExport, bool doExport)
             {

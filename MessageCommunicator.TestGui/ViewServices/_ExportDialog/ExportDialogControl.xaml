@@ -8,18 +8,38 @@
         Width="500" Height="400"
         x:Class="MessageCommunicator.TestGui.ViewServices.ExportDialogControl">
     <DockPanel LastChildFill="True">
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
-                    HorizontalAlignment="Right">
-            <StackPanel.Styles>
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.Styles>
                 <Style Selector="Button">
                     <Setter Property="Width" Value="125" />
                     <Setter Property="Margin" Value="3" />
                 </Style>
-            </StackPanel.Styles>
+            </Grid.Styles>
           
-            <Button Content="OK" IsDefault="True" Command="{Binding Path=Command_OK}" />
-            <Button Content="Cancel" Command="{Binding Path=Command_Cancel}" />
-        </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <StackPanel.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Width" Value="32" />
+                        <Setter Property="Margin" Value="3" />
+                    </Style>
+                </StackPanel.Styles>
+              
+                <Button Content="All" Command="{Binding Path=OnCommand_SelectAll}" />
+                <Button Content="None" Command="{Binding Path=OnCommand_SelectNone}" />
+            </StackPanel>
+          
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Width" Value="125" />
+                        <Setter Property="Margin" Value="3" />
+                    </Style>
+                </StackPanel.Styles>
+              
+                <Button Content="OK" IsDefault="True" Command="{Binding Path=Command_OK}" />
+                <Button Content="Cancel" Command="{Binding Path=Command_Cancel}" />
+            </StackPanel>
+        </Grid>
     
         <ListBox Items="{Binding Path=ExportLines}" Margin="10">
             <ListBox.ItemTemplate>
