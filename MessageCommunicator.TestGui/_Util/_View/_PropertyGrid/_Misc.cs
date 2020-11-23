@@ -19,6 +19,14 @@ namespace MessageCommunicator.TestGui
         DetailSettings
     }
 
+    public interface IPropertyGridContractResolver
+    {
+        T? GetDataAnnotation<T>(Type targetType, string propertyName)
+            where T : Attribute;
+
+        IEnumerable<Attribute> GetDataAnnotations(Type targetType, string propertyName);
+    }
+
     public class DetailSettingsAttribute : Attribute
     {
         public DetailSettingsAttribute()

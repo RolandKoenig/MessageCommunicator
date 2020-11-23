@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Reactive.Disposables;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -13,7 +15,6 @@ namespace MessageCommunicator.TestGui.ViewServices
         public ConnectionConfigControl()
         {
             AvaloniaXamlLoader.Load(this);
-            
         }
 
         /// <inheritdoc />

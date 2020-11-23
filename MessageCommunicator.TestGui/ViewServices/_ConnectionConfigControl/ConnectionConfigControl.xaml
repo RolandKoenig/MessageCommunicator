@@ -38,12 +38,14 @@
             <ScrollViewer Grid.Column="0" 
                           VerticalScrollBarVisibility="Auto">
                 <localRoot:PropertyGrid x:Name="CtrlMainPropertyGrid" 
-                                        SelectedObject="{Binding Path=ModelInteractive}" />
+                                        SelectedObject="{Binding Path=ModelInteractive}"
+                                        PocoDataAnnotator="{StaticResource ConfigDataAnnotator}"/>
             </ScrollViewer>
           
            <ScrollViewer Grid.Column="2" 
                          VerticalScrollBarVisibility="Auto">
-               <localRoot:PropertyGrid SelectedObject="{Binding Path=ModelInteractive.RecognizerSettings}" />
+               <localRoot:PropertyGrid SelectedObject="{Binding Path=ModelInteractive.RecognizerSettings}"
+                                       PocoDataAnnotator="{StaticResource ConfigDataAnnotator}"/>
            </ScrollViewer>
         </Grid>
     </DockPanel>

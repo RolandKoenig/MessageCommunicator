@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.ComponentModel;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Avalonia.Markup.Xaml.Styling;
 
 namespace MessageCommunicator.TestGui
 {
@@ -12,6 +13,12 @@ namespace MessageCommunicator.TestGui
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
+
+            //var configDataAnnotator = (DefaultPropertyGridContractResolver)this.FindResource("ConfigDataAnnotator");
+            //configDataAnnotator.AddDataAnnotation(
+            //    typeof(ConnectionParametersViewModel),
+            //    nameof(ConnectionParametersViewModel.Name), 
+            //    new DisplayNameAttribute("sadfadfsdf"));
         }
 
         public override void OnFrameworkInitializationCompleted()

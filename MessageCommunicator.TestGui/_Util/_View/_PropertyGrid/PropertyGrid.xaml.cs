@@ -23,6 +23,10 @@ namespace MessageCommunicator.TestGui
                 nameof(EditControlFactory),
                 new PropertyGridEditControlFactory());
 
+        public static readonly StyledProperty<IPropertyGridContractResolver?> PocoDataAnnotatorProperty =
+            AvaloniaProperty.Register<PropertyGrid, IPropertyGridContractResolver?>(
+                nameof(PocoDataAnnotator));
+
         private PropertyGridViewModel _propertyGridVM;
         private Grid _gridMain;
         private Control? _firstValueRowEditor;
@@ -37,6 +41,16 @@ namespace MessageCommunicator.TestGui
         {
             get => this.GetValue(EditControlFactoryProperty);
             set => this.SetValue(EditControlFactoryProperty, value);
+        }
+
+        public IPropertyGridContractResolver? PocoDataAnnotator
+        {
+            get => this.GetValue(PocoDataAnnotatorProperty);
+            set
+            {
+                this.SetValue(PocoDataAnnotatorProperty, value);
+                _propertyGridVM.SetPropertyContractResolver(value);
+            }
         }
 
         public PropertyGrid()

@@ -20,11 +20,11 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-using System.Runtime.InteropServices.ComTypes;
 using ReactiveUI;
 
 namespace MessageCommunicator.TestGui
@@ -33,6 +33,7 @@ namespace MessageCommunicator.TestGui
     {
         private List<ConfigurablePropertyMetadata> _propertyMetadata;
         private object? _selectedObject;
+        private IPropertyGridContractResolver? _propertyContractResolver;
 
         public object? SelectedObject
         {
@@ -67,6 +68,11 @@ namespace MessageCommunicator.TestGui
             _propertyMetadata = new List<ConfigurablePropertyMetadata>(0);
         }
 
+        public void SetPropertyContractResolver(IPropertyGridContractResolver? dataAnnotator)
+        {
+            _propertyContractResolver = dataAnnotator;
+        }
+
         private void UpdatePropertyCollection()
         {
             var newPropertyMetadata = new List<ConfigurablePropertyMetadata>();
@@ -96,7 +102,7 @@ namespace MessageCommunicator.TestGui
                 if (actProperty == null){ continue; }
                 if (!actProperty.IsBrowsable){ continue; }
 
-                newPropertyMetadata.Add(new ConfigurablePropertyMetadata(actProperty, selectedObject));
+                newPropertyMetadata.Add(new ConfigurablePropertyMetadata(actProperty, selectedObject, _propertyContractResolver));
             }
 
             this.PropertyMetadata = newPropertyMetadata;

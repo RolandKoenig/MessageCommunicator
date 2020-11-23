@@ -6,6 +6,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="/Assets/Icons.xaml" />
+              
+                <ResourceDictionary>
+                    <local:DefaultPropertyGridContractResolver x:Key="ConfigDataAnnotator" />
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

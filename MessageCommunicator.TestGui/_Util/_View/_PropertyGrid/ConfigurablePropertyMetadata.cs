@@ -1,14 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Reflection;
 
 namespace MessageCommunicator.TestGui
 {
     public class ConfigurablePropertyMetadata : ValidatableViewModelBase
     {
         private object _hostObject;
-        private PropertyDescriptor _propertyInfo;
+        private IPropertyGridContractResolver? _propertyContractResolver;
+        private PropertyDescriptor _descriptor;
 
         public object? ValueAccessor
         {
@@ -60,21 +60,26 @@ namespace MessageCommunicator.TestGui
             set;
         }
 
-        internal ConfigurablePropertyMetadata(PropertyDescriptor propertyInfo, object hostObject)
+        internal ConfigurablePropertyMetadata(PropertyDescriptor propertyInfo, object hostObject, IPropertyGridContractResolver? propertyContractResolver)
         {
-            _propertyInfo = propertyInfo;
+            _descriptor = propertyInfo;
             _hostObject = hostObject;
+            _propertyContractResolver = propertyContractResolver;
 
-            this.CategoryName = propertyInfo.Category ?? string.Empty;
+            var categoryAttrib = this.GetCustomAttribute<CategoryAttribute>();
+            this.CategoryName = categoryAttrib?.Category ?? string.Empty;
 
             this.PropertyName = propertyInfo.Name;
+
             this.PropertyDisplayName = propertyInfo.Name;
-            if (!string.IsNullOrEmpty(propertyInfo.DisplayName))
+            var displayNameAttrib = this.GetCustomAttribute<DisplayNameAttribute>();
+            if ((displayNameAttrib != null) &&
+                (!string.IsNullOrEmpty(displayNameAttrib.DisplayName)))
             {
-                this.PropertyDisplayName = propertyInfo.DisplayName;
+                this.PropertyDisplayName = displayNameAttrib.DisplayName;
             }
 
-            var propertyType = _propertyInfo.PropertyType;
+            var propertyType = _descriptor.PropertyType;
             if (this.GetCustomAttribute<EncodingWebNameAttribute>() != null)
             {
                 this.ValueType = PropertyValueType.EncodingWebName;
@@ -120,33 +125,33 @@ namespace MessageCommunicator.TestGui
         public Array GetEnumMembers()
         {
             if (this.ValueType != PropertyValueType.Enum) { throw new InvalidOperationException($"Method {nameof(this.GetEnumMembers)} not supported on value type {this.ValueType}!"); }
-            return Enum.GetValues(_propertyInfo.PropertyType);
+            return Enum.GetValues(_descriptor.PropertyType);
         }
 
         public object? GetValue()
         {
-            return _propertyInfo.GetValue(_hostObject);
+            return _descriptor.GetValue(_hostObject);
         }
 
         public void SetValue(object? value)
         {
             if (value == null)
             {
-                var targetType = _propertyInfo.PropertyType;
-                if(targetType.IsValueType){ _propertyInfo.SetValue(_hostObject, Activator.CreateInstance(targetType)); }
-                else{ _propertyInfo.SetValue(_hostObject, null); }
+                var targetType = _descriptor.PropertyType;
+                if(targetType.IsValueType){ _descriptor.SetValue(_hostObject, Activator.CreateInstance(targetType)); }
+                else{ _descriptor.SetValue(_hostObject, null); }
             }
             else
             {
                 var givenType = value.GetType();
-                var targetType = _propertyInfo.PropertyType;
+                var targetType = _descriptor.PropertyType;
                 if (givenType == targetType)
                 {
-                    _propertyInfo.SetValue(_hostObject, value);
+                    _descriptor.SetValue(_hostObject, value);
                 }
                 else
                 {
-                    _propertyInfo.SetValue(_hostObject, Convert.ChangeType(value, targetType));
+                    _descriptor.SetValue(_hostObject, Convert.ChangeType(value, targetType));
                 }
             }
         }
@@ -154,13 +159,20 @@ namespace MessageCommunicator.TestGui
         public T? GetCustomAttribute<T>()
             where T : Attribute
         {
-            foreach (var actAttribute in _propertyInfo.Attributes)
+            var resultFromDataAnnotator = _propertyContractResolver?.GetDataAnnotation<T>(_descriptor.ComponentType, _descriptor.Name);
+            if (resultFromDataAnnotator != null)
+            {
+                return resultFromDataAnnotator;
+            }
+
+            foreach (var actAttribute in _descriptor.Attributes)
             {
                 if (actAttribute is T foundAttribute)
                 {
                     return foundAttribute;
                 }
             }
+
             return null;
         }
 
@@ -170,7 +182,7 @@ namespace MessageCommunicator.TestGui
             var ctx = new ValidationContext(_hostObject);
             ctx.DisplayName = this.PropertyDisplayName;
             ctx.MemberName = this.PropertyName;
-            foreach (var actAttrib in _propertyInfo.Attributes)
+            foreach (var actAttrib in _descriptor.Attributes)
             {
                 if(!(actAttrib is ValidationAttribute actValidAttrib)){ continue; }
 
