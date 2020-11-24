@@ -7,7 +7,7 @@ namespace MessageCommunicator.TestGui
     public class ConfigurablePropertyMetadata : ValidatableViewModelBase
     {
         private object _hostObject;
-        private IPropertyGridContractResolver? _propertyContractResolver;
+        private IPropertyContractResolver? _propertyContractResolver;
         private PropertyDescriptor _descriptor;
 
         public object? ValueAccessor
@@ -60,7 +60,7 @@ namespace MessageCommunicator.TestGui
             set;
         }
 
-        internal ConfigurablePropertyMetadata(PropertyDescriptor propertyInfo, object hostObject, IPropertyGridContractResolver? propertyContractResolver)
+        internal ConfigurablePropertyMetadata(PropertyDescriptor propertyInfo, object hostObject, IPropertyContractResolver? propertyContractResolver)
         {
             _descriptor = propertyInfo;
             _hostObject = hostObject;
@@ -111,7 +111,7 @@ namespace MessageCommunicator.TestGui
             }
             else
             {
-                throw new ApplicationException($"Unsupported property type {propertyType.FullName}!");
+                this.ValueType = PropertyValueType.Unsupported;
             }
 
             this.ValidateCurrentValue();

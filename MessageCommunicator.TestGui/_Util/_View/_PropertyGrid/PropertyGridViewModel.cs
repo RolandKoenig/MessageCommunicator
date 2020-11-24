@@ -33,7 +33,7 @@ namespace MessageCommunicator.TestGui
     {
         private List<ConfigurablePropertyMetadata> _propertyMetadata;
         private object? _selectedObject;
-        private IPropertyGridContractResolver? _propertyContractResolver;
+        private IPropertyContractResolver? _propertyContractResolver;
 
         public object? SelectedObject
         {
@@ -68,7 +68,7 @@ namespace MessageCommunicator.TestGui
             _propertyMetadata = new List<ConfigurablePropertyMetadata>(0);
         }
 
-        public void SetPropertyContractResolver(IPropertyGridContractResolver? dataAnnotator)
+        public void SetPropertyContractResolver(IPropertyContractResolver? dataAnnotator)
         {
             _propertyContractResolver = dataAnnotator;
         }
@@ -102,7 +102,10 @@ namespace MessageCommunicator.TestGui
                 if (actProperty == null){ continue; }
                 if (!actProperty.IsBrowsable){ continue; }
 
-                newPropertyMetadata.Add(new ConfigurablePropertyMetadata(actProperty, selectedObject, _propertyContractResolver));
+                var propMetadata = new ConfigurablePropertyMetadata(actProperty, selectedObject, _propertyContractResolver);
+                if(propMetadata.ValueType == PropertyValueType.Unsupported){ continue; }
+
+                newPropertyMetadata.Add(propMetadata);
             }
 
             this.PropertyMetadata = newPropertyMetadata;

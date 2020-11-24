@@ -23,9 +23,9 @@ namespace MessageCommunicator.TestGui
                 nameof(EditControlFactory),
                 new PropertyGridEditControlFactory());
 
-        public static readonly StyledProperty<IPropertyGridContractResolver?> PocoDataAnnotatorProperty =
-            AvaloniaProperty.Register<PropertyGrid, IPropertyGridContractResolver?>(
-                nameof(PocoDataAnnotator));
+        public static readonly StyledProperty<IPropertyContractResolver?> PropertyContractResolverProperty =
+            AvaloniaProperty.Register<PropertyGrid, IPropertyContractResolver?>(
+                nameof(PropertyContractResolver));
 
         private PropertyGridViewModel _propertyGridVM;
         private Grid _gridMain;
@@ -43,12 +43,12 @@ namespace MessageCommunicator.TestGui
             set => this.SetValue(EditControlFactoryProperty, value);
         }
 
-        public IPropertyGridContractResolver? PocoDataAnnotator
+        public IPropertyContractResolver? PropertyContractResolver
         {
-            get => this.GetValue(PocoDataAnnotatorProperty);
+            get => this.GetValue(PropertyContractResolverProperty);
             set
             {
-                this.SetValue(PocoDataAnnotatorProperty, value);
+                this.SetValue(PropertyContractResolverProperty, value);
                 _propertyGridVM.SetPropertyContractResolver(value);
             }
         }

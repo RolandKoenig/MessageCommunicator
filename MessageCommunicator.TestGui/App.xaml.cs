@@ -13,12 +13,6 @@ namespace MessageCommunicator.TestGui
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
-
-            //var configDataAnnotator = (DefaultPropertyGridContractResolver)this.FindResource("ConfigDataAnnotator");
-            //configDataAnnotator.AddDataAnnotation(
-            //    typeof(ConnectionParametersViewModel),
-            //    nameof(ConnectionParametersViewModel.Name), 
-            //    new DisplayNameAttribute("sadfadfsdf"));
         }
 
         public override void OnFrameworkInitializationCompleted()

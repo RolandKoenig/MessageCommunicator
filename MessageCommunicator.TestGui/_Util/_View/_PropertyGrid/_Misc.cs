@@ -6,6 +6,8 @@ namespace MessageCommunicator.TestGui
 {
     public enum PropertyValueType
     {
+        Unsupported,
+
         Bool,
 
         String,
@@ -19,7 +21,7 @@ namespace MessageCommunicator.TestGui
         DetailSettings
     }
 
-    public interface IPropertyGridContractResolver
+    public interface IPropertyContractResolver
     {
         T? GetDataAnnotation<T>(Type targetType, string propertyName)
             where T : Attribute;

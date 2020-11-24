@@ -4,11 +4,11 @@ using System.Text;
 
 namespace MessageCommunicator.TestGui
 {
-    public class DefaultPropertyGridContractResolver : IPropertyGridContractResolver
+    public class DefaultPropertyContractResolver : IPropertyContractResolver
     {
         private Dictionary<Type, Dictionary<string, List<Attribute>>> _dictTypes;
 
-        public DefaultPropertyGridContractResolver()
+        public DefaultPropertyContractResolver()
         {
             _dictTypes = new Dictionary<Type, Dictionary<string, List<Attribute>>>();
         }
