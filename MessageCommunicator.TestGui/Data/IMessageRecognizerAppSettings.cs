@@ -6,6 +6,8 @@ namespace MessageCommunicator.TestGui.Data
 {
     public interface IMessageRecognizerAppSettings
     {
-        public MessageRecognizerSettings CreateLibSettings();
+        string Encoding { get; }
+
+        MessageRecognizerSettings CreateLibSettings();
     }
 }

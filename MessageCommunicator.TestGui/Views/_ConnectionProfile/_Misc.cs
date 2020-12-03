@@ -10,6 +10,6 @@ namespace MessageCommunicator.TestGui.Views
 
         Escaped,
 
-        Hex
+        BinaryHex
     }
 }

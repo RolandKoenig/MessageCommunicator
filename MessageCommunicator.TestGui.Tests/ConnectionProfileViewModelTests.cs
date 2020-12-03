@@ -11,13 +11,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MessageCommunicator.TestGui.Tests
 {
     [TestClass]
-    public class ConnectionProfileViewTests
+    public class ConnectionProfileViewModelTests
     {
         [TestMethod]
         public void SendPlainMessage()
         {
             var connParams = new ConnectionParameters();
-            var connProfile = this.BuildFakeConnectionProfile(connParams);
+            var connProfile = BuildFakeConnectionProfile(connParams);
 
             // Catch outgoing message
             string? sentMessage = null;
@@ -39,7 +39,7 @@ namespace MessageCommunicator.TestGui.Tests
         public void SendEscapedMessage()
         {
             var connParams = new ConnectionParameters();
-            var connProfile = this.BuildFakeConnectionProfile(connParams);
+            var connProfile = BuildFakeConnectionProfile(connParams);
 
             // Catch outgoing message
             string? sentMessage = null;
@@ -61,7 +61,7 @@ namespace MessageCommunicator.TestGui.Tests
         public void SendHexMessage()
         {
             var connParams = new ConnectionParameters();
-            var connProfile = this.BuildFakeConnectionProfile(connParams);
+            var connProfile = BuildFakeConnectionProfile(connParams);
 
             // Catch outgoing message
             string? sentMessage = null;
@@ -73,13 +73,13 @@ namespace MessageCommunicator.TestGui.Tests
                 });
 
             var testObject = new ConnectionProfileViewModel(connProfile);
-            testObject.SendFormattingMode = SendFormattingMode.Hex;
-            testObject.Command_SendMessage.Execute("DummyMessage \\\\");
+            testObject.SendFormattingMode = SendFormattingMode.BinaryHex;
+            testObject.Command_SendMessage.Execute("41 42 43");
 
-            Assert.IsTrue(sentMessage == "DummyMessage \\");
+            Assert.IsTrue(sentMessage == "ABC");
         }
 
-        private IConnectionProfile BuildFakeConnectionProfile(ConnectionParameters connParams)
+        private static IConnectionProfile BuildFakeConnectionProfile(ConnectionParameters connParams)
         {
             var loggingMessages = new ObservableCollection<LoggingMessageWrapper>();
             var sendReceiveMessages = new ObservableCollection<LoggingMessageWrapper>();
@@ -95,6 +95,5 @@ namespace MessageCommunicator.TestGui.Tests
 
             return connProfile;
         }
-
     }
 }

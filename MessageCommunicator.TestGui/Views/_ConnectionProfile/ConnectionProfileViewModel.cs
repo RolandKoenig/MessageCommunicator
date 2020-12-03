@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Reactive;
+using System.Text;
 using System.Text.RegularExpressions;
 using MessageCommunicator.TestGui.Logic;
+using MessageCommunicator.Util;
 using ReactiveUI;
 
 namespace MessageCommunicator.TestGui.Views
@@ -99,7 +101,7 @@ namespace MessageCommunicator.TestGui.Views
             {
                 try
                 {
-                    if (message == null) { message = string.Empty; }
+                    message ??= string.Empty;
 
                     switch (this.SendFormattingMode)
                     {
@@ -110,9 +112,13 @@ namespace MessageCommunicator.TestGui.Views
                             message = Regex.Unescape(message);
                             break;
 
-                        case SendFormattingMode.Hex:
-                            
+                        case SendFormattingMode.BinaryHex:
+                            var encoding = Encoding.GetEncoding(this.Model.Parameters.RecognizerSettings.Encoding);
+                            message = encoding.GetString(HexFormatUtil.ToByteArray(message));
                             break;
+
+                        default:
+                            throw new InvalidOperationException($"Unhandled {nameof(Views.SendFormattingMode)} {this.SendFormattingMode}!");
                     }
 
                     await this.Model.SendMessageAsync(message);

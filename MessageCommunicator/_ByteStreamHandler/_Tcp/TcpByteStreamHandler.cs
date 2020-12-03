@@ -141,7 +141,7 @@ namespace MessageCommunicator
                 {
                     this.Log(
                         LoggingMessageType.Info,
-                        StringBuffer.Format("Sent {0} bytes: {1}", buffer.Count, TcpAsyncUtil.ToHexString(buffer)));
+                        StringBuffer.Format("Sent {0} bytes: {1}", buffer.Count, HexFormatUtil.ToHexString(buffer)));
                 }
                 
                 return true;
@@ -342,7 +342,7 @@ namespace MessageCommunicator
             {
                 this.Log(
                     LoggingMessageType.Info,
-                    StringBuffer.Format("Received {0} bytes: {1}", receiveBuffer.Count, TcpAsyncUtil.ToHexString(receiveBuffer)));
+                    StringBuffer.Format("Received {0} bytes: {1}", receiveBuffer.Count, HexFormatUtil.ToHexString(receiveBuffer)));
             }
 
             // Notify received bytes
