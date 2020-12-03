@@ -45,6 +45,7 @@
     <None Remove="MessageCommunicator.TestGui.csproj.DotSettings" />
     <None Remove="ViewServices\_ExportDialog\ExportDialogControl.xaml" />
     <None Remove="ViewServices\_ImportDialog\ImportDialogControl.xaml" />
+    <None Remove="Views\_SendMessage\SendMessageView.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MessageCommunicator\MessageCommunicator.csproj" />
@@ -65,12 +66,18 @@
     <AvaloniaResource Update="ViewServices\_ImportDialog\ImportDialogControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </AvaloniaResource>
+    <AvaloniaResource Update="Views\_SendMessage\SendMessageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="ViewServices\_ExportDialog\ExportDialogControl.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
     <Compile Update="ViewServices\_ImportDialog\ImportDialogControl.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Views\_SendMessage\SendMessageView.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
   </ItemGroup>

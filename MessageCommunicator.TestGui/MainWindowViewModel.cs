@@ -30,11 +30,14 @@ namespace MessageCommunicator.TestGui
                 if (_selectedProfile != value)
                 {
                     _selectedProfile = value;
+                    this.SendMessageVM.CurrentConnectionProfile = _selectedProfile?.Model;
                     this.RaisePropertyChanged(nameof(this.SelectedProfile));
                     this.RaisePropertyChanged(nameof(this.IsProfileScreenEnabled));
                 }
             }
         }
+
+        public SendMessageViewModel SendMessageVM { get; }
 
         public bool IsProfileScreenEnabled => _selectedProfile != null;
 
@@ -55,6 +58,8 @@ namespace MessageCommunicator.TestGui
             this.Command_CreateProfile = ReactiveCommand.CreateFromTask<object?>(this.CreateProfileAsync);
             this.Command_EditProfile = ReactiveCommand.CreateFromTask<object?>(this.EditProfileAsync);
             this.Command_DeleteProfile = ReactiveCommand.CreateFromTask<object?>(this.DeleteSelectedProfile);
+
+            this.SendMessageVM = new SendMessageViewModel();
 
             var syncContext = SynchronizationContext.Current;
             if (syncContext == null) { return; }

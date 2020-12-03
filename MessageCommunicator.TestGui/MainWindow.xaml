@@ -152,7 +152,12 @@
                     </StackPanel>
                 </HeaderedContentControl.Header>
               
-                <localViews:ConnectionProfileView DataContext="{Binding #LstProfiles.SelectedItem}" />
+                <DockPanel LastChildFill="True">
+                    <localViews:SendMessageView DockPanel.Dock="Bottom" 
+                                                DataContext="{Binding Path=SendMessageVM}" />
+                    <localViews:ConnectionProfileView DataContext="{Binding Path=SelectedProfile}" />
+                </DockPanel>
+
             </HeaderedContentControl>
         </Grid>
       

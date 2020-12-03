@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MessageCommunicator.TestGui.Tests
 {
     [TestClass]
-    public class ConnectionProfileViewModelTests
+    public class SendMessageViewModelTests
     {
         [TestMethod]
         public void SendPlainMessage()
@@ -28,7 +28,8 @@ namespace MessageCommunicator.TestGui.Tests
                     sentMessage = (string?)callInfo.Arguments[0];
                 });
 
-            var testObject = new ConnectionProfileViewModel(connProfile);
+            var testObject = new SendMessageViewModel();
+            testObject.CurrentConnectionProfile = connProfile;
             testObject.SendFormattingMode = SendFormattingMode.Plain;
             testObject.Command_SendMessage.Execute("DummyMessage \\\\");
 
@@ -50,7 +51,8 @@ namespace MessageCommunicator.TestGui.Tests
                     sentMessage = (string?)callInfo.Arguments[0];
                 });
 
-            var testObject = new ConnectionProfileViewModel(connProfile);
+            var testObject = new SendMessageViewModel();
+            testObject.CurrentConnectionProfile = connProfile;
             testObject.SendFormattingMode = SendFormattingMode.Escaped;
             testObject.Command_SendMessage.Execute("DummyMessage \\\\");
 
@@ -72,7 +74,8 @@ namespace MessageCommunicator.TestGui.Tests
                     sentMessage = (string?)callInfo.Arguments[0];
                 });
 
-            var testObject = new ConnectionProfileViewModel(connProfile);
+            var testObject = new SendMessageViewModel();
+            testObject.CurrentConnectionProfile = connProfile;
             testObject.SendFormattingMode = SendFormattingMode.BinaryHex;
             testObject.Command_SendMessage.Execute("41 42 43");
 

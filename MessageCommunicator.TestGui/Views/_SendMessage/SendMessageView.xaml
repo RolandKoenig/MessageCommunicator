@@ -1,0 +1,24 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:MessageCommunicator.TestGui.Views;assembly=MessageCommunicator.TestGui"
+             xmlns:localRoot="clr-namespace:MessageCommunicator.TestGui;assembly=MessageCommunicator.TestGui"
+             mc:Ignorable="d"
+             d:Width="400" d:Height="400"
+             x:Class="MessageCommunicator.TestGui.Views.SendMessageView">
+    <DockPanel LastChildFill="True">
+        <Button DockPanel.Dock="Right"
+                Content="Send" Width="150"
+                IsDefault="True"
+                Margin="3"
+                Command="{Binding Path=Command_SendMessage}"
+                CommandParameter="{Binding #TxtSendMessage.Text}" />
+        <ComboBox DockPanel.Dock="Right" 
+                  Width="75" Margin="3"
+                  SelectedItem="{Binding Path=SendFormattingMode}" 
+                  Items="{Binding Path=SendFormattingModeList}" />
+        <TextBox Name="TxtSendMessage"
+                 Margin="3" />
+    </DockPanel>
+</UserControl>

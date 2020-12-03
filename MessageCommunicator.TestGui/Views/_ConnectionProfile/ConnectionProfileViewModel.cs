@@ -20,8 +20,6 @@ namespace MessageCommunicator.TestGui.Views
 
         public ReactiveCommand<object?, Unit> Command_Stop { get; }
 
-        public ReactiveCommand<string?, Unit> Command_SendMessage { get; }
-
         public bool IsRunning
         {
             get => _isRunning;
@@ -40,10 +38,6 @@ namespace MessageCommunicator.TestGui.Views
         public bool CanStart => !this.IsRunning;
 
         public bool CanStop => this.IsRunning;
-
-        public SendFormattingMode SendFormattingMode { get; set; }
-
-        public SendFormattingMode[] SendFormattingModeList => (SendFormattingMode[])Enum.GetValues(typeof(SendFormattingMode));
 
         public ConnectionState State
         {
@@ -95,37 +89,6 @@ namespace MessageCommunicator.TestGui.Views
                 if (this.Model.IsRunning)
                 {
                     await this.Model.StopAsync();
-                }
-            });
-            this.Command_SendMessage = ReactiveCommand.CreateFromTask<string?>(async message =>
-            {
-                try
-                {
-                    message ??= string.Empty;
-
-                    switch (this.SendFormattingMode)
-                    {
-                        case SendFormattingMode.Plain:
-                            break;
-
-                        case SendFormattingMode.Escaped:
-                            message = Regex.Unescape(message);
-                            break;
-
-                        case SendFormattingMode.BinaryHex:
-                            var encoding = Encoding.GetEncoding(this.Model.Parameters.RecognizerSettings.Encoding);
-                            message = encoding.GetString(HexFormatUtil.ToByteArray(message));
-                            break;
-
-                        default:
-                            throw new InvalidOperationException($"Unhandled {nameof(Views.SendFormattingMode)} {this.SendFormattingMode}!");
-                    }
-
-                    await this.Model.SendMessageAsync(message);
-                }
-                catch (Exception e)
-                {
-                    CommonErrorHandling.Current.ShowErrorDialog(e);
                 }
             });
         }

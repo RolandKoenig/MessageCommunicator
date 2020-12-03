@@ -7,48 +7,30 @@
              mc:Ignorable="d"
              d:Width="400" d:Height="400"
              x:Class="MessageCommunicator.TestGui.Views.ConnectionProfileView">
-    <DockPanel LastChildFill="True">
-        <DockPanel DockPanel.Dock="Bottom"
-                   LastChildFill="True">
-            <Button DockPanel.Dock="Right"
-                    Content="Send" Width="150"
-                    IsDefault="True"
-                    Margin="3"
-                    Command="{Binding Path=Command_SendMessage}"
-                    CommandParameter="{Binding #TxtSendMessage.Text}" />
-            <ComboBox DockPanel.Dock="Right" 
-                      Width="75" Margin="3"
-                      SelectedItem="{Binding Path=SendFormattingMode}" 
-                      Items="{Binding Path=SendFormattingModeList}" />
-            <TextBox Name="TxtSendMessage"
-                     Margin="3" />
-        </DockPanel>
-
-        <TabControl>
-            <TabItem>
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Messages (" />
-                        <TextBlock Text="{Binding Path=MessageLoggingViewModel.Logging.Count, FallbackValue=0}" />
-                        <TextBlock Text=")" />
-                    </StackPanel>
-                </TabItem.Header>
-              
-                <local:LoggingView DataContext="{Binding Path=MessageLoggingViewModel}"
-                                   IsTypeColumnVisible="false" />
-            </TabItem>
+    <TabControl>
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Messages (" />
+                    <TextBlock Text="{Binding Path=MessageLoggingViewModel.Logging.Count, FallbackValue=0}" />
+                    <TextBlock Text=")" />
+                </StackPanel>
+            </TabItem.Header>
           
-            <TabItem>
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Details (" />
-                        <TextBlock Text="{Binding Path=DetailLoggingViewModel.Logging.Count, FallbackValue=0}" />
-                        <TextBlock Text=")" />
-                    </StackPanel>
-                </TabItem.Header>
-              
-                <local:LoggingView DataContext="{Binding Path=DetailLoggingViewModel}" />
-            </TabItem>
-        </TabControl>
-    </DockPanel>
+            <local:LoggingView DataContext="{Binding Path=MessageLoggingViewModel}"
+                               IsTypeColumnVisible="false" />
+        </TabItem>
+      
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Details (" />
+                    <TextBlock Text="{Binding Path=DetailLoggingViewModel.Logging.Count, FallbackValue=0}" />
+                    <TextBlock Text=")" />
+                </StackPanel>
+            </TabItem.Header>
+          
+            <local:LoggingView DataContext="{Binding Path=DetailLoggingViewModel}" />
+        </TabItem>
+    </TabControl>
 </UserControl>
