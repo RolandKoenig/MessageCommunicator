@@ -8,7 +8,7 @@ using MessageCommunicator.TestGui.Data;
 
 namespace MessageCommunicator.TestGui.Logic
 {
-    public class ConnectionProfile : IMessageReceiveHandler, IMessageCommunicatorLogger
+    public class ConnectionProfile : IMessageReceiveHandler, IMessageCommunicatorLogger, IConnectionProfile
     {
         private SynchronizationContext _syncContext;
 

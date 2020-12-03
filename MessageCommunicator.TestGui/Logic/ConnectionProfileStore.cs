@@ -11,7 +11,7 @@ namespace MessageCommunicator.TestGui.Logic
     {
         public static ConnectionProfileStore Current { get; } = new ConnectionProfileStore();
 
-        public void StoreConnectionProfiles(IEnumerable<ConnectionProfile> profiles)
+        public void StoreConnectionProfiles(IEnumerable<IConnectionProfile> profiles)
         {
             var connParams = new List<ConnectionParameters>(12);
             foreach (var actProfile in profiles)

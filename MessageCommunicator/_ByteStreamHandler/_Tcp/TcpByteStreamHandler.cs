@@ -331,15 +331,6 @@ namespace MessageCommunicator
             TcpAsyncUtil.SafeDispose(ref tcpClientInternal);
         }
 
-        //private async Task ObserveConnection(TcpClient tcpClientToObserve, CancellationToken cancelToken)
-        //{
-
-        //    while (!cancelToken.IsCancellationRequested)
-        //    {
-                
-        //    }
-        //}
-
         private void ProcessReceivedBytes(bool newConnection, byte[] buffer, int receivedBytesCount)
         {
             buffer.MustNotBeNull(nameof(buffer));

@@ -12,7 +12,7 @@ namespace MessageCommunicator.TestGui.Views
         private ConnectionState _connState;
         private string _remoteEndpointDescription;
 
-        public ConnectionProfile Model { get; }
+        public IConnectionProfile Model { get; }
 
         public ReactiveCommand<object?, Unit> Command_Start { get; }
 
@@ -73,7 +73,7 @@ namespace MessageCommunicator.TestGui.Views
 
         public LoggingViewModel DetailLoggingViewModel { get; }
 
-        public ConnectionProfileViewModel(ConnectionProfile connProfile)
+        public ConnectionProfileViewModel(IConnectionProfile connProfile)
         {
             this.Model = connProfile;
             _remoteEndpointDescription = string.Empty;
@@ -100,8 +100,22 @@ namespace MessageCommunicator.TestGui.Views
                 try
                 {
                     if (message == null) { message = string.Empty; }
-                    await this.Model.SendMessageAsync(
-                        Regex.Unescape(message));
+
+                    switch (this.SendFormattingMode)
+                    {
+                        case SendFormattingMode.Plain:
+                            break;
+
+                        case SendFormattingMode.Escaped:
+                            message = Regex.Unescape(message);
+                            break;
+
+                        case SendFormattingMode.Hex:
+                            
+                            break;
+                    }
+
+                    await this.Model.SendMessageAsync(message);
                 }
                 catch (Exception e)
                 {
