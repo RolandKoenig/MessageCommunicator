@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Reactive;
+using System.Text.RegularExpressions;
 using MessageCommunicator.TestGui.Logic;
 using ReactiveUI;
 
@@ -38,6 +38,10 @@ namespace MessageCommunicator.TestGui.Views
         public bool CanStart => !this.IsRunning;
 
         public bool CanStop => this.IsRunning;
+
+        public SendFormattingMode SendFormattingMode { get; set; }
+
+        public SendFormattingMode[] SendFormattingModeList => (SendFormattingMode[])Enum.GetValues(typeof(SendFormattingMode));
 
         public ConnectionState State
         {
@@ -96,7 +100,8 @@ namespace MessageCommunicator.TestGui.Views
                 try
                 {
                     if (message == null) { message = string.Empty; }
-                    await this.Model.SendMessageAsync(message);
+                    await this.Model.SendMessageAsync(
+                        Regex.Unescape(message));
                 }
                 catch (Exception e)
                 {
