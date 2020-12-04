@@ -43,6 +43,7 @@
     <None Remove="Assets\MessageCommunicator.ico" />
     <None Remove="Assets\Styles\Common.xaml" />
     <None Remove="MessageCommunicator.TestGui.csproj.DotSettings" />
+    <None Remove="ViewServices\_AboutDialog\AboutDialogControl.xaml" />
     <None Remove="ViewServices\_ExportDialog\ExportDialogControl.xaml" />
     <None Remove="ViewServices\_ImportDialog\ImportDialogControl.xaml" />
     <None Remove="Views\_SendMessage\SendMessageView.xaml" />
@@ -60,6 +61,9 @@
     <AvaloniaResource Update="Assets\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
     </AvaloniaResource>
+    <AvaloniaResource Update="ViewServices\_AboutDialog\AboutDialogControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaResource>
     <AvaloniaResource Update="ViewServices\_ExportDialog\ExportDialogControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </AvaloniaResource>
@@ -71,6 +75,9 @@
     </AvaloniaResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="ViewServices\_AboutDialog\AboutDialogControl.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
     <Compile Update="ViewServices\_ExportDialog\ExportDialogControl.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>

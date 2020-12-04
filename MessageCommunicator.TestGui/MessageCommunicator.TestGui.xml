@@ -25,6 +25,9 @@
         <member name="M:MessageCommunicator.TestGui.MainWindowViewModel.OnActivated(System.Reactive.Disposables.CompositeDisposable)">
             <inheritdoc />
         </member>
+        <member name="M:MessageCommunicator.TestGui.ViewServices.AboutDialogService.ShowAboutDialogAsync">
+            <inheritdoc />
+        </member>
         <member name="M:MessageCommunicator.TestGui.ViewServices.ConnectionConfigControl.OnActivated(System.Reactive.Disposables.CompositeDisposable)">
             <inheritdoc />
         </member>

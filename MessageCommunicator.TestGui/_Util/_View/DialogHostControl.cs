@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -38,6 +39,11 @@ namespace MessageCommunicator.TestGui
 
         public void ShowDialog(Control controlToShow, string headerText)
         {
+            this.ShowDialogAsync(controlToShow, headerText);
+        }
+
+        public Task ShowDialogAsync(Control controlToShow, string headerText)
+        {
             var currentChild = controlToShow;
             var currentChildInitialSize = new Size(currentChild.Width, currentChild.Height);
 
@@ -55,7 +61,11 @@ namespace MessageCommunicator.TestGui
             var currentBackground = new Grid();
             currentBackground.Background = _backgroundDialog;
 
-            _children.Push(new ChildInfo(currentChild, currentChildBorder, currentChildInitialSize, currentBackground));
+            var taskComplSource = new TaskCompletionSource<object?>();
+            _children.Push(new ChildInfo(
+                currentChild, currentChildBorder, 
+                currentChildInitialSize, currentBackground,
+                taskComplSource));
 
             this.Children.Add(currentBackground);
             this.Children.Add(borderControl);
@@ -67,6 +77,8 @@ namespace MessageCommunicator.TestGui
             }
 
             this.UpdateBorderSize();
+
+            return taskComplSource.Task;
         }
 
         public void CloseDialog()
@@ -77,6 +89,7 @@ namespace MessageCommunicator.TestGui
             }
             this.Children.Remove(removedChild.ChildBorder);
             this.Children.Remove(removedChild.ChildBackground);
+            removedChild.TaskComplSource.TrySetResult(null);
 
             if (_children.Count == 0)
             {
@@ -156,12 +169,21 @@ namespace MessageCommunicator.TestGui
                 get;
             }
 
-            internal ChildInfo(Control child, Control childBorder, Size initialSize, Grid childBackground)
+            public TaskCompletionSource<object?> TaskComplSource
+            {
+                get;
+            }
+
+            internal ChildInfo(
+                Control child, Control childBorder, 
+                Size initialSize, Grid childBackground,
+                TaskCompletionSource<object?> taskComplSource)
             {
                 this.Child = child;
                 this.ChildBorder = childBorder;
                 this.InitialSize = initialSize;
                 this.ChildBackground = childBackground;
+                this.TaskComplSource = taskComplSource;
             }
         }
     }

@@ -51,13 +51,16 @@ namespace MessageCommunicator.TestGui
 
         public ReactiveCommand<object?, Unit> Command_DeleteProfile { get; }
 
+        public ReactiveCommand<object?, Unit> Command_ShowAboutDialog { get; }
+
         public MainWindowViewModel()
         {
-            this.Command_ImportProfiles = ReactiveCommand.CreateFromTask<object?>(this.ImportProfilesAsync);
-            this.Command_ExportProfiles = ReactiveCommand.CreateFromTask<object?>(this.ExportProfilesAsync);
-            this.Command_CreateProfile = ReactiveCommand.CreateFromTask<object?>(this.CreateProfileAsync);
-            this.Command_EditProfile = ReactiveCommand.CreateFromTask<object?>(this.EditProfileAsync);
-            this.Command_DeleteProfile = ReactiveCommand.CreateFromTask<object?>(this.DeleteSelectedProfile);
+            this.Command_ImportProfiles = ReactiveCommand.CreateFromTask<object?>(this.OnCommand_ImportProfiles_ExecuteAsync);
+            this.Command_ExportProfiles = ReactiveCommand.CreateFromTask<object?>(this.OnCommand_ExportProfiles_ExecuteAsync);
+            this.Command_CreateProfile = ReactiveCommand.CreateFromTask<object?>(this.OnCommand_CreateProfile_ExecuteAsync);
+            this.Command_EditProfile = ReactiveCommand.CreateFromTask<object?>(this.OnCommand_EditProfile_ExecuteAsync);
+            this.Command_DeleteProfile = ReactiveCommand.CreateFromTask<object?>(this.OnCommand_DeleteProfile_ExecuteAsync);
+            this.Command_ShowAboutDialog = ReactiveCommand.CreateFromTask<object?>(this.OnCommand_ShowAboutDialog_ExecuteAsync);
 
             this.SendMessageVM = new SendMessageViewModel();
 
@@ -97,7 +100,7 @@ namespace MessageCommunicator.TestGui
             disposables.Add(new DummyDisposable(() => timer.Stop()));
         }
 
-        private async Task ImportProfilesAsync(object? arg, CancellationToken cancelToken)
+        private async Task OnCommand_ImportProfiles_ExecuteAsync(object? arg, CancellationToken cancelToken)
         {
             var connectionProfiles = this.Profiles
                 .Select(actProfile => actProfile.Model.Parameters)
@@ -135,7 +138,7 @@ namespace MessageCommunicator.TestGui
             }  
         }
 
-        private async Task ExportProfilesAsync(object? arg, CancellationToken cancelToken)
+        private async Task OnCommand_ExportProfiles_ExecuteAsync(object? arg, CancellationToken cancelToken)
         {
             if (this.Profiles.Count == 0)
             {
@@ -154,7 +157,7 @@ namespace MessageCommunicator.TestGui
                 Constants.DATA_TYPE_CONNECTION_PROFILES);
         }
 
-        private async Task CreateProfileAsync(object? arg, CancellationToken cancelToken)
+        private async Task OnCommand_CreateProfile_ExecuteAsync(object? arg, CancellationToken cancelToken)
         {
             var srvConnectionConfig = this.GetViewService<IConnectionConfigViewService>();
             var connParams = await srvConnectionConfig.ConfigureConnectionAsync(null);
@@ -171,7 +174,7 @@ namespace MessageCommunicator.TestGui
             }
         }
 
-        private async Task EditProfileAsync(object? arg, CancellationToken cancelToken)
+        private async Task OnCommand_EditProfile_ExecuteAsync(object? arg, CancellationToken cancelToken)
         {
             var selectedProfileVM = this.SelectedProfile;
             if (selectedProfileVM == null) { return; }
@@ -200,7 +203,7 @@ namespace MessageCommunicator.TestGui
             }
         }
 
-        private async Task DeleteSelectedProfile(object? arg, CancellationToken cancelToken)
+        private async Task OnCommand_DeleteProfile_ExecuteAsync(object? arg, CancellationToken cancelToken)
         {
             var selectedProfile = this.SelectedProfile;
             if (selectedProfile == null) { return; }
@@ -221,6 +224,12 @@ namespace MessageCommunicator.TestGui
 
             ConnectionProfileStore.Current.StoreConnectionProfiles(
                 this.Profiles.Select(actProfileVM => actProfileVM.Model));
+        }
+
+        private Task OnCommand_ShowAboutDialog_ExecuteAsync(object? arg, CancellationToken cancelToken)
+        {
+            var srvAboutDlg = this.GetViewService<IAboutDialogService>();
+            return srvAboutDlg.ShowAboutDialogAsync();
         }
     }
 }

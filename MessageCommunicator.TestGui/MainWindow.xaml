@@ -63,6 +63,10 @@
                     <MenuItem Header="Light" PointerPressed="OnMnuThemeLight_PointerPressed" />
                     <MenuItem Header="Dark" PointerPressed="OnMnuThemeDark_PointerPressed" />
                 </MenuItem>
+                <MenuItem Header="Info"
+                          Classes="MainMenu">
+                    <MenuItem Header="About" Command="{Binding Path=Command_ShowAboutDialog}" />
+                </MenuItem>
             </Menu>
 
             <GridSplitter Grid.Column="1" Grid.Row="1"
