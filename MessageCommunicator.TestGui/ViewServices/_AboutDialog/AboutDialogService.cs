@@ -18,7 +18,8 @@ namespace MessageCommunicator.TestGui.ViewServices
         public Task ShowAboutDialogAsync()
         {
             var aboutDialogControl = new AboutDialogControl();
-            return _host.ShowDialogAsync(aboutDialogControl, "About");
+            aboutDialogControl.DataContext = new AboutDialogViewModel();
+            return aboutDialogControl.ShowControlDialogAsync(_host, "About");
         }
     }
 }

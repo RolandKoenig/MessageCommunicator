@@ -8,7 +8,19 @@
         Width="610" Height="400"
         x:Class="MessageCommunicator.TestGui.ViewServices.AboutDialogControl">
     
-    <Grid>
-        <TextBox>About ;)</TextBox>
-    </Grid>
+    <DockPanel LastChildFill="True">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom"
+                    HorizontalAlignment="Right">
+            <StackPanel.Styles>
+                <Style Selector="Button">
+                    <Setter Property="Width" Value="125" />
+                    <Setter Property="Margin" Value="3" />
+                </Style>
+            </StackPanel.Styles>
+          
+            <Button Content="OK" IsDefault="True" Command="{Binding Path=Command_Close}" />
+        </StackPanel>
+      
+        <localRoot:PropertyGrid SelectedObject="{Binding Path=Self}" />
+    </DockPanel>
 </UserControl>

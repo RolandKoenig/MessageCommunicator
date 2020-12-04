@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Layout;
+using SharpDX.DXGI;
 
 namespace MessageCommunicator.TestGui
 {
@@ -44,6 +45,7 @@ namespace MessageCommunicator.TestGui
                 default:
                     throw new ArgumentOutOfRangeException($"Unsupported value {property.ValueType}");
             }
+
             return ctrlValueEdit;
         }
 
@@ -56,6 +58,7 @@ namespace MessageCommunicator.TestGui
                 nameof(property.ValueAccessor),
                 BindingMode.TwoWay);
             ctrlCheckBox.HorizontalAlignment = HorizontalAlignment.Left;
+            ctrlCheckBox.IsEnabled = !property.IsReadOnly;
             return ctrlCheckBox;
         }
 
@@ -68,6 +71,7 @@ namespace MessageCommunicator.TestGui
                 nameof(property.ValueAccessor),
                 BindingMode.TwoWay);
             ctrlTextBox.Width = double.NaN;
+            ctrlTextBox.IsReadOnly = property.IsReadOnly;
             return ctrlTextBox;
         }
 
@@ -81,6 +85,7 @@ namespace MessageCommunicator.TestGui
                 nameof(property.ValueAccessor),
                 BindingMode.TwoWay);
             ctrlComboBox.Width = double.NaN;
+            ctrlComboBox.IsEnabled = !property.IsReadOnly;
             return ctrlComboBox;
         }
 
@@ -99,6 +104,7 @@ namespace MessageCommunicator.TestGui
                 nameof(property.ValueAccessor),
                 BindingMode.TwoWay);
             ctrlComboBoxEnc.Width = double.NaN;
+            ctrlComboBoxEnc.IsEnabled = !property.IsReadOnly;
 
             var ctrlEncDescLabel = new TextBlock();
             ctrlEncDescLabel[!TextBlock.TextProperty] = new Binding(
@@ -139,6 +145,7 @@ namespace MessageCommunicator.TestGui
                 nameof(property.ValueAccessor),
                 BindingMode.TwoWay);
             ctrlTextBox1.Width = double.NaN;
+            ctrlTextBox1.IsReadOnly = property.IsReadOnly;
 
             var hexTextBinding = new Binding(
                 nameof(property.ValueAccessor),
@@ -160,6 +167,7 @@ namespace MessageCommunicator.TestGui
             var ctrlTextBox2 = new TextBox();
             ctrlTextBox2[!TextBox.TextProperty] = hexTextBinding;
             ctrlTextBox2.Width = double.NaN;
+            ctrlTextBox2.IsReadOnly = property.IsReadOnly;
 
             otherProperty.RegisterWeakPropertyChangedTarget(
                 new WeakReference(ctrlTextBox2), 

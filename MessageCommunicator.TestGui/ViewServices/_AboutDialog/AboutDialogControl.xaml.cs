@@ -10,7 +10,7 @@ using Avalonia.Threading;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
-    public class AboutDialogControl : OwnUserControlDialog<OwnViewModelBase>
+    public class AboutDialogControl : OwnUserControlDialog<AboutDialogViewModel>
     {
         public AboutDialogControl()
         {

@@ -60,6 +60,12 @@ namespace MessageCommunicator.TestGui
             set;
         }
 
+        public bool IsReadOnly
+        {
+            get;
+            set;
+        }
+
         internal ConfigurablePropertyMetadata(PropertyDescriptor propertyInfo, object hostObject, IPropertyContractResolver? propertyContractResolver)
         {
             _descriptor = propertyInfo;
@@ -70,6 +76,7 @@ namespace MessageCommunicator.TestGui
             this.CategoryName = categoryAttrib?.Category ?? string.Empty;
 
             this.PropertyName = propertyInfo.Name;
+            this.IsReadOnly = propertyInfo.IsReadOnly;
 
             this.PropertyDisplayName = propertyInfo.Name;
             var displayNameAttrib = this.GetCustomAttribute<DisplayNameAttribute>();
