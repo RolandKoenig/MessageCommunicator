@@ -23,7 +23,7 @@ namespace MessageCommunicator
         /// <summary>
         /// Gets or sets the <see cref="IPAddress"/> of the remote host.
         /// </summary>
-        public IPAddress RemoteIP
+        public IPAddress RemoteIPAddress
         {
             get;
             set;
@@ -72,7 +72,7 @@ namespace MessageCommunicator
             receiveTimeoutMS.MustBeGreaterThanOrEqualTo(0, nameof(receiveTimeoutMS));
 
             this.RemoteHost = remoteHost;
-            this.RemoteIP = IPAddress.None;
+            this.RemoteIPAddress = IPAddress.None;
             this.RemotePort = remotePort;
             this.ReceiveTimeout = TimeSpan.FromMilliseconds(receiveTimeoutMS);
 
@@ -83,20 +83,20 @@ namespace MessageCommunicator
         /// <summary>
         /// Creates a new <see cref="TcpActiveByteStreamHandlerSettings"/> instance.
         /// </summary>
-        /// <param name="remoteIP">The ip address of the remote host.</param>
+        /// <param name="remoteIPAddress">The ip address of the remote host.</param>
         /// <param name="remotePort">The remote port.</param>
         /// <param name="reconnectWaitTimeGetter">The <see cref="ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
         /// <param name="receiveTimeoutMS">Connection will be closed when we don't receive anything in this period of time.</param>
         public TcpActiveByteStreamHandlerSettings(
-            IPAddress remoteIP, ushort remotePort,
+            IPAddress remoteIPAddress, ushort remotePort,
             ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null,
             int receiveTimeoutMS = 40000)
         {
-            remoteIP.MustNotBeNull(nameof(remoteIP));
+            remoteIPAddress.MustNotBeNull(nameof(remoteIPAddress));
             receiveTimeoutMS.MustBeGreaterThanOrEqualTo(0, nameof(receiveTimeoutMS));
 
             this.RemoteHost = string.Empty;
-            this.RemoteIP = remoteIP;
+            this.RemoteIPAddress = remoteIPAddress;
             this.RemotePort = remotePort;
             this.ReceiveTimeout = TimeSpan.FromMilliseconds(receiveTimeoutMS);
 
@@ -107,10 +107,10 @@ namespace MessageCommunicator
         /// <inheritdoc />
         public override ByteStreamHandler CreateByteStreamHandler()
         {
-            if (!ReferenceEquals(this.RemoteIP, IPAddress.None))
+            if (!ReferenceEquals(this.RemoteIPAddress, IPAddress.None))
             {
                 return new TcpActiveByteStreamHandler(
-                    this.RemoteIP, this.RemotePort,
+                    this.RemoteIPAddress, this.RemotePort,
                     this.ReconnectWaitTimeGetter,
                     this.ReceiveTimeout);
             }

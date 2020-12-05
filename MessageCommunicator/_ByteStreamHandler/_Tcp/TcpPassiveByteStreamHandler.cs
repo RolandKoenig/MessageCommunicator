@@ -105,7 +105,7 @@ namespace MessageCommunicator
             // Trigger async main loop which handles the connection
             this.RunConnectionMainLoop(loopId);
 
-            return Task.FromResult<object?>(null);
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc />
@@ -138,9 +138,9 @@ namespace MessageCommunicator
             TcpAsyncUtil.SafeStop(ref lastListener);
             TcpAsyncUtil.SafeDispose(ref lastSendSocket);
 
-            this.Log(LoggingMessageType.Info, "TcpCommunicator stopped");
+            this.Log(LoggingMessageType.Info, "TCP communication stopped");
 
-            return Task.FromResult<object?>(null);
+            return Task.CompletedTask;
         }
 
         private async void RunConnectionMainLoop(int loopId)

@@ -40,6 +40,22 @@ namespace MessageCommunicator
             tcpClient = null;
         }
 
+        public static void SafeDispose(ref UdpClient? udpClient)
+        {
+            if(udpClient == null){ return; }
+
+            try
+            {
+                udpClient.Dispose();
+            }
+            catch 
+            { 
+                // ignored
+            }
+
+            udpClient = null;
+        }
+
         public static void SafeDispose(Socket? socket)
         {
             if(socket == null){ return; }

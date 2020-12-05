@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Light.GuardClauses;
 using MessageCommunicator.Util;
 
 namespace MessageCommunicator
 {
-    /// <summary>
-    /// This <see cref="IByteStreamHandler"/> implementation sends/receives bytes over a TCP socket. This implementation connects defined port on a
-    /// defined <see cref="IPAddress"/>.
-    /// </summary>
-    public class TcpActiveByteStreamHandler : TcpByteStreamHandler
+    public class UdpByteStreamHandler : ByteStreamHandler
     {
         private const int RUNNING_LOOP_COUNTER_MAX = 1000;
 
@@ -21,26 +17,17 @@ namespace MessageCommunicator
         private int _runningLoopCounter;
         private bool _isRunning;
         private ConnectionState _connState;
+        private UdpClient? _udpClient;
 
-        private TcpClient? _currentClient;
+        public IPAddress ListeningIPAddress { get; }
 
-        /// <summary>
-        /// Gets the name er ip address of the remote host.
-        /// </summary>
+        public ushort ListeningPort { get; }
+
         public string RemoteHost { get; }
 
-        /// <summary>
-        /// Gets the remote ip address.
-        /// </summary>
         public IPAddress RemoteIPAddress { get; }
 
-        /// <summary>
-        /// Gets the remote port.
-        /// </summary>
         public ushort RemotePort { get; }
-
-        /// <inheritdoc />
-        public override bool IsRunning => _isRunning;
 
         /// <inheritdoc />
         public override ConnectionState State
@@ -52,50 +39,62 @@ namespace MessageCommunicator
             }
         }
 
-        /// <summary>
-        /// Creates a new <see cref="TcpActiveByteStreamHandler"/> instance.
-        /// </summary>
-        /// <param name="remoteHost">The dns name or string encoded ip address of the remote host.</param>
-        /// <param name="remotePort">The remote port.</param>
-        /// <param name="reconnectWaitTimeGetter">The <see cref="ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
-        /// <param name="receiveTimeout">Connection will be closed when we don't receive anything in this period of time.</param>
-        internal TcpActiveByteStreamHandler(
-            string remoteHost, ushort remotePort, 
-            ReconnectWaitTimeGetter reconnectWaitTimeGetter,
-            TimeSpan receiveTimeout) 
-            : base(reconnectWaitTimeGetter, receiveTimeout)
-        {
-            remoteHost.MustNotBeNullOrEmpty(nameof(remoteHost));
-            reconnectWaitTimeGetter.MustNotBeNull(nameof(reconnectWaitTimeGetter));
-            receiveTimeout.MustBeGreaterThanOrEqualTo(TimeSpan.Zero, nameof(receiveTimeout));
+        /// <inheritdoc />
+        public override bool IsRunning => _isRunning;
 
-            _startStopLock = new object();
-            this.RemoteHost = remoteHost;
-            this.RemoteIPAddress = IPAddress.None;
-            this.RemotePort = remotePort;
+        /// <inheritdoc />
+        public override string LocalEndpointDescription
+        {
+            get
+            {
+                var currentSendSocket = _udpClient;
+                try
+                {
+                    return currentSendSocket?.Client?.LocalEndPoint?.ToString() ?? string.Empty;
+                }
+                catch (Exception )
+                {
+                    return string.Empty;
+                }
+            }
         }
 
-        /// <summary>
-        /// Creates a new <see cref="TcpActiveByteStreamHandler"/> instance.
-        /// </summary>
-        /// <param name="remoteIP">The ip address of the remote host.</param>
-        /// <param name="remotePort">The remote port.</param>
-        /// <param name="reconnectWaitTimeGetter">The <see cref="ReconnectWaitTimeGetter"/> which generates wait times after broke connection and before reconnect.</param>
-        /// <param name="receiveTimeout">Connection will be closed when we don't receive anything in this period of time.</param>
-        internal TcpActiveByteStreamHandler(
-            IPAddress remoteIP, ushort remotePort, 
-            ReconnectWaitTimeGetter reconnectWaitTimeGetter,
-            TimeSpan receiveTimeout) 
-            : base(reconnectWaitTimeGetter, receiveTimeout)
+        /// <inheritdoc />
+        public override string RemoteEndpointDescription
         {
-            remoteIP.MustNotBeNull(nameof(remoteIP));
-            reconnectWaitTimeGetter.MustNotBeNull(nameof(reconnectWaitTimeGetter));
-            receiveTimeout.MustBeGreaterThanOrEqualTo(TimeSpan.Zero, nameof(receiveTimeout));
+            get
+            {
+                var currentSendSocket = _udpClient;
+                try
+                {
+                    return currentSendSocket?.Client?.RemoteEndPoint?.ToString() ?? string.Empty;
+                }
+                catch (Exception )
+                {
+                    return string.Empty;
+                }
+            }
+        }
 
-            _startStopLock = new object();
-            this.RemoteHost = remoteIP.ToString();
-            this.RemoteIPAddress = remoteIP;
+        /// <inheritdoc />
+        public override DateTime LastConnectTimestampUtc { get; }
+
+        /// <inheritdoc />
+        public override DateTime LastReceivedDataBlockTimestampUtc { get; }
+
+        internal UdpByteStreamHandler(
+            IPAddress listeningIPAddress, ushort listeningPort,
+            IPAddress remoteIPAddress, ushort remotePort)
+        {
+            this.ListeningIPAddress = listeningIPAddress;
+            this.ListeningPort = listeningPort;
+            this.RemoteHost = remoteIPAddress.ToString();
+            this.RemoteIPAddress = remoteIPAddress;
             this.RemotePort = remotePort;
+
+            _startStopLock = new object(); 
+            _udpClient = null;
+            _isRunning = false;
         }
 
         /// <inheritdoc />
@@ -118,7 +117,6 @@ namespace MessageCommunicator
                 loopId = _runningLoopCounter;
             }
 
-            // Trigger async main loop which handles the connection
             this.RunConnectionMainLoop(loopId);
 
             return Task.CompletedTask;
@@ -128,7 +126,7 @@ namespace MessageCommunicator
         protected override Task StopInternalAsync()
         {
             // Simple lock here to guard start and stop phase
-            TcpClient? lastSendSocket = null;
+            UdpClient? lastSendSocket = null;
             lock (_startStopLock)
             {
                 if (!_isRunning)
@@ -143,27 +141,36 @@ namespace MessageCommunicator
                 {
                     _runningLoopCounter = 1;
                 }
-                lastSendSocket = _currentClient;
-                _currentClient = null;
+                lastSendSocket = _udpClient;
+                _udpClient = null;
             }
 
             // Dispose previous sockets
             TcpAsyncUtil.SafeDispose(ref lastSendSocket);
 
-            this.Log(LoggingMessageType.Info, "TCP communication stopped");
+            this.Log(LoggingMessageType.Info, "UDP communication stopped");
 
             return Task.CompletedTask;
+        }
+
+        /// <inheritdoc />
+        public override Task<bool> SendAsync(ArraySegment<byte> buffer)
+        {
+            throw new NotImplementedException();
         }
 
         private async void RunConnectionMainLoop(int loopId)
         {
             this.Log(LoggingMessageType.Info, "TcpCommunicator started in active mode");
 
+            // Ensure that we switch to the ThreadPool
+            await Task.CompletedTask.ConfigureAwait(false);
+
             var reconnectErrorCount = 0;
             var remoteAddressStr = this.RemoteHost;
             while (loopId == _runningLoopCounter)
             {
-                TcpClient? newClient = null;
+                UdpClient? newClient = null;
                 try
                 {
                     _connState = ConnectionState.Connecting;
@@ -175,16 +182,16 @@ namespace MessageCommunicator
                                 this.RemotePort));
                     }
 
-                    newClient = new TcpClient();
+                    newClient = new UdpClient(new IPEndPoint(this.ListeningIPAddress, this.ListeningPort));
                     if (!ReferenceEquals(this.RemoteIPAddress, IPAddress.None))
                     {
-                        await newClient.ConnectAsync(this.RemoteIPAddress, this.RemotePort);
+                        newClient.Connect(this.RemoteIPAddress, this.RemotePort);
                     }
                     else
                     {
-                        await newClient.ConnectAsync(this.RemoteHost, this.RemotePort);
+                        newClient.Connect(this.RemoteHost, this.RemotePort);
                     }
-                    _currentClient = newClient;
+                    _udpClient = newClient;
                     reconnectErrorCount = 0;
 
                     _connState = ConnectionState.Connected;
@@ -199,7 +206,7 @@ namespace MessageCommunicator
                 catch (Exception ex)
                 {
                     TcpAsyncUtil.SafeDispose(ref newClient);
-                    _currentClient = null;
+                    _udpClient = null;
 
                     if (this.IsLoggerSet)
                     {
@@ -211,18 +218,20 @@ namespace MessageCommunicator
                     }
 
                     _connState = ConnectionState.Connecting;
-                    await this.WaitByReconnectWaitTimeAsync(reconnectErrorCount)
+                    await Task.Delay(1000)
                         .ConfigureAwait(false);
+                    //await this.WaitByReconnectWaitTimeAsync(reconnectErrorCount)
+                    //    .ConfigureAwait(false);
                     reconnectErrorCount++;
                 }
-                if(_currentClient == null){ continue; }
+                if(_udpClient == null){ continue; }
 
                 // Normal receive loop handling
                 try
                 {
-                    await this.RunReceiveLoopAsync(
-                        _currentClient, (IPEndPoint)_currentClient.Client.LocalEndPoint!,
-                        (IPEndPoint)_currentClient.Client.RemoteEndPoint!, CancellationToken.None);
+                    //await this.RunReceiveLoopAsync(
+                    //    _currentClient, (IPEndPoint)_currentClient.Client.LocalEndPoint!,
+                    //    (IPEndPoint)_currentClient.Client.RemoteEndPoint!, CancellationToken.None);
                 }
                 catch (Exception ex)
                 {
@@ -238,14 +247,8 @@ namespace MessageCommunicator
                 }
 
                 // Client gets already disposed in receive loop
-                _currentClient = null;
+                _udpClient = null;
             }
-        }
-
-        /// <inheritdoc />
-        protected override TcpClient? GetCurrentSendSocket()
-        {
-            return _currentClient;
         }
     }
 }
