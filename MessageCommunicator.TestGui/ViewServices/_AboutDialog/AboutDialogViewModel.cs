@@ -80,6 +80,14 @@ namespace MessageCommunicator.TestGui.ViewServices
             }
         }
 
+        public string NetFrameworkVersion
+        {
+            get
+            {
+                return Environment.Version.ToString();
+            }
+        }
+
         [Browsable(false)]
         public ReactiveCommand<Unit, Unit> Command_Close { get; }
 
