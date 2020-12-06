@@ -4,10 +4,10 @@ Remove-Item -Path ./publish/* -Recurse -Force
 dotnet pack -c Release -o ./publish ./MessageCommunicator /p:ContinuousIntegrationBuild=true /p:IncludeSymbols=true /p:EmbedUntrackedSources=true -p:SymbolPackageFormat=snupkg
 
 # Publish gui application
-dotnet publish -c Release -f netcoreapp3.1 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true --runtime win-x86 -o "./publish/MessageCommunicator (Win X86)" ./MessageCommunicator.TestGui
-dotnet publish -c Release -f netcoreapp3.1 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true --runtime win-x64 -o "./publish/MessageCommunicator (Win X64)" ./MessageCommunicator.TestGui
-dotnet publish -c Release -f netcoreapp3.1 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true --runtime linux-x64 -o "./publish/MessageCommunicator (Linux X64)" ./MessageCommunicator.TestGui
-dotnet publish -c Release -f netcoreapp3.1 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true --runtime osx-x64 -o "./publish/MessageCommunicator (macOS 10.12 X64)" ./MessageCommunicator.TestGui
+dotnet publish -c Release -f net5.0 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=true --runtime win-x86 -o "./publish/MessageCommunicator (Win X86)" ./MessageCommunicator.TestGui
+dotnet publish -c Release -f net5.0 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=true --runtime win-x64 -o "./publish/MessageCommunicator (Win X64)" ./MessageCommunicator.TestGui
+dotnet publish -c Release -f net5.0 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=true --runtime linux-x64 -o "./publish/MessageCommunicator (Linux X64)" ./MessageCommunicator.TestGui
+dotnet publish -c Release -f net5.0 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=true --runtime osx-x64 -o "./publish/MessageCommunicator (macOS 10.12 X64)" ./MessageCommunicator.TestGui
 
 # Remove pdb files
 Copy-Item "./publish/MessageCommunicator (Win X86)/MessageCommunicator.TestGui.exe" -Destination "./publish/MessageCommunicator-Win-X86.exe"
