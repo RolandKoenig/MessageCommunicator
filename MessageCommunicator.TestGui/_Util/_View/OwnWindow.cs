@@ -31,7 +31,9 @@ namespace MessageCommunicator.TestGui
         {
             _viewServices.StartObserving(disposables, this.ViewModel);
 
-            Observable.FromEventPattern<CloseWindowRequestEventArgs>(this.ViewModel, nameof(this.ViewModel.CloseWindowRequest))
+            Observable.FromEventPattern<EventHandler<CloseWindowRequestEventArgs>, CloseWindowRequestEventArgs>(
+                    eventHandler => this.ViewModel.CloseWindowRequest += eventHandler,
+                    eventHandler => this.ViewModel.CloseWindowRequest -= eventHandler)
                 .Subscribe(eArgs =>
                 {
                     this.Close(eArgs.EventArgs.DialogResult);
