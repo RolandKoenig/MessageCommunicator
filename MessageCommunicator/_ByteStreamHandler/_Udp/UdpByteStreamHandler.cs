@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MessageCommunicator.Util;
+using Light.GuardClauses;
 
 namespace MessageCommunicator
 {
@@ -18,6 +19,8 @@ namespace MessageCommunicator
         private bool _isRunning;
         private ConnectionState _connState;
         private UdpClient? _udpClient;
+        private DateTime _lastConnectTimestampUtc;
+        private DateTime _lastReceivedDataBlockTimestampUtc;
 
         public IPAddress ListeningIPAddress { get; }
 
@@ -28,6 +31,11 @@ namespace MessageCommunicator
         public IPAddress RemoteIPAddress { get; }
 
         public ushort RemotePort { get; }
+
+        /// <summary>
+        /// Gets or sets the size of the receive buffer.
+        /// </summary>
+        public uint ReceiveBufferSize { get; set; } = 1024;
 
         /// <inheritdoc />
         public override ConnectionState State
@@ -52,7 +60,7 @@ namespace MessageCommunicator
                 {
                     return currentSendSocket?.Client?.LocalEndPoint?.ToString() ?? string.Empty;
                 }
-                catch (Exception )
+                catch (Exception)
                 {
                     return string.Empty;
                 }
@@ -69,7 +77,7 @@ namespace MessageCommunicator
                 {
                     return currentSendSocket?.Client?.RemoteEndPoint?.ToString() ?? string.Empty;
                 }
-                catch (Exception )
+                catch (Exception)
                 {
                     return string.Empty;
                 }
@@ -77,10 +85,10 @@ namespace MessageCommunicator
         }
 
         /// <inheritdoc />
-        public override DateTime LastConnectTimestampUtc { get; }
+        public override DateTime LastConnectTimestampUtc => _lastConnectTimestampUtc;
 
         /// <inheritdoc />
-        public override DateTime LastReceivedDataBlockTimestampUtc { get; }
+        public override DateTime LastReceivedDataBlockTimestampUtc => _lastReceivedDataBlockTimestampUtc;
 
         internal UdpByteStreamHandler(
             IPAddress listeningIPAddress, ushort listeningPort,
@@ -92,7 +100,7 @@ namespace MessageCommunicator
             this.RemoteIPAddress = remoteIPAddress;
             this.RemotePort = remotePort;
 
-            _startStopLock = new object(); 
+            _startStopLock = new object();
             _udpClient = null;
             _isRunning = false;
         }
@@ -104,7 +112,11 @@ namespace MessageCommunicator
             var loopId = 0;
             lock (_startStopLock)
             {
-                if(_isRunning){ throw new InvalidOperationException($"Unable to start {nameof(TcpActiveByteStreamHandler)} for host {this.RemoteHost} and port {this.RemotePort}: This object is started already!"); }
+                if (_isRunning)
+                {
+                    throw new InvalidOperationException(
+                        $"Unable to start {nameof(TcpActiveByteStreamHandler)} for host {this.RemoteHost} and port {this.RemotePort}: This object is started already!");
+                }
 
                 _isRunning = true;
                 _connState = ConnectionState.Connecting;
@@ -131,7 +143,8 @@ namespace MessageCommunicator
             {
                 if (!_isRunning)
                 {
-                    throw new InvalidOperationException($"Unable to stop {nameof(TcpActiveByteStreamHandler)} for host {this.RemoteHost} and port {this.RemotePort}: This object is stopped already!");
+                    throw new InvalidOperationException(
+                        $"Unable to stop {nameof(TcpActiveByteStreamHandler)} for host {this.RemoteHost} and port {this.RemotePort}: This object is stopped already!");
                 }
 
                 _isRunning = false;
@@ -154,9 +167,47 @@ namespace MessageCommunicator
         }
 
         /// <inheritdoc />
-        public override Task<bool> SendAsync(ArraySegment<byte> buffer)
+        public override async Task<bool> SendAsync(ArraySegment<byte> buffer)
         {
-            throw new NotImplementedException();
+            buffer.MustNotBeDefault(nameof(buffer));
+
+            if(buffer.Count <= 0)
+            {
+                this.Log(LoggingMessageType.Error, "Unable to send message: Message is empty!");
+                return false;
+            }
+
+            var currentClient = _udpClient;
+            if(currentClient == null)
+            {
+                this.Log(LoggingMessageType.Error, "Unable to send message: Connection is not established currently!");
+                return false;
+            }
+
+            try
+            {
+                await currentClient.Client.SendAsync(buffer, SocketFlags.None)
+                    .ConfigureAwait(false);
+
+                if (this.IsLoggerSet)
+                {
+                    this.Log(
+                        LoggingMessageType.Info,
+                        StringBuffer.Format("Sent {0} bytes: {1}", buffer.Count, HexFormatUtil.ToHexString(buffer)));
+                }
+                
+                return true;
+            }
+            catch (Exception sendException)
+            {
+                if (this.IsLoggerSet)
+                {
+                    this.Log(
+                        LoggingMessageType.Info,
+                        StringBuffer.Format("Error while sending message: {0}", sendException.Message));
+                }
+                return false;
+            }
         }
 
         private async void RunConnectionMainLoop(int loopId)
@@ -224,14 +275,14 @@ namespace MessageCommunicator
                     //    .ConfigureAwait(false);
                     reconnectErrorCount++;
                 }
-                if(_udpClient == null){ continue; }
+                if (_udpClient == null) { continue; }
 
                 // Normal receive loop handling
                 try
                 {
-                    //await this.RunReceiveLoopAsync(
-                    //    _currentClient, (IPEndPoint)_currentClient.Client.LocalEndPoint!,
-                    //    (IPEndPoint)_currentClient.Client.RemoteEndPoint!, CancellationToken.None);
+                    await this.RunReceiveLoopAsync(
+                        _udpClient, (IPEndPoint)_udpClient.Client.LocalEndPoint!,
+                        (IPEndPoint)_udpClient.Client.RemoteEndPoint!, CancellationToken.None);
                 }
                 catch (Exception ex)
                 {
@@ -240,7 +291,7 @@ namespace MessageCommunicator
                         this.Log(
                             LoggingMessageType.Error,
                             StringBuffer.Format(
-                                "Error while running receive loop for host {0} on port {1}: {2}", 
+                                "Error while running receive loop for host {0} on port {1}: {2}",
                                 remoteAddressStr, this.RemotePort, ex.Message),
                             exception: ex);
                     }
@@ -249,6 +300,144 @@ namespace MessageCommunicator
                 // Client gets already disposed in receive loop
                 _udpClient = null;
             }
+        }
+
+        /// <summary>
+        /// Internal method which reacts on incoming bytes on the currently active tcp client connection.
+        /// Only one of this connection is active at one time.
+        /// </summary>
+        protected async Task RunReceiveLoopAsync(UdpClient udpClient, IPEndPoint localEndPoint,
+            IPEndPoint partnerEndPoint, CancellationToken cancelToken)
+        {
+            udpClient.MustNotBeNull(nameof(udpClient));
+            localEndPoint.MustNotBeNull(nameof(localEndPoint));
+            partnerEndPoint.MustNotBeNull(nameof(partnerEndPoint));
+
+            _lastConnectTimestampUtc = DateTime.UtcNow;
+
+            var localEndPointStr = localEndPoint.ToString();
+            var partnerEndPointStr = partnerEndPoint.ToString();
+            var newConnection = true;
+
+            if (this.IsLoggerSet)
+            {
+                this.Log(
+                    LoggingMessageType.Info,
+                    StringBuffer.Format("Starting receive loop for connection {0} to {1}", localEndPointStr,
+                        partnerEndPointStr));
+            }
+
+            var udpClientInternal = udpClient;
+            var receiveBuffer = new byte[this.ReceiveBufferSize];
+            while (!cancelToken.IsCancellationRequested)
+            {
+                int lastReceiveResult;
+                try
+                {
+                    // Read next bytes
+#if NETSTANDARD2_0
+                    var receiveTask = udpClientInternal.Client.ReceiveAsync(new ArraySegment<byte>(receiveBuffer), SocketFlags.None);
+                    if (receiveTask.IsCompleted)
+                    {
+                        lastReceiveResult = receiveTask.Result;
+                    }
+                    else
+                    {
+                        lastReceiveResult = await receiveTask
+                            .ConfigureAwait(false);
+                    }
+#else
+                    var receiveTaskStruct =
+                        udpClientInternal.Client.ReceiveAsync(new Memory<byte>(receiveBuffer), SocketFlags.None);
+                    if (receiveTaskStruct.IsCompleted)
+                    {
+                        lastReceiveResult = receiveTaskStruct.Result;
+                    }
+                    else
+                    {
+                        lastReceiveResult = await receiveTaskStruct
+                            .ConfigureAwait(false);
+                    }
+#endif
+
+                    // Reset receive result if we where canceled already
+                    if (lastReceiveResult == 0)
+                    {
+                        this.Log(LoggingMessageType.Info, "Connection closed by remote partner");
+                    }
+                    else if (cancelToken.IsCancellationRequested)
+                    {
+                        this.Log(LoggingMessageType.Info, "Connection canceled by local program");
+                        lastReceiveResult = 0;
+                    }
+                    else
+                    {
+                        _lastReceivedDataBlockTimestampUtc = DateTime.UtcNow;
+                    }
+                }
+                catch (ObjectDisposedException)
+                {
+                    udpClientInternal = null;
+                    break;
+                }
+                catch (SocketException socketException)
+                {
+                    if (this.IsLoggerSet)
+                    {
+                        this.Log(
+                            LoggingMessageType.Error,
+                            StringBuffer.Format(
+                                "Error while receiving bytes from {0}: (Code: {1}) {2}",
+                                partnerEndPointStr,
+                                socketException.SocketErrorCode.ToString(),
+                                socketException.Message),
+                            exception: socketException);
+                    }
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    if (this.IsLoggerSet)
+                    {
+                        this.Log(
+                            LoggingMessageType.Error,
+                            StringBuffer.Format(
+                                "Error while receiving bytes from {0}: {1}",
+                                partnerEndPointStr,
+                                ex.Message),
+                            exception: ex);
+                    }
+                    break;
+                }
+
+                if (lastReceiveResult <= 0) { break; }
+                this.ProcessReceivedBytes(newConnection, receiveBuffer, lastReceiveResult);
+
+                newConnection = false;
+            }
+
+            // Ensure that the socket is closed after ending this method
+            TcpAsyncUtil.SafeDispose(ref udpClientInternal);
+        }
+
+        private void ProcessReceivedBytes(bool newConnection, byte[] buffer, int receivedBytesCount)
+        {
+            buffer.MustNotBeNull(nameof(buffer));
+
+            var receiveBuffer = new ArraySegment<byte>(buffer, 0, receivedBytesCount);
+
+            // Log currently received bytes
+            if (this.IsLoggerSet)
+            {
+                this.Log(
+                    LoggingMessageType.Info,
+                    StringBuffer.Format("Received {0} bytes: {1}", receiveBuffer.Count,
+                        HexFormatUtil.ToHexString(receiveBuffer)));
+            }
+
+            // Notify received bytes
+            var messageRecognizer = this.MessageRecognizer;
+            messageRecognizer?.OnReceivedBytes(newConnection, receiveBuffer);
         }
     }
 }

@@ -53,6 +53,7 @@
     <ProjectReference Include="..\MessageCommunicator\MessageCommunicator.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Data\_ByteStreamSettings\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
