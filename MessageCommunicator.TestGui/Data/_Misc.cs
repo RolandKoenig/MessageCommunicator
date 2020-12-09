@@ -1,5 +1,12 @@
 ﻿namespace MessageCommunicator.TestGui.Data
 {
+    public enum ByteStreamMode
+    {
+        TCP = 0,
+
+        UDP = 1
+    }
+
     public enum ConnectionMode
     {
         Passive = 0,

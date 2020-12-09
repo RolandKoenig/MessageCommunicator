@@ -95,7 +95,7 @@ namespace MessageCommunicator
             remoteIPAddress.MustNotBeNull(nameof(remoteIPAddress));
             receiveTimeoutMS.MustBeGreaterThanOrEqualTo(0, nameof(receiveTimeoutMS));
 
-            this.RemoteHost = string.Empty;
+            this.RemoteHost = remoteIPAddress.ToString();
             this.RemoteIPAddress = remoteIPAddress;
             this.RemotePort = remotePort;
             this.ReceiveTimeout = TimeSpan.FromMilliseconds(receiveTimeoutMS);

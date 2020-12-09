@@ -82,24 +82,7 @@ namespace MessageCommunicator.TestGui.Logic
             IMessageCommunicatorLogger messageCommunicatorLogger)
         {
             // Create stream handler settings
-            ByteStreamHandlerSettings streamHandlerSettings;
-            switch (connParams.Mode)
-            {
-                case ConnectionMode.Active:
-                    streamHandlerSettings = new TcpActiveByteStreamHandlerSettings(
-                        connParams.Target, connParams.Port,
-                        receiveTimeoutMS: connParams.ReceiveTimeoutSec * 1000);
-                    break;
-
-                case ConnectionMode.Passive:
-                    streamHandlerSettings = new TcpPassiveByteStreamHandlerSettings(
-                        IPAddress.Any, connParams.Port,
-                        receiveTimeoutMS: connParams.ReceiveTimeoutSec * 1000);
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException($"Unknown connection mode: {connParams.Mode}");
-            }
+            ByteStreamHandlerSettings streamHandlerSettings = connParams.ByteStreamSettings.CreateLibSettings();
 
             // Create message recognizer settings
             var messageRecognizerSettings = connParams.RecognizerSettings.CreateLibSettings();

@@ -20,43 +20,25 @@ namespace MessageCommunicator.TestGui.ViewServices
             set => _connParameters.Name = value;
         }
 
-        [Required]
         [Category(CATEGORY)]
-        public string Target
+        public ByteStreamMode ByteStreamMode
         {
-            get => _connParameters.Target;
-            set => _connParameters.Target = value;
-        }
-
-        [Category(CATEGORY)]
-        public ushort Port
-        {
-            get => _connParameters.Port;
-            set => _connParameters.Port = value;
-        }
-
-        [Category(CATEGORY)]
-        public ConnectionMode ConnectionMode
-        {
-            get => _connParameters.Mode;
+            get => _connParameters.ByteStreamMode;
             set
             {
-                if (_connParameters.Mode != value)
+                if (_connParameters.ByteStreamMode != value)
                 {
-                    _connParameters.Mode = value;
-                    this.RaisePropertyChanged(nameof(this.ConnectionMode));
-                    this.RaisePropertyChanged(nameof(this.IsConfigIPEnabled));
+                    _connParameters.ByteStreamMode = value;
+                    this.RaisePropertyChanged(nameof(this.ByteStreamMode));
+
+                    _connParameters.ByteStreamSettings = ByteStreamSettingsFactory.CreateSettings(value);
+                    this.RaisePropertyChanged(nameof(this.ByteStreamSettings));
                 }
             }
         }
 
-        [Category(CATEGORY)]
-        [Range(0, int.MaxValue / 1000)]
-        public int ReceiveTimeoutSec
-        {
-            get => _connParameters.ReceiveTimeoutSec;
-            set => _connParameters.ReceiveTimeoutSec = value;
-        }
+        [Browsable(false)]
+        public object ByteStreamSettings => _connParameters.ByteStreamSettings;
 
         [Category(CATEGORY)]
         public MessageRecognitionMode RecognitionMode
@@ -80,9 +62,6 @@ namespace MessageCommunicator.TestGui.ViewServices
         {
             get => _connParameters.RecognizerSettings;
         }
-
-        [Browsable(false)]
-        public bool IsConfigIPEnabled => _connParameters.Mode == ConnectionMode.Active;
 
         public ConnectionParametersViewModel(ConnectionParameters connParameters)
         {

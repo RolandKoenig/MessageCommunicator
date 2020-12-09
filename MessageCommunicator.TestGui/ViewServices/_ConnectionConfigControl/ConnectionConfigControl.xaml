@@ -35,16 +35,19 @@
                 <ColumnDefinition Width="400" />
             </Grid.ColumnDefinitions>
         
-            <ScrollViewer Grid.Column="0" 
+            <ScrollViewer Grid.Column="0"
                           VerticalScrollBarVisibility="Auto">
-                <localRoot:PropertyGrid x:Name="CtrlMainPropertyGrid" 
-                                        SelectedObject="{Binding Path=ModelInteractive}" />
+                <StackPanel Orientation="Vertical">
+                    <localRoot:PropertyGrid x:Name="CtrlMainPropertyGrid" 
+                                            SelectedObject="{Binding Path=ModelInteractive}" />
+                    <localRoot:PropertyGrid SelectedObject="{Binding Path=ModelInteractive.ByteStreamSettings}" />
+                </StackPanel>
             </ScrollViewer>
           
-           <ScrollViewer Grid.Column="2" 
-                         VerticalScrollBarVisibility="Auto">
-               <localRoot:PropertyGrid SelectedObject="{Binding Path=ModelInteractive.RecognizerSettings}" />
-           </ScrollViewer>
+            <ScrollViewer Grid.Column="2"
+                          VerticalScrollBarVisibility="Auto">
+                <localRoot:PropertyGrid SelectedObject="{Binding Path=ModelInteractive.RecognizerSettings}" />
+            </ScrollViewer>
         </Grid>
     </DockPanel>
 </UserControl>

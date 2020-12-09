@@ -7,15 +7,12 @@ namespace MessageCommunicator.TestGui.Data
     {
         public string Name { get; set; } = "New Profile";
 
-        public string Target { get; set; } = "127.0.0.1";
+        public ByteStreamMode ByteStreamMode { get; set; } = ByteStreamMode.TCP;
 
-        public ushort Port { get; set; } = 12000;
-
-        public ConnectionMode Mode { get; set; } = ConnectionMode.Passive;
+        public IByteStreamHandlerAppSettings ByteStreamSettings { get; set; } =
+            ByteStreamSettingsFactory.CreateSettings(ByteStreamMode.TCP);
 
         public MessageRecognitionMode RecognitionMode { get; set; } = MessageRecognitionMode.Default;
-
-        public int ReceiveTimeoutSec { get; set; } = 40;
 
         public IMessageRecognizerAppSettings RecognizerSettings { get; set; } =
             MessageRecognizerSettingsFactory.CreateSettings(MessageRecognitionMode.Default);

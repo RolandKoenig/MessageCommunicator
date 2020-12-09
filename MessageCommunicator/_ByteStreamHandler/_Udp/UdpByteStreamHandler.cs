@@ -22,8 +22,6 @@ namespace MessageCommunicator
         private DateTime _lastConnectTimestampUtc;
         private DateTime _lastReceivedDataBlockTimestampUtc;
 
-        public IPAddress ListeningIPAddress { get; }
-
         public ushort ListeningPort { get; }
 
         public string RemoteHost { get; }
@@ -91,13 +89,26 @@ namespace MessageCommunicator
         public override DateTime LastReceivedDataBlockTimestampUtc => _lastReceivedDataBlockTimestampUtc;
 
         internal UdpByteStreamHandler(
-            IPAddress listeningIPAddress, ushort listeningPort,
+            ushort listeningPort,
             IPAddress remoteIPAddress, ushort remotePort)
         {
-            this.ListeningIPAddress = listeningIPAddress;
             this.ListeningPort = listeningPort;
             this.RemoteHost = remoteIPAddress.ToString();
             this.RemoteIPAddress = remoteIPAddress;
+            this.RemotePort = remotePort;
+
+            _startStopLock = new object();
+            _udpClient = null;
+            _isRunning = false;
+        }
+
+        internal UdpByteStreamHandler(
+            ushort listeningPort,
+            string remoteHost, ushort remotePort)
+        {
+            this.ListeningPort = listeningPort;
+            this.RemoteHost = remoteHost;
+            this.RemoteIPAddress = IPAddress.None;
             this.RemotePort = remotePort;
 
             _startStopLock = new object();
@@ -233,7 +244,7 @@ namespace MessageCommunicator
                                 this.RemotePort));
                     }
 
-                    newClient = new UdpClient(new IPEndPoint(this.ListeningIPAddress, this.ListeningPort));
+                    newClient = new UdpClient(this.ListeningPort);
                     if (!ReferenceEquals(this.RemoteIPAddress, IPAddress.None))
                     {
                         newClient.Connect(this.RemoteIPAddress, this.RemotePort);

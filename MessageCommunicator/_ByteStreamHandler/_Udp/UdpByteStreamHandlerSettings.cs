@@ -35,15 +35,6 @@ namespace MessageCommunicator
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="IPAddress"/> to listening on.
-        /// </summary>
-        public IPAddress ListeningIPAddress
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Gets or sets the port to listen on.
         /// </summary>
         public ushort ListeningPort
@@ -53,21 +44,19 @@ namespace MessageCommunicator
         }
 
         public UdpByteStreamHandlerSettings(
-            IPAddress listeningIPAddress, ushort listeningPort,
+            ushort listeningPort,
             IPAddress remoteIPAddressAddress, ushort remotePort)
         {
-            this.ListeningIPAddress = listeningIPAddress;
             this.ListeningPort = listeningPort;
             this.RemoteIPAddress = remoteIPAddressAddress;
             this.RemotePort = remotePort;
-            this.RemoteHost = string.Empty;
+            this.RemoteHost = remoteIPAddressAddress.ToString();
         }
 
         public UdpByteStreamHandlerSettings(
-            IPAddress listeningIPAddress, ushort listeningPort,
+            ushort listeningPort,
             string remoteHost, ushort remotePort)
         {
-            this.ListeningIPAddress = listeningIPAddress;
             this.ListeningPort = listeningPort;
             this.RemoteIPAddress = IPAddress.None;
             this.RemotePort = remotePort;
@@ -77,7 +66,18 @@ namespace MessageCommunicator
         /// <inheritdoc />
         public override ByteStreamHandler CreateByteStreamHandler()
         {
-            throw new NotImplementedException();
+            if (!ReferenceEquals(this.RemoteIPAddress, IPAddress.None))
+            {
+                return new UdpByteStreamHandler(
+                    this.ListeningPort, 
+                    this.RemoteIPAddress, this.RemotePort);
+            }
+            else
+            {
+                return new UdpByteStreamHandler(
+                    this.ListeningPort, 
+                    this.RemoteHost, this.RemotePort);
+            }
         }
     }
 }

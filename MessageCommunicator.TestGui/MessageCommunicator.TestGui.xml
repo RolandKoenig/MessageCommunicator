@@ -4,6 +4,12 @@
         <name>MessageCommunicator.TestGui</name>
     </assembly>
     <members>
+        <member name="M:MessageCommunicator.TestGui.Data.ByteStreamHandlerTcpSettings.CreateLibSettings">
+            <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.Data.ByteStreamHandlerUdpSettings.CreateLibSettings">
+            <inheritdoc />
+        </member>
         <member name="M:MessageCommunicator.TestGui.Data.MessageRecognizerByUnderlyingPackageSettings.CreateLibSettings">
             <inheritdoc />
         </member>
