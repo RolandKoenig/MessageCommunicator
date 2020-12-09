@@ -1,4 +1,4 @@
-name: Build and test
+name: Build and test (.Net 5.0.x on Ubuntu)
 
 on:
   push:
