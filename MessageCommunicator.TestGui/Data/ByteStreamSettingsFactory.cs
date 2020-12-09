@@ -17,7 +17,7 @@ namespace MessageCommunicator.TestGui.Data
                     return new ByteStreamHandlerUdpSettings();
 
                 default:
-                    throw new ApplicationException($"Unknown message recognition mode: {byteStreamMode}");
+                    throw new ApplicationException($"Unknown ByteStreamMode: {byteStreamMode}");
             }
         }
     }

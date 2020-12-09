@@ -24,36 +24,67 @@ namespace MessageCommunicator
             tcpListener = null;
         }
 
-        public static void SafeDispose(ref TcpClient? tcpClient)
+        public static void SafeDispose(ref UdpClient? disposable)
         {
-            if(tcpClient == null){ return; }
+            if(disposable == null){ return; }
 
             try
             {
-                tcpClient.Dispose();
+                disposable.Dispose();
             }
             catch 
             { 
                 // ignored
             }
 
-            tcpClient = null;
+            disposable = null;
         }
 
-        public static void SafeDispose(ref UdpClient? udpClient)
+        public static void SafeDispose(UdpClient? disposable)
         {
-            if(udpClient == null){ return; }
+            SafeDispose(ref disposable);
+        }
+
+        public static void SafeDispose(ref TcpClient? disposable)
+        {
+            if(disposable == null){ return; }
 
             try
             {
-                udpClient.Dispose();
+                disposable.Dispose();
             }
             catch 
             { 
                 // ignored
             }
 
-            udpClient = null;
+            disposable = null;
+        }
+
+        public static void SafeDispose(TcpClient? disposable)
+        {
+            SafeDispose(ref disposable);
+        }
+
+        public static void SafeDispose(ref IDisposable? disposable)
+        {
+            if(disposable == null){ return; }
+
+            try
+            {
+                disposable.Dispose();
+            }
+            catch 
+            { 
+                // ignored
+            }
+
+            disposable = null;
+        }
+
+        public static void SafeDispose(IDisposable? disposable)
+        {
+            SafeDispose(ref disposable);
         }
 
         public static void SafeDispose(Socket? socket)

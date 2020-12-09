@@ -39,7 +39,7 @@ namespace MessageCommunicator
                 var currentSendSocket = this.GetCurrentSendSocket();
                 try
                 {
-                    return currentSendSocket?.Client?.RemoteEndPoint?.ToString() ?? string.Empty;
+                    return currentSendSocket?.RemoteEndPoint?.ToString() ?? string.Empty;
                 }
                 catch (Exception )
                 {
@@ -56,7 +56,7 @@ namespace MessageCommunicator
                 var currentSendSocket = this.GetCurrentSendSocket();
                 try
                 {
-                    return currentSendSocket?.Client?.RemoteEndPoint?.ToString() ?? string.Empty;
+                    return currentSendSocket?.RemoteEndPoint?.ToString() ?? string.Empty;
                 }
                 catch (Exception )
                 {
@@ -134,7 +134,7 @@ namespace MessageCommunicator
 
             try
             {
-                await currentClient.Client.SendAsync(buffer, SocketFlags.None)
+                await currentClient.SendAsync(buffer, SocketFlags.None)
                     .ConfigureAwait(false);
 
                 if (this.IsLoggerSet)
@@ -159,19 +159,20 @@ namespace MessageCommunicator
         }
 
         /// <summary>
-        /// Gets the current <see cref="TcpClient"/> object for sending.
+        /// Gets the current <see cref="Socket"/> object for sending.
         /// This method returns null when this <see cref="IByteStreamHandler"/> is not connected to a remote partner.
         /// </summary>
-        /// <returns>The <see cref="TcpClient"/> object for sending</returns>
-        protected abstract TcpClient? GetCurrentSendSocket();
+        /// <returns>The <see cref="Socket"/> object for sending</returns>
+        protected abstract Socket? GetCurrentSendSocket();
          
         /// <summary>
-        /// Internal method which reacts on incoming bytes on the currently active tcp client connection.
+        /// Internal method which reacts on incoming bytes on the currently active socket connection.
         /// Only one of this connection is active at one time.
         /// </summary>
-        protected async Task RunReceiveLoopAsync(TcpClient tcpClient, IPEndPoint localEndPoint, IPEndPoint partnerEndPoint, CancellationToken cancelToken)
+        protected async Task RunReceiveLoopAsync(IDisposable parentDisposable, Socket socket, IPEndPoint localEndPoint, IPEndPoint partnerEndPoint, CancellationToken cancelToken)
         {
-            tcpClient.MustNotBeNull(nameof(tcpClient));
+            parentDisposable.MustNotBeNull(nameof(parentDisposable));
+            socket.MustNotBeNull(nameof(socket));
             localEndPoint.MustNotBeNull(nameof(localEndPoint));
             partnerEndPoint.MustNotBeNull(nameof(partnerEndPoint));
 
@@ -188,7 +189,7 @@ namespace MessageCommunicator
                     StringBuffer.Format("Starting receive loop for connection {0} to {1}", localEndPointStr, partnerEndPointStr));
             }
 
-            var tcpClientInternal = tcpClient;
+            var socketInternal = socket;
             var receiveBuffer = new byte[this.ReceiveBufferSize];
             while (!cancelToken.IsCancellationRequested)
             {
@@ -197,7 +198,7 @@ namespace MessageCommunicator
                 {
                     // Read next bytes
 #if NETSTANDARD2_0
-                    var receiveTask = tcpClient.Client.ReceiveAsync(new ArraySegment<byte>(receiveBuffer), SocketFlags.None);
+                    var receiveTask = socket.ReceiveAsync(new ArraySegment<byte>(receiveBuffer), SocketFlags.None);
                     if (receiveTask.IsCompleted)
                     {
                         lastReceiveResult = receiveTask.Result;
@@ -233,7 +234,7 @@ namespace MessageCommunicator
                         }
                     }
 #else
-                    var receiveTaskStruct = tcpClient.Client.ReceiveAsync(new Memory<byte>(receiveBuffer), SocketFlags.None);
+                    var receiveTaskStruct = socket.ReceiveAsync(new Memory<byte>(receiveBuffer), SocketFlags.None);
                     if (receiveTaskStruct.IsCompleted)
                     {
                         lastReceiveResult = receiveTaskStruct.Result;
@@ -288,7 +289,7 @@ namespace MessageCommunicator
                 }
                 catch (ObjectDisposedException)
                 {
-                    tcpClientInternal = null;
+                    socketInternal = null;
                     break;
                 }
                 catch (SocketException socketException)
@@ -328,7 +329,7 @@ namespace MessageCommunicator
             }
 
             // Ensure that the socket is closed after ending this method
-            TcpAsyncUtil.SafeDispose(ref tcpClientInternal);
+            TcpAsyncUtil.SafeDispose(parentDisposable);
         }
 
         private void ProcessReceivedBytes(bool newConnection, byte[] buffer, int receivedBytesCount)

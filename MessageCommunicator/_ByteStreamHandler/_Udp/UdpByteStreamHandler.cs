@@ -90,7 +90,8 @@ namespace MessageCommunicator
 
         internal UdpByteStreamHandler(
             ushort listeningPort,
-            IPAddress remoteIPAddress, ushort remotePort)
+            IPAddress remoteIPAddress, ushort remotePort,
+            ReconnectWaitTimeGetter reconnectWaitTimeGetter)
         {
             this.ListeningPort = listeningPort;
             this.RemoteHost = remoteIPAddress.ToString();
@@ -104,7 +105,8 @@ namespace MessageCommunicator
 
         internal UdpByteStreamHandler(
             ushort listeningPort,
-            string remoteHost, ushort remotePort)
+            string remoteHost, ushort remotePort,
+            ReconnectWaitTimeGetter reconnectWaitTimeGetter)
         {
             this.ListeningPort = listeningPort;
             this.RemoteHost = remoteHost;

@@ -273,7 +273,9 @@ namespace MessageCommunicator
 
                 // Run receive loop for this client (we don't have to await this because we a listening for a new connection request)
 #pragma warning disable 4014
-                this.RunReceiveLoopAsync(lastClient, actLocalEndPoint!, actPartnerEndPoint!, lastCancelTokenSource.Token);
+                this.RunReceiveLoopAsync(
+                    lastClient, lastClient.Client, 
+                    actLocalEndPoint!, actPartnerEndPoint!, lastCancelTokenSource.Token);
 #pragma warning restore 4014
             }
 
@@ -284,6 +286,6 @@ namespace MessageCommunicator
         }
 
         /// <inheritdoc />
-        protected override TcpClient? GetCurrentSendSocket() => _currentSendSocket;
+        protected override Socket? GetCurrentSendSocket() => _currentSendSocket?.Client;
     }
 }

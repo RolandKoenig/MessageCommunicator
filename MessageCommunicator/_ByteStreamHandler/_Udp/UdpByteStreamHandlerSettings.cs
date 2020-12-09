@@ -43,24 +43,37 @@ namespace MessageCommunicator
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the <see cref="ReconnectWaitTimeGetter"/> instance.
+        /// </summary>
+        public ReconnectWaitTimeGetter ReconnectWaitTimeGetter
+        {
+            get;
+            set;
+        }
+
         public UdpByteStreamHandlerSettings(
             ushort listeningPort,
-            IPAddress remoteIPAddressAddress, ushort remotePort)
+            IPAddress remoteIPAddressAddress, ushort remotePort,
+            ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null)
         {
             this.ListeningPort = listeningPort;
             this.RemoteIPAddress = remoteIPAddressAddress;
             this.RemotePort = remotePort;
             this.RemoteHost = remoteIPAddressAddress.ToString();
+            this.ReconnectWaitTimeGetter = reconnectWaitTimeGetter ?? new FixedReconnectWaitTimeGetter(TimeSpan.FromSeconds(1.0));
         }
 
         public UdpByteStreamHandlerSettings(
             ushort listeningPort,
-            string remoteHost, ushort remotePort)
+            string remoteHost, ushort remotePort,
+            ReconnectWaitTimeGetter? reconnectWaitTimeGetter = null)
         {
             this.ListeningPort = listeningPort;
             this.RemoteIPAddress = IPAddress.None;
             this.RemotePort = remotePort;
             this.RemoteHost = remoteHost;
+            this.ReconnectWaitTimeGetter = reconnectWaitTimeGetter ?? new FixedReconnectWaitTimeGetter(TimeSpan.FromSeconds(1.0));
         }
 
         /// <inheritdoc />

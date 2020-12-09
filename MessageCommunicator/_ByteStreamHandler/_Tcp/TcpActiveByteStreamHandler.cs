@@ -221,7 +221,8 @@ namespace MessageCommunicator
                 try
                 {
                     await this.RunReceiveLoopAsync(
-                        _currentClient, (IPEndPoint)_currentClient.Client.LocalEndPoint!,
+                        _currentClient, _currentClient.Client, 
+                        (IPEndPoint)_currentClient.Client.LocalEndPoint!,
                         (IPEndPoint)_currentClient.Client.RemoteEndPoint!, CancellationToken.None);
                 }
                 catch (Exception ex)
@@ -243,9 +244,9 @@ namespace MessageCommunicator
         }
 
         /// <inheritdoc />
-        protected override TcpClient? GetCurrentSendSocket()
+        protected override Socket? GetCurrentSendSocket()
         {
-            return _currentClient;
+            return _currentClient?.Client;
         }
     }
 }
