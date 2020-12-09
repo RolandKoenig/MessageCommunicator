@@ -12,7 +12,7 @@ namespace MessageCommunicator
     /// This <see cref="IByteStreamHandler"/> implementation sends/receives bytes over a TCP socket. This implementation listens on a defined port and waits for
     /// an incoming connection.
     /// </summary>
-    public class TcpPassiveByteStreamHandler : TcpByteStreamHandler
+    public class TcpPassiveByteStreamHandler : TcpIPByteStreamHandler
     {
         private const int RUNNING_LOOP_COUNTER_MAX = 1000;
 

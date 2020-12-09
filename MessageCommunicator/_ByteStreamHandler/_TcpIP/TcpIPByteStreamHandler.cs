@@ -9,9 +9,9 @@ using MessageCommunicator.Util;
 namespace MessageCommunicator
 {
     /// <summary>
-    /// This <see cref="IByteStreamHandler"/> implementation sends/receives bytes over a TCP socket.
+    /// This <see cref="IByteStreamHandler"/> implementation sends/receives bytes over a TCP/IP socket.
     /// </summary>
-    public abstract class TcpByteStreamHandler : ByteStreamHandler
+    public abstract class TcpIPByteStreamHandler : ByteStreamHandler
     {
         // Dummy continuation for ReceiveAsync calls after timeout
         private static readonly Action<Task<int>> s_dummyReceiveContinuation = (task) =>
@@ -82,9 +82,9 @@ namespace MessageCommunicator
         public override DateTime LastReceivedDataBlockTimestampUtc => _lastSuccessfulReceiveTimestampUtc;
 
         /// <summary>
-        /// Creates a new <see cref="TcpByteStreamHandler"/>.
+        /// Creates a new <see cref="TcpIPByteStreamHandler"/>.
         /// </summary>
-        protected TcpByteStreamHandler(ReconnectWaitTimeGetter reconnectWaitTimeGetter, TimeSpan receiveTimeout)
+        protected TcpIPByteStreamHandler(ReconnectWaitTimeGetter reconnectWaitTimeGetter, TimeSpan receiveTimeout)
         {
             reconnectWaitTimeGetter.MustNotBeNull(nameof(reconnectWaitTimeGetter));
 
@@ -189,7 +189,6 @@ namespace MessageCommunicator
                     StringBuffer.Format("Starting receive loop for connection {0} to {1}", localEndPointStr, partnerEndPointStr));
             }
 
-            var socketInternal = socket;
             var receiveBuffer = new byte[this.ReceiveBufferSize];
             while (!cancelToken.IsCancellationRequested)
             {
@@ -289,7 +288,6 @@ namespace MessageCommunicator
                 }
                 catch (ObjectDisposedException)
                 {
-                    socketInternal = null;
                     break;
                 }
                 catch (SocketException socketException)

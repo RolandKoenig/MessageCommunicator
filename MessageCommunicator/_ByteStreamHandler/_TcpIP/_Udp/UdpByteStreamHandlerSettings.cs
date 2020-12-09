@@ -83,13 +83,15 @@ namespace MessageCommunicator
             {
                 return new UdpByteStreamHandler(
                     this.ListeningPort, 
-                    this.RemoteIPAddress, this.RemotePort);
+                    this.RemoteIPAddress, this.RemotePort,
+                    this.ReconnectWaitTimeGetter);
             }
             else
             {
                 return new UdpByteStreamHandler(
                     this.ListeningPort, 
-                    this.RemoteHost, this.RemotePort);
+                    this.RemoteHost, this.RemotePort,
+                    this.ReconnectWaitTimeGetter);
             }
         }
     }
