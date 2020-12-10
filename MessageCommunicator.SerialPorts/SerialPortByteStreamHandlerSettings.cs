@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Text;
-using MessageCommunicator;
-using MessageCommunicator.SerialPorts;
 
 namespace MessageCommunicator.SerialPorts
 {

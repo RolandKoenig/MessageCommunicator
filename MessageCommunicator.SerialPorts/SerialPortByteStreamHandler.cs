@@ -10,6 +10,9 @@ namespace MessageCommunicator.SerialPorts
 {
     public class SerialPortByteStreamHandler : ByteStreamHandler
     {
+        private static Task<bool> s_completedTaskFalse = Task.FromResult(false);
+        private static Task<bool> s_completedTaskTrue = Task.FromResult(true);
+
         // Configuration
         private string _portName;
         private int _baudRate;
@@ -87,21 +90,42 @@ namespace MessageCommunicator.SerialPorts
         /// <inheritdoc />
         public override Task<bool> SendAsync(ArraySegment<byte> buffer)
         {
-            var serialPort = _serialPort;
-            if (serialPort != null)
+            if (buffer.Count <= 0)
             {
-                try
-                {
-                    serialPort.Write(buffer.Array, buffer.Offset, buffer.Count);
-                    return Task.FromResult(true);
-                }
-                catch (Exception e)
-                {
-                    return Task.FromException<bool>(e);
-                }
+                this.Log(LoggingMessageType.Error, "Unable to send message: Message is empty!");
+                return s_completedTaskFalse;
             }
 
-            return Task.FromResult(false);
+            var serialPort = _serialPort;
+            if (serialPort == null)
+            {
+                this.Log(LoggingMessageType.Error, "Unable to send message: Connection is not started!");
+                return s_completedTaskFalse;
+            }
+
+            try
+            {
+                serialPort.Write(buffer.Array, buffer.Offset, buffer.Count);
+
+                if (this.IsLoggerSet)
+                {
+                    this.Log(
+                        LoggingMessageType.Info,
+                        StringBuffer.Format("Sent {0} bytes: {1}", buffer.Count, HexFormatUtil.ToHexString(buffer)));
+                }
+
+                return s_completedTaskTrue;
+            }
+            catch (Exception ex)
+            {
+                if (this.IsLoggerSet)
+                {
+                    this.Log(
+                        LoggingMessageType.Info,
+                        StringBuffer.Format("Error while sending message: {0}", ex.Message));
+                }
+                return s_completedTaskFalse;
+            }
         }
 
         /// <inheritdoc />
@@ -149,9 +173,12 @@ namespace MessageCommunicator.SerialPorts
 
                 _serialPort.Close();
                 TcpAsyncUtil.SafeDispose(_serialPort);
+                _serialPort = null;
 
                 _isNewConnection = false;
             }
+
+            this.Log(LoggingMessageType.Info, "Serial Port communication stopped");
 
             return Task.CompletedTask;
         }
@@ -161,6 +188,8 @@ namespace MessageCommunicator.SerialPorts
         /// </summary>
         private async void TriggerOpenConnection(SerialPort serialPort)
         {
+            this.Log(LoggingMessageType.Info, "Serial Port communication started");
+
             var opened = false;
             var connectionErrorCount = 0;
             while ((!opened) && (_serialPort == serialPort))
@@ -171,9 +200,18 @@ namespace MessageCommunicator.SerialPorts
                     opened = true;
                     connectionErrorCount = 0;
                     _lastConnectTimestampUtc = DateTime.UtcNow;
+
+                    this.Log(
+                        LoggingMessageType.Info, 
+                        StringBuffer.Format("Successfully connected to port {0}", _portName));
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    this.Log(
+                        LoggingMessageType.Error, 
+                        StringBuffer.Format("Error while connecting to port {0}: {1}", _portName, ex.Message),
+                        exception: ex);
+
                     connectionErrorCount++;
                     await Task.Delay(this.ReconnectWaitTimeGetter.GetWaitTime(connectionErrorCount));
                 }
