@@ -27,11 +27,17 @@ namespace MessageCommunicator.SerialPorts
 
         // Runtime
         private object _startStopLock;
-        private SerialPort? _serialPort;
+        private ISerialPort? _serialPort;
         private byte[] _receiveBuffer;
         private bool _isNewConnection;
         private DateTime _lastConnectTimestampUtc;
         private DateTime _lastReceivedDataBlockTimestampUtc;
+
+        /// <summary>
+        /// A factory method which creates serial ports, null means the default System.IO.SerialPort will be created.
+        /// This property is meant for automated tests to avoid usage of physical com ports.
+        /// </summary>
+        public static Func<ISerialPort>? SerialPortFactory { get; set; }
 
         /// <inheritdoc />
         public override ConnectionState State
@@ -90,7 +96,8 @@ namespace MessageCommunicator.SerialPorts
         /// <inheritdoc />
         public override Task<bool> SendAsync(ArraySegment<byte> buffer)
         {
-            if (buffer.Count <= 0)
+            if ((buffer.Count <= 0) ||
+                (buffer.Array == null))
             {
                 this.Log(LoggingMessageType.Error, "Unable to send message: Message is empty!");
                 return s_completedTaskFalse;
@@ -138,7 +145,10 @@ namespace MessageCommunicator.SerialPorts
                     throw new InvalidOperationException($"Unable to start {nameof(SerialPortByteStreamHandler)} on port {_portName}: This object is started already!");
                 }
 
-                _serialPort = new SerialPort();
+                var serialPortFactory = SerialPortFactory;
+                if (serialPortFactory == null) { _serialPort = new DefaultSerialPortWrapper(); }
+                else { _serialPort = serialPortFactory(); }
+
                 _serialPort.PortName = _portName;
                 _serialPort.BaudRate = _baudRate;
                 _serialPort.DataBits = _dataBits;
@@ -169,11 +179,11 @@ namespace MessageCommunicator.SerialPorts
                     throw new InvalidOperationException($"Unable to stop {nameof(SerialPortByteStreamHandler)} on port {_portName}: This object is already stopped!");
                 }
 
-                _serialPort.DataReceived -= this.OnSerialPort_DataReceived;
-
-                _serialPort.Close();
-                TcpAsyncUtil.SafeDispose(_serialPort);
+                var prevSerialPort = _serialPort;
                 _serialPort = null;
+
+                prevSerialPort.Close();
+                TcpAsyncUtil.SafeDispose(prevSerialPort);
 
                 _isNewConnection = false;
             }
@@ -186,7 +196,7 @@ namespace MessageCommunicator.SerialPorts
         /// <summary>
         /// Try to open the serial port.
         /// </summary>
-        private async void TriggerOpenConnection(SerialPort serialPort)
+        private async void TriggerOpenConnection(ISerialPort serialPort)
         {
             this.Log(LoggingMessageType.Info, "Serial Port communication started");
 
