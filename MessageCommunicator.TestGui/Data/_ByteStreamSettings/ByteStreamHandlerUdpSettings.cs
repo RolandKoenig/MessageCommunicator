@@ -8,7 +8,7 @@ namespace MessageCommunicator.TestGui.Data
 {
     public class ByteStreamHandlerUdpSettings : IByteStreamHandlerAppSettings
     {
-        private const string CATEGORY = "UDP";
+        private const string CATEGORY = "Udp";
 
         [Category(CATEGORY)]
         public ushort LocalPort { get; set; } = 12000;

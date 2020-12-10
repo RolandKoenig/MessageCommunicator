@@ -2,9 +2,11 @@
 {
     public enum ByteStreamMode
     {
-        TCP = 0,
+        Tcp = 0,
 
-        UDP = 1
+        Udp = 1,
+
+        SerialPort
     }
 
     public enum ConnectionMode

@@ -10,11 +10,14 @@ namespace MessageCommunicator.TestGui.Data
         {
             switch (byteStreamMode)
             {
-                case ByteStreamMode.TCP:
+                case ByteStreamMode.Tcp:
                     return new ByteStreamHandlerTcpSettings();
 
-                case ByteStreamMode.UDP:
+                case ByteStreamMode.Udp:
                     return new ByteStreamHandlerUdpSettings();
+
+                case ByteStreamMode.SerialPort:
+                    return new ByteStreamHandlerSerialPortSettings();
 
                 default:
                     throw new ApplicationException($"Unknown ByteStreamMode: {byteStreamMode}");

@@ -4,6 +4,9 @@
         <name>MessageCommunicator.TestGui</name>
     </assembly>
     <members>
+        <member name="M:MessageCommunicator.TestGui.Data.ByteStreamHandlerSerialPortSettings.CreateLibSettings">
+            <inheritdoc />
+        </member>
         <member name="M:MessageCommunicator.TestGui.Data.ByteStreamHandlerTcpSettings.CreateLibSettings">
             <inheritdoc />
         </member>

@@ -9,7 +9,7 @@ namespace MessageCommunicator.TestGui.Data
 {
     public class ByteStreamHandlerTcpSettings : IByteStreamHandlerAppSettings
     {
-        private const string CATEGORY = "TCP";
+        private const string CATEGORY = "Tcp";
 
         [Required]
         [Category(CATEGORY)]

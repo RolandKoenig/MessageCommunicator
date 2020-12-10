@@ -50,6 +50,7 @@
     <None Remove="Views\_SendMessage\SendMessageView.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MessageCommunicator.SerialPorts\MessageCommunicator.SerialPorts.csproj" />
     <ProjectReference Include="..\MessageCommunicator\MessageCommunicator.csproj" />
   </ItemGroup>
   <ItemGroup>

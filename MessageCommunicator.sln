@@ -49,6 +49,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageCommunicator.TestGui
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "MessageCommunicator.WinApp", "MessageCommunicator.WinApp\MessageCommunicator.WinApp.wapproj", "{C0147D75-D7F9-4D6A-AB94-4B5308B15F8A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageCommunicator.SerialPorts", "MessageCommunicator.SerialPorts\MessageCommunicator.SerialPorts.csproj", "{1AC0E46B-95A6-48CC-8435-3B084A01151D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,18 @@ Global
 		{C0147D75-D7F9-4D6A-AB94-4B5308B15F8A}.Release|x86.ActiveCfg = Release|x86
 		{C0147D75-D7F9-4D6A-AB94-4B5308B15F8A}.Release|x86.Build.0 = Release|x86
 		{C0147D75-D7F9-4D6A-AB94-4B5308B15F8A}.Release|x86.Deploy.0 = Release|x86
+		{1AC0E46B-95A6-48CC-8435-3B084A01151D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AC0E46B-95A6-48CC-8435-3B084A01151D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AC0E46B-95A6-48CC-8435-3B084A01151D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1AC0E46B-95A6-48CC-8435-3B084A01151D}.Debug|x64.Build.0 = Debug|Any CPU
+		{1AC0E46B-95A6-48CC-8435-3B084A01151D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1AC0E46B-95A6-48CC-8435-3B084A01151D}.Debug|x86.Build.0 = Debug|Any CPU
+		{1AC0E46B-95A6-48CC-8435-3B084A01151D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AC0E46B-95A6-48CC-8435-3B084A01151D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AC0E46B-95A6-48CC-8435-3B084A01151D}.Release|x64.ActiveCfg = Release|Any CPU
+		{1AC0E46B-95A6-48CC-8435-3B084A01151D}.Release|x64.Build.0 = Release|Any CPU
+		{1AC0E46B-95A6-48CC-8435-3B084A01151D}.Release|x86.ActiveCfg = Release|Any CPU
+		{1AC0E46B-95A6-48CC-8435-3B084A01151D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
