@@ -45,7 +45,7 @@
         <member name="M:MessageCommunicator.TestGui.ViewServices.ConnectionConfigControl.OnActivated(System.Reactive.Disposables.CompositeDisposable)">
             <inheritdoc />
         </member>
-        <member name="M:MessageCommunicator.TestGui.ViewServices.ConnectionConfigControlService.ConfigureConnectionAsync(MessageCommunicator.TestGui.Data.ConnectionParameters)">
+        <member name="M:MessageCommunicator.TestGui.ViewServices.ConnectionConfigControlService.ConfigureConnectionAsync(MessageCommunicator.TestGui.Data.ConnectionParameters,System.Collections.Generic.IEnumerable{MessageCommunicator.TestGui.Data.ConnectionParameters})">
             <inheritdoc />
         </member>
         <member name="T:MessageCommunicator.TestGui.ViewServices.ExportDialogControlViewModel`1.ExportLine">

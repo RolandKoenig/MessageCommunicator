@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Avalonia.Controls;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MessageCommunicator.TestGui.Data;
 
 namespace MessageCommunicator.TestGui.ViewServices
@@ -14,12 +14,14 @@ namespace MessageCommunicator.TestGui.ViewServices
         }
 
         /// <inheritdoc />
-        public async Task<ConnectionParameters?> ConfigureConnectionAsync(ConnectionParameters? template)
+        public async Task<ConnectionParameters?> ConfigureConnectionAsync(
+            ConnectionParameters? template, 
+            IEnumerable<ConnectionParameters> allConnectionsParameters)
         {
             var dialogTitle = template == null ? "Create Profile" : "Edit Profile";
 
             var configDlg = new ConnectionConfigControl();
-            configDlg.DataContext = new ConnectionConfigControlViewModel(template);
+            configDlg.DataContext = new ConnectionConfigControlViewModel(template, allConnectionsParameters);
 
             return await configDlg.ShowControlDialogAsync(_host, dialogTitle) as ConnectionParameters;
         }

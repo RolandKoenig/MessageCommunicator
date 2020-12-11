@@ -25,7 +25,7 @@ namespace MessageCommunicator.TestGui
             }
         }
 
-        public static ConnectionConfigControlViewModel ConnectionConfigVM => new ConnectionConfigControlViewModel();
+        public static ConnectionConfigControlViewModel ConnectionConfigVM => new ConnectionConfigControlViewModel(null, new ConnectionParameters[0]);
 
         public static ErrorDialogViewModel ErrorDialogVM
         {

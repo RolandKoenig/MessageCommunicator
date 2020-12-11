@@ -160,7 +160,9 @@ namespace MessageCommunicator.TestGui
         private async Task OnCommand_CreateProfile_ExecuteAsync(object? arg, CancellationToken cancelToken)
         {
             var srvConnectionConfig = this.GetViewService<IConnectionConfigViewService>();
-            var connParams = await srvConnectionConfig.ConfigureConnectionAsync(null);
+            var connParams = await srvConnectionConfig.ConfigureConnectionAsync(
+                null, 
+                this.Profiles.Select(actProfile => actProfile.Model.Parameters));
             if (connParams != null)
             {
                 var newProfile = new ConnectionProfile(SynchronizationContext.Current!, connParams);
@@ -180,7 +182,9 @@ namespace MessageCommunicator.TestGui
             if (selectedProfileVM == null) { return; }
 
             var srvConnectionConfig = this.GetViewService<IConnectionConfigViewService>();
-            var connParams = await srvConnectionConfig.ConfigureConnectionAsync(selectedProfileVM.Model.Parameters);
+            var connParams = await srvConnectionConfig.ConfigureConnectionAsync(
+                selectedProfileVM.Model.Parameters,
+                this.Profiles.Select(actProfile => actProfile.Model.Parameters));
             if (connParams != null)
             {
                 // Update connection logic

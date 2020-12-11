@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Reactive;
 using Force.DeepCloner;
@@ -10,6 +11,8 @@ namespace MessageCommunicator.TestGui.ViewServices
     public class ConnectionConfigControlViewModel : OwnViewModelBase
     {
         private string _validationError = string.Empty;
+        private ConnectionParameters? _originalConnectionParameters;
+        private IEnumerable<ConnectionParameters> _allConnectionParameters;
 
         public ConnectionParameters Model { get; }
 
@@ -37,7 +40,7 @@ namespace MessageCommunicator.TestGui.ViewServices
 
         public bool IsValidationErrorVisible => !string.IsNullOrEmpty(this.ValidationError);
 
-        public ConnectionConfigControlViewModel(ConnectionParameters? parameters = null)
+        public ConnectionConfigControlViewModel(ConnectionParameters? parameters, IEnumerable<ConnectionParameters> allConnectionParameters)
         {
             this.Model = parameters != null ? parameters.DeepClone() : new ConnectionParameters();
             this.ModelInteractive = new ConnectionParametersViewModel(this.Model);
@@ -45,6 +48,9 @@ namespace MessageCommunicator.TestGui.ViewServices
             this.Command_OK = ReactiveCommand.Create<object?>(this.OnCommandOK);
             this.Command_Cancel = ReactiveCommand.Create<object?>(
                 arg => this.CloseWindow(null));
+
+            _originalConnectionParameters = parameters;
+            _allConnectionParameters = allConnectionParameters;
         }
 
         private void OnCommandOK(object? arg)
@@ -55,7 +61,7 @@ namespace MessageCommunicator.TestGui.ViewServices
             this.ValidationError = string.Empty;
             try
             {
-                Validator.ValidateObject(model, new ValidationContext(model), true);
+                Validator.ValidateObject(this.ModelInteractive, new ValidationContext(this.ModelInteractive), true);
                 Validator.ValidateObject(model.ByteStreamSettings, new ValidationContext(model.ByteStreamSettings), true);
                 Validator.ValidateObject(model.RecognizerSettings, new ValidationContext(model.RecognizerSettings), true);
             }
@@ -63,6 +69,18 @@ namespace MessageCommunicator.TestGui.ViewServices
             {
                 this.ValidationError = e.Message;
                 return;
+            }
+
+            // Check for duplicate name
+            foreach (var actOtherConnection in _allConnectionParameters)
+            {
+                if(actOtherConnection == _originalConnectionParameters){ continue; }
+
+                if (actOtherConnection.Name.Trim() == this.Model.Name.Trim())
+                {
+                    this.ValidationError = $"The name '{actOtherConnection.Name}' is already in use!";
+                    return;
+                }
             }
 
             this.CloseWindow(model);
