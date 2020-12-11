@@ -136,6 +136,15 @@
                             <DataGridTextColumn Header="Name"
                                                 Binding="{Binding Path=Model.Name}"
                                                 Width="126" />
+                            <DataGridTextColumn Header="# Err"
+                                                Binding="{Binding Path=CountErrors}"
+                                                Width="40" />
+                            <DataGridTextColumn Header="# In"
+                                                Binding="{Binding Path=CountMessagesIn}"
+                                                Width="40" />
+                            <DataGridTextColumn Header="# Out"
+                                                Binding="{Binding Path=CountMessagesOut}"
+                                                Width="40" />
                             <DataGridTextColumn Header="Source"
                                                 Binding="{Binding Path=LocalEndpointDescription}"
                                                 Width="126" />

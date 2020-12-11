@@ -14,6 +14,9 @@ namespace MessageCommunicator.TestGui.Views
         private ConnectionState _connState;
         private string _remoteEndpointDescription;
         private string _localEndpointDescription;
+        private int _countMessagesIn;
+        private int _countMessagesOut;
+        private int _countErrors;
 
         public IConnectionProfile Model { get; }
 
@@ -79,6 +82,45 @@ namespace MessageCommunicator.TestGui.Views
             }
         }
 
+        public int CountMessagesIn
+        {
+            get => _countMessagesIn;
+            set
+            {
+                if (_countMessagesIn != value)
+                {
+                    _countMessagesIn = value;
+                    this.RaisePropertyChanged(nameof(this.CountMessagesIn));
+                }
+            }
+        }
+
+        public int CountMessagesOut
+        {
+            get => _countMessagesOut;
+            set
+            {
+                if (_countMessagesOut != value)
+                {
+                    _countMessagesOut = value;
+                    this.RaisePropertyChanged(nameof(this.CountMessagesOut));
+                }
+            }
+        }
+
+        public int CountErrors
+        {
+            get => _countErrors;
+            set
+            {
+                if (_countErrors != value)
+                {
+                    _countErrors = value;
+                    this.RaisePropertyChanged(nameof(this.CountErrors));
+                }
+            }
+        }
+
         public LoggingViewModel MessageLoggingViewModel { get; }
 
         public LoggingViewModel DetailLoggingViewModel { get; }
@@ -114,6 +156,9 @@ namespace MessageCommunicator.TestGui.Views
             this.State = this.Model.State;
             this.RemoteEndpointDescription = this.Model.RemoteEndpointDescription;
             this.LocalEndpointDescription = this.Model.LocalEndpointDescription;
+            this.CountMessagesIn = this.Model.CountMessagesIn;
+            this.CountMessagesOut = this.Model.CountMessagesOut;
+            this.CountErrors = this.Model.CountErrors;
         }
     }
 }

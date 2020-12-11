@@ -25,6 +25,12 @@ namespace MessageCommunicator.TestGui.Logic
 
         string LocalEndpointDescription { get; }
 
+        public int CountMessagesIn { get; }
+
+        public int CountMessagesOut { get; }
+
+        public int CountErrors { get; }
+
         Task ChangeParametersAsync(ConnectionParameters newConnParameters);
 
         Task SendMessageAsync(string message);

@@ -29,6 +29,24 @@ namespace MessageCommunicator.TestGui.Logic
 
         public string LocalEndpointDescription => _messageChannel.LocalEndpointDescription;
 
+        public int CountMessagesIn
+        {
+            get;
+            private set;
+        }
+
+        public int CountMessagesOut
+        {
+            get;
+            private set;
+        }
+
+        public int CountErrors
+        {
+            get;
+            private set;
+        }
+
         public ConnectionProfile(SynchronizationContext syncContext, ConnectionParameters connParams)
         {
             _syncContext = syncContext;
@@ -62,8 +80,8 @@ namespace MessageCommunicator.TestGui.Logic
                 var newLoggingMessage = new LoggingMessage(
                     DateTime.UtcNow, LoggingMessageType.Info, "OUT", message, null);
 
-                LogTo(_syncContext, newLoggingMessage, this.DetailLogging);
-                LogTo(_syncContext, newLoggingMessage, this.Messages);
+                this.LogTo(_syncContext, newLoggingMessage, this.DetailLogging);
+                this.LogTo(_syncContext, newLoggingMessage, this.Messages);
             }
         }
 
@@ -95,7 +113,7 @@ namespace MessageCommunicator.TestGui.Logic
                 messageCommunicatorLogger);
         }
 
-        private static void LogTo(SynchronizationContext syncContext, LoggingMessage logMessage, ObservableCollection<LoggingMessageWrapper> collection)
+        private void LogTo(SynchronizationContext syncContext, LoggingMessage logMessage, ObservableCollection<LoggingMessageWrapper> collection)
         {
             syncContext.Post(arg =>
             {
@@ -103,6 +121,26 @@ namespace MessageCommunicator.TestGui.Logic
                 while (collection.Count > 1000)
                 {
                     collection.RemoveAt(1000);
+                }
+
+                if (collection == this.DetailLogging)
+                {
+                    if (logMessage.MessageType == LoggingMessageType.Error)
+                    {
+                        this.CountErrors++;
+                    }
+                    else
+                    {
+                        switch (logMessage.MetaData)
+                        {
+                            case "IN":
+                                this.CountMessagesIn++;
+                                break;
+                            case "OUT":
+                                this.CountMessagesOut++;
+                                break;
+                        }
+                    }
                 }
             }, null);
         }
@@ -114,8 +152,8 @@ namespace MessageCommunicator.TestGui.Logic
                 var newLoggingMessage = new LoggingMessage(
                     DateTime.UtcNow, LoggingMessageType.Info, "IN", message.ToString(), null);
 
-                LogTo(_syncContext, newLoggingMessage, this.DetailLogging);
-                LogTo(_syncContext, newLoggingMessage, this.Messages);
+                this.LogTo(_syncContext, newLoggingMessage, this.DetailLogging);
+                this.LogTo(_syncContext, newLoggingMessage, this.Messages);
             }
             finally
             {
@@ -125,7 +163,7 @@ namespace MessageCommunicator.TestGui.Logic
 
         public void Log(LoggingMessage loggingMessage)
         {
-            LogTo(_syncContext, loggingMessage, this.DetailLogging);
+            this.LogTo(_syncContext, loggingMessage, this.DetailLogging);
         }
     }
 }
