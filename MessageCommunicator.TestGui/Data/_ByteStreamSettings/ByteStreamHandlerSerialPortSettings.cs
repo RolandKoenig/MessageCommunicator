@@ -14,6 +14,7 @@ namespace MessageCommunicator.TestGui.Data
 
         [Required]
         [Category(CATEGORY)]
+        [FixedPossibleValues(nameof(GetPossiblePortNames))]
         public string PortName
         {
             get;
@@ -53,6 +54,22 @@ namespace MessageCommunicator.TestGui.Data
             return new SerialPortByteStreamHandlerSettings(
                 this.PortName, this.BaudRate, this.DataBits, this.StopBits, this.Handshake,
                 this.ReadTimeout, this.WriteTimeout, this.Parity, this.DtrEnable, this.RtsEnable);
+        }
+
+        /// <summary>
+        /// Gets a collection containing all available port names.
+        /// </summary>
+        public static string[] GetPossiblePortNames()
+        {
+            var portNames = SerialPort.GetPortNames();
+            
+            var result = new string[portNames.Length + 1];
+            result[0] = string.Empty;
+            if (portNames.Length > 0)
+            {
+                Array.Copy(portNames, 0, result, 1, portNames.Length);
+            }
+            return result;
         }
     }
 }

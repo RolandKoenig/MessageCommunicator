@@ -66,6 +66,8 @@ namespace MessageCommunicator.TestGui
             set;
         }
 
+        public Type HostObjectType => _hostObject.GetType();
+
         internal ConfigurablePropertyMetadata(PropertyDescriptor propertyInfo, object hostObject, IPropertyContractResolver? propertyContractResolver)
         {
             _descriptor = propertyInfo;
@@ -98,6 +100,10 @@ namespace MessageCommunicator.TestGui
             else if (propertyType == typeof(bool))
             {
                 this.ValueType = PropertyValueType.Bool;
+            }
+            else if (this.GetCustomAttribute<FixedPossibleValuesAttribute>() != null)
+            {
+                this.ValueType = PropertyValueType.FixedPossibleValues;
             }
             else if (propertyType == typeof(string) || propertyType == typeof(char) ||
                     propertyType == typeof(double) || propertyType == typeof(float) || propertyType == typeof(decimal) ||

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -37,6 +39,10 @@ namespace MessageCommunicator.TestGui
 
                 case PropertyValueType.TextAndHexadecimalEdit:
                     ctrlValueEdit = this.CreateTextAndHexadecimalEditControl(property, allProperties);
+                    break;
+
+                case PropertyValueType.FixedPossibleValues:
+                    ctrlValueEdit = this.CreateFixedPossibleValuesControl(property, allProperties);
                     break;
 
                 case PropertyValueType.DetailSettings:
@@ -81,6 +87,33 @@ namespace MessageCommunicator.TestGui
         {
             var ctrlComboBox = new ComboBox();
             ctrlComboBox.Items = property.GetEnumMembers();
+            ctrlComboBox[!SelectingItemsControl.SelectedItemProperty] = new Binding(
+                nameof(property.ValueAccessor),
+                BindingMode.TwoWay);
+            ctrlComboBox.Width = double.NaN;
+            ctrlComboBox.IsEnabled = !property.IsReadOnly;
+            return ctrlComboBox;
+        }
+
+        protected virtual Control CreateFixedPossibleValuesControl(
+            ConfigurablePropertyMetadata property,
+            IEnumerable<ConfigurablePropertyMetadata> allProperties)
+        {
+            var ctrlComboBox = new ComboBox();
+
+            var possibleValueAttrib = property.GetCustomAttribute<FixedPossibleValuesAttribute>();
+            if (possibleValueAttrib != null)
+            {
+                var getValuesMethod = property.HostObjectType.GetMethod(
+                    possibleValueAttrib.ValueGetterMethodName,
+                    BindingFlags.Static | BindingFlags.Public);
+                if ((getValuesMethod != null) &&
+                    (getValuesMethod.Invoke(null, null) is IEnumerable collection))
+                {
+                    ctrlComboBox.Items = collection;
+                }
+            }
+
             ctrlComboBox[!SelectingItemsControl.SelectedItemProperty] = new Binding(
                 nameof(property.ValueAccessor),
                 BindingMode.TwoWay);

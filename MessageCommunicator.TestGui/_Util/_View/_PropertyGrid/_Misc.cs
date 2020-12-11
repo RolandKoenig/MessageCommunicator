@@ -18,7 +18,9 @@ namespace MessageCommunicator.TestGui
 
         TextAndHexadecimalEdit,
          
-        DetailSettings
+        DetailSettings,
+
+        FixedPossibleValues
     }
 
     public interface IPropertyContractResolver

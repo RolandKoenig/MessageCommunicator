@@ -12,15 +12,18 @@
         <Style Selector="TextBlock">
             <Setter Property="Margin" Value="4" />
             <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="MinHeight" Value="16" />
         </Style>
         <Style Selector="ComboBox">
             <Setter Property="Margin" Value="2" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="MinHeight" Value="16" />
         </Style>
         <Style Selector="TextBox">
             <Setter Property="Margin" Value="2" />
             <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="MinHeight" Value="16" />
         </Style>
     </UserControl.Styles>
 

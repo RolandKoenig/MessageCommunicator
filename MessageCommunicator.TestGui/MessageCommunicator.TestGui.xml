@@ -7,6 +7,11 @@
         <member name="M:MessageCommunicator.TestGui.Data.ByteStreamHandlerSerialPortSettings.CreateLibSettings">
             <inheritdoc />
         </member>
+        <member name="M:MessageCommunicator.TestGui.Data.ByteStreamHandlerSerialPortSettings.GetPossiblePortNames">
+            <summary>
+            Gets a collection containing all available port names.
+            </summary>
+        </member>
         <member name="M:MessageCommunicator.TestGui.Data.ByteStreamHandlerTcpSettings.CreateLibSettings">
             <inheritdoc />
         </member>
@@ -124,6 +129,12 @@
         </member>
         <member name="M:MessageCommunicator.TestGui.TextToHexConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
             <inheritdoc />
+        </member>
+        <member name="M:MessageCommunicator.TestGui.FixedPossibleValuesAttribute.#ctor(System.String)">
+            <summary>
+            Creates a new <see cref="T:MessageCommunicator.TestGui.FixedPossibleValuesAttribute"/>
+            </summary>
+            <param name="valueGetterMethodName">The name of a static method which gets all possible values</param>
         </member>
         <member name="M:MessageCommunicator.TestGui.VectorIconExtension.ProvideValue(System.IServiceProvider)">
             <inheritdoc />
