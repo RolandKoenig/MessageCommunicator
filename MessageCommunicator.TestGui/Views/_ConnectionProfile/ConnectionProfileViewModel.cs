@@ -13,6 +13,7 @@ namespace MessageCommunicator.TestGui.Views
         private bool _isRunning;
         private ConnectionState _connState;
         private string _remoteEndpointDescription;
+        private string _localEndpointDescription;
 
         public IConnectionProfile Model { get; }
 
@@ -65,6 +66,19 @@ namespace MessageCommunicator.TestGui.Views
             }
         }
 
+        public string LocalEndpointDescription
+        {
+            get => _localEndpointDescription;
+            set
+            {
+                if (_localEndpointDescription != value)
+                {
+                    _localEndpointDescription = value;
+                    this.RaisePropertyChanged(nameof(this.LocalEndpointDescription));
+                }
+            }
+        }
+
         public LoggingViewModel MessageLoggingViewModel { get; }
 
         public LoggingViewModel DetailLoggingViewModel { get; }
@@ -73,6 +87,7 @@ namespace MessageCommunicator.TestGui.Views
         {
             this.Model = connProfile;
             _remoteEndpointDescription = string.Empty;
+            _localEndpointDescription = string.Empty;
 
             this.MessageLoggingViewModel = new LoggingViewModel(connProfile.Messages);
             this.DetailLoggingViewModel = new LoggingViewModel(connProfile.DetailLogging);
@@ -98,6 +113,7 @@ namespace MessageCommunicator.TestGui.Views
             this.IsRunning = this.Model.IsRunning;
             this.State = this.Model.State;
             this.RemoteEndpointDescription = this.Model.RemoteEndpointDescription;
+            this.LocalEndpointDescription = this.Model.LocalEndpointDescription;
         }
     }
 }

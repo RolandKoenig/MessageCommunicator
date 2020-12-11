@@ -136,6 +136,9 @@
                             <DataGridTextColumn Header="Name"
                                                 Binding="{Binding Path=Model.Name}"
                                                 Width="126" />
+                            <DataGridTextColumn Header="Source"
+                                                Binding="{Binding Path=LocalEndpointDescription}"
+                                                Width="126" />
                             <DataGridTextColumn Header="Target"
                                                 Binding="{Binding Path=RemoteEndpointDescription}"
                                                 Width="126" />

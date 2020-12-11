@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,6 +26,8 @@ namespace MessageCommunicator.TestGui.Logic
         public ConnectionState State => _messageChannel.State;
 
         public string RemoteEndpointDescription => _messageChannel.RemoteEndpointDescription;
+
+        public string LocalEndpointDescription => _messageChannel.LocalEndpointDescription;
 
         public ConnectionProfile(SynchronizationContext syncContext, ConnectionParameters connParams)
         {

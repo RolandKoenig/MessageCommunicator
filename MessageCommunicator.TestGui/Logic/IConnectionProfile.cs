@@ -23,6 +23,8 @@ namespace MessageCommunicator.TestGui.Logic
 
         string RemoteEndpointDescription { get; }
 
+        string LocalEndpointDescription { get; }
+
         Task ChangeParametersAsync(ConnectionParameters newConnParameters);
 
         Task SendMessageAsync(string message);
