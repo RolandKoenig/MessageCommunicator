@@ -8,7 +8,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Layout;
-using SharpDX.DXGI;
 
 namespace MessageCommunicator.TestGui
 {
@@ -119,6 +118,7 @@ namespace MessageCommunicator.TestGui
                 BindingMode.TwoWay);
             ctrlComboBox.Width = double.NaN;
             ctrlComboBox.IsEnabled = !property.IsReadOnly;
+
             return ctrlComboBox;
         }
 

@@ -33,7 +33,7 @@ namespace MessageCommunicator.TestGui
 
         public object? SelectedObject
         {
-            get => this.GetValue(SelectedObjectProperty);
+            get => this.GetValue(SelectedObjectProperty); 
             set => this.SetValue(SelectedObjectProperty, value);
         }
 

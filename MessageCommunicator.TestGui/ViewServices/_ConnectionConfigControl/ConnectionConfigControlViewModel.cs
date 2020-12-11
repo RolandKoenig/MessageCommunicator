@@ -56,6 +56,7 @@ namespace MessageCommunicator.TestGui.ViewServices
             try
             {
                 Validator.ValidateObject(model, new ValidationContext(model), true);
+                Validator.ValidateObject(model.ByteStreamSettings, new ValidationContext(model.ByteStreamSettings), true);
                 Validator.ValidateObject(model.RecognizerSettings, new ValidationContext(model.RecognizerSettings), true);
             }
             catch (ValidationException e)

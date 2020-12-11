@@ -143,4 +143,10 @@
     <Style Selector="TextBlock.h2">
         <Setter Property="FontSize" Value="14" />
     </Style>
+    <Style Selector="ComboBox">
+        <Setter Property="MinHeight" Value="24" />
+    </Style>
+    <Style Selector="ComboBoxItem">
+        <Setter Property="MinHeight" Value="24" />
+    </Style>
 </Styles>
