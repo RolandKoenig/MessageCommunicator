@@ -5,6 +5,9 @@ using System.Text;
 
 namespace MessageCommunicator.SerialPorts
 {
+    /// <summary>
+    /// Wrapper around <see cref="SerialPort"/> to allow automated tests of <see cref="SerialPortByteStreamHandler"/>
+    /// </summary>
     public interface ISerialPort : IDisposable
     {
         bool IsOpen { get; }

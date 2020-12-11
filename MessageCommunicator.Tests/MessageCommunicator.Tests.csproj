@@ -12,9 +12,11 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
     <PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
+    <PackageReference Include="System.IO.Ports" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MessageCommunicator.SerialPorts\MessageCommunicator.SerialPorts.csproj" />
     <ProjectReference Include="..\MessageCommunicator\MessageCommunicator.csproj" />
   </ItemGroup>
 
