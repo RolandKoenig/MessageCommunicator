@@ -2,6 +2,7 @@ Remove-Item -Path ./publish/* -Recurse -Force
 
 # Create nuget package for MessageCommunicator
 dotnet pack -c Release -o ./publish ./MessageCommunicator /p:ContinuousIntegrationBuild=true /p:IncludeSymbols=true /p:EmbedUntrackedSources=true -p:SymbolPackageFormat=snupkg
+dotnet pack -c Release -o ./publish ./MessageCommunicator.SerialPorts /p:ContinuousIntegrationBuild=true /p:IncludeSymbols=true /p:EmbedUntrackedSources=true -p:SymbolPackageFormat=snupkg
 
 # Publish gui application
 dotnet publish -c Release -f net5.0 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=true --runtime win-x86 -o "./publish/MessageCommunicator (Win X86)" ./MessageCommunicator.TestGui
