@@ -10,6 +10,14 @@
         <Setter Property="BorderThickness" Value="0" />
     </Style>
   
+    <!-- TextLinkBlock -->
+    <Style Selector="TextBlock.Link">
+        <Setter Property="Foreground" Value="{DynamicResource ThemeCustomLinkBrush}" />
+    </Style>
+    <Style Selector="TextBox.Link">
+        <Setter Property="Foreground" Value="{DynamicResource ThemeCustomLinkBrush}" />
+    </Style>
+  
     <!-- DataGrid -->
     <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
         <Setter Property="Fill" Value="{DynamicResource ThemeAccentBrush4}"/>

@@ -39,6 +39,7 @@ namespace MessageCommunicator.TestGui.ViewServices
             }
         }
 
+        [Link]
         public string Homepage
         {
             get => "https://github.com/RolandKoenig/MessageCommunicator";

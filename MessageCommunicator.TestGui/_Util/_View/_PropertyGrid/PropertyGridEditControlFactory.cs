@@ -7,6 +7,7 @@ using System.Text;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
+using Avalonia.Input;
 using Avalonia.Layout;
 
 namespace MessageCommunicator.TestGui
@@ -77,6 +78,18 @@ namespace MessageCommunicator.TestGui
                 BindingMode.TwoWay);
             ctrlTextBox.Width = double.NaN;
             ctrlTextBox.IsReadOnly = property.IsReadOnly;
+
+            if (null != property.GetCustomAttribute<LinkAttribute>())
+            {
+                ctrlTextBox.Classes.Add("Link");
+                ctrlTextBox.IsReadOnly = true;
+                ctrlTextBox.Cursor = new Cursor(StandardCursorType.Hand);
+                ctrlTextBox.PointerReleased += (sender, args) =>
+                {
+                    CommonUtil.OpenUrlInBrowser(ctrlTextBox.Text);
+                };
+            }
+
             return ctrlTextBox;
         }
 

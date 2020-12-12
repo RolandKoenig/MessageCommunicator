@@ -3,7 +3,8 @@
         xmlns:local="clr-namespace:MessageCommunicator.TestGui;assembly=MessageCommunicator.TestGui">
     <Style.Resources>
         <Color x:Key="ThemeCustomAlternateBackgroundColor">#FF2F2F2F</Color>
-
+      
+        <SolidColorBrush x:Key="ThemeCustomLinkBrush" Color="#FF1696FF" />
         <SolidColorBrush x:Key="ThemeCustomAlternateBackgroundBrush" Color="{DynamicResource ThemeCustomAlternateBackgroundColor}"></SolidColorBrush>
     </Style.Resources>
 </Style>
