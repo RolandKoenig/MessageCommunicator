@@ -8,6 +8,7 @@ using MessageCommunicator.SerialPorts;
 
 namespace MessageCommunicator.TestGui.Data
 {
+    [TypeAlias("ByteStreamHandlerSerialPortSettings")]
     public class ByteStreamHandlerSerialPortSettings : IByteStreamHandlerAppSettings
     {
         private const string CATEGORY = "Serial Port";

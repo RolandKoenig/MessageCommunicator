@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MessageCommunicator.TestGui.Data
 {
+    [TypeAlias("MessageRecognizerFixedLengthAndEndSymbolsSettings")]
     public class MessageRecognizerFixedLengthAndEndSymbolsSettings : IMessageRecognizerAppSettings
     {
         private const string CATEGORY = "FixedLength and EndSymbols Recognizer";

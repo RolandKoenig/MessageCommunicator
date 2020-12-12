@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using Newtonsoft.Json;
 
@@ -12,8 +14,27 @@ namespace MessageCommunicator.TestGui
 
         static SerializationHelper()
         {
+            Dictionary<string, Type> typesByAlias = new Dictionary<string, Type>(16);
+            foreach (var actType in Assembly.GetExecutingAssembly().GetTypes())
+            {
+                var aliasAttrib = actType.GetCustomAttribute<TypeAliasAttribute>();
+                if(aliasAttrib == null){ continue; }
+
+                typesByAlias[aliasAttrib.AliasName] = actType;
+            }
+
+
             Serializer = new JsonSerializer();
             Serializer.TypeNameHandling = TypeNameHandling.Auto;
+            Serializer.SerializationBinder = new DynamicMappingWithAliasSerializationBinder(
+                (aliasName) =>
+                {
+                    if (typesByAlias.TryGetValue(aliasName, out var foundType))
+                    {
+                        return foundType;
+                    }
+                    return null;
+                });
         }
 
         public static T? DeserializeFromStream<T>(Stream inStream)

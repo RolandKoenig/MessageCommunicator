@@ -6,6 +6,7 @@ using System.Text;
 
 namespace MessageCommunicator.TestGui.Data
 {
+    [TypeAlias("ByteStreamHandlerUdpSettings")]
     public class ByteStreamHandlerUdpSettings : IByteStreamHandlerAppSettings
     {
         private const string CATEGORY = "Udp";

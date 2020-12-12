@@ -7,6 +7,7 @@ using System.Text;
 
 namespace MessageCommunicator.TestGui.Data
 {
+    [TypeAlias("ByteStreamHandlerTcpSettings")]
     public class ByteStreamHandlerTcpSettings : IByteStreamHandlerAppSettings
     {
         private const string CATEGORY = "Tcp";

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace MessageCommunicator.TestGui.Data
 {
+    [TypeAlias("MessageRecognizerByUnderlyingPackageSettings")]
     public class MessageRecognizerByUnderlyingPackageSettings : IMessageRecognizerAppSettings
     {
         private const string CATEGORY = "ByUnderlyingPackage Recognizer";

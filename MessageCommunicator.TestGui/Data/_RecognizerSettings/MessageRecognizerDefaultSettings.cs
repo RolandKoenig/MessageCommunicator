@@ -5,6 +5,7 @@ using System.Text;
 
 namespace MessageCommunicator.TestGui.Data
 {
+    [TypeAlias("MessageRecognizerDefaultSettings")]
     public class MessageRecognizerDefaultSettings : IMessageRecognizerAppSettings
     {
         private const string CATEGORY = "Default Recognizer";
