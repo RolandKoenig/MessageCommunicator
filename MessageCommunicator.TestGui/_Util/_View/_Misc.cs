@@ -13,4 +13,13 @@ namespace MessageCommunicator.TestGui
     {
         event EventHandler<ViewServiceRequestEventArgs>? ViewServiceRequest;
     }
+
+    public enum IconBrushStyle
+    {
+        Positive,
+
+        Negative,
+
+        Neutral
+    }
 }
