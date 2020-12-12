@@ -18,6 +18,11 @@ namespace MessageCommunicator.TestGui
         /// <inheritdoc />
         public void OnMessage(MessageThemeChanged message)
         {
+            if (this.Drawing is VectorIconGeometryDrawing vectorIconDrawing)
+            {
+                vectorIconDrawing.UpdateBrushes();
+            }
+
             this.InvalidateVisual();
         }
     }

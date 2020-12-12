@@ -178,8 +178,5 @@
         <member name="M:MessageCommunicator.TestGui.VectorIconDrawingPresenter.OnMessage(MessageCommunicator.TestGui.MessageThemeChanged)">
             <inheritdoc />
         </member>
-        <member name="M:MessageCommunicator.TestGui.VectorIconGeometryDrawing.OnMessage(MessageCommunicator.TestGui.MessageThemeChanged)">
-            <inheritdoc />
-        </member>
     </members>
 </doc>

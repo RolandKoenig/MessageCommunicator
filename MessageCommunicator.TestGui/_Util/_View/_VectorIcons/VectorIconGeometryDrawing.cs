@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Media;
 using ReactiveUI;
 
 namespace MessageCommunicator.TestGui
 {
-    public class VectorIconGeometryDrawing : GeometryDrawing, IWeakMessageTarget<MessageThemeChanged>
+    public class VectorIconGeometryDrawing : GeometryDrawing
     {
         private static readonly Dictionary<MessageCommunicatorTheme, IBrush> s_brushesPositive;
         private static readonly Dictionary<MessageCommunicatorTheme, IBrush> s_brushesNegative;
@@ -32,11 +29,6 @@ namespace MessageCommunicator.TestGui
             s_brushesNeutral[MessageCommunicatorTheme.Dark] = new SolidColorBrush(new Color(255, 170, 170, 170));
         }
 
-        public VectorIconGeometryDrawing()
-        {
-            MessageBus.Current.ListenWeak<MessageThemeChanged>(this);
-        }
-
         public IconBrushStyle BrushStyle
         {
             get => _brushStyle;
@@ -47,7 +39,7 @@ namespace MessageCommunicator.TestGui
             }
         }
 
-        private void UpdateBrushes()
+        public void UpdateBrushes()
         {
             var currentTheme = MessageCommunicatorGlobalProperties.Current.CurrentTheme;
             switch (_brushStyle)
@@ -70,12 +62,6 @@ namespace MessageCommunicator.TestGui
                 default:
                     throw new ArgumentOutOfRangeException(nameof(this.BrushStyle), _brushStyle, null);
             }
-        }
-
-        /// <inheritdoc />
-        public void OnMessage(MessageThemeChanged message)
-        {
-            this.UpdateBrushes();
         }
     }
 }

@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ReactiveUI;
 
 namespace MessageCommunicator.TestGui
 {
     public static class WeakListener
     {
-        public static void ListenWeak<T>(this IMessageBus messageBus, IWeakMessageTarget<T> handler)
+        public static IDisposable ListenWeak<T>(this IMessageBus messageBus, IWeakMessageTarget<T> handler)
         {
             WeakReference weakHandler = new WeakReference(handler);
 
@@ -20,13 +18,15 @@ namespace MessageCommunicator.TestGui
 
                 if (!(weakHandler.Target is IWeakMessageTarget<T> target))
                 {
-                    disposable?.Dispose();
+                    disposable.Dispose();
                     disposable = null;
                     return;
                 }
 
                 target.OnMessage(eArgs);
             });
+
+            return disposable;
         }
     }
 }
