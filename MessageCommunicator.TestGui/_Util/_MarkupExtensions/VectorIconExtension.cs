@@ -17,8 +17,8 @@ namespace MessageCommunicator.TestGui
         {
             if (this.Icon is Drawing iconAsDrawing)
             {
-                return new DrawingPresenter()
-                {
+                return new VectorIconDrawingPresenter()
+                { 
                     Drawing = iconAsDrawing,
                     Width = 16.0,
                     Height = 16.0,

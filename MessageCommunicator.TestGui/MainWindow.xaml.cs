@@ -7,6 +7,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Media;
 using MessageCommunicator.TestGui.ViewServices;
+using ReactiveUI;
 
 namespace MessageCommunicator.TestGui
 {
@@ -52,12 +53,18 @@ namespace MessageCommunicator.TestGui
         {
             this.Styles[0] = (StyleInclude) this.Resources["ThemeLight"];
             this.Styles[1] = (StyleInclude) this.Resources["ThemeLightCustom"];
+
+            MessageCommunicatorGlobalProperties.Current.CurrentTheme = MessageCommunicatorTheme.Light;
+            MessageBus.Current.SendMessage(new MessageThemeChanged(MessageCommunicatorTheme.Light));
         }
 
         private void OnMnuThemeDark_PointerPressed(object sender, PointerPressedEventArgs eArgs)
         {
             this.Styles[0] = (StyleInclude) this.Resources["ThemeDark"];
             this.Styles[1] = (StyleInclude) this.Resources["ThemeDarkCustom"];
+
+            MessageCommunicatorGlobalProperties.Current.CurrentTheme = MessageCommunicatorTheme.Dark;
+            MessageBus.Current.SendMessage(new MessageThemeChanged(MessageCommunicatorTheme.Dark));
         }
     }
 }
