@@ -15,8 +15,7 @@ namespace MessageCommunicator.TestGui
             MessageBus.Current.ListenWeak(this);
         }
 
-        /// <inheritdoc />
-        public void OnMessage(MessageThemeChanged message)
+        public void UpdateBrushes()
         {
             if (this.Drawing is VectorIconGeometryDrawing vectorIconDrawing)
             {
@@ -24,6 +23,12 @@ namespace MessageCommunicator.TestGui
             }
 
             this.InvalidateVisual();
+        }
+
+        /// <inheritdoc />
+        public void OnMessage(MessageThemeChanged message)
+        {
+            this.UpdateBrushes();
         }
     }
 }
