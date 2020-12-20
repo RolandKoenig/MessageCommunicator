@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Reactive.Concurrency;
 using System.Runtime.InteropServices;
+using System.Threading;
 using Avalonia;
 using Avalonia.Logging.Serilog;
 using Avalonia.ReactiveUI;
+using MessageCommunicator.TestGui.Startup;
 using ReactiveUI;
 
 namespace MessageCommunicator.TestGui
 {
-    internal class Program
+    internal static class Program
     {
         // Initialization code. Don't use any Avalonia, third-party APIs or any
         // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
@@ -16,26 +19,6 @@ namespace MessageCommunicator.TestGui
         {
             try
             {
-                // Special startup logic for windows
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    WindowsDpiAwarenessHandler.StartupWindowsSettings();
-
-                    switch (WindowsThemeDetector.GetWindowsTheme())
-                    {
-                        case WindowsTheme.Light:
-                            MessageCommunicatorGlobalProperties.Current.CurrentTheme = MessageCommunicatorTheme.Light;
-                            break;
-
-                        case WindowsTheme.Dark:
-                            MessageCommunicatorGlobalProperties.Current.CurrentTheme = MessageCommunicatorTheme.Dark;
-                            break;
-
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                }
-
                 // Start avalonia logic
                 BuildAvaloniaApp()
                     .StartWithClassicDesktopLifetime(args);
@@ -52,9 +35,11 @@ namespace MessageCommunicator.TestGui
             RxApp.DefaultExceptionHandler = new DefaultReactiveUIExceptionHandler();
 
             return AppBuilder.Configure<App>()
+                .SetStartupSystemSettings()
                 .UsePlatformDetect()
                 .UseReactiveUI()
-                .LogToDebug();
+                .LogToDebug()
+                .HandleOSThemeChange();
         }
     }
 }

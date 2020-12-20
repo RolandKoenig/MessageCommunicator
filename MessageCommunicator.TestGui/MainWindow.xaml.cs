@@ -5,13 +5,12 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.Markup.Xaml.Styling;
-using Avalonia.Media;
 using MessageCommunicator.TestGui.ViewServices;
 using ReactiveUI;
 
 namespace MessageCommunicator.TestGui
 {
-    public class MainWindow : OwnWindow<MainWindowViewModel>
+    public class MainWindow : OwnWindow<MainWindowViewModel>, IWeakMessageTarget<MessageOSThemeChangeRequest>
     {
         public MainWindow()
         {
@@ -19,6 +18,7 @@ namespace MessageCommunicator.TestGui
 
             // Apply initial theme
             this.SetTheme(MessageCommunicatorGlobalProperties.Current.CurrentTheme);
+            MessageBus.Current.ListenWeak(this);
 
             var versionInfoAttrib = Assembly.GetExecutingAssembly()
                 .GetCustomAttribute<AssemblyInformationalVersionAttribute>();
@@ -84,6 +84,12 @@ namespace MessageCommunicator.TestGui
         private void OnMnuThemeDark_PointerPressed(object sender, PointerPressedEventArgs eArgs)
         {
             this.SetTheme(MessageCommunicatorTheme.Dark);
+        }
+
+        /// <inheritdoc />
+        public void OnMessage(MessageOSThemeChangeRequest message)
+        {
+            this.SetTheme(message.NewTheme);
         }
     }
 }

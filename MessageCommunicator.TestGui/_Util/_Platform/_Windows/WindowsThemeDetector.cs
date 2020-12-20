@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.InteropServices;
+using System.Management;
 using System.Runtime.Versioning;
 using System.Security.Principal;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Win32;
 
 namespace MessageCommunicator.TestGui
@@ -20,37 +18,31 @@ namespace MessageCommunicator.TestGui
         private const string REGISTRY_KEY_PATH = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
         private const string REGISTRY_VALUE_NAME = "AppsUseLightTheme";
 
-        //public void WatchTheme()
-        //{
-        //    var currentUser = WindowsIdentity.GetCurrent();
-        //    if (currentUser.User == null) { return; }
+        [SupportedOSPlatform("windows")]
+        public static void ListenForThemeChangeEvent(Action<WindowsTheme> setWindowsThemeAction)
+        {
+            var currentUser = WindowsIdentity.GetCurrent();
+            if (currentUser.User == null) { return; }
 
-        //    string query = string.Format(
-        //        CultureInfo.InvariantCulture,
-        //        @"SELECT * FROM RegistryValueChangeEvent WHERE Hive = 'HKEY_USERS' AND KeyPath = '{0}\\{1}' AND ValueName = '{2}'",
-        //        currentUser.User.Value,
-        //        RegistryKeyPath.Replace(@"\", @"\\"),
-        //        RegistryValueName);
+            string query = string.Format(
+                CultureInfo.InvariantCulture,
+                @"SELECT * FROM RegistryValueChangeEvent WHERE Hive = 'HKEY_USERS' AND KeyPath = '{0}\\{1}' AND ValueName = '{2}'",
+                currentUser.User.Value,
+                REGISTRY_KEY_PATH.Replace(@"\", @"\\"),
+                REGISTRY_VALUE_NAME);
+            try
+            {
+                var watcher = new ManagementEventWatcher(query);
+                watcher.EventArrived += (sender, args) => setWindowsThemeAction(GetWindowsTheme());
 
-        //    try
-        //    {
-        //        var watcher = new ManagementEventWatcher(query);
-        //        watcher.EventArrived += (sender, args) =>
-        //        {
-        //            WindowsTheme newWindowsTheme = GetWindowsTheme();
-        //            // React to new theme
-        //        };
-
-        //        // Start listening for events
-        //        watcher.Start();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        // This can fail on Windows 7
-        //    }
-
-        //    WindowsTheme initialTheme = GetWindowsTheme();
-        //}
+                // Start listening for events
+                watcher.Start();
+            }
+            catch (Exception)
+            {
+                // This can fail on Windows 7
+            }
+        }
 
         [SupportedOSPlatform("windows")]
         public static WindowsTheme GetWindowsTheme()
