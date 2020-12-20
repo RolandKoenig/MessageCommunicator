@@ -17,6 +17,9 @@ namespace MessageCommunicator.TestGui
         {
             AvaloniaXamlLoader.Load(this);
 
+            // Apply initial theme
+            this.SetTheme(MessageCommunicatorGlobalProperties.Current.CurrentTheme);
+
             var versionInfoAttrib = Assembly.GetExecutingAssembly()
                 .GetCustomAttribute<AssemblyInformationalVersionAttribute>();
             var versionString = versionInfoAttrib?.InformationalVersion ?? "";
@@ -41,7 +44,31 @@ namespace MessageCommunicator.TestGui
             this.AttachDevTools();
 #endif
 
+            // Configure error handling
             CommonErrorHandling.Current.MainWindow = this;
+        }
+
+        private void SetTheme(MessageCommunicatorTheme theme)
+        {
+            switch (theme)
+            {
+                case MessageCommunicatorTheme.Light:
+                    this.Styles[0] = (StyleInclude) this.Resources["ThemeLight"];
+                    this.Styles[1] = (StyleInclude) this.Resources["ThemeLightCustom"];
+                    MessageCommunicatorGlobalProperties.Current.CurrentTheme = MessageCommunicatorTheme.Light;
+                    MessageBus.Current.SendMessage(new MessageThemeChanged(MessageCommunicatorTheme.Light));
+                    break;
+                
+                case MessageCommunicatorTheme.Dark:
+                    this.Styles[0] = (StyleInclude) this.Resources["ThemeDark"];
+                    this.Styles[1] = (StyleInclude) this.Resources["ThemeDarkCustom"];
+                    MessageCommunicatorGlobalProperties.Current.CurrentTheme = MessageCommunicatorTheme.Dark;
+                    MessageBus.Current.SendMessage(new MessageThemeChanged(MessageCommunicatorTheme.Dark));
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(theme), theme, null);
+            }
         }
 
         private void OnMnuExit_PointerPressed(object sender, PointerPressedEventArgs eArgs)
@@ -51,20 +78,12 @@ namespace MessageCommunicator.TestGui
 
         private void OnMnuThemeLight_PointerPressed(object sender, PointerPressedEventArgs eArgs)
         {
-            this.Styles[0] = (StyleInclude) this.Resources["ThemeLight"];
-            this.Styles[1] = (StyleInclude) this.Resources["ThemeLightCustom"];
-
-            MessageCommunicatorGlobalProperties.Current.CurrentTheme = MessageCommunicatorTheme.Light;
-            MessageBus.Current.SendMessage(new MessageThemeChanged(MessageCommunicatorTheme.Light));
+            this.SetTheme(MessageCommunicatorTheme.Light);
         }
 
         private void OnMnuThemeDark_PointerPressed(object sender, PointerPressedEventArgs eArgs)
         {
-            this.Styles[0] = (StyleInclude) this.Resources["ThemeDark"];
-            this.Styles[1] = (StyleInclude) this.Resources["ThemeDarkCustom"];
-
-            MessageCommunicatorGlobalProperties.Current.CurrentTheme = MessageCommunicatorTheme.Dark;
-            MessageBus.Current.SendMessage(new MessageThemeChanged(MessageCommunicatorTheme.Dark));
+            this.SetTheme(MessageCommunicatorTheme.Dark);
         }
     }
 }
