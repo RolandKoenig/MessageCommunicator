@@ -16,6 +16,12 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="_IntegratedDocUtil\TestDoc.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="_IntegratedDocUtil\TestDoc.md" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="6.2.1" />

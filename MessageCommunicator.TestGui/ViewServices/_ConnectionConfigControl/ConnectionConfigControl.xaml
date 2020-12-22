@@ -22,6 +22,7 @@
             <Button Content="OK" IsDefault="True" Command="{Binding Path=Command_OK}" />
             <Button Content="Cancel" Command="{Binding Path=Command_Cancel}" />
         </StackPanel>
+
       
         <TextBlock DockPanel.Dock="Bottom" Margin="10"
                    Text="{Binding Path=ValidationError}"

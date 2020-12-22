@@ -26,6 +26,7 @@
     <PackageReference Include="Avalonia.Desktop" Version="0.9.12" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.12" />
     <PackageReference Include="DeepCloner" Version="0.10.2" />
+    <PackageReference Include="Markdown.Avalonia" Version="0.9.0-a7" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.IO.Packaging" Version="5.0.0" />
@@ -35,14 +36,19 @@
     <AvaloniaResource Include="Assets\*" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\Docs\ByteStreamHandler.md" />
     <None Remove="Assets\Icons.xaml" />
     <None Remove="Assets\MessageCommunicator.ico" />
     <None Remove="Assets\Styles\Common.xaml" />
     <None Remove="MessageCommunicator.TestGui.csproj.DotSettings" />
     <None Remove="ViewServices\_AboutDialog\AboutDialogControl.xaml" />
     <None Remove="ViewServices\_ExportDialog\ExportDialogControl.xaml" />
+    <None Remove="ViewServices\_HelpViewer\HelpViewerControl.xaml" />
     <None Remove="ViewServices\_ImportDialog\ImportDialogControl.xaml" />
     <None Remove="Views\_SendMessage\SendMessageView.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Docs\ByteStreamHandler.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MessageCommunicator.SerialPorts\MessageCommunicator.SerialPorts.csproj" />
@@ -64,6 +70,9 @@
     <AvaloniaResource Update="ViewServices\_ExportDialog\ExportDialogControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </AvaloniaResource>
+    <AvaloniaResource Update="ViewServices\_HelpViewer\HelpViewerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaResource>
     <AvaloniaResource Update="ViewServices\_ImportDialog\ImportDialogControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </AvaloniaResource>
@@ -76,6 +85,9 @@
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
     <Compile Update="ViewServices\_ExportDialog\ExportDialogControl.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="ViewServices\_HelpViewer\HelpViewerControl.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
     <Compile Update="ViewServices\_ImportDialog\ImportDialogControl.xaml.cs">
