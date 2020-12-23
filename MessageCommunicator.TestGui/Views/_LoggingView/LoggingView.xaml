@@ -36,7 +36,8 @@
                 <DataGridTextColumn Header="TimeStamp"
                                     IsReadOnly="True"
                                     Binding="{Binding Path=TimeStamp}"
-                                    Width="150" />
+                                    FontFamily="{localRoot:MonospaceFontFamily}"
+                                    Width="200" />
                 <DataGridTemplateColumn Header=" "
                                         Width="24">
                     <DataGridTemplateColumn.CellTemplate>
@@ -51,14 +52,17 @@
                 <DataGridTextColumn Header="Type"
                                     IsReadOnly="True"
                                     Binding="{Binding Path=MessageType}"
+                                    FontFamily="{localRoot:MonospaceFontFamily}"
                                     Width="76" />
                 <DataGridTextColumn Header="Meta data"
                                     IsReadOnly="True"
                                     Binding="{Binding Path=MetaData}"
+                                    FontFamily="{localRoot:MonospaceFontFamily}"
                                     Width="75" />
                 <DataGridTextColumn Header="Message"
                                     IsReadOnly="True"
                                     Binding="{Binding Path=Message}"
+                                    FontFamily="{localRoot:MonospaceFontFamily}"
                                     Width="1000" />
             </DataGrid.Columns>
         </DataGrid>
