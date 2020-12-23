@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
-using Exception = System.Exception;
 
 namespace MessageCommunicator.TestGui
 {
@@ -23,8 +23,12 @@ namespace MessageCommunicator.TestGui
         {
             if (s_monospaceFontFamily == null)
             {
-                if (IsFontFamilyAvailable("Consolas")) { s_monospaceFontFamily = "Consolas"; }
-                else { s_monospaceFontFamily = "Courier New"; }
+                if (IsFontFamilyAvailable("DejaVu Sans Mono")) { s_monospaceFontFamily = "DejaVu Sans Mono"; }
+                else if (IsFontFamilyAvailable("Consolas")) { s_monospaceFontFamily = "Consolas"; }
+                else
+                {
+                    s_monospaceFontFamily = "Courier New";
+                }
             }
 
             return s_monospaceFontFamily;
