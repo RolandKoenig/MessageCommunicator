@@ -18,6 +18,7 @@ namespace MessageCommunicator.TestGui.Data
         [Category(CATEGORY)]
         [Required]
         [TextAndHexadecimalEdit(nameof(Encoding))]
+        [HelpFileLink("ByteStreamHandler")]
         public string EndSymbols { get; set; } = string.Empty;
 
         /// <inheritdoc />

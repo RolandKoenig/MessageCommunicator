@@ -2,10 +2,12 @@
 The ByteStreamHandler is responsible for sending and receiving
 binary packages. 
 
-## TCP
-sdafasdf asdfasf dfasfs
-sadfasdfasfdasf
 
-## Serial
-sdfas asdf asfa dfasf asdf adsfsaf dsfasdfsadf 
-sadff asfas dadf sadfasdfas fasf asf
+The pipeline is structured as follows:
+
+### Sending:
+[Local App] --> MessageRecognizer --> ByteStreamHandler --> [Channel]
+
+
+### Receiving:
+[Channel] --> ByteStreamHandler --> MessageRecognizer --> [LocalApp]

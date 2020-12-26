@@ -13,6 +13,7 @@
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <AvaloniaResource Include="Assets\Docs\Resources\Testing.png" />
     <Compile Update="**\*.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
@@ -37,6 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Docs\ByteStreamHandler.md" />
+    <None Remove="Assets\Docs\Images\Testing.png" />
+    <None Remove="Assets\Docs\Resources\Testing.png" />
     <None Remove="Assets\Icons.xaml" />
     <None Remove="Assets\MessageCommunicator.ico" />
     <None Remove="Assets\Styles\Common.xaml" />
@@ -49,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\Docs\ByteStreamHandler.md" />
+    <EmbeddedResource Include="Assets\Docs\MessageRecognizer.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MessageCommunicator.SerialPorts\MessageCommunicator.SerialPorts.csproj" />

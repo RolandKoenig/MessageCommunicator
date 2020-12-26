@@ -21,6 +21,7 @@ namespace MessageCommunicator.TestGui.ViewServices
         }
 
         [Category(CATEGORY)]
+        [HelpFileLink("ByteStreamHandler")]
         public ByteStreamMode ByteStreamMode
         {
             get => _connParameters.ByteStreamMode;
@@ -41,6 +42,7 @@ namespace MessageCommunicator.TestGui.ViewServices
         public object ByteStreamSettings => _connParameters.ByteStreamSettings;
 
         [Category(CATEGORY)]
+        [HelpFileLink("MessageRecognizer")]
         public MessageRecognitionMode RecognitionMode
         {
             get => _connParameters.RecognitionMode;

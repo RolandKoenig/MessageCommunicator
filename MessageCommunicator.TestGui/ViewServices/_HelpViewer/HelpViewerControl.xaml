@@ -21,6 +21,8 @@
             <Button Content="OK" IsDefault="True" Command="{Binding Path=Command_OK}" />
         </StackPanel>
       
-        <md:MarkdownScrollViewer Markdown="{Binding Path=LoadedDoc}" />
+        <md:MarkdownScrollViewer x:Name="CtrlMarkdownViewer" 
+                                 Markdown="{Binding Path=LoadedDoc}"
+                                 AssetPathRoot="/Assets/Docs"/>
     </DockPanel>
 </UserControl>

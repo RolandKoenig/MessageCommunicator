@@ -63,29 +63,29 @@ namespace MessageCommunicator.TestGui
             }
         }
 
-        public object? FindViewService(Type viewServiceType)
-        {
-            var actParent = (IControl?)this.Owner;
-            object? result = null;
-            while (actParent != null)
-            {
-                if (actParent is IViewServiceHost viewServiceHost)
-                {
-                    foreach (var actViewService in viewServiceHost.ViewServices)
-                    {
-                        if(actViewService == null){ continue; }
+        //public object? FindViewService(Type viewServiceType)
+        //{
+        //    var actParent = (IControl?)this.Owner;
+        //    object? result = null;
+        //    while (actParent != null)
+        //    {
+        //        if (actParent is IViewServiceHost viewServiceHost)
+        //        {
+        //            foreach (var actViewService in viewServiceHost.ViewServices)
+        //            {
+        //                if (actViewService == null) { continue; }
 
-                        // ReSharper disable once UseMethodIsInstanceOfType
-                        if(!viewServiceType.IsAssignableFrom(actViewService.GetType())){ continue; }
+        //                // ReSharper disable once UseMethodIsInstanceOfType
+        //                if (!viewServiceType.IsAssignableFrom(actViewService.GetType())) { continue; }
 
-                        result = actViewService;
-                    }
-                }
+        //                result = actViewService;
+        //            }
+        //        }
 
-                actParent = actParent.Parent;
-            }
-            return result;
-        }
+        //        actParent = actParent.Parent;
+        //    }
+        //    return result;
+        //}
 
         private void OnViewServices_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
@@ -113,7 +113,7 @@ namespace MessageCommunicator.TestGui
 
         private void OnViewServiceRequest(object? sender, ViewServiceRequestEventArgs e)
         {
-            var foundViewService = this.FindViewService(e.ViewServiceType);
+            var foundViewService = this.Owner.TryFindViewService(e.ViewServiceType);
             if (foundViewService != null)
             {
                 e.ViewService = foundViewService;

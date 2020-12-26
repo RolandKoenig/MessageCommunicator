@@ -16,4 +16,15 @@ namespace MessageCommunicator.TestGui
             this.AliasName = aliasName;
         }
     }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class HelpFileLinkAttribute : Attribute
+    {
+        public string HelpFileKey { get; }
+
+        public HelpFileLinkAttribute(string helpFileKey)
+        {
+            this.HelpFileKey = helpFileKey;
+        }
+    }
 }

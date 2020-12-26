@@ -8,6 +8,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using System.Text;
 using Avalonia.Input;
+using MessageCommunicator.TestGui.ViewServices;
 
 namespace MessageCommunicator.TestGui
 {
@@ -154,6 +155,26 @@ namespace MessageCommunicator.TestGui
                     _gridMain.Children.Add(ctrlValueEdit);
 
                     _firstValueRowEditor ??= ctrlValueEdit;
+
+                    var helpLinkInfo = actProperty.GetCustomAttribute<HelpFileLinkAttribute>();
+                    if (helpLinkInfo != null)
+                    {
+                        var helpButton = new Button();
+                        helpButton.Content = "?";
+                        helpButton.Width = 32;
+                        helpButton.Height = 32;
+                        helpButton.Margin = new Thickness(2);
+                        helpButton.HorizontalAlignment = HorizontalAlignment.Center;
+                        helpButton.VerticalAlignment = VerticalAlignment.Top;
+                        helpButton.SetValue(Grid.RowProperty, actRowIndex);
+                        helpButton.SetValue(Grid.ColumnProperty, 2);
+                        helpButton.Click += (sender, eArgs) =>
+                        {
+                            var srvHelp = this.TryFindViewService<IHelpViewerService>();
+                            srvHelp?.ShowHelpPageAsync(helpLinkInfo.HelpFileKey);
+                        };
+                        _gridMain.Children.Add(helpButton);
+                    }
                 }
                 else
                 {

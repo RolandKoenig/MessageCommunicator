@@ -50,6 +50,11 @@ namespace MessageCommunicator.TestGui
             foreach (var currentAssembly in _queryAssemblies)
             {
                 var nameWithDot = $".{docFileName}";
+                if (!nameWithDot.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
+                {
+                    nameWithDot = $"{nameWithDot}.md";
+                }
+
                 foreach (var actResource in currentAssembly.GetManifestResourceNames())
                 {
                     if (!actResource.EndsWith(nameWithDot)){ continue; }

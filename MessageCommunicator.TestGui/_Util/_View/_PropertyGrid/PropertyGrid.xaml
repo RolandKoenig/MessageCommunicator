@@ -33,6 +33,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="30" />
             </Grid.ColumnDefinitions>
         </Grid>
     </ScrollViewer>
