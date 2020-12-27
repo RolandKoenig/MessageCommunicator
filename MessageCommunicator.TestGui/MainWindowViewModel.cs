@@ -82,7 +82,7 @@ namespace MessageCommunicator.TestGui
         {
             var timer = new DispatcherTimer(
                 TimeSpan.FromMilliseconds(100), DispatcherPriority.Normal,
-                (sender, args) =>
+                (_, _) =>
                 {
                     try
                     {
