@@ -20,6 +20,9 @@
     <AvaloniaResource Include="**\*.xaml">
       <SubType>Designer</SubType>
     </AvaloniaResource>
+    <Compile Update="ViewServices\_HelpBrowser\HelpBrowserWindow.cs">
+      <DependentUpon>HelpBrowserWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.12" />

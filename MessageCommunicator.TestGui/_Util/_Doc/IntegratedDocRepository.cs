@@ -10,6 +10,8 @@ namespace MessageCommunicator.TestGui
         private List<IntegratedDocFile> _lstAllFiles;
         private Dictionary<string, IntegratedDocFile> _dictAllFiles;
 
+        public IEnumerable<IntegratedDocFile> AllFiles => _lstAllFiles;
+
         public IntegratedDocRepository(Assembly source)
         {
             _lstAllFiles = new List<IntegratedDocFile>(16);
