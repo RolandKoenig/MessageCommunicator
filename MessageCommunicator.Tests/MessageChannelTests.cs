@@ -54,8 +54,8 @@ namespace MessageCommunicator.Tests
                 await Task.WhenAll(
                     passiveChannel.WaitForConnectionAsync(timeoutTokenSource.Token),
                     activeChannel.WaitForConnectionAsync(timeoutTokenSource.Token));
-                Assert.IsTrue(passiveChannel.State == ConnectionState.Connected);
-                Assert.IsTrue(activeChannel.State == ConnectionState.Connected);
+                Assert.AreEqual(ConnectionState.Connected, passiveChannel.State, $"Unable to connect on port {testingPort2}");
+                Assert.AreEqual(ConnectionState.Connected, activeChannel.State, $"Unable to connect on port {testingPort1}");
 
                 // Send/Receive some messages in both directions
                 await passiveChannel.SendAsync("Message from passive endpoint");

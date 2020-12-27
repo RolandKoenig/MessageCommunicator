@@ -6,8 +6,7 @@
         xmlns:localRoot="clr-namespace:MessageCommunicator.TestGui;assembly=MessageCommunicator.TestGui"
         mc:Ignorable="d"
         Width="810" Height="400"
-        x:Class="MessageCommunicator.TestGui.ViewServices.ConnectionConfigControl"
-        d:DataContext="{x:Static local:DesignData.ConnectionConfigVM}">
+        x:Class="MessageCommunicator.TestGui.ViewServices.ConnectionConfigControl">
     
     <DockPanel LastChildFill="True">     
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"

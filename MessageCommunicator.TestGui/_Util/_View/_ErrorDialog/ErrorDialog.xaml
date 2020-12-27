@@ -7,8 +7,7 @@
         x:Class="MessageCommunicator.TestGui.ErrorDialog"
         Title="Error"
         ShowInTaskbar="False" 
-        Width="500" Height="300"
-        d:DataContext="{x:Static local:DesignData.ErrorDialogVM}">
+        Width="500" Height="300">
     <Window.Styles>
         <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml" />
         <StyleInclude Source="/Assets/Styles/Light.xaml" />

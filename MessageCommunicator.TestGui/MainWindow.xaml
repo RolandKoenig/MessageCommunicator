@@ -8,7 +8,6 @@
         MinWidth="200" MinHeight="200"
         Width="800" Height="550"
         Icon="Assets/MessageCommunicator.ico"
-        d:DataContext="{x:Static local:DesignData.MainWindowVM}"
         x:Class="MessageCommunicator.TestGui.MainWindow"
         Title="MessageCommunicator">
     <Window.Resources>
