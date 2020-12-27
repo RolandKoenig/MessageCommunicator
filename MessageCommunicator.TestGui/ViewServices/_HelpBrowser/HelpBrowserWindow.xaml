@@ -45,6 +45,17 @@
           
             <Button Content="Close" IsDefault="True" Command="{Binding Path=Command_Close}" />
         </StackPanel>
+        
+        <ListBox DockPanel.Dock="Left"
+                 Width="200"
+                 Items="{Binding Path=AllFiles}"
+                 SelectedItem="{Binding Path=CurrentDocFile, Mode=TwoWay}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path=Title}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
       
         <md:MarkdownScrollViewer x:Name="CtrlMarkdownViewer" 
                                  Markdown="{Binding Path=LoadedDoc}"
