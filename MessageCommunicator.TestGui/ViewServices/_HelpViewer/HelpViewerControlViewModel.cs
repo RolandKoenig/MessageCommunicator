@@ -14,9 +14,9 @@ namespace MessageCommunicator.TestGui.ViewServices
 
         public ReactiveCommand<object?, Unit> Command_OK { get; }
 
-        public HelpViewerControlViewModel(string helpPageResourceFile)
+        public HelpViewerControlViewModel(string pageTitle, IntegratedDocRepository docRepo)
         {
-            this.LoadedDoc = IntegratedDocUtil.Current.GetIntegratedDoc(helpPageResourceFile);
+            this.LoadedDoc = docRepo.GetByTitle(pageTitle).ReadFullContent();
 
             this.Command_OK = ReactiveCommand.Create<object?>(
                 arg => this.CloseWindow(null));

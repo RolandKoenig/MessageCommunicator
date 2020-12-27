@@ -35,7 +35,7 @@ namespace MessageCommunicator.TestGui
             this.ViewServices.Add(new SaveFileDialogService(this));
             this.ViewServices.Add(new OpenFileDialogService(this));
             this.ViewServices.Add(new AboutDialogService(ctrlDialogHost));
-            this.ViewServices.Add(new HelpViewerService(ctrlDialogHost));
+            this.ViewServices.Add(new HelpViewerService(ctrlDialogHost, new IntegratedDocRepository(Assembly.GetExecutingAssembly())));
 
             // Load initial main view model
             this.ViewModel = new MainWindowViewModel();

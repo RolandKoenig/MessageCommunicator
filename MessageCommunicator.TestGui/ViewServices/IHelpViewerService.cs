@@ -8,6 +8,6 @@ namespace MessageCommunicator.TestGui.ViewServices
 {
     public interface IHelpViewerService : IViewService
     {
-        Task ShowHelpPageAsync(string helpPageResourceFile);
+        Task ShowHelpPageAsync(string pageTitle);
     }
 }
