@@ -11,10 +11,11 @@ namespace MessageCommunicator.TestGui.Data
     [TypeAlias("ByteStreamHandlerSerialPortSettings")]
     public class ByteStreamHandlerSerialPortSettings : IByteStreamHandlerAppSettings
     {
-        private const string CATEGORY = "Serial Port";
+        private const string CATEGORY = "ByteStreamHandler SerialPort";
 
         [Required]
         [Category(CATEGORY)]
+        [DisplayName("Port")]
         [FixedPossibleValues(nameof(GetPossiblePortNames))]
         public string PortName
         {
@@ -23,30 +24,37 @@ namespace MessageCommunicator.TestGui.Data
         } = string.Empty;
 
         [Category(CATEGORY)]
+        [DisplayName("Baud Rate")]
         public int BaudRate { get; set; } = 9600;
 
         [Category(CATEGORY)]
+        [DisplayName("Data Bits")]
         public int DataBits { get; set; } = 8;
 
         [Category(CATEGORY)]
+        [DisplayName("Stop Bits")]
         public StopBits StopBits { get; set; } = StopBits.One;
 
         [Category(CATEGORY)]
         public Handshake Handshake { get; set; } = Handshake.None;
 
         [Category(CATEGORY)]
+        [DisplayName("Read Timeout")]
         public int ReadTimeout { get; set; } = -1;
 
         [Category(CATEGORY)]
+        [DisplayName("Write Timeout")]
         public int WriteTimeout { get; set; } = -1;
 
         [Category(CATEGORY)]
         public Parity Parity { get; set; } = Parity.None;
 
         [Category(CATEGORY)]
+        [DisplayName("Dtr Enabled")]
         public bool DtrEnable { get; set; } = false;
 
         [Category(CATEGORY)]
+        [DisplayName("Rts Enabled")]
         public bool RtsEnable { get; set; } = false;
 
         /// <inheritdoc />

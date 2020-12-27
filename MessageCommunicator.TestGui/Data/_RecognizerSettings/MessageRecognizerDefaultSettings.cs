@@ -8,7 +8,7 @@ namespace MessageCommunicator.TestGui.Data
     [TypeAlias("MessageRecognizerDefaultSettings")]
     public class MessageRecognizerDefaultSettings : IMessageRecognizerAppSettings
     {
-        private const string CATEGORY = "Default Recognizer";
+        private const string CATEGORY = "MessageRecognizer Default";
 
         [EncodingWebName]
         [Category(CATEGORY)]

@@ -8,7 +8,7 @@ namespace MessageCommunicator.TestGui.Data
     [TypeAlias("MessageRecognizerFixedLengthSettings")]
     public class MessageRecognizerFixedLengthSettings : IMessageRecognizerAppSettings
     {
-        private const string CATEGORY = "FixedLength Recognizer";
+        private const string CATEGORY = "MessageRecognizer FixedLength";
 
         [EncodingWebName]
         [Category(CATEGORY)]

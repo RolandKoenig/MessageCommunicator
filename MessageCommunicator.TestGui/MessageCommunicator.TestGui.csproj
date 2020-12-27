@@ -13,7 +13,6 @@
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <AvaloniaResource Include="Assets\Docs\Resources\Testing.png" />
     <Compile Update="**\*.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
@@ -23,6 +22,8 @@
     <Compile Update="ViewServices\_HelpBrowser\HelpBrowserWindow.cs">
       <DependentUpon>HelpBrowserWindow.xaml</DependentUpon>
     </Compile>
+    <None Remove="Assets\Docs\Resources\ByteStreamHandlerSettings.png" />
+    <AvaloniaResource Include="Assets\Docs\Resources\ByteStreamHandlerSettings.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.12" />

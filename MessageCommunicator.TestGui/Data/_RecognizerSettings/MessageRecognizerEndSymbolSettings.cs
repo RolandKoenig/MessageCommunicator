@@ -8,7 +8,7 @@ namespace MessageCommunicator.TestGui.Data
     [TypeAlias("MessageRecognizerEndSymbolSettings")]
     public class MessageRecognizerEndSymbolSettings : IMessageRecognizerAppSettings
     {
-        private const string CATEGORY = "EndSymbol Recognizer";
+        private const string CATEGORY = "MessageRecognizer EndSymbol";
 
         [EncodingWebName]
         [Required]

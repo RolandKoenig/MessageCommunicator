@@ -8,7 +8,7 @@ namespace MessageCommunicator.TestGui.Data
     [TypeAlias("MessageRecognizerByUnderlyingPackageSettings")]
     public class MessageRecognizerByUnderlyingPackageSettings : IMessageRecognizerAppSettings
     {
-        private const string CATEGORY = "ByUnderlyingPackage Recognizer";
+        private const string CATEGORY = "MessageRecognizer ByUnderlyingPackage";
 
         [EncodingWebName]
         [Category(CATEGORY)]

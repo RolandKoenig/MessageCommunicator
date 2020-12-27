@@ -52,6 +52,8 @@ namespace MessageCommunicator.TestGui
         public ReactiveCommand<object?, Unit> Command_DeleteProfile { get; }
 
         public ReactiveCommand<object?, Unit> Command_ShowAboutDialog { get; }
+        
+        public ReactiveCommand<Unit, Unit> Command_ShowHelp { get; }
 
         public MainWindowViewModel()
         {
@@ -61,6 +63,8 @@ namespace MessageCommunicator.TestGui
             this.Command_EditProfile = ReactiveCommand.CreateFromTask<object?>(this.OnCommand_EditProfile_ExecuteAsync);
             this.Command_DeleteProfile = ReactiveCommand.CreateFromTask<object?>(this.OnCommand_DeleteProfile_ExecuteAsync);
             this.Command_ShowAboutDialog = ReactiveCommand.CreateFromTask<object?>(this.OnCommand_ShowAboutDialog_ExecuteAsync);
+            this.Command_ShowHelp =
+                ReactiveCommand.Create(() => this.GetViewService<IHelpViewerService>().ShowHelpPage("Home"));
 
             this.SendMessageVM = new SendMessageViewModel();
 

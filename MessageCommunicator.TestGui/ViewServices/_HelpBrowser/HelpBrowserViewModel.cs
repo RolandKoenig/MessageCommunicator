@@ -15,6 +15,9 @@ namespace MessageCommunicator.TestGui.ViewServices
         public string WindowTitle =>
             _currentDocFile == null ? "Help Browser" : $"Help Browser - {_currentDocFile.Title}";
 
+        public string PageTitle =>
+            _currentDocFile == null ? "Empty" : $"Page {_currentDocFile.Title}";
+
         public IEnumerable<IntegratedDocFile> AllFiles => _docRepo.AllFiles;
         
         public IntegratedDocFile? CurrentDocFile
@@ -28,6 +31,7 @@ namespace MessageCommunicator.TestGui.ViewServices
                     this.RaisePropertyChanged();
                     this.RaisePropertyChanged(nameof(this.LoadedDoc));
                     this.RaisePropertyChanged(nameof(this.WindowTitle));
+                    this.RaisePropertyChanged(nameof(this.PageTitle));
                 }
             }
         }

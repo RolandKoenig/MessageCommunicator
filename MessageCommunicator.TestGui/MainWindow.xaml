@@ -62,8 +62,10 @@
                     <MenuItem Header="Light" PointerPressed="OnMnuThemeLight_PointerPressed" />
                     <MenuItem Header="Dark" PointerPressed="OnMnuThemeDark_PointerPressed" />
                 </MenuItem>
-                <MenuItem Header="Info"
+                <MenuItem Header="Help"
                           Classes="MainMenu">
+                    <MenuItem Header="Documentation" Command="{Binding Path=Command_ShowHelp}" />
+                    <Separator />
                     <MenuItem Header="About" Command="{Binding Path=Command_ShowAboutDialog}" />
                 </MenuItem>
             </Menu>

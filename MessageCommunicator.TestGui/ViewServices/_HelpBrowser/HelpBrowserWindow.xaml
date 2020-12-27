@@ -66,9 +66,13 @@
                           Background="Transparent"
                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             
-            <md:MarkdownScrollViewer Grid.Column="2" x:Name="CtrlMarkdownViewer" 
-                                     Markdown="{Binding Path=LoadedDoc}"
-                                     AssetPathRoot="/Assets/Docs"/>
+            <HeaderedContentControl Grid.Column="2"
+                                    Header="{Binding Path=PageTitle}"
+                                    Classes="GroupBox">
+                <md:MarkdownScrollViewer Grid.Column="2" x:Name="CtrlMarkdownViewer"
+                                         Markdown="{Binding Path=LoadedDoc}"
+                                         AssetPathRoot="/Assets/Docs"/>
+            </HeaderedContentControl>
         </Grid>
     </DockPanel>
 </Window>

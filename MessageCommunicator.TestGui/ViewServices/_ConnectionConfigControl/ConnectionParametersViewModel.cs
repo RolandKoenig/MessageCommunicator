@@ -22,6 +22,7 @@ namespace MessageCommunicator.TestGui.ViewServices
 
         [Category(CATEGORY)]
         [HelpFileLink("ByteStreamHandler")]
+        [DisplayName("ByteStreamHandler")]
         public ByteStreamMode ByteStreamMode
         {
             get => _connParameters.ByteStreamMode;
