@@ -171,7 +171,7 @@ namespace MessageCommunicator.TestGui
                         helpButton.Click += (sender, eArgs) =>
                         {
                             var srvHelp = this.TryFindViewService<IHelpViewerService>();
-                            srvHelp?.ShowHelpPageAsync(helpLinkInfo.HelpFileKey);
+                            srvHelp?.ShowHelpPage(helpLinkInfo.HelpFileKey);
                         };
                         _gridMain.Children.Add(helpButton);
                     }

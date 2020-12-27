@@ -10,8 +10,7 @@ namespace MessageCommunicator.TestGui.ViewServices
 
         private HelpBrowserWindow? _openedBrowser;
         private HelpBrowserViewModel? _openedViewModel;
-        private Task? _openedBrowserTask;
-        
+
         public HelpBrowserService(WindowBase parentWindow, IntegratedDocRepository docRepository)
         {
             _parentWindow = parentWindow;
@@ -19,10 +18,8 @@ namespace MessageCommunicator.TestGui.ViewServices
         }
         
         /// <inheritdoc />
-        public Task ShowHelpPageAsync(string pageTitle)
+        public void ShowHelpPage(string pageTitle)
         {
-            var taskComplSource = new TaskCompletionSource<object?>();
-
             // Ensure that help browser is shown
             if (_openedBrowser != null)
             {
@@ -38,22 +35,17 @@ namespace MessageCommunicator.TestGui.ViewServices
                 helpBrowserWindow.DataContext = viewModel;
                 helpBrowserWindow.Closed += (_, _) =>
                 {
-                    taskComplSource.TrySetResult(null);
                     _openedBrowser = null;
                     _openedViewModel = null;
-                    _openedBrowserTask = null;
                 };
                 helpBrowserWindow.Show();
                 
                 _openedBrowser = helpBrowserWindow;
                 _openedViewModel = viewModel;
-                _openedBrowserTask = taskComplSource.Task;
             }
             
             // Navigate to help page
             _openedViewModel!.NavigateTo(pageTitle);
-
-            return _openedBrowserTask!;
         }
     }
 }
