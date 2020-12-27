@@ -23,6 +23,7 @@ namespace MessageCommunicator.TestGui.Data
         public ConnectionMode Mode { get; set; }
 
         [Category(CATEGORY)]
+        [DisplayName("Receive Timeout (Sec)")]
         public int ReceiveTimeoutSec { get; set; } = 40;
 
         /// <inheritdoc />

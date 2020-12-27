@@ -43,7 +43,7 @@ namespace MessageCommunicator.TestGui.ViewServices
 
         [Category(CATEGORY)]
         [HelpFileLink("MessageRecognizer")]
-        public MessageRecognitionMode RecognitionMode
+        public MessageRecognitionMode MessageRecognizer
         {
             get => _connParameters.RecognitionMode;
             set
@@ -51,7 +51,7 @@ namespace MessageCommunicator.TestGui.ViewServices
                 if (_connParameters.RecognitionMode != value)
                 {
                     _connParameters.RecognitionMode = value;
-                    this.RaisePropertyChanged(nameof(this.RecognitionMode));
+                    this.RaisePropertyChanged(nameof(this.MessageRecognizer));
 
                     _connParameters.RecognizerSettings = MessageRecognizerSettingsFactory.CreateSettings(value);
                     this.RaisePropertyChanged(nameof(this.RecognizerSettings));
