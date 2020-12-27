@@ -71,3 +71,4 @@ I use the following technologies / projects:
  - [ReactiveUI](https://github.com/reactiveui/ReactiveUI): Cross-platform mvvm framework. Avalonia has additional integration for ReactiveUI
  - [StringFormatter](https://github.com/MikePopoloski/StringFormatter): A copy/paste ready alternative to StringBuilder. StringFormatter is optimized for less object allocations
  - [Light.GuardClauses](https://github.com/feO2x/Light.GuardClauses): A lightweight .NET library for expressive Guard Clauses
+ - [Markdown.Avalonia](https://github.com/whistyun/Markdown.Avalonia): Markdown.Avalonia is a portted version of [MdXaml](https://github.com/whistyun/MdXaml) for Avalonia UI. It can render Markdown with avalonia.
