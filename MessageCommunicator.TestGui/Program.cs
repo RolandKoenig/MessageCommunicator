@@ -1,10 +1,13 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Reactive.Concurrency;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Avalonia;
 using Avalonia.Logging.Serilog;
 using Avalonia.ReactiveUI;
+using MessageCommunicator.TestGui.Data;
 using MessageCommunicator.TestGui.Startup;
 using ReactiveUI;
 
@@ -15,6 +18,7 @@ namespace MessageCommunicator.TestGui
         // Initialization code. Don't use any Avalonia, third-party APIs or any
         // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
         // yet and stuff might break.
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(INotifyDataErrorInfo))]
         public static void Main(string[] args)
         {
             try

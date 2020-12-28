@@ -79,10 +79,7 @@ namespace MessageCommunicator.TestGui
             propGrid._propertyGridVM.SelectedObject = propGrid.SelectedObject;
             propGrid.UpdatePropertiesView();
         }
-
-        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ConfigurablePropertyMetadata))]
-        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ValidatableViewModelBase))]
-        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(INotifyDataErrorInfo))]
+        
         private void UpdatePropertiesView()
         {
             _gridMain.Children.Clear();
@@ -193,6 +190,7 @@ namespace MessageCommunicator.TestGui
                 catch (Exception e)
                 {
                     CommonErrorHandling.Current.ShowErrorDialog(e);
+                    break;
                 }
             }
         }
