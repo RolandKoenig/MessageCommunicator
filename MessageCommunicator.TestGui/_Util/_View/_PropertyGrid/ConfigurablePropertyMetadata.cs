@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MessageCommunicator.TestGui
 {
@@ -67,7 +68,7 @@ namespace MessageCommunicator.TestGui
         }
 
         public Type HostObjectType => _hostObject.GetType();
-
+        
         internal ConfigurablePropertyMetadata(PropertyDescriptor propertyInfo, object hostObject, IPropertyContractResolver? propertyContractResolver)
         {
             _descriptor = propertyInfo;

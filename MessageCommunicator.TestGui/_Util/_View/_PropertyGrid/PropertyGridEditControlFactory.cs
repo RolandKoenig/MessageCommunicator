@@ -69,7 +69,7 @@ namespace MessageCommunicator.TestGui
         }
 
         protected virtual Control CreateTextBoxControl(
-            ConfigurablePropertyMetadata property, 
+            ConfigurablePropertyMetadata property,
             IEnumerable<ConfigurablePropertyMetadata> allProperties)
         {
             var ctrlTextBox = new TextBox();

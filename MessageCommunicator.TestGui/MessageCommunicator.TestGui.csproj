@@ -41,6 +41,7 @@
     <AvaloniaResource Include="Assets\*" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\Docs\Home.md" />
     <None Remove="Assets\Docs\ByteStreamHandler.md" />
     <None Remove="Assets\Docs\Images\Testing.png" />
     <None Remove="Assets\Docs\Resources\Testing.png" />
@@ -55,6 +56,7 @@
     <None Remove="Views\_SendMessage\SendMessageView.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Assets\Docs\Home.md" />
     <EmbeddedResource Include="Assets\Docs\ByteStreamHandler.md" />
     <EmbeddedResource Include="Assets\Docs\MessageRecognizer.md" />
   </ItemGroup>

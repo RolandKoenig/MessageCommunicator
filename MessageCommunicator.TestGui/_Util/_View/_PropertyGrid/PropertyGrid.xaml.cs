@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
@@ -78,6 +80,9 @@ namespace MessageCommunicator.TestGui
             propGrid.UpdatePropertiesView();
         }
 
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ConfigurablePropertyMetadata))]
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ValidatableViewModelBase))]
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(INotifyDataErrorInfo))]
         private void UpdatePropertiesView()
         {
             _gridMain.Children.Clear();
@@ -94,94 +99,101 @@ namespace MessageCommunicator.TestGui
 
             foreach (var actProperty in _propertyGridVM.PropertyMetadata)
             {
-                // Create category rows
-                if (actProperty.CategoryName != actCategory)
+                try
                 {
-                    _gridMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(35) });
-
-                    actCategory = actProperty.CategoryName;
-
-                    var txtHeader = new TextBlock
+                    // Create category rows
+                    if (actProperty.CategoryName != actCategory)
                     {
-                        Text = actCategory
-                    };
+                        _gridMain.RowDefinitions.Add(new RowDefinition {Height = new GridLength(35)});
 
-                    txtHeader.SetValue(Grid.RowProperty, actRowIndex);
-                    txtHeader.SetValue(Grid.ColumnSpanProperty, 2);
-                    txtHeader.SetValue(Grid.ColumnProperty, 0);
-                    txtHeader.Margin = new Thickness(5d, 5d, 5d, 5d);
-                    txtHeader.VerticalAlignment = VerticalAlignment.Bottom;
-                    txtHeader.FontWeight = FontWeight.Bold;
-                    _gridMain.Children.Add(txtHeader);
+                        actCategory = actProperty.CategoryName;
 
-                    var rect = new Rectangle
+                        var txtHeader = new TextBlock
+                        {
+                            Text = actCategory
+                        };
+
+                        txtHeader.SetValue(Grid.RowProperty, actRowIndex);
+                        txtHeader.SetValue(Grid.ColumnSpanProperty, 2);
+                        txtHeader.SetValue(Grid.ColumnProperty, 0);
+                        txtHeader.Margin = new Thickness(5d, 5d, 5d, 5d);
+                        txtHeader.VerticalAlignment = VerticalAlignment.Bottom;
+                        txtHeader.FontWeight = FontWeight.Bold;
+                        _gridMain.Children.Add(txtHeader);
+
+                        var rect = new Rectangle
+                        {
+                            Height = 1d,
+                            VerticalAlignment = VerticalAlignment.Bottom,
+                            Margin = new Thickness(5d, 5d, 5d, 0d)
+                        };
+                        rect.Classes.Add("PropertyGridCategoryHeaderLine");
+
+                        rect.SetValue(Grid.RowProperty, actRowIndex);
+                        rect.SetValue(Grid.ColumnSpanProperty, 2);
+                        rect.SetValue(Grid.ColumnProperty, 0);
+                        _gridMain.Children.Add(rect);
+
+                        actRowIndex++;
+                    }
+
+                    // Create row header
+                    var ctrlTextContainer = new Border();
+                    var ctrlText = new TextBlock();
+                    ctrlText.Text = actProperty.PropertyDisplayName;
+                    ctrlText.VerticalAlignment = VerticalAlignment.Center;
+                    ctrlTextContainer.Height = 35.0;
+                    ctrlTextContainer.Child = ctrlText;
+                    ctrlTextContainer.SetValue(Grid.RowProperty, actRowIndex);
+                    ctrlTextContainer.SetValue(Grid.ColumnProperty, 0);
+                    ctrlTextContainer.VerticalAlignment = VerticalAlignment.Top;
+                    _gridMain.Children.Add(ctrlTextContainer);
+
+                    // Create and configure row editor
+                    var ctrlValueEdit = editControlFactory.CreateControl(actProperty, _propertyGridVM.PropertyMetadata);
+                    if (ctrlValueEdit != null)
                     {
-                        Height = 1d,
-                        VerticalAlignment = VerticalAlignment.Bottom,
-                        Margin = new Thickness(5d, 5d, 5d, 0d)
-                    };
-                    rect.Classes.Add("PropertyGridCategoryHeaderLine");
+                        _gridMain.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
+                        ctrlValueEdit.Margin = new Thickness(0d, 0d, 5d, 0d);
+                        ctrlValueEdit.VerticalAlignment = VerticalAlignment.Center;
+                        ctrlValueEdit.SetValue(Grid.RowProperty, actRowIndex);
+                        ctrlValueEdit.SetValue(Grid.ColumnProperty, 1);
+                        ctrlValueEdit.DataContext = actProperty;
+                        _gridMain.Children.Add(ctrlValueEdit);
 
-                    rect.SetValue(Grid.RowProperty, actRowIndex);
-                    rect.SetValue(Grid.ColumnSpanProperty, 2);
-                    rect.SetValue(Grid.ColumnProperty, 0);
-                    _gridMain.Children.Add(rect);
+                        _firstValueRowEditor ??= ctrlValueEdit;
+
+                        var helpLinkInfo = actProperty.GetCustomAttribute<HelpFileLinkAttribute>();
+                        if (helpLinkInfo != null)
+                        {
+                            var helpButton = new Button();
+                            helpButton.Content = "?";
+                            helpButton.Width = 32;
+                            helpButton.Height = 32;
+                            helpButton.Margin = new Thickness(2);
+                            helpButton.HorizontalAlignment = HorizontalAlignment.Center;
+                            helpButton.VerticalAlignment = VerticalAlignment.Top;
+                            helpButton.SetValue(Grid.RowProperty, actRowIndex);
+                            helpButton.SetValue(Grid.ColumnProperty, 2);
+                            helpButton.Click += (sender, eArgs) =>
+                            {
+                                var srvHelp = this.TryFindViewService<IHelpViewerService>();
+                                srvHelp?.ShowHelpPage(helpLinkInfo.HelpFileKey);
+                            };
+                            _gridMain.Children.Add(helpButton);
+                        }
+                    }
+                    else
+                    {
+                        _gridMain.RowDefinitions.Add(new RowDefinition(1.0, GridUnitType.Pixel));
+                    }
 
                     actRowIndex++;
                 }
-
-                // Create row header
-                var ctrlTextContainer = new Border();
-                var ctrlText = new TextBlock();
-                ctrlText.Text = actProperty.PropertyDisplayName;
-                ctrlText.VerticalAlignment = VerticalAlignment.Center;
-                ctrlTextContainer.Height = 35.0;
-                ctrlTextContainer.Child = ctrlText;
-                ctrlTextContainer.SetValue(Grid.RowProperty, actRowIndex);
-                ctrlTextContainer.SetValue(Grid.ColumnProperty, 0);
-                ctrlTextContainer.VerticalAlignment = VerticalAlignment.Top;
-                _gridMain.Children.Add(ctrlTextContainer);
-
-                // Create and configure row editor
-                var ctrlValueEdit = editControlFactory.CreateControl(actProperty, _propertyGridVM.PropertyMetadata);
-                if (ctrlValueEdit != null)
+                catch (Exception e)
                 {
-                    _gridMain.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
-                    ctrlValueEdit.Margin = new Thickness(0d, 0d, 5d, 0d);
-                    ctrlValueEdit.VerticalAlignment = VerticalAlignment.Center;
-                    ctrlValueEdit.SetValue(Grid.RowProperty, actRowIndex);
-                    ctrlValueEdit.SetValue(Grid.ColumnProperty, 1);
-                    ctrlValueEdit.DataContext = actProperty;
-                    _gridMain.Children.Add(ctrlValueEdit);
-
-                    _firstValueRowEditor ??= ctrlValueEdit;
-
-                    var helpLinkInfo = actProperty.GetCustomAttribute<HelpFileLinkAttribute>();
-                    if (helpLinkInfo != null)
-                    {
-                        var helpButton = new Button();
-                        helpButton.Content = "?";
-                        helpButton.Width = 32;
-                        helpButton.Height = 32;
-                        helpButton.Margin = new Thickness(2);
-                        helpButton.HorizontalAlignment = HorizontalAlignment.Center;
-                        helpButton.VerticalAlignment = VerticalAlignment.Top;
-                        helpButton.SetValue(Grid.RowProperty, actRowIndex);
-                        helpButton.SetValue(Grid.ColumnProperty, 2);
-                        helpButton.Click += (sender, eArgs) =>
-                        {
-                            var srvHelp = this.TryFindViewService<IHelpViewerService>();
-                            srvHelp?.ShowHelpPage(helpLinkInfo.HelpFileKey);
-                        };
-                        _gridMain.Children.Add(helpButton);
-                    }
+                    CommonErrorHandling.Current.ShowErrorDialog(e);
                 }
-                else
-                {
-                    _gridMain.RowDefinitions.Add(new RowDefinition(1.0, GridUnitType.Pixel));
-                }
-
-                actRowIndex++;
             }
         }
     }

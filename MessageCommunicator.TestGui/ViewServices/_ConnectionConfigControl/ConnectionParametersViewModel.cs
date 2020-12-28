@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using MessageCommunicator.TestGui.Data;
 
 namespace MessageCommunicator.TestGui.ViewServices
@@ -65,7 +66,7 @@ namespace MessageCommunicator.TestGui.ViewServices
         {
             get => _connParameters.RecognizerSettings;
         }
-
+        
         public ConnectionParametersViewModel(ConnectionParameters connParameters)
         {
             _connParameters = connParameters;
