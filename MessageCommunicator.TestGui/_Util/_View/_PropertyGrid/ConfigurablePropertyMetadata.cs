@@ -67,6 +67,12 @@ namespace MessageCommunicator.TestGui
             set;
         }
 
+        public string Description
+        {
+            get;
+            set;
+        }
+
         public Type HostObjectType => _hostObject.GetType();
         
         internal ConfigurablePropertyMetadata(PropertyDescriptor propertyInfo, object hostObject, IPropertyContractResolver? propertyContractResolver)
@@ -88,6 +94,8 @@ namespace MessageCommunicator.TestGui
             {
                 this.PropertyDisplayName = displayNameAttrib.DisplayName;
             }
+
+            this.Description = propertyInfo.Description ?? string.Empty;
 
             var propertyType = _descriptor.PropertyType;
             if (this.GetCustomAttribute<EncodingWebNameAttribute>() != null)

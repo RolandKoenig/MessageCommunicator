@@ -139,6 +139,7 @@ namespace MessageCommunicator.TestGui
                     var ctrlText = new TextBlock();
                     ctrlText.Text = actProperty.PropertyDisplayName;
                     ctrlText.VerticalAlignment = VerticalAlignment.Center;
+                    SetToolTip(ctrlText, actProperty.Description);
                     ctrlTextContainer.Height = 35.0;
                     ctrlTextContainer.Child = ctrlText;
                     ctrlTextContainer.SetValue(Grid.RowProperty, actRowIndex);
@@ -156,6 +157,7 @@ namespace MessageCommunicator.TestGui
                         ctrlValueEdit.SetValue(Grid.RowProperty, actRowIndex);
                         ctrlValueEdit.SetValue(Grid.ColumnProperty, 1);
                         ctrlValueEdit.DataContext = actProperty;
+                        SetToolTip(ctrlValueEdit, actProperty.Description);
                         _gridMain.Children.Add(ctrlValueEdit);
 
                         _firstValueRowEditor ??= ctrlValueEdit;
@@ -172,6 +174,7 @@ namespace MessageCommunicator.TestGui
                             helpButton.VerticalAlignment = VerticalAlignment.Top;
                             helpButton.SetValue(Grid.RowProperty, actRowIndex);
                             helpButton.SetValue(Grid.ColumnProperty, 2);
+                            SetToolTip(helpButton, actProperty.Description);
                             helpButton.Click += (sender, eArgs) =>
                             {
                                 var srvHelp = this.TryFindViewService<IHelpViewerService>();
@@ -193,6 +196,12 @@ namespace MessageCommunicator.TestGui
                     break;
                 }
             }
+        }
+
+        public static void SetToolTip(IAvaloniaObject targetObject, string toolTip)
+        {
+            if (string.IsNullOrEmpty(toolTip)) { return; }
+            targetObject.SetValue(ToolTip.TipProperty, toolTip);
         }
     }
 }

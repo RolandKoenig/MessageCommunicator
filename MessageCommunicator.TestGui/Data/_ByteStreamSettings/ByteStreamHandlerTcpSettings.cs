@@ -15,16 +15,22 @@ namespace MessageCommunicator.TestGui.Data
 
         [Required]
         [Category(CATEGORY)]
+        [Description("IP or hostname of the target host. This parameter is not relevant in passive mode.")]
         public string Target { get; set; } = "127.0.0.1";
 
         [Category(CATEGORY)]
+        [Description("The port to listen or to connect to (depending on the mode).")]
         public ushort Port { get; set; } = 12000;
 
         [Category(CATEGORY)]
+        [Description("Connect to a remote host and port in active mode. " +
+                     "Listen on a local port for incoming connections " +
+                     "(Target parameter not relevant).")]
         public ConnectionMode Mode { get; set; }
 
         [Category(CATEGORY)]
         [DisplayName("Receive Timeout (Sec)")]
+        [Description("When no packages are received during the given timespan, than a reconnect will be triggered")]
         public int ReceiveTimeoutSec { get; set; } = 40;
 
         /// <inheritdoc />

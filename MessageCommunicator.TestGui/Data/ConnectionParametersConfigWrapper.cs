@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using MessageCommunicator.TestGui.Data;
 
-namespace MessageCommunicator.TestGui.ViewServices
+namespace MessageCommunicator.TestGui.Data
 {
-    public class ConnectionParametersViewModel : PropertyChangedBase
+    public class ConnectionParametersConfigWrapper : PropertyChangedBase
     {
         private const string CATEGORY = "Connection";
 
@@ -24,7 +24,8 @@ namespace MessageCommunicator.TestGui.ViewServices
         [Category(CATEGORY)]
         [HelpFileLink("ByteStreamHandler")]
         [DisplayName("ByteStreamHandler")]
-        public ByteStreamMode ByteStreamMode
+        [Description("The ByteStreamHandler is responsible for sending and receiving binary packages.")]
+        public ByteStreamMode ByteStreamHandler
         {
             get => _connParameters.ByteStreamMode;
             set
@@ -32,16 +33,16 @@ namespace MessageCommunicator.TestGui.ViewServices
                 if (_connParameters.ByteStreamMode != value)
                 {
                     _connParameters.ByteStreamMode = value;
-                    this.RaisePropertyChanged(nameof(this.ByteStreamMode));
+                    this.RaisePropertyChanged(nameof(this.ByteStreamHandler));
 
                     _connParameters.ByteStreamSettings = ByteStreamSettingsFactory.CreateSettings(value);
-                    this.RaisePropertyChanged(nameof(this.ByteStreamSettings));
+                    this.RaisePropertyChanged(nameof(this.ByteStreamHandlerSettings));
                 }
             }
         }
 
         [Browsable(false)]
-        public object ByteStreamSettings => _connParameters.ByteStreamSettings;
+        public object ByteStreamHandlerSettings => _connParameters.ByteStreamSettings;
 
         [Category(CATEGORY)]
         [HelpFileLink("MessageRecognizer")]
@@ -56,18 +57,18 @@ namespace MessageCommunicator.TestGui.ViewServices
                     this.RaisePropertyChanged(nameof(this.MessageRecognizer));
 
                     _connParameters.RecognizerSettings = MessageRecognizerSettingsFactory.CreateSettings(value);
-                    this.RaisePropertyChanged(nameof(this.RecognizerSettings));
+                    this.RaisePropertyChanged(nameof(this.MessageRecognizerSettings));
                 }
             }
         }
 
         [Browsable(false)]
-        public object RecognizerSettings
+        public object MessageRecognizerSettings
         {
             get => _connParameters.RecognizerSettings;
         }
         
-        public ConnectionParametersViewModel(ConnectionParameters connParameters)
+        public ConnectionParametersConfigWrapper(ConnectionParameters connParameters)
         {
             _connParameters = connParameters;
         }
