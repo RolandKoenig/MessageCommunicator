@@ -15,10 +15,13 @@ namespace MessageCommunicator.TestGui
 {
     internal static class Program
     {
+        // Dependencies for .Net 5 App Trimming
+        //  INotifyDataErrorInfo -> Without that we get binding errors in the PropertyGrid
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(INotifyDataErrorInfo))] 
+        
         // Initialization code. Don't use any Avalonia, third-party APIs or any
         // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
         // yet and stuff might break.
-        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(INotifyDataErrorInfo))]
         public static void Main(string[] args)
         {
             try
@@ -27,8 +30,8 @@ namespace MessageCommunicator.TestGui
                 BuildAvaloniaApp()
                     .StartWithClassicDesktopLifetime(args);
             }
-            catch (Exception e)
-            {
+            catch (Exception e) 
+            { 
                 CommonErrorHandling.Current.HandleFatalException(e);
             }
         }
