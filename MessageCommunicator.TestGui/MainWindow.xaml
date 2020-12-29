@@ -10,7 +10,7 @@
         Icon="Assets/MessageCommunicator.ico"
         x:Class="MessageCommunicator.TestGui.MainWindow"
         Title="MessageCommunicator">
-    <Window.Resources>
+    <!--<Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="/Assets/Icons.xaml" />
@@ -31,7 +31,7 @@
         <StyleInclude Source="/Assets/Styles/Light.xaml" />
       
         <StyleInclude Source="/Assets/Common.xaml" />
-    </Window.Styles>
+    </Window.Styles>-->
   
     <Grid>
         <Grid x:Name="CtrlMainContent">

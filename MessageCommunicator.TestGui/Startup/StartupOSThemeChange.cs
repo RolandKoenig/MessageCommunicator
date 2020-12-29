@@ -29,7 +29,7 @@ namespace MessageCommunicator.TestGui.Startup
                             syncContext.Post(args =>
                             {
                                 MessageBus.Current.SendMessage(
-                                    new MessageOSThemeChangeRequest(WindowsThemeToMessageCommunicator(newTheme)));
+                                    new MessageThemeChangeRequest(WindowsThemeToMessageCommunicator(newTheme)));
                             }, null);
                         });
                     }

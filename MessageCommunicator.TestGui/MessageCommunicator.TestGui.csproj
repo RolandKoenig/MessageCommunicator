@@ -26,6 +26,8 @@
     <AvaloniaResource Include="Assets\Docs\Resources\ByteStreamHandlerSettings.png" />
     <None Remove="Assets\Docs\Resources\MessageRecognizerSettings.png" />
     <AvaloniaResource Include="Assets\Docs\Resources\MessageRecognizerSettings.png" />
+    <None Remove="Assets\MessageCommunicator.ico" />
+    <AvaloniaResource Include="Assets\MessageCommunicator.ico" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.12" />
@@ -40,15 +42,11 @@
     <PackageReference Include="System.Management" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <AvaloniaResource Include="Assets\*" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="Assets\Docs\Home.md" />
     <None Remove="Assets\Docs\ByteStreamHandler.md" />
     <None Remove="Assets\Docs\Images\Testing.png" />
     <None Remove="Assets\Docs\Resources\Testing.png" />
     <None Remove="Assets\Icons.xaml" />
-    <None Remove="Assets\MessageCommunicator.ico" />
     <None Remove="Assets\Styles\Common.xaml" />
     <None Remove="MessageCommunicator.TestGui.csproj.DotSettings" />
     <None Remove="ViewServices\_AboutDialog\AboutDialogControl.xaml" />

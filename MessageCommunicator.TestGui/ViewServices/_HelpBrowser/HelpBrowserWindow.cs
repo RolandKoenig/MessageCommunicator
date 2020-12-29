@@ -11,6 +11,10 @@ namespace MessageCommunicator.TestGui.ViewServices
         {
             AvaloniaXamlLoader.Load(this);
             
+            // Register this window on App object
+            App.CurrentApp.RegisterWindow(this);
+            
+            // Configure markdown viewer
             var markdownViewer = this.FindControl<MarkdownScrollViewer>("CtrlMarkdownViewer");
             markdownViewer.Engine.BitmapLoader = new HelpBitmapLoader(
                 Assembly.GetExecutingAssembly(),

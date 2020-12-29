@@ -10,16 +10,16 @@ using ReactiveUI;
 
 namespace MessageCommunicator.TestGui
 {
-    public class MainWindow : OwnWindow<MainWindowViewModel>, IWeakMessageTarget<MessageOSThemeChangeRequest>
+    public class MainWindow : OwnWindow<MainWindowViewModel>
     {
         public MainWindow()
         {
             AvaloniaXamlLoader.Load(this);
 
-            // Apply initial theme
-            this.SetTheme(MessageCommunicatorGlobalProperties.Current.CurrentTheme);
-            MessageBus.Current.ListenWeak(this);
+            // Register this window on App object
+            App.CurrentApp.RegisterWindow(this);
 
+            // Update title
             var versionInfoAttrib = Assembly.GetExecutingAssembly()
                 .GetCustomAttribute<AssemblyInformationalVersionAttribute>();
             var versionString = versionInfoAttrib?.InformationalVersion ?? "";
@@ -37,7 +37,6 @@ namespace MessageCommunicator.TestGui
             this.ViewServices.Add(new OpenFileDialogService(this));
             this.ViewServices.Add(new AboutDialogService(ctrlDialogHost));
             this.ViewServices.Add(new HelpBrowserService(this, helpRepo));
-            //this.ViewServices.Add(new HelpViewerService(ctrlDialogHost, helpRepo));
 
             // Load initial main view model
             this.ViewModel = new MainWindowViewModel();
@@ -51,29 +50,6 @@ namespace MessageCommunicator.TestGui
             CommonErrorHandling.Current.MainWindow = this;
         }
 
-        private void SetTheme(MessageCommunicatorTheme theme)
-        {
-            switch (theme)
-            {
-                case MessageCommunicatorTheme.Light:
-                    this.Styles[0] = (StyleInclude) this.Resources["ThemeLight"];
-                    this.Styles[1] = (StyleInclude) this.Resources["ThemeLightCustom"];
-                    MessageCommunicatorGlobalProperties.Current.CurrentTheme = MessageCommunicatorTheme.Light;
-                    MessageBus.Current.SendMessage(new MessageThemeChanged(MessageCommunicatorTheme.Light));
-                    break;
-                
-                case MessageCommunicatorTheme.Dark:
-                    this.Styles[0] = (StyleInclude) this.Resources["ThemeDark"];
-                    this.Styles[1] = (StyleInclude) this.Resources["ThemeDarkCustom"];
-                    MessageCommunicatorGlobalProperties.Current.CurrentTheme = MessageCommunicatorTheme.Dark;
-                    MessageBus.Current.SendMessage(new MessageThemeChanged(MessageCommunicatorTheme.Dark));
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(theme), theme, null);
-            }
-        }
-
         private void OnMnuExit_PointerPressed(object sender, PointerPressedEventArgs eArgs)
         {
             this.Close();
@@ -81,18 +57,12 @@ namespace MessageCommunicator.TestGui
 
         private void OnMnuThemeLight_PointerPressed(object sender, PointerPressedEventArgs eArgs)
         {
-            this.SetTheme(MessageCommunicatorTheme.Light);
+            MessageBus.Current.SendMessage(new MessageThemeChangeRequest(MessageCommunicatorTheme.Light));
         }
 
         private void OnMnuThemeDark_PointerPressed(object sender, PointerPressedEventArgs eArgs)
         {
-            this.SetTheme(MessageCommunicatorTheme.Dark);
-        }
-
-        /// <inheritdoc />
-        public void OnMessage(MessageOSThemeChangeRequest message)
-        {
-            this.SetTheme(message.NewTheme);
+            MessageBus.Current.SendMessage(new MessageThemeChangeRequest(MessageCommunicatorTheme.Dark));
         }
     }
 }

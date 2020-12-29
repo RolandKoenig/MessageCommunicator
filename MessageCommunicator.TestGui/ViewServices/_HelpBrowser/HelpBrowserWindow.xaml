@@ -10,14 +10,12 @@
         Width="810" Height="400"
         x:Class="MessageCommunicator.TestGui.ViewServices.HelpBrowserWindow"
         Title="{Binding Path=WindowTitle}">
-    <Window.Resources>
+    <!-- <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="/Assets/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
-          
-            <!-- <local:ConnectionStateToColorConverter x:Key="ConnStateConverter" /> -->
-
+            
             <StyleInclude x:Key="ThemeLight" Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml" />
             <StyleInclude x:Key="ThemeLightCustom" Source="/Assets/Styles/Light.xaml" />
             
@@ -31,7 +29,7 @@
         <StyleInclude Source="/Assets/Styles/Light.xaml" />
       
         <StyleInclude Source="/Assets/Common.xaml" />
-    </Window.Styles>
+    </Window.Styles>-->
     
     <DockPanel LastChildFill="True">
         <StackPanel DockPanel.Dock="Bottom" 

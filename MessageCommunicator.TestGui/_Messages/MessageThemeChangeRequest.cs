@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace MessageCommunicator.TestGui
 {
-    public class MessageOSThemeChangeRequest
+    public class MessageThemeChangeRequest
     {
         public MessageCommunicatorTheme NewTheme { get; }
 
-        public MessageOSThemeChangeRequest(MessageCommunicatorTheme newTheme)
+        public MessageThemeChangeRequest(MessageCommunicatorTheme newTheme)
         {
             this.NewTheme = newTheme;
         }
