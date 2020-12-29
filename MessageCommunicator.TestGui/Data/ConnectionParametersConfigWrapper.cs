@@ -15,6 +15,7 @@ namespace MessageCommunicator.TestGui.Data
 
         [Required]
         [Category(CATEGORY)]
+        [Description("A unique profile name.")]
         public string Name
         {
             get => _connParameters.Name;
@@ -25,38 +26,40 @@ namespace MessageCommunicator.TestGui.Data
         [HelpFileLink("ByteStreamHandler")]
         [DisplayName("ByteStreamHandler")]
         [Description("The ByteStreamHandler is responsible for sending and receiving binary packages.")]
-        public ByteStreamMode ByteStreamHandler
+        public ByteStreamHandlerType ByteStreamHandlerType
         {
-            get => _connParameters.ByteStreamMode;
+            get => _connParameters.ByteStreamHandlerType;
             set
             {
-                if (_connParameters.ByteStreamMode != value)
+                if (_connParameters.ByteStreamHandlerType != value)
                 {
-                    _connParameters.ByteStreamMode = value;
-                    this.RaisePropertyChanged(nameof(this.ByteStreamHandler));
+                    _connParameters.ByteStreamHandlerType = value;
+                    this.RaisePropertyChanged(nameof(this.ByteStreamHandlerType));
 
-                    _connParameters.ByteStreamSettings = ByteStreamSettingsFactory.CreateSettings(value);
+                    _connParameters.ByteStreamHandlerSettings = ByteStreamSettingsFactory.CreateSettings(value);
                     this.RaisePropertyChanged(nameof(this.ByteStreamHandlerSettings));
                 }
             }
         }
 
         [Browsable(false)]
-        public object ByteStreamHandlerSettings => _connParameters.ByteStreamSettings;
+        public object ByteStreamHandlerSettings => _connParameters.ByteStreamHandlerSettings;
 
         [Category(CATEGORY)]
         [HelpFileLink("MessageRecognizer")]
-        public MessageRecognitionMode MessageRecognizer
+        [Description("The MessageRecognizer is responsible to wrap outgoing messages with the right information like " +
+                     "common header or end-symbols.")]
+        public MessageRecognizerType MessageRecognizerType
         {
-            get => _connParameters.RecognitionMode;
+            get => _connParameters.MessageRecognizerType;
             set
             {
-                if (_connParameters.RecognitionMode != value)
+                if (_connParameters.MessageRecognizerType != value)
                 {
-                    _connParameters.RecognitionMode = value;
-                    this.RaisePropertyChanged(nameof(this.MessageRecognizer));
+                    _connParameters.MessageRecognizerType = value;
+                    this.RaisePropertyChanged(nameof(this.MessageRecognizerType));
 
-                    _connParameters.RecognizerSettings = MessageRecognizerSettingsFactory.CreateSettings(value);
+                    _connParameters.MessageRecognizerSettings = MessageRecognizerSettingsFactory.CreateSettings(value);
                     this.RaisePropertyChanged(nameof(this.MessageRecognizerSettings));
                 }
             }
@@ -65,7 +68,7 @@ namespace MessageCommunicator.TestGui.Data
         [Browsable(false)]
         public object MessageRecognizerSettings
         {
-            get => _connParameters.RecognizerSettings;
+            get => _connParameters.MessageRecognizerSettings;
         }
         
         public ConnectionParametersConfigWrapper(ConnectionParameters connParameters)

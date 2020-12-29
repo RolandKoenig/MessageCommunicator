@@ -101,10 +101,10 @@ namespace MessageCommunicator.TestGui.Logic
             IMessageCommunicatorLogger messageCommunicatorLogger)
         {
             // Create stream handler settings
-            ByteStreamHandlerSettings streamHandlerSettings = connParams.ByteStreamSettings.CreateLibSettings();
+            ByteStreamHandlerSettings streamHandlerSettings = connParams.ByteStreamHandlerSettings.CreateLibSettings();
 
             // Create message recognizer settings
-            var messageRecognizerSettings = connParams.RecognizerSettings.CreateLibSettings();
+            var messageRecognizerSettings = connParams.MessageRecognizerSettings.CreateLibSettings();
 
             // Create the message channel
             return new MessageChannel(

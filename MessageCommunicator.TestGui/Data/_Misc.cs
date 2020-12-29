@@ -1,6 +1,6 @@
 ﻿namespace MessageCommunicator.TestGui.Data
 {
-    public enum ByteStreamMode
+    public enum ByteStreamHandlerType
     {
         Tcp = 0,
 
@@ -16,7 +16,7 @@
         Active = 1
     }
 
-    public enum MessageRecognitionMode
+    public enum MessageRecognizerType
     {
         Default = 0,
 

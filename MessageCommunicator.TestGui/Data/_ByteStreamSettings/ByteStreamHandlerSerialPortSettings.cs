@@ -17,6 +17,7 @@ namespace MessageCommunicator.TestGui.Data
         [Required]
         [Category(CATEGORY)]
         [DisplayName("Port")]
+        [Description("The COM port through which to communicate.")]
         [FixedPossibleValues(nameof(GetPossiblePortNames))]
         public string PortName
         {
@@ -26,36 +27,45 @@ namespace MessageCommunicator.TestGui.Data
 
         [Category(CATEGORY)]
         [DisplayName("Baud Rate")]
+        [Description("The serial baud rate.")]
         public int BaudRate { get; set; } = 9600;
 
         [Category(CATEGORY)]
         [DisplayName("Data Bits")]
+        [Description("The standard length of data bits per byte.")]
         public int DataBits { get; set; } = 8;
 
         [Category(CATEGORY)]
         [DisplayName("Stop Bits")]
+        [Description("The standard number of stop bits per byte.")]
         public StopBits StopBits { get; set; } = StopBits.One;
 
         [Category(CATEGORY)]
+        [Description("The handshaking protocol for communication.")]
         public Handshake Handshake { get; set; } = Handshake.None;
 
         [Category(CATEGORY)]
         [DisplayName("Read Timeout")]
+        [Description("The number of milliseconds before a timeout occurs when a read operation does not finish.")]
         public int ReadTimeout { get; set; } = -1;
 
         [Category(CATEGORY)]
         [DisplayName("Write Timeout")]
+        [Description("The number of milliseconds before a timeout occurs when a write operation does not finish.")]
         public int WriteTimeout { get; set; } = -1;
 
         [Category(CATEGORY)]
+        [Description("The parity-checking protocol.")]
         public Parity Parity { get; set; } = Parity.None;
 
         [Category(CATEGORY)]
         [DisplayName("Dtr Enabled")]
+        [Description("Is Data Terminal Ready (DTR) signal enabled?")]
         public bool DtrEnable { get; set; } = false;
 
         [Category(CATEGORY)]
         [DisplayName("Rts Enabled")]
+        [Description("Is Request to Send (RTS) signal enabled?")]
         public bool RtsEnable { get; set; } = false;
 
         /// <inheritdoc />

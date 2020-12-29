@@ -24,6 +24,8 @@
     </Compile>
     <None Remove="Assets\Docs\Resources\ByteStreamHandlerSettings.png" />
     <AvaloniaResource Include="Assets\Docs\Resources\ByteStreamHandlerSettings.png" />
+    <None Remove="Assets\Docs\Resources\MessageRecognizerSettings.png" />
+    <AvaloniaResource Include="Assets\Docs\Resources\MessageRecognizerSettings.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.12" />

@@ -6,30 +6,30 @@ namespace MessageCommunicator.TestGui.Data
 {
     internal static class MessageRecognizerSettingsFactory
     {
-        public static IMessageRecognizerAppSettings CreateSettings(MessageRecognitionMode recognitionMode)
+        public static IMessageRecognizerAppSettings CreateSettings(MessageRecognizerType recognizerType)
         {
-            switch (recognitionMode)
+            switch (recognizerType)
             {
-                case MessageRecognitionMode.Default:
+                case MessageRecognizerType.Default:
                     return new MessageRecognizerDefaultSettings();
 
-                case MessageRecognitionMode.EndSymbol:
+                case MessageRecognizerType.EndSymbol:
                     return new MessageRecognizerEndSymbolSettings();
 
-                case MessageRecognitionMode.FixedLength:
+                case MessageRecognizerType.FixedLength:
                     return new MessageRecognizerFixedLengthSettings();
 
-                case MessageRecognitionMode.FixedLengthAndEndSymbol:
+                case MessageRecognizerType.FixedLengthAndEndSymbol:
                     return new MessageRecognizerFixedLengthAndEndSymbolsSettings();
 
-                case MessageRecognitionMode.StartAndEndSymbol:
+                case MessageRecognizerType.StartAndEndSymbol:
                     return new MessageRecognizerStartAndEndSymbolSettings();
 
-                case MessageRecognitionMode.ByUnderlyingPackage:
+                case MessageRecognizerType.ByUnderlyingPackage:
                     return new MessageRecognizerByUnderlyingPackageSettings();
 
                 default:
-                    throw new ApplicationException($"Unknown message recognition mode: {recognitionMode}");
+                    throw new ApplicationException($"Unknown message recognition mode: {recognizerType}");
             }
         }
     }

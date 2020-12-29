@@ -6,21 +6,21 @@ namespace MessageCommunicator.TestGui.Data
 {
     internal static class ByteStreamSettingsFactory
     {
-        public static IByteStreamHandlerAppSettings CreateSettings(ByteStreamMode byteStreamMode)
+        public static IByteStreamHandlerAppSettings CreateSettings(ByteStreamHandlerType byteStreamHandlerType)
         {
-            switch (byteStreamMode)
+            switch (byteStreamHandlerType)
             {
-                case ByteStreamMode.Tcp:
+                case ByteStreamHandlerType.Tcp:
                     return new ByteStreamHandlerTcpSettings();
 
-                case ByteStreamMode.Udp:
+                case ByteStreamHandlerType.Udp:
                     return new ByteStreamHandlerUdpSettings();
 
-                case ByteStreamMode.SerialPort:
+                case ByteStreamHandlerType.SerialPort:
                     return new ByteStreamHandlerSerialPortSettings();
 
                 default:
-                    throw new ApplicationException($"Unknown ByteStreamMode: {byteStreamMode}");
+                    throw new ApplicationException($"Unknown ByteStreamMode: {byteStreamHandlerType}");
             }
         }
     }

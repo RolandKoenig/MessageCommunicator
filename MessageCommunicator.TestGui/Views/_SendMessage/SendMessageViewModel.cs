@@ -87,7 +87,7 @@ namespace MessageCommunicator.TestGui.Views
                         break;
 
                     case SendFormattingMode.BinaryHex:
-                        var encoding = Encoding.GetEncoding(connProfile.Parameters.RecognizerSettings.Encoding);
+                        var encoding = Encoding.GetEncoding(connProfile.Parameters.MessageRecognizerSettings.Encoding);
                         message = encoding.GetString(HexFormatUtil.ToByteArray(message));
                         break;
 

@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.ComponentModel;
 using Newtonsoft.Json;
 
 namespace MessageCommunicator.TestGui.Data
@@ -9,15 +10,17 @@ namespace MessageCommunicator.TestGui.Data
         public string Name { get; set; } = "New Profile";
 
         [JsonProperty("ByteStreamMode")]
-        public ByteStreamMode ByteStreamMode { get; set; } = ByteStreamMode.Tcp;
+        public ByteStreamHandlerType ByteStreamHandlerType { get; set; } = ByteStreamHandlerType.Tcp;
 
-        public IByteStreamHandlerAppSettings ByteStreamSettings { get; set; } =
-            ByteStreamSettingsFactory.CreateSettings(ByteStreamMode.Tcp);
+        [JsonProperty("ByteStreamSettings")]
+        public IByteStreamHandlerAppSettings ByteStreamHandlerSettings { get; set; } =
+            ByteStreamSettingsFactory.CreateSettings(ByteStreamHandlerType.Tcp);
 
         [JsonProperty("RecognitionMode")]
-        public MessageRecognitionMode RecognitionMode { get; set; } = MessageRecognitionMode.Default;
+        public MessageRecognizerType MessageRecognizerType { get; set; } = MessageRecognizerType.Default;
 
-        public IMessageRecognizerAppSettings RecognizerSettings { get; set; } =
-            MessageRecognizerSettingsFactory.CreateSettings(MessageRecognitionMode.Default);
+        [JsonProperty("RecognizerSettings")]
+        public IMessageRecognizerAppSettings MessageRecognizerSettings { get; set; } =
+            MessageRecognizerSettingsFactory.CreateSettings(MessageRecognizerType.Default);
     }
 }
