@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\Docs\Home.md" />
+    <EmbeddedResource Include="Assets\Docs\Profile.md" />
     <EmbeddedResource Include="Assets\Docs\ByteStreamHandler.md" />
     <EmbeddedResource Include="Assets\Docs\MessageRecognizer.md" />
   </ItemGroup>

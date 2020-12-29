@@ -14,16 +14,19 @@ namespace MessageCommunicator.TestGui.Data
         [EncodingWebName]
         [Required]
         [Category(CATEGORY)]
+        [Description("Character encoding for communication.")]
         public string Encoding { get; set; } = "utf-8";
 
         [Category(CATEGORY)]
         [Required]
         [TextAndHexadecimalEdit(nameof(Encoding))]
+        [Description("One or more characters which mark the start of a message.")]
         public string StartSymbols { get; set; } = string.Empty;
 
         [Category(CATEGORY)]
         [Required]
         [TextAndHexadecimalEdit(nameof(Encoding))]
+        [Description("One or more characters which mark the end of a message.")]
         public string EndSymbols { get; set; } = string.Empty;
 
         /// <inheritdoc />
