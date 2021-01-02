@@ -10,34 +10,12 @@
         Icon="Assets/MessageCommunicator.ico"
         x:Class="MessageCommunicator.TestGui.MainWindow"
         Title="MessageCommunicator">
-    <!--<Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceInclude Source="/Assets/Icons.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-          
-            <local:ConnectionStateToColorConverter x:Key="ConnStateConverter" />
-
-            <StyleInclude x:Key="ThemeLight" Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml" />
-            <StyleInclude x:Key="ThemeLightCustom" Source="/Assets/Styles/Light.xaml" />
-            
-            <StyleInclude x:Key="ThemeDark" Source="avares://Avalonia.Themes.Default/Accents/BaseDark.xaml" />
-            <StyleInclude x:Key="ThemeDarkCustom" Source="/Assets/Styles/Dark.xaml" />
-        </ResourceDictionary>
-    </Window.Resources>
- 
-    <Window.Styles>
-        <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml" />
-        <StyleInclude Source="/Assets/Styles/Light.xaml" />
-      
-        <StyleInclude Source="/Assets/Common.xaml" />
-    </Window.Styles>-->
-  
     <Grid>
         <Grid x:Name="CtrlMainContent">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="250" MinWidth="100" />
@@ -183,6 +161,13 @@
                 </DockPanel>
 
             </HeaderedContentControl>
+            
+            <!-- Status bar -->
+            <Grid Grid.Row="2" Grid.ColumnSpan="3">
+                <StackPanel HorizontalAlignment="Right">
+                    <TextBlock Margin="3" Text="Status text" />
+                </StackPanel>
+            </Grid>
         </Grid>
       
         <local:DialogHostControl Name="CrtlDialogHost"

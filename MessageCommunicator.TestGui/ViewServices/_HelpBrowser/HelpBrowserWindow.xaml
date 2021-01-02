@@ -10,27 +10,7 @@
         Width="810" Height="400"
         x:Class="MessageCommunicator.TestGui.ViewServices.HelpBrowserWindow"
         Title="{Binding Path=WindowTitle}">
-    <!-- <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceInclude Source="/Assets/Icons.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-            
-            <StyleInclude x:Key="ThemeLight" Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml" />
-            <StyleInclude x:Key="ThemeLightCustom" Source="/Assets/Styles/Light.xaml" />
-            
-            <StyleInclude x:Key="ThemeDark" Source="avares://Avalonia.Themes.Default/Accents/BaseDark.xaml" />
-            <StyleInclude x:Key="ThemeDarkCustom" Source="/Assets/Styles/Dark.xaml" />
-        </ResourceDictionary>
-    </Window.Resources>
-    
-    <Window.Styles>
-        <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml" />
-        <StyleInclude Source="/Assets/Styles/Light.xaml" />
-      
-        <StyleInclude Source="/Assets/Common.xaml" />
-    </Window.Styles>-->
-    
+   
     <DockPanel LastChildFill="True">
         <StackPanel DockPanel.Dock="Bottom" 
                     Orientation="Horizontal" HorizontalAlignment="Right">

@@ -17,8 +17,8 @@ namespace MessageCommunicator.TestGui
     {
         // Dependencies for .Net 5 App Trimming
         //  INotifyDataErrorInfo -> Without that we get binding errors in the PropertyGrid
-        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(INotifyDataErrorInfo))] 
-        
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(INotifyDataErrorInfo))]
+
         // Initialization code. Don't use any Avalonia, third-party APIs or any
         // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
         // yet and stuff might break.

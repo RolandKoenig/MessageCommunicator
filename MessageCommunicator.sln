@@ -51,6 +51,8 @@ Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "MessageCommunicator.WinApp"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageCommunicator.SerialPorts", "MessageCommunicator.SerialPorts\MessageCommunicator.SerialPorts.csproj", "{1AC0E46B-95A6-48CC-8435-3B084A01151D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{43317525-1226-4299-9444-6DBF06A5F943}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
