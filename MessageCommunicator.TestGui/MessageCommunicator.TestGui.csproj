@@ -28,6 +28,12 @@
     <AvaloniaResource Include="Assets\Docs\Resources\MessageRecognizerSettings.png" />
     <None Remove="Assets\MessageCommunicator.ico" />
     <AvaloniaResource Include="Assets\MessageCommunicator.ico" />
+    <AvaloniaResource Update="Views\_ReleaseCheck\SendMessageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaResource>
+    <Compile Update="Views\_ReleaseCheck\ReleaseCheckView.xaml.cs">
+      <DependentUpon>ReleaseCheckView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.12" />

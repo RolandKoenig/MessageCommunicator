@@ -164,9 +164,7 @@
             
             <!-- Status bar -->
             <Grid Grid.Row="2" Grid.ColumnSpan="3">
-                <StackPanel HorizontalAlignment="Right">
-                    <TextBlock Margin="3" Text="Status text" />
-                </StackPanel>
+                <localViews:ReleaseCheckView HorizontalAlignment="Right" />
             </Grid>
         </Grid>
       

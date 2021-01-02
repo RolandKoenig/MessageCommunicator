@@ -1,0 +1,14 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:MessageCommunicator.TestGui.Views;assembly=MessageCommunicator.TestGui"
+             xmlns:localRoot="clr-namespace:MessageCommunicator.TestGui;assembly=MessageCommunicator.TestGui"
+             mc:Ignorable="d"
+             d:Width="400" d:Height="400"
+             x:Class="MessageCommunicator.TestGui.Views.ReleaseCheckView">
+    <StackPanel Orientation="Horizontal">
+        <TextBlock Text="{Binding Path=StatusText}"
+                   Margin="2"/>
+    </StackPanel>
+</UserControl>

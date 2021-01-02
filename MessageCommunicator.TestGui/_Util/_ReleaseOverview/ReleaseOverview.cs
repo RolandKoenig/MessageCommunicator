@@ -14,7 +14,7 @@ namespace MessageCommunicator.TestGui
     {
         private const string URL = "https://www.rolandk.de/releases/message_communicator.json";
         
-        public static async Task<ReleaseInformation?> GetLatestRelease()
+        public static async Task<ReleaseInformation?> GetLatestReleaseAsync()
         {
             using (HttpClient client = new HttpClient())
             {
@@ -32,7 +32,7 @@ namespace MessageCommunicator.TestGui
                     using (var jsonReader = new JsonTextReader(inStreamReader))
                     {
                         dynamic jObject = JsonSerializer.CreateDefault().Deserialize(jsonReader!)!;
-                        string version = jObject.tag_name;
+                        string version = jObject[0].version;
                         return new ReleaseInformation(
                             Version.Parse(version));
                     }
