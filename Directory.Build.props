@@ -3,7 +3,7 @@
     <Authors>Roland König</Authors>
     <Company>Roland König</Company>
     <Description>Cross-platform Library for message based communication (Tcp, ...).</Description>
-    <Copyright>©2020 by Roland König</Copyright>
+    <Copyright>©2021 by Roland König</Copyright>
     <PackageProjectUrl>https://github.com/RolandKoenig/MessageCommunicator</PackageProjectUrl>
     <RepositoryUrl>https://github.com/RolandKoenig/MessageCommunicator.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
