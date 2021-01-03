@@ -31,7 +31,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{912C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{61C4FD8C-A0BC-4050-BD6C-1D48B45302E7}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\build-and-test.yml = .github\workflows\build-and-test.yml
+		.github\workflows\ubuntu_build-and-test.yml = .github\workflows\ubuntu_build-and-test.yml
+		.github\workflows\windows_build-and-test.yml = .github\workflows\windows_build-and-test.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WikiImages", "WikiImages", "{2B5F93AC-82F3-486D-8A44-07E2E21FA6A9}"
@@ -50,20 +51,6 @@ EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "MessageCommunicator.WinApp", "MessageCommunicator.WinApp\MessageCommunicator.WinApp.wapproj", "{C0147D75-D7F9-4D6A-AB94-4B5308B15F8A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageCommunicator.SerialPorts", "MessageCommunicator.SerialPorts\MessageCommunicator.SerialPorts.csproj", "{1AC0E46B-95A6-48CC-8435-3B084A01151D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{43317525-1226-4299-9444-6DBF06A5F943}"
-ProjectSection(SolutionItems) = preProject
-	docs\ByteStreamHandler.md = docs\ByteStreamHandler.md
-	docs\Home.md = docs\Home.md
-	docs\MessageRecognizer.md = docs\MessageRecognizer.md
-	docs\Profile.md = docs\Profile.md
-EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{EA6DE818-9931-4DA6-B34A-7E9D285B588C}"
-ProjectSection(SolutionItems) = preProject
-	docs\Resources\ByteStreamHandlerSettings.png = docs\Resources\ByteStreamHandlerSettings.png
-	docs\Resources\MessageRecognizerSettings.png = docs\Resources\MessageRecognizerSettings.png
-EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -132,7 +119,6 @@ Global
 		{61C4FD8C-A0BC-4050-BD6C-1D48B45302E7} = {912C279A-570B-490B-B610-5357670BF0D8}
 		{2B5F93AC-82F3-486D-8A44-07E2E21FA6A9} = {8E0807B9-6F5F-4BB1-AA23-2AED4FD99B71}
 		{C55F0A61-2E52-49DF-8BF0-86288AC9DAC6} = {8E0807B9-6F5F-4BB1-AA23-2AED4FD99B71}
-		{EA6DE818-9931-4DA6-B34A-7E9D285B588C} = {43317525-1226-4299-9444-6DBF06A5F943}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F611EC5F-305C-4179-91F2-741C52DAAFA0}
