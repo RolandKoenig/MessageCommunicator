@@ -10,6 +10,7 @@ namespace MessageCommunicator.TestGui
     {
         private static readonly Dictionary<MessageCommunicatorTheme, IBrush> s_brushesPositive;
         private static readonly Dictionary<MessageCommunicatorTheme, IBrush> s_brushesNegative;
+        private static readonly Dictionary<MessageCommunicatorTheme, IBrush> s_brushesNegativeSoft;
         private static readonly Dictionary<MessageCommunicatorTheme, IBrush> s_brushesNeutral;
 
         private IconBrushStyle _brushStyle;
@@ -24,6 +25,10 @@ namespace MessageCommunicator.TestGui
             s_brushesNegative[MessageCommunicatorTheme.Light] = Brushes.Red;
             s_brushesNegative[MessageCommunicatorTheme.Dark] = Brushes.Red;
 
+            s_brushesNegativeSoft = new Dictionary<MessageCommunicatorTheme, IBrush>(2);
+            s_brushesNegativeSoft[MessageCommunicatorTheme.Light] = Brushes.Goldenrod;
+            s_brushesNegativeSoft[MessageCommunicatorTheme.Dark] = Brushes.Yellow;
+            
             s_brushesNeutral = new Dictionary<MessageCommunicatorTheme, IBrush>(2);
             s_brushesNeutral[MessageCommunicatorTheme.Light] = new SolidColorBrush(new Color(255, 70, 70, 70));
             s_brushesNeutral[MessageCommunicatorTheme.Dark] = new SolidColorBrush(new Color(255, 170, 170, 170));
@@ -51,6 +56,11 @@ namespace MessageCommunicator.TestGui
 
                 case IconBrushStyle.Negative:
                     this.Brush = s_brushesNegative[currentTheme];
+                    this.Pen = null;
+                    break;
+                
+                case IconBrushStyle.NegativeSoft:
+                    this.Brush = s_brushesNegativeSoft[currentTheme];
                     this.Pen = null;
                     break;
 

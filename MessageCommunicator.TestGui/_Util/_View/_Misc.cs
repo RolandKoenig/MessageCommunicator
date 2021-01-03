@@ -19,7 +19,9 @@ namespace MessageCommunicator.TestGui
         Positive,
 
         Negative,
+        
+        NegativeSoft,
 
-        Neutral
+        Neutral,
     }
 }

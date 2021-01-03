@@ -1,4 +1,7 @@
-﻿using Avalonia.Controls;
+﻿using System.ComponentModel;
+using System.Reactive.Disposables;
+using System.Threading;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 namespace MessageCommunicator.TestGui.Views
@@ -8,11 +11,16 @@ namespace MessageCommunicator.TestGui.Views
         public ReleaseCheckView()
         {
             AvaloniaXamlLoader.Load(this);
-
+            
             if (!Design.IsDesignMode)
             {
                 var viewModel = new ReleaseCheckViewModel();
-                viewModel.TriggerRequest();
+                
+                SynchronizationContext.Current!.Post((arg) =>
+                {
+                    viewModel.TriggerRequest();
+                }, null);
+                
 
                 this.DataContext = viewModel;
             }

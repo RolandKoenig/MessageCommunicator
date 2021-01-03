@@ -7,8 +7,11 @@
              mc:Ignorable="d"
              d:Width="400" d:Height="400"
              x:Class="MessageCommunicator.TestGui.Views.ReleaseCheckView">
-    <StackPanel Orientation="Horizontal">
-        <TextBlock Text="{Binding Path=StatusText}"
-                   Margin="2"/>
-    </StackPanel>
+    <Menu>
+        <MenuItem Header="{Binding Path=Icon}" 
+                  ToolTip.Tip="{Binding Path=StatusText}"
+                  Command="{Binding Path=Command_GoToReleases}">
+            
+        </MenuItem>
+    </Menu>
 </UserControl>
