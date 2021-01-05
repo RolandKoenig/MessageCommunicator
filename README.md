@@ -63,7 +63,7 @@ the corresponding message channel.
 ![alt text](_Misc/WikiImages/Screenshot_02.png "Screenshot of the testing UI")
 
 ## Project is based on...
-MessageCommunicator is based on .Net Core (currently 3.1) and meant to be cross-platform. 
+MessageCommunicator GUI is based on .Net 5 and meant to be cross-platform. The Library supports .Net Standard 2.0 and above.
 
 I use the following technologies / projects:
  - [Avalonia](https://github.com/AvaloniaUI/Avalonia): Cross-platform, Xaml based UI framework
