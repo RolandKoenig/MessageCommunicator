@@ -9,7 +9,7 @@
   <Identity
     Name="35049RolandK.MessageCommunicator"
     Publisher="CN=768032C6-916E-447E-BC21-CED6D927C479"
-    Version="0.5.0.0" />
+    Version="0.7.0.0" />
 
   <Properties>
     <DisplayName>Message Communicator</DisplayName>
