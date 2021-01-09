@@ -177,6 +177,56 @@ namespace MessageCommunicator
         }
 
         /// <summary>
+        /// Appends a string subset to the current buffer.
+        /// </summary>
+        /// <param name="value">The string to append.</param>
+        /// <param name="startIndex">The starting index within the string to begin reading characters.</param>
+        /// <param name="count">The number of characters to append.</param>
+        public void Append(string value, int startIndex, int count)
+        {
+            this.RawMessage.Append(value, startIndex, count);
+        }
+
+        /// <summary>
+        /// Appends an array of characters to the current buffer.
+        /// </summary>
+        /// <param name="values">The characters to append.</param>
+        /// <param name="startIndex">The starting index within the array to begin reading characters.</param>
+        /// <param name="count">The number of characters to append.</param>
+        public void Append(char[] values, int startIndex, int count)
+        {
+            this.RawMessage.Append(values, startIndex, count);
+        }
+
+        /// <summary>
+        /// Appends a character to the current buffer.
+        /// </summary>
+        /// <param name="c">The character to append.</param>
+        public void Append(char c)
+        {
+            this.RawMessage.Append(c);
+        }
+
+        /// <summary>
+        /// Appends a character to the current buffer several times.
+        /// </summary>
+        /// <param name="c">The character to append.</param>
+        /// <param name="count">The number of times to append the character.</param>
+        public void Append(char c, int count)
+        {
+            this.RawMessage.Append(c, count);
+        }
+
+        /// <summary>
+        /// Appends the specified value as a string to the current buffer.
+        /// </summary>
+        /// <param name="value">The value to append.</param>
+        public void Append(bool value)
+        {
+            this.RawMessage.Append(value);
+        }
+
+        /// <summary>
         /// Returns this message to the <see cref="MessagePool"/>.
         /// The caller has to ensure that this message is not used after returning it to the pool.
         /// </summary>
