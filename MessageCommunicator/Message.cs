@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Light.GuardClauses;
 using MessageCommunicator.Util;
 
 namespace MessageCommunicator
@@ -129,6 +130,10 @@ namespace MessageCommunicator
         /// </summary>
         public void OverridePart(int index, ReadOnlySpan<char> characters)
         {
+            characters.MustBeShorterThanOrEqualTo(this.RawMessage.Count, nameof(characters));
+            index.MustBeGreaterThan(-1, nameof(index));
+            index.MustBeLessThanOrEqualTo(this.RawMessage.Count - characters.Length, nameof(index));
+
             var spanToOverride = this.GetSpan(index, characters.Length);
             characters.CopyTo(spanToOverride);
         }
