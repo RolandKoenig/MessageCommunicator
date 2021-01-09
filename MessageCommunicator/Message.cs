@@ -125,6 +125,15 @@ namespace MessageCommunicator
         }
 
         /// <summary>
+        /// Overrides a part of this message with the given characters.
+        /// </summary>
+        public void OverridePart(int index, ReadOnlySpan<char> characters)
+        {
+            var spanToOverride = this.GetSpan(index, characters.Length);
+            characters.CopyTo(spanToOverride);
+        }
+
+        /// <summary>
         /// Reserves memory for the given capacity.
         /// </summary>
         /// <param name="capacity">The total capacity you expect the message to grow to.</param>
