@@ -17,15 +17,13 @@ namespace MessageCommunicator.TestGui
         {
             if (this.Icon is Drawing iconAsDrawing)
             {
-                var result = new VectorIconDrawingPresenter()
-                { 
-                    Drawing = iconAsDrawing,
+                return new Image()
+                {
                     Width = 16.0,
                     Height = 16.0,
-                    Margin = new Thickness(2.0)
+                    Margin = new Thickness(2.0), 
+                    Source = new VectorIconDrawingImage(){ Drawing = iconAsDrawing}
                 };
-                result.UpdateBrushes();
-                return result;
             }
             else
             {

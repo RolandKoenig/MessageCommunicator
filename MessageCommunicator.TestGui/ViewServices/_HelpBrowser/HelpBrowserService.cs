@@ -5,13 +5,13 @@ namespace MessageCommunicator.TestGui.ViewServices
 {
     public class HelpBrowserService : ViewServiceBase, IHelpViewerService
     {
-        private WindowBase _parentWindow;
+        private Window _parentWindow;
         private IntegratedDocRepository _docRepository;
 
         private HelpBrowserWindow? _openedBrowser;
         private HelpBrowserViewModel? _openedViewModel;
 
-        public HelpBrowserService(WindowBase parentWindow, IntegratedDocRepository docRepository)
+        public HelpBrowserService(Window parentWindow, IntegratedDocRepository docRepository)
         {
             _parentWindow = parentWindow;
             _docRepository = docRepository;
@@ -31,14 +31,13 @@ namespace MessageCommunicator.TestGui.ViewServices
                 var viewModel = new HelpBrowserViewModel(_docRepository);
                 
                 var helpBrowserWindow = new HelpBrowserWindow();
-                helpBrowserWindow.Owner = _parentWindow;
                 helpBrowserWindow.DataContext = viewModel;
                 helpBrowserWindow.Closed += (_, _) =>
                 {
                     _openedBrowser = null;
                     _openedViewModel = null;
                 };
-                helpBrowserWindow.Show();
+                helpBrowserWindow.Show(_parentWindow);
                 
                 _openedBrowser = helpBrowserWindow;
                 _openedViewModel = viewModel;

@@ -10,39 +10,36 @@ namespace MessageCommunicator.TestGui
 {
     public class MonospaceFontFamilyExtension : MarkupExtension
     {
-        private static string? s_monospaceFontFamily;
+        private static FontFamily? s_monospaceFontFamily;
 
         /// <inheritdoc />
-        public override object ProvideValue(IServiceProvider serviceProvider)
+        public override object? ProvideValue(IServiceProvider serviceProvider)
         {
             return GetDefaultMonospaceFont();
         }
 
-        public static string GetDefaultMonospaceFont()
+        public static FontFamily? GetDefaultMonospaceFont()
         {
             if (s_monospaceFontFamily == null)
             {
-                if (IsFontFamilyAvailable("DejaVu Sans Mono")) { s_monospaceFontFamily = "DejaVu Sans Mono"; }
-                else if (IsFontFamilyAvailable("Consolas")) { s_monospaceFontFamily = "Consolas"; }
-                else
-                {
-                    s_monospaceFontFamily = "Courier New";
-                }
+                s_monospaceFontFamily =
+                    TryParseFontFamily("DejaVu Sans Mono")
+                    ?? TryParseFontFamily("Consolas")
+                    ?? TryParseFontFamily("Courier New");
             }
 
             return s_monospaceFontFamily;
         }
 
-        public static bool IsFontFamilyAvailable(string fontFamilyName)
+        public static FontFamily? TryParseFontFamily(string fontFamilyName)
         {
             try
             {
-                FontFamily.Parse(fontFamilyName);
-                return true;
+                return FontFamily.Parse(fontFamilyName);
             }
             catch (Exception)
             {
-                return false;
+                return null;
             }
         }
     }

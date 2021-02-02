@@ -10,11 +10,12 @@ namespace MessageCommunicator.TestGui
         public static readonly AttachedProperty<bool> IsDefaultGridBehaviorActiveProperty =
             AvaloniaProperty.RegisterAttached<XamlExtensions, DataGrid, bool>(
                 "IsDefaultGridBehaviorActive",
-                validate: ValidateIsDefaultGridBehaviorActiveProperty);
+                coerce: ValidateIsDefaultGridBehaviorActiveProperty);
 
-        public static bool ValidateIsDefaultGridBehaviorActiveProperty(DataGrid targetControl, bool givenValue)
+        public static bool ValidateIsDefaultGridBehaviorActiveProperty(IAvaloniaObject targetObject, bool givenValue)
         {
-            if (givenValue)
+            if ((givenValue) && 
+                (targetObject is DataGrid targetControl))
             {
                 targetControl.CellPointerPressed += (sender, eArgs) =>
                 {

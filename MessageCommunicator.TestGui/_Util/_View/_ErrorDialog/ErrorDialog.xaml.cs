@@ -13,7 +13,7 @@ namespace MessageCommunicator.TestGui
         {
             this.InitializeComponent();
 #if DEBUG
-            this.AttachDevTools();
+            //this.AttachDevTools();
 #endif
         }
 

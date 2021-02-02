@@ -12,7 +12,7 @@ namespace MessageCommunicator.TestGui.Views
     public class ReleaseCheckViewModel : OwnViewModelBase
     {
         private string _statusText;
-        private VectorIconDrawingPresenter? _icon;
+        private VectorIconDrawingImage? _icon;
 
         public string StatusText
         {
@@ -27,7 +27,7 @@ namespace MessageCommunicator.TestGui.Views
             }
         }
 
-        public VectorIconDrawingPresenter? Icon
+        public VectorIconDrawingImage? Icon
         {
             get => _icon;
             set
@@ -121,12 +121,12 @@ namespace MessageCommunicator.TestGui.Views
                 return;
             }
 
-            var newIcon = new VectorIconDrawingPresenter()
+            var newIcon = new VectorIconDrawingImage()
             {
                 Drawing = iconResource,
-                Width = 16.0,
-                Height = 16.0,
-                Margin = new Thickness(2.0)
+                //Width = 16.0,
+                //Height = 16.0,
+                //Margin = new Thickness(2.0)
             };
             newIcon.UpdateBrushes();
             this.Icon = newIcon;

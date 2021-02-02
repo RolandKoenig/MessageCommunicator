@@ -163,7 +163,7 @@
             </HeaderedContentControl>
             
             <!-- Status bar -->
-            <Grid Grid.Row="2" Grid.ColumnSpan="3">
+            <Grid Grid.Row="3" Grid.ColumnSpan="2">
                 <localViews:ReleaseCheckView HorizontalAlignment="Right" />
             </Grid>
         </Grid>

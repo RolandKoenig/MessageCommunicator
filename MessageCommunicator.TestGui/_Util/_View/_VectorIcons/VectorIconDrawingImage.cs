@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Media;
 using ReactiveUI;
 
 namespace MessageCommunicator.TestGui
 {
-    public class VectorIconDrawingPresenter : DrawingPresenter, IWeakMessageTarget<MessageThemeChanged>
+    public class VectorIconDrawingImage : DrawingImage, IWeakMessageTarget<MessageThemeChanged>
     {
-        public VectorIconDrawingPresenter()
+        public VectorIconDrawingImage()
         {
             MessageBus.Current.ListenWeak(this);
         }
@@ -21,14 +23,23 @@ namespace MessageCommunicator.TestGui
             {
                 vectorIconDrawing.UpdateBrushes();
             }
-
-            this.InvalidateVisual();
         }
 
         /// <inheritdoc />
         public void OnMessage(MessageThemeChanged message)
         {
             this.UpdateBrushes();
+        }
+
+        /// <inheritdoc />
+        protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
+        {
+            base.OnPropertyChanged(change);
+
+            if (change.Property == DrawingProperty)
+            {
+                this.UpdateBrushes();
+            }
         }
     }
 }

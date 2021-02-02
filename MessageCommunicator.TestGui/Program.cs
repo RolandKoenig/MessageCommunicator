@@ -5,7 +5,6 @@ using System.Reactive.Concurrency;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Avalonia;
-using Avalonia.Logging.Serilog;
 using Avalonia.ReactiveUI;
 using MessageCommunicator.TestGui.Data;
 using MessageCommunicator.TestGui.Startup;
@@ -45,7 +44,6 @@ namespace MessageCommunicator.TestGui
                 .SetStartupSystemSettings()
                 .UsePlatformDetect()
                 .UseReactiveUI()
-                .LogToDebug()
                 .HandleOSThemeChange();
         }
     }

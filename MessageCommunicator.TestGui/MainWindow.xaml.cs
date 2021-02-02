@@ -43,10 +43,6 @@ namespace MessageCommunicator.TestGui
             this.ViewModel = new MainWindowViewModel();
             this.DataContext = this.ViewModel;
 
-#if DEBUG
-            this.AttachDevTools();
-#endif
-
             // Configure error handling
             CommonErrorHandling.Current.MainWindow = this;
         }

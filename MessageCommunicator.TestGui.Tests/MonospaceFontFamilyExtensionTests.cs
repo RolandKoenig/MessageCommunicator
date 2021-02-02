@@ -13,13 +13,13 @@ namespace MessageCommunicator.TestGui.Tests
         [TestMethod]
         public void CheckAvailabilityForAvailableFontFamily()
         {
-            Assert.IsTrue(MonospaceFontFamilyExtension.IsFontFamilyAvailable("Courier New"));
+            Assert.IsTrue(MonospaceFontFamilyExtension.TryParseFontFamily("Courier New"));
         }
 
         [TestMethod]
         public void CheckAvailabilityForInvalidFontFamily()
         {
-            Assert.IsTrue(MonospaceFontFamilyExtension.IsFontFamilyAvailable("This family is not available"));
+            Assert.IsTrue(MonospaceFontFamilyExtension.TryParseFontFamily("This family is not available"));
         }
     }
 }

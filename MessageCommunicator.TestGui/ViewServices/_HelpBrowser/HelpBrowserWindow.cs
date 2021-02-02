@@ -13,12 +13,15 @@ namespace MessageCommunicator.TestGui.ViewServices
             
             // Register this window on App object
             App.CurrentApp.RegisterWindow(this);
-            
+
             // Configure markdown viewer
             var markdownViewer = this.FindControl<MarkdownScrollViewer>("CtrlMarkdownViewer");
-            markdownViewer.Engine.BitmapLoader = new HelpBitmapLoader(
-                Assembly.GetExecutingAssembly(),
-                "Assets/Docs/");
+            if (markdownViewer != null)
+            {
+                markdownViewer.Engine.BitmapLoader = new HelpBitmapLoader(
+                    Assembly.GetExecutingAssembly(),
+                    "Assets/Docs/");
+            }
         }
     }
 }

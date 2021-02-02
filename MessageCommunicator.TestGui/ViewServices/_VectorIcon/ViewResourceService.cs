@@ -14,7 +14,8 @@ namespace MessageCommunicator.TestGui.ViewServices
         /// <inheritdoc />
         public object? TryGetViewResource(string resourceName)
         {
-            return _rootNode.FindResource(resourceName);
+            if (_rootNode.TryGetResource(resourceName, out var foundRes)) { return foundRes; }
+            else { return null;}
         }
     }
 }

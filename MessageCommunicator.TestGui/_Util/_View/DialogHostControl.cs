@@ -123,11 +123,11 @@ namespace MessageCommunicator.TestGui
         }
 
         /// <inheritdoc />
-        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
+        protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
         {
-            base.OnPropertyChanged(e);
+            base.OnPropertyChanged(change);
 
-            if (e.Property == Grid.BoundsProperty)
+            if (change.Property == Grid.BoundsProperty)
             {
                 this.UpdateBorderSize();
             }
