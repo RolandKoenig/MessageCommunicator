@@ -29,8 +29,7 @@
             <HeaderedContentControl Grid.Column="0"
                                     Header="Pages"
                                     Classes="GroupBox">
-                <ListBox Grid.Column="0"
-                         Items="{Binding Path=AllFiles}"
+                <ListBox Items="{Binding Path=AllFiles}"
                          SelectedItem="{Binding Path=CurrentDocFile, Mode=TwoWay}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -47,7 +46,8 @@
             <HeaderedContentControl Grid.Column="2"
                                     Header="{Binding Path=PageTitle}"
                                     Classes="GroupBox">
-                <!--<md:MarkdownScrollViewer Grid.Column="2" x:Name="CtrlMarkdownViewer"
+                <md:MarkdownScrollViewer x:Name="CtrlMarkdownViewer"/>
+                <!--<md:MarkdownScrollViewer x:Name="CtrlMarkdownViewer"
                                          Markdown="{Binding Path=LoadedDoc}"
                                          AssetPathRoot="/Assets/Docs"/>-->
             </HeaderedContentControl>

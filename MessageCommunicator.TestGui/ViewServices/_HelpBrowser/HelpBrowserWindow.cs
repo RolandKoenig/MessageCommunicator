@@ -5,7 +5,7 @@ using Markdown.Avalonia;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
-    public partial class HelpBrowserWindow : OwnWindow<HelpBrowserViewModel>
+    public class HelpBrowserWindow : OwnWindow<HelpBrowserViewModel>
     {
         public HelpBrowserWindow()
         {

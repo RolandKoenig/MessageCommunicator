@@ -30,12 +30,12 @@ namespace MessageCommunicator.TestGui
         {
             window.Closed += (_, _) => _openedWindows.Remove(window);
             _openedWindows.Add(window);
-
-            //this.SetCurrentThemeToWindow(window, true);
         }
 
         private void SetTheme(MessageCommunicatorTheme theme)
         {
+            MessageCommunicatorGlobalProperties.Current.CurrentTheme = MessageCommunicatorTheme.Light;
+            MessageBus.Current.SendMessage(new MessageThemeChanged(MessageCommunicatorTheme.Light));
             switch (theme)
             {
                 case MessageCommunicatorTheme.Light:
@@ -44,41 +44,19 @@ namespace MessageCommunicator.TestGui
                     MessageCommunicatorGlobalProperties.Current.CurrentTheme = MessageCommunicatorTheme.Light;
                     MessageBus.Current.SendMessage(new MessageThemeChanged(MessageCommunicatorTheme.Light));
                     break;
-                
+
                 case MessageCommunicatorTheme.Dark:
                     this.Styles[0] = (StyleInclude)this.Resources["ThemeDark"]!;
                     this.Styles[1] = (StyleInclude)this.Resources["ThemeDarkCustom"]!;
                     MessageCommunicatorGlobalProperties.Current.CurrentTheme = MessageCommunicatorTheme.Dark;
                     MessageBus.Current.SendMessage(new MessageThemeChanged(MessageCommunicatorTheme.Dark));
                     break;
-                
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(theme), theme, null);
             }
-
-            //foreach (var actOpenedWindow in _openedWindows)
-            //{
-            //    this.SetCurrentThemeToWindow(actOpenedWindow, false);
-            //}
         }
 
-        //private void SetCurrentThemeToWindow(Window targetWindow, bool initialCall)
-        //{
-        //    var styleDict1 = this.Styles[0];
-        //    var styleDict2 = this.Styles[1];
-
-        //    //if (initialCall)
-        //    //{
-        //    //    targetWindow.Styles.Insert(0, styleDict1);
-        //    //    targetWindow.Styles.Insert(1, styleDict2);
-        //    //}
-        //    //else
-        //    //{
-        //    //    targetWindow.Styles[0] = styleDict1;
-        //    //    targetWindow.Styles[1] = styleDict2;
-        //    //}
-        //}
-        
         public override void OnFrameworkInitializationCompleted()
         {
             // Apply initial theme

@@ -20,10 +20,10 @@
   
     <!-- DataGrid -->
     <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
-        <Setter Property="Fill" Value="{DynamicResource ThemeAccentBrush4}"/>
+        <Setter Property="Fill" Value="{DynamicResource ThemeAccentBrush}"/>
     </Style>
     <Style Selector="DataGridRow:pointerover /template/ Rectangle#BackgroundRectangle">
-        <Setter Property="Fill" Value="{DynamicResource ThemeControlHighlightMidBrush}"/>
+        <Setter Property="Fill" Value="{DynamicResource ThemeAccentBrush2}"/>
     </Style>
     <Style Selector="DataGrid">
         <Setter Property="AlternatingRowBackground" Value="{DynamicResource ThemeCustomAlternateBackgroundBrush}" />
