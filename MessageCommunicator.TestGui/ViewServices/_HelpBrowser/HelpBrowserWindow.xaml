@@ -46,10 +46,9 @@
             <HeaderedContentControl Grid.Column="2"
                                     Header="{Binding Path=PageTitle}"
                                     Classes="GroupBox">
-                <md:MarkdownScrollViewer x:Name="CtrlMarkdownViewer"/>
-                <!--<md:MarkdownScrollViewer x:Name="CtrlMarkdownViewer"
+                <md:MarkdownScrollViewer x:Name="CtrlMarkdownViewer"
                                          Markdown="{Binding Path=LoadedDoc}"
-                                         AssetPathRoot="/Assets/Docs"/>-->
+                                         AssetPathRoot="/Assets/Docs"/>
             </HeaderedContentControl>
         </Grid>
     </DockPanel>
