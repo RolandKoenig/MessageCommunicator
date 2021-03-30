@@ -37,7 +37,7 @@ namespace MessageCommunicator.TestGui
                     if (!x)
                     {
                         this.SystemDecorations = SystemDecorations.Full;
-                        //this.TransparencyLevelHint = WindowTransparencyLevel.None;
+                        this.TransparencyLevelHint = WindowTransparencyLevel.None;
                     }
                 });
         }

@@ -16,6 +16,7 @@
                     Margin="17,7,7,0"
                     Orientation="Horizontal">
             <TextBlock VerticalAlignment="Center"
+                       IsHitTestVisible="False"
                        Text="{Binding Path=WindowTitle}" />
         </StackPanel>
 
@@ -51,7 +52,7 @@
                     <GridSplitter Grid.Column="1"
                                   Background="Transparent"
                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            
+
                     <HeaderedContentControl Grid.Column="2"
                                             Header="{Binding Path=PageTitle}"
                                             Classes="GroupBox">

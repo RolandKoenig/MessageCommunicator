@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.X11;
 using MessageCommunicator.TestGui.ViewServices;
@@ -12,7 +13,7 @@ namespace MessageCommunicator.TestGui.Views
     public class ReleaseCheckViewModel : OwnViewModelBase
     {
         private string _statusText;
-        private VectorIconDrawingImage? _icon;
+        private Image? _icon;
 
         public string StatusText
         {
@@ -27,7 +28,7 @@ namespace MessageCommunicator.TestGui.Views
             }
         }
 
-        public VectorIconDrawingImage? Icon
+        public Image? Icon
         {
             get => _icon;
             set
@@ -121,15 +122,13 @@ namespace MessageCommunicator.TestGui.Views
                 return;
             }
 
-            var newIcon = new VectorIconDrawingImage()
+            this.Icon = new Image()
             {
-                Drawing = iconResource,
-                //Width = 16.0,
-                //Height = 16.0,
-                //Margin = new Thickness(2.0)
+                Width = 16.0,
+                Height = 16.0,
+                Margin = new Thickness(2.0), 
+                Source = new VectorIconDrawingImage(){ Drawing = iconResource}
             };
-            newIcon.UpdateBrushes();
-            this.Icon = newIcon;
         }
     }
 }
