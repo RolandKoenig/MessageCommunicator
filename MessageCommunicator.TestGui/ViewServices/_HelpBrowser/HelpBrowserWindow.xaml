@@ -12,44 +12,55 @@
         Title="{Binding Path=WindowTitle}">
    
     <DockPanel LastChildFill="True">
-        <StackPanel DockPanel.Dock="Bottom" 
-                    Orientation="Horizontal" HorizontalAlignment="Right">
-            <StackPanel.Styles>
-                <Style Selector="Button">
-                    <Setter Property="Width" Value="125" />
-                    <Setter Property="Margin" Value="3" />
-                </Style>
-            </StackPanel.Styles>
-          
-            <Button Content="Close" IsDefault="True" Command="{Binding Path=Command_Close}" />
+        <StackPanel DockPanel.Dock="Top" Height="30"
+                    Margin="17,7,7,0"
+                    Orientation="Horizontal">
+            <TextBlock VerticalAlignment="Center"
+                       Text="{Binding Path=WindowTitle}" />
         </StackPanel>
+
+        <ContentControl Margin="7,0,7,7">
+            <DockPanel LastChildFill="True">
+                <StackPanel DockPanel.Dock="Bottom" 
+                            Orientation="Horizontal" HorizontalAlignment="Right">
+                    <StackPanel.Styles>
+                        <Style Selector="Button">
+                            <Setter Property="Width" Value="125" />
+                            <Setter Property="Margin" Value="3" />
+                        </Style>
+                    </StackPanel.Styles>
+          
+                    <Button Content="Close" IsDefault="True" Command="{Binding Path=Command_Close}" />
+                </StackPanel>
         
-        <Grid ColumnDefinitions="200,3,*">
+                <Grid ColumnDefinitions="200,3,*">
             
-            <HeaderedContentControl Grid.Column="0"
-                                    Header="Pages"
-                                    Classes="GroupBox">
-                <ListBox Items="{Binding Path=AllFiles}"
-                         SelectedItem="{Binding Path=CurrentDocFile, Mode=TwoWay}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=Title}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </HeaderedContentControl>
+                    <HeaderedContentControl Grid.Column="0"
+                                            Header="Pages"
+                                            Classes="GroupBox">
+                        <ListBox Items="{Binding Path=AllFiles}"
+                                 SelectedItem="{Binding Path=CurrentDocFile, Mode=TwoWay}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Title}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </HeaderedContentControl>
       
-            <GridSplitter Grid.Column="1"
-                          Background="Transparent"
-                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                    <GridSplitter Grid.Column="1"
+                                  Background="Transparent"
+                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             
-            <HeaderedContentControl Grid.Column="2"
-                                    Header="{Binding Path=PageTitle}"
-                                    Classes="GroupBox">
-                <md:MarkdownScrollViewer x:Name="CtrlMarkdownViewer"
-                                         Markdown="{Binding Path=LoadedDoc}"
-                                         AssetPathRoot="/Assets/Docs"/>
-            </HeaderedContentControl>
-        </Grid>
+                    <HeaderedContentControl Grid.Column="2"
+                                            Header="{Binding Path=PageTitle}"
+                                            Classes="GroupBox">
+                        <md:MarkdownScrollViewer x:Name="CtrlMarkdownViewer"
+                                                 Markdown="{Binding Path=LoadedDoc}"
+                                                 AssetPathRoot="/Assets/Docs"/>
+                    </HeaderedContentControl>
+                </Grid>
+            </DockPanel>
+        </ContentControl>
     </DockPanel>
 </Window>

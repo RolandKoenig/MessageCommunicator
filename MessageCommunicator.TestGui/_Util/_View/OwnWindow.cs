@@ -7,7 +7,7 @@ using ReactiveUI;
 
 namespace MessageCommunicator.TestGui
 {
-    public class OwnWindow<T> : ReactiveWindow<T>, IViewServiceHost
+    public class OwnWindow<T> : FluentWindow<T>, IViewServiceHost
         where T : OwnViewModelBase
     {
         private ViewServiceContainer _viewServices;

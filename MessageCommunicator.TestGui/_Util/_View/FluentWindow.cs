@@ -21,8 +21,8 @@ namespace MessageCommunicator.TestGui
             this.ExtendClientAreaToDecorationsHint = true;
             this.ExtendClientAreaTitleBarHeightHint = -1;
 
-            //this.TransparencyLevelHint = WindowTransparencyLevel.AcrylicBlur; 
-            this.TransparencyLevelHint = WindowTransparencyLevel.None;     
+            //this.TransparencyLevelHint = WindowTransparencyLevel.AcrylicBlur;
+            this.TransparencyLevelHint = WindowTransparencyLevel.None;
 
             this.GetObservable(WindowStateProperty)
                 .Subscribe(x =>
@@ -31,20 +31,21 @@ namespace MessageCommunicator.TestGui
                     this.PseudoClasses.Set(":fullscreen", x == WindowState.FullScreen);
                 });
 
-            //this.GetObservable(IsExtendedIntoWindowDecorationsProperty)
-            //    .Subscribe(x =>
-            //    {
-            //        if (!x)
-            //        {
-            //            this.SystemDecorations = SystemDecorations.Full;
-            //            this.TransparencyLevelHint = WindowTransparencyLevel.Blur;
-            //        }
-            //    });
+            this.GetObservable(IsExtendedIntoWindowDecorationsProperty)
+                .Subscribe(x =>
+                {
+                    if (!x)
+                    {
+                        this.SystemDecorations = SystemDecorations.Full;
+                        //this.TransparencyLevelHint = WindowTransparencyLevel.None;
+                    }
+                });
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
-            base.OnApplyTemplate(e);            
+            base.OnApplyTemplate(e);    
+            
             this.ExtendClientAreaChromeHints = 
                 Avalonia.Platform.ExtendClientAreaChromeHints.PreferSystemChrome |                 
                 Avalonia.Platform.ExtendClientAreaChromeHints.OSXThickTitleBar;

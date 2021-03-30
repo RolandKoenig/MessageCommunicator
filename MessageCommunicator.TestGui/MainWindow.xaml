@@ -10,8 +10,20 @@
         Icon="Assets/MessageCommunicator.ico"
         x:Class="MessageCommunicator.TestGui.MainWindow"
         Title="MessageCommunicator">
-    <Grid>
-        <Grid x:Name="CtrlMainContent">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal"
+                    Margin="10,0,0,0" IsHitTestVisible="False">
+            <TextBlock Text="Message Communciator"
+                       VerticalAlignment="Center" 
+                       IsHitTestVisible="False"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" x:Name="CtrlMainContent">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -163,12 +175,13 @@
             </HeaderedContentControl>
             
             <!-- Status bar -->
-            <Grid Grid.Row="3" Grid.ColumnSpan="2">
+            <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                  Height="30">
                 <localViews:ReleaseCheckView HorizontalAlignment="Right" />
             </Grid>
         </Grid>
       
-        <local:DialogHostControl Name="CrtlDialogHost"
+        <local:DialogHostControl Grid.Row="1" Name="CrtlDialogHost"
                                  OccludedControl="{Binding ElementName=CtrlMainContent}" />
     </Grid>
 </Window>
