@@ -19,6 +19,6 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --configuration Release --no-restore --no-incremental --framework net5.0
+      run: dotnet build --configuration Release-CI --no-restore --no-incremental --framework net5.0
     - name: Test
-      run: dotnet test --configuration Release --no-restore --framework net5.0 --verbosity normal
+      run: dotnet test --configuration Release-CI --no-restore --framework net5.0 --verbosity normal
