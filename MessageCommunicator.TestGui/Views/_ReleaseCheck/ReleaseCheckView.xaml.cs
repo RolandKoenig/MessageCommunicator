@@ -14,15 +14,17 @@ namespace MessageCommunicator.TestGui.Views
             
             if (!Design.IsDesignMode)
             {
-                var viewModel = new ReleaseCheckViewModel();
-                
-                SynchronizationContext.Current!.Post((arg) =>
-                {
-                    viewModel.TriggerRequest();
-                }, null);
-                
+                this.DataContext = new ReleaseCheckViewModel();
+            }
+        }
 
-                this.DataContext = viewModel;
+        protected override void OnActivated(CompositeDisposable disposables)
+        {
+            base.OnActivated(disposables);
+
+            if(this.DataContext is ReleaseCheckViewModel viewModel)
+            {
+                viewModel.TriggerRequest();
             }
         }
     }

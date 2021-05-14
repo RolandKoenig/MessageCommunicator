@@ -17,6 +17,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal"
+                    HorizontalAlignment="Center"
                     Margin="10,0,0,0" IsHitTestVisible="False">
             <TextBlock Text="Message Communciator"
                        VerticalAlignment="Center" 
