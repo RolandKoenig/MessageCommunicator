@@ -8,6 +8,10 @@
              d:Width="400" d:Height="400"
              x:Class="MessageCommunicator.TestGui.Views.SendMessageView">
     <DockPanel LastChildFill="True">
+        <TextBlock Text="New Message:"
+                   Margin="3"
+                   VerticalAlignment="Center"
+                   DockPanel.Dock="Left" />
         <Button DockPanel.Dock="Right"
                 Content="Send" Width="150"
                 IsDefault="True"

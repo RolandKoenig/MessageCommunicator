@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Reflection;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
-using Avalonia.Markup.Xaml.Styling;
 using MessageCommunicator.TestGui.ViewServices;
 using ReactiveUI;
 

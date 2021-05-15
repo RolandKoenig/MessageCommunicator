@@ -155,8 +155,9 @@
                     </HeaderedContentControl.Header>
                   
                     <DockPanel LastChildFill="True">
-                        <localViews:SendMessageView DockPanel.Dock="Bottom" 
-                                                    DataContext="{Binding Path=SendMessageVM}" />
+                        <localViews:SendMessageView DockPanel.Dock="Top" 
+                                                    DataContext="{Binding Path=SendMessageVM}" 
+                                                    Margin="0,0,0,10"/>
                         <localViews:ConnectionProfileView DataContext="{Binding Path=SelectedProfile}" />
                     </DockPanel>
             
