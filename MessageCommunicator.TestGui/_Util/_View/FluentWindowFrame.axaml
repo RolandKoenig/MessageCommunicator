@@ -9,7 +9,7 @@
         <Grid x:Name="CtrlMainGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
-                <RowDefinition Height="40" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="30" />
                 <RowDefinition Height="7" />

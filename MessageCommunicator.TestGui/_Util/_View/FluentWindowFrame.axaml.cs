@@ -46,18 +46,26 @@ namespace MessageCommunicator.TestGui
         {
             if (_mainWindow == null) { return; }
 
+            // Configure window frame
             var useFullWindowMargin = false;
             var useTitlePanel = false;
             var useCenteredTitle = false;
             if (_mainWindow.IsExtendedIntoWindowDecorations)
             {
                 useTitlePanel = true;
-                switch (_mainWindow.WindowState)
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
-                    case WindowState.FullScreen:
-                    case WindowState.Maximized:
-                        useFullWindowMargin = true;
-                        break;
+                    switch (_mainWindow.WindowState)
+                    {
+                        case WindowState.FullScreen:
+                        case WindowState.Maximized:
+                            useFullWindowMargin = true;
+                            break;
+                    }
+                }
+                else if(RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    useTitlePanel = _mainWindow.WindowState != WindowState.FullScreen;
                 }
 
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
@@ -66,6 +74,7 @@ namespace MessageCommunicator.TestGui
                 }
             }
 
+            // Apply settings for title panel
             if (useTitlePanel)
             {
                 _ctrlTitlePanel.IsVisible = true;
@@ -90,6 +99,7 @@ namespace MessageCommunicator.TestGui
                 _ctrlMainGrid.RowDefinitions[0].Height = new GridLength(0.0);
             }
 
+            // Apply settings for content margin
             if (useFullWindowMargin)
             {
                 _ctrlMainGrid.Margin = new Thickness(7.0);
