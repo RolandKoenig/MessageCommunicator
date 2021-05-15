@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
@@ -13,6 +14,9 @@ namespace MessageCommunicator.TestGui
         public MainWindow()
         {
             AvaloniaXamlLoader.Load(this);
+#if DEBUG
+            this.AttachDevTools();
+#endif
 
             // Register this window on App object
             App.CurrentApp.RegisterWindow(this);

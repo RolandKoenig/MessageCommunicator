@@ -39,6 +39,7 @@
     <PackageReference Include="Avalonia" Version="0.10.4" />
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.4" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.4" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.4" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.4" />
     <PackageReference Include="DeepCloner" Version="0.10.2" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
