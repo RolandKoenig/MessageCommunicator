@@ -24,9 +24,10 @@ namespace MessageCommunicator.TestGui
                 .GetCustomAttribute<AssemblyInformationalVersionAttribute>();
             var versionString = versionInfoAttrib?.InformationalVersion ?? "";
             this.Title = $"{this.Title} {versionString}";
+            this.Find<TextBlock>("TxtTitle").Text = this.Title;
 
             // Register view services
-            var ctrlDialogHost = this.FindControl<DialogHostControl>("CrtlDialogHost");
+            var ctrlDialogHost = this.Find<FluentWindowFrame>("CtrlWindowFrame").DialogHostControl;
             var helpRepo = new IntegratedDocRepository(Assembly.GetExecutingAssembly());
 
             this.ViewServices.Add(new ConnectionConfigControlService(ctrlDialogHost));

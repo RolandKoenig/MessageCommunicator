@@ -10,37 +10,15 @@
         Icon="Assets/MessageCommunicator.ico"
         x:Class="MessageCommunicator.TestGui.MainWindow"
         Title="MessageCommunicator">
-    <Grid Margin="5">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <local:FluentWindowFrame x:Name="CtrlWindowFrame">
+        <local:FluentWindowFrame.TitleContent>
+            <TextBlock x:Name="TxtTitle" />
+        </local:FluentWindowFrame.TitleContent>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal"
-                    HorizontalAlignment="Center"
-                    Margin="10,0,0,0" IsHitTestVisible="False">
-            <TextBlock Text="Message Communciator"
-                       VerticalAlignment="Center" 
-                       IsHitTestVisible="False"/>
-        </StackPanel>
+        <local:FluentWindowFrame.HeaderContent>
+            <Grid Classes="MainMenuBackground" />
 
-        <Grid Grid.Row="1" x:Name="CtrlMainContent">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250" MinWidth="100" />
-                <ColumnDefinition Width="3" MaxWidth="3" MinWidth="3" />
-                <ColumnDefinition Width="*" MinWidth="100" />
-            </Grid.ColumnDefinitions>
-          
-            <Grid Grid.Row="0" Grid.ColumnSpan="3"
-                  Classes="MainMenuBackground" />
-          
-            <Menu Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Left"
-                  Classes="MainMenu">
+            <Menu HorizontalAlignment="Left" Classes="MainMenu">
                 <MenuItem Header="File"
                           Classes="MainMenu">
                     <MenuItem Header="Import Profiles" Command="{Binding Path=Command_ImportProfiles}" />
@@ -60,129 +38,139 @@
                     <MenuItem Header="About" Command="{Binding Path=Command_ShowAboutDialog}" />
                 </MenuItem>
             </Menu>
+        </local:FluentWindowFrame.HeaderContent>
 
-            <GridSplitter Grid.Column="1" Grid.Row="1"
-                          Background="Transparent"
-                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <local:FluentWindowFrame.MainContent>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250" MinWidth="100" />
+                    <ColumnDefinition Width="3" MaxWidth="3" MinWidth="3" />
+                    <ColumnDefinition Width="*" MinWidth="100" />
+                </Grid.ColumnDefinitions>
 
-            <!-- Overview of all profiles -->
-            <HeaderedContentControl Grid.Column="0" Grid.Row="1"
-                                    Header="Profiles"
-                                    Classes="GroupBox">
-                <DockPanel LastChildFill="True">
-
-                    <Menu DockPanel.Dock="Top">
-                        <MenuItem ToolTip.Tip="Create new profile"
-                                  Header="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconCreate}}"
-                                  Command="{Binding Path=Command_CreateProfile}" />
-                        <MenuItem ToolTip.Tip="Edit selected profile"
-                                  Header="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconEdit}}"
-                                  Command="{Binding Path=Command_EditProfile}" />
-                        <MenuItem ToolTip.Tip="Remove selected profile"
-                                  Header="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconRemove}}"
-                                  Command="{Binding Path=Command_DeleteProfile}" />
-                        <Separator Classes="Vertical" />
-                      
-                        <MenuItem ToolTip.Tip="Start profile" 
-                                  Header="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconStart}}"
-                                  IsEnabled="{Binding Path=#LstProfiles.SelectedItem.CanStart}"
-                                  Command="{Binding Path=#LstProfiles.SelectedItem.Command_Start}" />
-                        <MenuItem ToolTip.Tip="Stop profile" 
-                                  Header="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconStop}}"
-                                  IsEnabled="{Binding Path=#LstProfiles.SelectedItem.CanStop}"
-                                  Command="{Binding Path=#LstProfiles.SelectedItem.Command_Stop}" />
-                    </Menu>
-
-                    <DataGrid Name="LstProfiles" IsReadOnly="True"
-                              Items="{Binding Profiles}" 
-                              SelectedItem="{Binding Path=SelectedProfile, Mode=TwoWay}">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Start profile" 
-                                          Icon="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconStart}}"
-                                          IsEnabled="{Binding Path=#LstProfiles.SelectedItem.CanStart}"
-                                          Command="{Binding Path=#LstProfiles.SelectedItem.Command_Start}" />
-                                <MenuItem Header="Stop profile"
-                                          Icon="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconStop}}"
-                                          IsEnabled="{Binding Path=#LstProfiles.SelectedItem.CanStop}"
-                                          Command="{Binding Path=#LstProfiles.SelectedItem.Command_Stop}" />
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        
-                        <DataGrid.Columns>
-                            <DataGridTemplateColumn Header=" "
-                                                    Width="24">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Rectangle
-                                            Fill="{Binding Path=State, Converter={StaticResource ConnStateConverter}}"
-                                            Margin="5"
-                                            Name="StateRect" />
-
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="State"
-                                                Binding="{Binding Path=State}"
-                                                FontFamily="{local:MonospaceFontFamily}"
-                                                Width="76" />
-                            <DataGridTextColumn Header="Name"
-                                                Binding="{Binding Path=Model.Name}"
-                                                FontFamily="{local:MonospaceFontFamily}"
-                                                Width="126" />
-                            <DataGridTextColumn Header="# Err"
-                                                Binding="{Binding Path=CountErrors}"
-                                                FontFamily="{local:MonospaceFontFamily}"
-                                                Width="40" />
-                            <DataGridTextColumn Header="# In"
-                                                Binding="{Binding Path=CountMessagesIn}"
-                                                FontFamily="{local:MonospaceFontFamily}"
-                                                Width="40" />
-                            <DataGridTextColumn Header="# Out"
-                                                Binding="{Binding Path=CountMessagesOut}"
-                                                FontFamily="{local:MonospaceFontFamily}"
-                                                Width="40" />
-                            <DataGridTextColumn Header="Source"
-                                                Binding="{Binding Path=LocalEndpointDescription}"
-                                                FontFamily="{local:MonospaceFontFamily}"
-                                                Width="126" />
-                            <DataGridTextColumn Header="Target"
-                                                Binding="{Binding Path=RemoteEndpointDescription}"
-                                                FontFamily="{local:MonospaceFontFamily}"
-                                                Width="126" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </DockPanel>
-
-            </HeaderedContentControl>
-
-            <!-- Details of the selected profile -->
-            <HeaderedContentControl Grid.Column="2" Grid.Row="1"
-                                    Classes="GroupBox"                                    
-                                    IsEnabled="{Binding Path=IsProfileScreenEnabled}">
-                <HeaderedContentControl.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Profile: " />
-                        <TextBlock Text="{Binding #LstProfiles.SelectedItem.Model.Name}" />
-                    </StackPanel>
-                </HeaderedContentControl.Header>
-              
-                <DockPanel LastChildFill="True">
-                    <localViews:SendMessageView DockPanel.Dock="Bottom" 
-                                                DataContext="{Binding Path=SendMessageVM}" />
-                    <localViews:ConnectionProfileView DataContext="{Binding Path=SelectedProfile}" />
-                </DockPanel>
-
-            </HeaderedContentControl>
+                <GridSplitter Grid.Column="1"
+                              Background="Transparent"
+                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             
-            <!-- Status bar -->
-            <Grid Grid.Row="2" Grid.Column="2"
+                <!-- Overview of all profiles -->
+                <HeaderedContentControl Grid.Column="0"
+                                        Header="Profiles"
+                                        Classes="GroupBox">
+                    <DockPanel LastChildFill="True">
+            
+                        <Menu DockPanel.Dock="Top">
+                            <MenuItem ToolTip.Tip="Create new profile"
+                                      Header="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconCreate}}"
+                                      Command="{Binding Path=Command_CreateProfile}" />
+                            <MenuItem ToolTip.Tip="Edit selected profile"
+                                      Header="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconEdit}}"
+                                      Command="{Binding Path=Command_EditProfile}" />
+                            <MenuItem ToolTip.Tip="Remove selected profile"
+                                      Header="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconRemove}}"
+                                      Command="{Binding Path=Command_DeleteProfile}" />
+                            <Separator Classes="Vertical" />
+                          
+                            <MenuItem ToolTip.Tip="Start profile" 
+                                      Header="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconStart}}"
+                                      IsEnabled="{Binding Path=#LstProfiles.SelectedItem.CanStart}"
+                                      Command="{Binding Path=#LstProfiles.SelectedItem.Command_Start}" />
+                            <MenuItem ToolTip.Tip="Stop profile" 
+                                      Header="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconStop}}"
+                                      IsEnabled="{Binding Path=#LstProfiles.SelectedItem.CanStop}"
+                                      Command="{Binding Path=#LstProfiles.SelectedItem.Command_Stop}" />
+                        </Menu>
+            
+                        <DataGrid Name="LstProfiles" IsReadOnly="True"
+                                  Items="{Binding Profiles}" 
+                                  SelectedItem="{Binding Path=SelectedProfile, Mode=TwoWay}">
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Start profile" 
+                                              Icon="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconStart}}"
+                                              IsEnabled="{Binding Path=#LstProfiles.SelectedItem.CanStart}"
+                                              Command="{Binding Path=#LstProfiles.SelectedItem.Command_Start}" />
+                                    <MenuItem Header="Stop profile"
+                                              Icon="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconStop}}"
+                                              IsEnabled="{Binding Path=#LstProfiles.SelectedItem.CanStop}"
+                                              Command="{Binding Path=#LstProfiles.SelectedItem.Command_Stop}" />
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                            
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header=" "
+                                                        Width="24">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Rectangle
+                                                Fill="{Binding Path=State, Converter={StaticResource ConnStateConverter}}"
+                                                Margin="5"
+                                                Name="StateRect" />
+            
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="State"
+                                                    Binding="{Binding Path=State}"
+                                                    FontFamily="{local:MonospaceFontFamily}"
+                                                    Width="76" />
+                                <DataGridTextColumn Header="Name"
+                                                    Binding="{Binding Path=Model.Name}"
+                                                    FontFamily="{local:MonospaceFontFamily}"
+                                                    Width="126" />
+                                <DataGridTextColumn Header="# Err"
+                                                    Binding="{Binding Path=CountErrors}"
+                                                    FontFamily="{local:MonospaceFontFamily}"
+                                                    Width="40" />
+                                <DataGridTextColumn Header="# In"
+                                                    Binding="{Binding Path=CountMessagesIn}"
+                                                    FontFamily="{local:MonospaceFontFamily}"
+                                                    Width="40" />
+                                <DataGridTextColumn Header="# Out"
+                                                    Binding="{Binding Path=CountMessagesOut}"
+                                                    FontFamily="{local:MonospaceFontFamily}"
+                                                    Width="40" />
+                                <DataGridTextColumn Header="Source"
+                                                    Binding="{Binding Path=LocalEndpointDescription}"
+                                                    FontFamily="{local:MonospaceFontFamily}"
+                                                    Width="126" />
+                                <DataGridTextColumn Header="Target"
+                                                    Binding="{Binding Path=RemoteEndpointDescription}"
+                                                    FontFamily="{local:MonospaceFontFamily}"
+                                                    Width="126" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+            
+                </HeaderedContentControl>
+            
+                <!-- Details of the selected profile -->
+                <HeaderedContentControl Grid.Column="2"
+                                        Classes="GroupBox"                                    
+                                        IsEnabled="{Binding Path=IsProfileScreenEnabled}">
+                    <HeaderedContentControl.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Profile: " />
+                            <TextBlock Text="{Binding #LstProfiles.SelectedItem.Model.Name}" />
+                        </StackPanel>
+                    </HeaderedContentControl.Header>
+                  
+                    <DockPanel LastChildFill="True">
+                        <localViews:SendMessageView DockPanel.Dock="Bottom" 
+                                                    DataContext="{Binding Path=SendMessageVM}" />
+                        <localViews:ConnectionProfileView DataContext="{Binding Path=SelectedProfile}" />
+                    </DockPanel>
+            
+                </HeaderedContentControl>
+            </Grid>
+
+        </local:FluentWindowFrame.MainContent>
+
+        <local:FluentWindowFrame.FooterContent>
+            <Grid Grid.Column="2"
                   Height="30">
                 <localViews:ReleaseCheckView HorizontalAlignment="Right" />
             </Grid>
-        </Grid>
-      
-        <local:DialogHostControl Grid.Row="1" Name="CrtlDialogHost"
-                                 OccludedControl="{Binding ElementName=CtrlMainContent}" />
-    </Grid>
+        </local:FluentWindowFrame.FooterContent>
+
+    </local:FluentWindowFrame>
 </Window>

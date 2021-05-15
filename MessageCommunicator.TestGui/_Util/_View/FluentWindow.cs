@@ -21,7 +21,6 @@ namespace MessageCommunicator.TestGui
             this.ExtendClientAreaToDecorationsHint = true;
             this.ExtendClientAreaTitleBarHeightHint = -1;
 
-            //this.TransparencyLevelHint = WindowTransparencyLevel.AcrylicBlur;
             this.TransparencyLevelHint = WindowTransparencyLevel.None;
 
             this.GetObservable(WindowStateProperty)
