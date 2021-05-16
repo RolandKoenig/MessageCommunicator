@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Reflection;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using MessageCommunicator.TestGui.Views;
 using MessageCommunicator.TestGui.ViewServices;
 using ReactiveUI;
 
@@ -11,6 +13,8 @@ namespace MessageCommunicator.TestGui
 {
     public class MainWindow : OwnWindow<MainWindowViewModel>
     {
+        private ConnectionProfileView _ctrlConnectionProfile;
+
         public MainWindow()
         {
             AvaloniaXamlLoader.Load(this);
@@ -20,6 +24,9 @@ namespace MessageCommunicator.TestGui
 
             // Register this window on App object
             App.CurrentApp.RegisterWindow(this);
+
+            // Find control objects
+            _ctrlConnectionProfile = this.Find<ConnectionProfileView>("CtrlConnectionProfile");
 
             // Update title
             var versionInfoAttrib = Assembly.GetExecutingAssembly()
@@ -44,10 +51,21 @@ namespace MessageCommunicator.TestGui
 
             // Load initial main view model
             this.ViewModel = new MainWindowViewModel();
+            this.ViewModel.PropertyChanged += this.OnViewModel_PropertyChanged;
             this.DataContext = this.ViewModel;
 
             // Configure error handling
             CommonErrorHandling.Current.MainWindow = this;
+        }
+
+        private void OnViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(MainWindowViewModel.SelectedProfile):
+                    _ctrlConnectionProfile.DataContext = this.ViewModel?.SelectedProfile;
+                    break;
+            }
         }
 
         private void OnMnuExit_PointerPressed(object sender, PointerPressedEventArgs eArgs)

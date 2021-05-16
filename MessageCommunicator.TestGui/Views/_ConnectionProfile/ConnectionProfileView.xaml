@@ -17,7 +17,8 @@
                 </StackPanel>
             </TabItem.Header>
           
-            <local:LoggingView DataContext="{Binding Path=MessageLoggingViewModel}"
+            <local:LoggingView x:Name="CtrlLoggingMessages" 
+                               DataContext="{Binding Path=MessageLoggingViewModel}"
                                IsTypeColumnVisible="false" />
         </TabItem>
       
@@ -30,7 +31,8 @@
                 </StackPanel>
             </TabItem.Header>
           
-            <local:LoggingView DataContext="{Binding Path=DetailLoggingViewModel}" />
+            <local:LoggingView x:Name="CtrlLoggingDetail" 
+                               DataContext="{Binding Path=DetailLoggingViewModel}" />
         </TabItem>
     </TabControl>
 </UserControl>
