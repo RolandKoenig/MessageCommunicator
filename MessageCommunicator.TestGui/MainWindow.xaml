@@ -12,7 +12,7 @@
         Title="MessageCommunicator">
     <local:FluentWindowFrame x:Name="CtrlWindowFrame">
         <local:FluentWindowFrame.TitleContent>
-            <TextBlock x:Name="TxtTitle" />
+            <TextBlock x:Name="TxtTitle"/>
         </local:FluentWindowFrame.TitleContent>
 
         <local:FluentWindowFrame.HeaderContent>

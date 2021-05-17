@@ -5,49 +5,52 @@
              xmlns:local="clr-namespace:MessageCommunicator.TestGui"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MessageCommunicator.TestGui.FluentWindowFrame">
-    <Grid>
-        <Grid x:Name="CtrlMainGrid">
+    <Grid x:Name="CtrlFullWindowGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Title row -->
+        <Grid Grid.Row="0"
+              IsHitTestVisible="False">
+            <StackPanel x:Name="CtrlTitlePanel"
+                        Orientation="Horizontal" />
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="CtrlMainGrid">
             <Grid.RowDefinitions>
-                <RowDefinition Height="30" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="30" />
                 <RowDefinition Height="7" />
             </Grid.RowDefinitions>
 
-            <!-- Title row -->
-            <StackPanel Grid.Row="0" x:Name="CtrlTitlePanel"
-                        IsHitTestVisible="False"
-                        Orientation="Horizontal" >
-            
-            </StackPanel>
-    
             <!-- Header row (normally a menu) -->
-            <Panel Grid.Row="1" x:Name="CtrlHeader">
+            <Panel Grid.Row="0" x:Name="CtrlHeader">
 
             </Panel>
 
             <!-- Main content -->
-            <Panel Grid.Row="2" x:Name="CtrlMainContent"
+            <Panel Grid.Row="1" x:Name="CtrlMainContent"
                    Margin="5">
 
             </Panel>
 
 
             <!-- Footer panel-->
-            <Panel Grid.Row="3" x:Name="CtrlFooter">
+            <Panel Grid.Row="2" x:Name="CtrlFooter">
 
             </Panel>
 
             <!-- Colored status bar -->
-            <Panel Grid.Row="4"
+            <Panel Grid.Row="3"
                    IsHitTestVisible="False"
                    Background="#0975C6"/>
         </Grid>
 
-        <local:DialogHostControl Name="CtrlDialogHost"
+        <local:DialogHostControl Grid.Row="1" 
+                                 Name="CtrlDialogHost"
                                  OccludedControl="{Binding ElementName=CtrlMainGrid}" />
     </Grid>
-    
-
 </UserControl>

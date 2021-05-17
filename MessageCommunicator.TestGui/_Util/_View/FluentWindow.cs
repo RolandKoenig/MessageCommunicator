@@ -18,36 +18,36 @@ namespace MessageCommunicator.TestGui
 
         public FluentWindow()
         {
-            this.ExtendClientAreaToDecorationsHint = true;
-            this.ExtendClientAreaTitleBarHeightHint = -1;
+            //this.ExtendClientAreaToDecorationsHint = true;
+            //this.ExtendClientAreaTitleBarHeightHint = -1;
 
-            this.TransparencyLevelHint = WindowTransparencyLevel.None;
+            //this.TransparencyLevelHint = WindowTransparencyLevel.None;
 
-            this.GetObservable(WindowStateProperty)
-                .Subscribe(x =>
-                {
-                    this.PseudoClasses.Set(":maximized", x == WindowState.Maximized);
-                    this.PseudoClasses.Set(":fullscreen", x == WindowState.FullScreen);
-                });
+            //this.GetObservable(WindowStateProperty)
+            //    .Subscribe(x =>
+            //    {
+            //        this.PseudoClasses.Set(":maximized", x == WindowState.Maximized);
+            //        this.PseudoClasses.Set(":fullscreen", x == WindowState.FullScreen);
+            //    });
 
-            this.GetObservable(IsExtendedIntoWindowDecorationsProperty)
-                .Subscribe(x =>
-                {
-                    if (!x)
-                    {
-                        this.SystemDecorations = SystemDecorations.Full;
-                        this.TransparencyLevelHint = WindowTransparencyLevel.None;
-                    }
-                });
+            //this.GetObservable(IsExtendedIntoWindowDecorationsProperty)
+            //    .Subscribe(x =>
+            //    {
+            //        if (!x)
+            //        {
+            //            this.SystemDecorations = SystemDecorations.Full;
+            //            this.TransparencyLevelHint = WindowTransparencyLevel.None;
+            //        }
+            //    });
         }
 
-        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-        {
-            base.OnApplyTemplate(e);    
+        //protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+        //{
+        //    base.OnApplyTemplate(e);    
             
-            this.ExtendClientAreaChromeHints = 
-                Avalonia.Platform.ExtendClientAreaChromeHints.PreferSystemChrome |                 
-                Avalonia.Platform.ExtendClientAreaChromeHints.OSXThickTitleBar;
-        }
+        //    this.ExtendClientAreaChromeHints = 
+        //        Avalonia.Platform.ExtendClientAreaChromeHints.PreferSystemChrome |                 
+        //        Avalonia.Platform.ExtendClientAreaChromeHints.OSXThickTitleBar;
+        //}
     }
 }

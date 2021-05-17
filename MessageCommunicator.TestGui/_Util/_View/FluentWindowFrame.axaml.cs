@@ -11,6 +11,7 @@ namespace MessageCommunicator.TestGui
     public partial class FluentWindowFrame : UserControl
     {
         private Window? _mainWindow;
+        private Grid _ctrlFullWindowGrid;
         private Grid _ctrlMainGrid;
         private StackPanel _ctrlTitlePanel;
         private Panel _ctrlHeaderContent;
@@ -29,6 +30,7 @@ namespace MessageCommunicator.TestGui
         {
             this.InitializeComponent();
 
+            _ctrlFullWindowGrid = this.Find<Grid>("CtrlFullWindowGrid");
             _ctrlMainGrid = this.Find<Grid>("CtrlMainGrid");
             _ctrlTitlePanel = this.Find<StackPanel>("CtrlTitlePanel");
             _ctrlHeaderContent = this.Find<Panel>("CtrlHeader");
@@ -74,21 +76,35 @@ namespace MessageCommunicator.TestGui
                 }
             }
 
+            // Apply settings for content margin
+            var titleBarMargin = 0.0;
+            if (useFullWindowMargin)
+            {
+                _ctrlMainGrid.Margin = new Thickness(7.0, 0.0, 7.0, 7.0);
+                _ctrlFullWindowGrid.Margin = new Thickness(0.0, 7.0, 0.0, 0.0);
+                titleBarMargin = 7.0;
+            }
+            else
+            {
+                _ctrlMainGrid.Margin = new Thickness(0.0);
+                _ctrlFullWindowGrid.Margin = new Thickness(0.0);
+            }
+
             // Apply settings for title panel
             if (useTitlePanel)
             {
                 _ctrlTitlePanel.IsVisible = true;
-                _ctrlMainGrid.RowDefinitions[0].Height = new GridLength(30.0);
+                _ctrlFullWindowGrid.RowDefinitions[0].Height = new GridLength(30.0);
 
                 if (useCenteredTitle)
                 {
-                    _ctrlTitlePanel.Margin = new Thickness(0.0, 0.0);
+                    _ctrlTitlePanel.Margin = new Thickness(0.0);
                     _ctrlTitlePanel.HorizontalAlignment = HorizontalAlignment.Center;
                     _ctrlTitlePanel.VerticalAlignment = VerticalAlignment.Center;
                 }
                 else
                 {
-                    _ctrlTitlePanel.Margin = new Thickness(7.0, 0.0);
+                    _ctrlTitlePanel.Margin = new Thickness(7.0 + titleBarMargin, 0.0);
                     _ctrlTitlePanel.HorizontalAlignment = HorizontalAlignment.Left;
                     _ctrlTitlePanel.VerticalAlignment = VerticalAlignment.Center;
                 }
@@ -96,17 +112,7 @@ namespace MessageCommunicator.TestGui
             else
             {
                 _ctrlTitlePanel.IsVisible = false;
-                _ctrlMainGrid.RowDefinitions[0].Height = new GridLength(0.0);
-            }
-
-            // Apply settings for content margin
-            if (useFullWindowMargin)
-            {
-                _ctrlMainGrid.Margin = new Thickness(7.0);
-            }
-            else
-            {
-                _ctrlMainGrid.Margin = new Thickness(0.0);
+                _ctrlFullWindowGrid.RowDefinitions[0].Height = new GridLength(0.0);
             }
         }
 
@@ -126,6 +132,11 @@ namespace MessageCommunicator.TestGui
                 if (_mainWindow != null)
                 {
                     _mainWindow.PropertyChanged += this.OnMainWindow_PropertyChanged;
+
+                    _mainWindow.ExtendClientAreaToDecorationsHint = true;
+                    _mainWindow.ExtendClientAreaTitleBarHeightHint = -1;
+
+                    _mainWindow.TransparencyLevelHint = WindowTransparencyLevel.None;
                 }
             }
 
