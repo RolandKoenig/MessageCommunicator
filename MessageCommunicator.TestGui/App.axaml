@@ -5,25 +5,25 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceInclude Source="/Assets/Icons.xaml" />
+                <ResourceInclude Source="/Assets/Icons.axaml" />
             </ResourceDictionary.MergedDictionaries>
             
             <local:ConnectionStateToColorConverter x:Key="ConnStateConverter" />
 
             <!-- Resources for light and dark style -->
             <StyleInclude x:Key="ThemeLight" Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml" />
-            <StyleInclude x:Key="ThemeLightCustom" Source="/Assets/Styles/Light.xaml" />
+            <StyleInclude x:Key="ThemeLightCustom" Source="/Assets/Styles/Light.axaml" />
             <StyleInclude x:Key="ThemeDark" Source="avares://Avalonia.Themes.Default/Accents/BaseDark.xaml" />
-            <StyleInclude x:Key="ThemeDarkCustom" Source="/Assets/Styles/Dark.xaml" />
+            <StyleInclude x:Key="ThemeDarkCustom" Source="/Assets/Styles/Dark.axaml" />
         </ResourceDictionary>
     </Application.Resources>
     
     <Application.Styles>
         <!-- These to themes will be replaced on theme change -->
         <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml" />
-        <StyleInclude Source="/Assets/Styles/Light.xaml" />
+        <StyleInclude Source="/Assets/Styles/Light.axaml" />
       
         <!-- Common styles -->
-        <StyleInclude Source="/Assets/Common.xaml" />
+        <StyleInclude Source="/Assets/Common.axaml" />
     </Application.Styles>
 </Application>
