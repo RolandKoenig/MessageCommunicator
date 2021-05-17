@@ -8,7 +8,7 @@ using Avalonia.Threading;
 
 namespace MessageCommunicator.TestGui
 {
-    public partial class FluentWindowFrame : UserControl
+    public class FluentWindowFrame : UserControl
     {
         private Window? _mainWindow;
         private Grid _ctrlFullWindowGrid;
@@ -17,14 +17,13 @@ namespace MessageCommunicator.TestGui
         private Panel _ctrlHeaderContent;
         private Panel _ctrlMainContent;
         private Panel _ctrlFooterContent;
-        private DialogHostControl _ctrlDialogHost;
 
         public Controls TitleContent => _ctrlTitlePanel.Children;
         public Controls HeaderContent => _ctrlHeaderContent.Children;
         public Controls MainContent => _ctrlMainContent.Children;
         public Controls FooterContent => _ctrlFooterContent.Children;
 
-        public DialogHostControl DialogHostControl => _ctrlDialogHost;
+        public DialogHostControl DialogHostControl { get; }
 
         public FluentWindowFrame()
         {
@@ -36,12 +35,21 @@ namespace MessageCommunicator.TestGui
             _ctrlHeaderContent = this.Find<Panel>("CtrlHeader");
             _ctrlMainContent = this.Find<Panel>("CtrlMainContent");
             _ctrlFooterContent = this.Find<Panel>("CtrlFooter");
-            _ctrlDialogHost = this.Find<DialogHostControl>("CtrlDialogHost");
+            this.DialogHostControl = this.Find<DialogHostControl>("CtrlDialogHost");
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+        }
+
+        private void TryConfigureParentWindow()
+        {
+            if (_mainWindow == null) { return; }
+
+            _mainWindow.ExtendClientAreaToDecorationsHint = true;
+            _mainWindow.ExtendClientAreaTitleBarHeightHint = -1;
+            _mainWindow.TransparencyLevelHint = WindowTransparencyLevel.None;
         }
 
         private void UpdateFrameState()
@@ -132,11 +140,7 @@ namespace MessageCommunicator.TestGui
                 if (_mainWindow != null)
                 {
                     _mainWindow.PropertyChanged += this.OnMainWindow_PropertyChanged;
-
-                    _mainWindow.ExtendClientAreaToDecorationsHint = true;
-                    _mainWindow.ExtendClientAreaTitleBarHeightHint = -1;
-
-                    _mainWindow.TransparencyLevelHint = WindowTransparencyLevel.None;
+                    this.TryConfigureParentWindow();
                 }
             }
 
