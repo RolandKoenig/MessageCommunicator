@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:MessageCommunicator.TestGui"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="MessageCommunicator.TestGui.FluentWindowFrame">
+             x:Class="MessageCommunicator.TestGui.MainWindowFrame">
     <Grid x:Name="CtrlFullWindowGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
@@ -14,7 +14,7 @@
         <!-- Title row -->
         <Grid Grid.Row="0"
               IsHitTestVisible="False">
-            <StackPanel x:Name="CtrlTitlePanel"
+            <StackPanel x:Name="CtrlCustomTitleArea"
                         Orientation="Horizontal" />
         </Grid>
 
@@ -27,19 +27,19 @@
             </Grid.RowDefinitions>
 
             <!-- Header row (normally a menu) -->
-            <Panel Grid.Row="0" x:Name="CtrlHeader">
+            <Panel Grid.Row="0" x:Name="CtrlHeaderArea">
 
             </Panel>
 
             <!-- Main content -->
-            <Panel Grid.Row="1" x:Name="CtrlMainContent"
+            <Panel Grid.Row="1" x:Name="CtrlMainContentArea"
                    Margin="5">
 
             </Panel>
 
 
             <!-- Footer panel-->
-            <Panel Grid.Row="2" x:Name="CtrlFooter">
+            <Panel Grid.Row="2" x:Name="CtrlFooterArea">
 
             </Panel>
 

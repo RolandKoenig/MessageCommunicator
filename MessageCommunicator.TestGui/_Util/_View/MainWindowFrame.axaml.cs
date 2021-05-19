@@ -8,33 +8,33 @@ using Avalonia.Threading;
 
 namespace MessageCommunicator.TestGui
 {
-    public class FluentWindowFrame : UserControl
+    public class MainWindowFrame : UserControl
     {
         private Window? _mainWindow;
         private Grid _ctrlFullWindowGrid;
         private Grid _ctrlMainGrid;
-        private StackPanel _ctrlTitlePanel;
-        private Panel _ctrlHeaderContent;
-        private Panel _ctrlMainContent;
-        private Panel _ctrlFooterContent;
+        private StackPanel _ctrlCustomTitleArea;
+        private Panel _ctrlHeaderArea;
+        private Panel _ctrlMainContentArea;
+        private Panel _ctrlFooterArea;
 
-        public Controls TitleContent => _ctrlTitlePanel.Children;
-        public Controls HeaderContent => _ctrlHeaderContent.Children;
-        public Controls MainContent => _ctrlMainContent.Children;
-        public Controls FooterContent => _ctrlFooterContent.Children;
+        public Controls CustomTitleArea => _ctrlCustomTitleArea.Children;
+        public Controls HeaderArea => _ctrlHeaderArea.Children;
+        public Controls MainContentArea => _ctrlMainContentArea.Children;
+        public Controls FooterArea => _ctrlFooterArea.Children;
 
         public DialogHostControl DialogHostControl { get; }
 
-        public FluentWindowFrame()
+        public MainWindowFrame()
         {
             this.InitializeComponent();
 
             _ctrlFullWindowGrid = this.Find<Grid>("CtrlFullWindowGrid");
             _ctrlMainGrid = this.Find<Grid>("CtrlMainGrid");
-            _ctrlTitlePanel = this.Find<StackPanel>("CtrlTitlePanel");
-            _ctrlHeaderContent = this.Find<Panel>("CtrlHeader");
-            _ctrlMainContent = this.Find<Panel>("CtrlMainContent");
-            _ctrlFooterContent = this.Find<Panel>("CtrlFooter");
+            _ctrlCustomTitleArea = this.Find<StackPanel>("CtrlCustomTitleArea");
+            _ctrlHeaderArea = this.Find<Panel>("CtrlHeaderArea");
+            _ctrlMainContentArea = this.Find<Panel>("CtrlMainContentArea");
+            _ctrlFooterArea = this.Find<Panel>("CtrlFooterArea");
             this.DialogHostControl = this.Find<DialogHostControl>("CtrlDialogHost");
         }
 
@@ -101,25 +101,25 @@ namespace MessageCommunicator.TestGui
             // Apply settings for title panel
             if (useTitlePanel)
             {
-                _ctrlTitlePanel.IsVisible = true;
+                _ctrlCustomTitleArea.IsVisible = true;
                 _ctrlFullWindowGrid.RowDefinitions[0].Height = new GridLength(30.0);
 
                 if (useCenteredTitle)
                 {
-                    _ctrlTitlePanel.Margin = new Thickness(0.0);
-                    _ctrlTitlePanel.HorizontalAlignment = HorizontalAlignment.Center;
-                    _ctrlTitlePanel.VerticalAlignment = VerticalAlignment.Center;
+                    _ctrlCustomTitleArea.Margin = new Thickness(0.0);
+                    _ctrlCustomTitleArea.HorizontalAlignment = HorizontalAlignment.Center;
+                    _ctrlCustomTitleArea.VerticalAlignment = VerticalAlignment.Center;
                 }
                 else
                 {
-                    _ctrlTitlePanel.Margin = new Thickness(7.0 + titleBarMargin, 0.0);
-                    _ctrlTitlePanel.HorizontalAlignment = HorizontalAlignment.Left;
-                    _ctrlTitlePanel.VerticalAlignment = VerticalAlignment.Center;
+                    _ctrlCustomTitleArea.Margin = new Thickness(7.0 + titleBarMargin, 0.0);
+                    _ctrlCustomTitleArea.HorizontalAlignment = HorizontalAlignment.Left;
+                    _ctrlCustomTitleArea.VerticalAlignment = VerticalAlignment.Center;
                 }
             }
             else
             {
-                _ctrlTitlePanel.IsVisible = false;
+                _ctrlCustomTitleArea.IsVisible = false;
                 _ctrlFullWindowGrid.RowDefinitions[0].Height = new GridLength(0.0);
             }
         }

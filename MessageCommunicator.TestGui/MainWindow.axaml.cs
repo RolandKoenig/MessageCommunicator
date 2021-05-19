@@ -36,7 +36,7 @@ namespace MessageCommunicator.TestGui
             this.Find<TextBlock>("TxtTitle").Text = this.Title;
 
             // Register view services
-            var ctrlDialogHost = this.Find<FluentWindowFrame>("CtrlWindowFrame").DialogHostControl;
+            var ctrlDialogHost = this.Find<MainWindowFrame>("CtrlWindowFrame").DialogHostControl;
             var helpRepo = new IntegratedDocRepository(Assembly.GetExecutingAssembly());
 
             this.ViewServices.Add(new ConnectionConfigControlService(ctrlDialogHost));

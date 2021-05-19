@@ -10,12 +10,12 @@
         Icon="Assets/MessageCommunicator.ico"
         x:Class="MessageCommunicator.TestGui.MainWindow"
         Title="MessageCommunicator">
-    <local:FluentWindowFrame x:Name="CtrlWindowFrame">
-        <local:FluentWindowFrame.TitleContent>
+    <local:MainWindowFrame x:Name="CtrlWindowFrame">
+        <local:MainWindowFrame.CustomTitleArea>
             <TextBlock x:Name="TxtTitle"/>
-        </local:FluentWindowFrame.TitleContent>
+        </local:MainWindowFrame.CustomTitleArea>
 
-        <local:FluentWindowFrame.HeaderContent>
+        <local:MainWindowFrame.HeaderArea>
             <Grid Classes="MainMenuBackground" />
 
             <Menu HorizontalAlignment="Left" Classes="MainMenu">
@@ -38,9 +38,9 @@
                     <MenuItem Header="About" Command="{Binding Path=Command_ShowAboutDialog}" />
                 </MenuItem>
             </Menu>
-        </local:FluentWindowFrame.HeaderContent>
+        </local:MainWindowFrame.HeaderArea>
 
-        <local:FluentWindowFrame.MainContent>
+        <local:MainWindowFrame.MainContentArea>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="250" MinWidth="100" />
@@ -164,14 +164,14 @@
                 </HeaderedContentControl>
             </Grid>
 
-        </local:FluentWindowFrame.MainContent>
+        </local:MainWindowFrame.MainContentArea>
 
-        <local:FluentWindowFrame.FooterContent>
+        <local:MainWindowFrame.FooterArea>
             <Grid Grid.Column="2"
                   Height="30">
                 <localViews:ReleaseCheckView HorizontalAlignment="Right" />
             </Grid>
-        </local:FluentWindowFrame.FooterContent>
+        </local:MainWindowFrame.FooterArea>
 
-    </local:FluentWindowFrame>
+    </local:MainWindowFrame>
 </Window>

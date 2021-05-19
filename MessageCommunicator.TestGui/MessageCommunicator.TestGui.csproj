@@ -53,4 +53,9 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="_Util\_View\MainWindowFrame.axaml.cs">
+      <DependentUpon>MainWindowFrame.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>
