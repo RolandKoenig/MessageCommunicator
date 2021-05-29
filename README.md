@@ -72,3 +72,4 @@ I use the following technologies / projects:
  - [StringFormatter](https://github.com/MikePopoloski/StringFormatter): A copy/paste ready alternative to StringBuilder. StringFormatter is optimized for less object allocations
  - [Light.GuardClauses](https://github.com/feO2x/Light.GuardClauses): A lightweight .NET library for expressive Guard Clauses
  - [Markdown.Avalonia](https://github.com/whistyun/Markdown.Avalonia): Markdown.Avalonia is a portted version of [MdXaml](https://github.com/whistyun/MdXaml) for Avalonia UI. It can render Markdown with avalonia.
+ - [Svg.Skia](https://github.com/wieslawsoltes/Svg.Skia): SVG rendering library with good Avalonia integration.
