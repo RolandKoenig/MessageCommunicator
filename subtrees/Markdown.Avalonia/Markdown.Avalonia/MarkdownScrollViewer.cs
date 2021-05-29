@@ -11,6 +11,8 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using Avalonia.Layout;
+using Avalonia.Threading;
 using MdStyle = Markdown.Avalonia.MarkdownStyle;
 
 namespace Markdown.Avalonia
@@ -93,6 +95,7 @@ namespace Markdown.Avalonia
             var doc = Engine.Transform(Markdown ?? "");
 
             var ofst = _viewer.Offset;
+
             _viewer.Content = doc;
 
             if (SaveScrollValueWhenContentUpdated)

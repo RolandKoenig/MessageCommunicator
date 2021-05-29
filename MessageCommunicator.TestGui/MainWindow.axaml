@@ -4,15 +4,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MessageCommunicator.TestGui;assembly=MessageCommunicator.TestGui"
         xmlns:localViews="clr-namespace:MessageCommunicator.TestGui.Views;assembly=MessageCommunicator.TestGui"
+        x:Class="MessageCommunicator.TestGui.MainWindow"
         mc:Ignorable="d"
         MinWidth="200" MinHeight="200"
         Width="800" Height="550"
         Icon="Assets/MessageCommunicator.ico"
-        x:Class="MessageCommunicator.TestGui.MainWindow"
+        ExtendClientAreaToDecorationsHint="True"
         Title="MessageCommunicator">
     <local:MainWindowFrame x:Name="CtrlWindowFrame">
         <local:MainWindowFrame.CustomTitleArea>
-            <TextBlock x:Name="TxtTitle"/>
+            <Image Margin="0,6,6,6">
+                <Image.Source>
+                    <SvgImage Source="Assets/MessageCommunicator.svg" />
+                </Image.Source>
+            </Image>
+            <TextBlock x:Name="TxtTitle"
+                       VerticalAlignment="Center"/>
         </local:MainWindowFrame.CustomTitleArea>
 
         <local:MainWindowFrame.HeaderArea>

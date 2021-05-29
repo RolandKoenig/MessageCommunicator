@@ -14,18 +14,21 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\Docs\Resources\ByteStreamHandlerSettings.png" />
+    <None Remove="Assets\MessageCommunicator.svg" />
     <AvaloniaResource Include="Assets\Docs\Resources\ByteStreamHandlerSettings.png" />
     <None Remove="Assets\Docs\Resources\MessageRecognizerSettings.png" />
     <AvaloniaResource Include="Assets\Docs\Resources\MessageRecognizerSettings.png" />
     <None Remove="Assets\MessageCommunicator.ico" />
     <AvaloniaResource Include="Assets\MessageCommunicator.ico" />
+    <AvaloniaResource Include="Assets\MessageCommunicator.svg" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.4" />
-    <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.4" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.4" />
-    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.4" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.4" />
+    <PackageReference Include="Avalonia" Version="0.10.5" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.5" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.5" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.5" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.5" />
+    <PackageReference Include="Avalonia.Svg.Skia" Version="0.10.5.3" />
     <PackageReference Include="DeepCloner" Version="0.10.2" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

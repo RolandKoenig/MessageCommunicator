@@ -43,14 +43,14 @@ namespace MessageCommunicator.TestGui
             AvaloniaXamlLoader.Load(this);
         }
 
-        private void TryConfigureParentWindow()
-        {
-            if (_mainWindow == null) { return; }
+        //private void TryConfigureParentWindow()
+        //{
+        //    if (_mainWindow == null) { return; }
 
-            _mainWindow.ExtendClientAreaToDecorationsHint = true;
-            _mainWindow.ExtendClientAreaTitleBarHeightHint = -1;
-            _mainWindow.TransparencyLevelHint = WindowTransparencyLevel.None;
-        }
+        //    _mainWindow.ExtendClientAreaToDecorationsHint = true;
+        //    _mainWindow.ExtendClientAreaTitleBarHeightHint = -1;
+        //    _mainWindow.TransparencyLevelHint = WindowTransparencyLevel.None;
+        //}
 
         private void UpdateFrameState()
         {
@@ -140,7 +140,6 @@ namespace MessageCommunicator.TestGui
                 if (_mainWindow != null)
                 {
                     _mainWindow.PropertyChanged += this.OnMainWindow_PropertyChanged;
-                    this.TryConfigureParentWindow();
                 }
             }
 

@@ -13,6 +13,7 @@
 
         <!-- Title row -->
         <Grid Grid.Row="0"
+              Background="{DynamicResource ThemeCustomAlternateBackgroundBrush}"
               IsHitTestVisible="False">
             <StackPanel x:Name="CtrlCustomTitleArea"
                         Orientation="Horizontal" />

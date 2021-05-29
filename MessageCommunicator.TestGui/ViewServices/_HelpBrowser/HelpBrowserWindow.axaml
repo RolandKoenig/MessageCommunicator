@@ -10,7 +10,6 @@
         Width="810" Height="400"
         x:Class="MessageCommunicator.TestGui.ViewServices.HelpBrowserWindow"
         Title="{Binding Path=WindowTitle}">
-   
     <DockPanel LastChildFill="True">
         <StackPanel DockPanel.Dock="Top" Height="30"
                     Margin="17,7,7,0"
