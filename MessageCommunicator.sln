@@ -52,14 +52,6 @@ Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "MessageCommunicator.WinApp"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageCommunicator.SerialPorts", "MessageCommunicator.SerialPorts\MessageCommunicator.SerialPorts.csproj", "{1AC0E46B-95A6-48CC-8435-3B084A01151D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "subtrees", "subtrees", "{387FC9F2-6B32-4FD9-B028-C19B3341496C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Markdown.Avalonia", "Markdown.Avalonia", "{34F4AA84-1914-4D4E-9353-6C3223132F3E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Markdown.Avalonia", "subtrees\Markdown.Avalonia\Markdown.Avalonia\Markdown.Avalonia.csproj", "{2A00F5DB-F745-420E-B437-3C296C48F365}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColorTextBlock.Avalonia", "subtrees\Markdown.Avalonia\ColorTextBlock.Avalonia\ColorTextBlock.Avalonia.csproj", "{CBB379D9-8438-42BE-A848-52329EF96E6A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -170,34 +162,6 @@ Global
 		{1AC0E46B-95A6-48CC-8435-3B084A01151D}.Release-WinStore|x64.Build.0 = Release|Any CPU
 		{1AC0E46B-95A6-48CC-8435-3B084A01151D}.Release-WinStore|x86.ActiveCfg = Release|Any CPU
 		{1AC0E46B-95A6-48CC-8435-3B084A01151D}.Release-WinStore|x86.Build.0 = Release|Any CPU
-		{2A00F5DB-F745-420E-B437-3C296C48F365}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2A00F5DB-F745-420E-B437-3C296C48F365}.Debug|x64.Build.0 = Debug|Any CPU
-		{2A00F5DB-F745-420E-B437-3C296C48F365}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2A00F5DB-F745-420E-B437-3C296C48F365}.Debug|x86.Build.0 = Debug|Any CPU
-		{2A00F5DB-F745-420E-B437-3C296C48F365}.Release|x64.ActiveCfg = Release|Any CPU
-		{2A00F5DB-F745-420E-B437-3C296C48F365}.Release|x64.Build.0 = Release|Any CPU
-		{2A00F5DB-F745-420E-B437-3C296C48F365}.Release|x86.ActiveCfg = Release|Any CPU
-		{2A00F5DB-F745-420E-B437-3C296C48F365}.Release|x86.Build.0 = Release|Any CPU
-		{2A00F5DB-F745-420E-B437-3C296C48F365}.Release-CI|x64.ActiveCfg = Release|Any CPU
-		{2A00F5DB-F745-420E-B437-3C296C48F365}.Release-CI|x86.ActiveCfg = Release|Any CPU
-		{2A00F5DB-F745-420E-B437-3C296C48F365}.Release-WinStore|x64.ActiveCfg = Release|Any CPU
-		{2A00F5DB-F745-420E-B437-3C296C48F365}.Release-WinStore|x64.Build.0 = Release|Any CPU
-		{2A00F5DB-F745-420E-B437-3C296C48F365}.Release-WinStore|x86.ActiveCfg = Release|Any CPU
-		{2A00F5DB-F745-420E-B437-3C296C48F365}.Release-WinStore|x86.Build.0 = Release|Any CPU
-		{CBB379D9-8438-42BE-A848-52329EF96E6A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{CBB379D9-8438-42BE-A848-52329EF96E6A}.Debug|x64.Build.0 = Debug|Any CPU
-		{CBB379D9-8438-42BE-A848-52329EF96E6A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{CBB379D9-8438-42BE-A848-52329EF96E6A}.Debug|x86.Build.0 = Debug|Any CPU
-		{CBB379D9-8438-42BE-A848-52329EF96E6A}.Release|x64.ActiveCfg = Release|Any CPU
-		{CBB379D9-8438-42BE-A848-52329EF96E6A}.Release|x64.Build.0 = Release|Any CPU
-		{CBB379D9-8438-42BE-A848-52329EF96E6A}.Release|x86.ActiveCfg = Release|Any CPU
-		{CBB379D9-8438-42BE-A848-52329EF96E6A}.Release|x86.Build.0 = Release|Any CPU
-		{CBB379D9-8438-42BE-A848-52329EF96E6A}.Release-CI|x64.ActiveCfg = Release|Any CPU
-		{CBB379D9-8438-42BE-A848-52329EF96E6A}.Release-CI|x86.ActiveCfg = Release|Any CPU
-		{CBB379D9-8438-42BE-A848-52329EF96E6A}.Release-WinStore|x64.ActiveCfg = Release|Any CPU
-		{CBB379D9-8438-42BE-A848-52329EF96E6A}.Release-WinStore|x64.Build.0 = Release|Any CPU
-		{CBB379D9-8438-42BE-A848-52329EF96E6A}.Release-WinStore|x86.ActiveCfg = Release|Any CPU
-		{CBB379D9-8438-42BE-A848-52329EF96E6A}.Release-WinStore|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -207,9 +171,6 @@ Global
 		{61C4FD8C-A0BC-4050-BD6C-1D48B45302E7} = {912C279A-570B-490B-B610-5357670BF0D8}
 		{2B5F93AC-82F3-486D-8A44-07E2E21FA6A9} = {8E0807B9-6F5F-4BB1-AA23-2AED4FD99B71}
 		{C55F0A61-2E52-49DF-8BF0-86288AC9DAC6} = {8E0807B9-6F5F-4BB1-AA23-2AED4FD99B71}
-		{34F4AA84-1914-4D4E-9353-6C3223132F3E} = {387FC9F2-6B32-4FD9-B028-C19B3341496C}
-		{2A00F5DB-F745-420E-B437-3C296C48F365} = {34F4AA84-1914-4D4E-9353-6C3223132F3E}
-		{CBB379D9-8438-42BE-A848-52329EF96E6A} = {34F4AA84-1914-4D4E-9353-6C3223132F3E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F611EC5F-305C-4179-91F2-741C52DAAFA0}
