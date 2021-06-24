@@ -23,12 +23,13 @@
     <AvaloniaResource Include="Assets\MessageCommunicator.svg" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.5" />
-    <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.5" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.5" />
-    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.5" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.5" />
-    <PackageReference Include="Avalonia.Svg.Skia" Version="0.10.5.3" />
+    <PackageReference Include="Avalonia" Version="0.10.6" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.6" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.6" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.6" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.6" />
+    <PackageReference Include="Avalonia.Svg.Skia" Version="0.10.6.1" />
+    <PackageReference Include="Markdown.Avalonia" Version="0.10.4" />
     <PackageReference Include="DeepCloner" Version="0.10.2" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
@@ -51,7 +52,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MessageCommunicator.SerialPorts\MessageCommunicator.SerialPorts.csproj" />
     <ProjectReference Include="..\MessageCommunicator\MessageCommunicator.csproj" />
-    <ProjectReference Include="..\subtrees\Markdown.Avalonia\Markdown.Avalonia\Markdown.Avalonia.csproj" />
+    <!--<ProjectReference Include="..\subtrees\Markdown.Avalonia\Markdown.Avalonia\Markdown.Avalonia.csproj" />-->
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
