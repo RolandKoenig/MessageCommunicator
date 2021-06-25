@@ -23,6 +23,7 @@
     <None Remove="Assets\Fonts\Inconsolata-Regular.ttf" />
     <None Remove="Assets\Fonts\Inconsolata-SemiBold.ttf" />
     <None Remove="Assets\MessageCommunicator.svg" />
+    <None Remove="Assets\SvgIcons\MessageCommunicator-Help.svg" />
     <AvaloniaResource Include="Assets\Docs\Resources\ByteStreamHandlerSettings.png" />
     <None Remove="Assets\Docs\Resources\MessageRecognizerSettings.png" />
     <AvaloniaResource Include="Assets\Docs\Resources\MessageRecognizerSettings.png" />
@@ -36,7 +37,8 @@
     <AvaloniaResource Include="Assets\Fonts\Inconsolata-Regular.ttf" />
     <AvaloniaResource Include="Assets\Fonts\Inconsolata-SemiBold.ttf" />
     <AvaloniaResource Include="Assets\MessageCommunicator.ico" />
-    <AvaloniaResource Include="Assets\MessageCommunicator.svg" />
+    <AvaloniaResource Include="Assets\SvgIcons\MessageCommunicator-Help.svg" />
+    <AvaloniaResource Include="Assets\SvgIcons\MessageCommunicator.svg" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.6" />

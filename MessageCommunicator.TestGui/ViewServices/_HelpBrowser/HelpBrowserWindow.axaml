@@ -8,18 +8,22 @@
         Icon="/Assets/MessageCommunicator.ico"
         mc:Ignorable="d"
         Width="810" Height="400"
+        ExtendClientAreaToDecorationsHint="True"
         x:Class="MessageCommunicator.TestGui.ViewServices.HelpBrowserWindow"
         Title="{Binding Path=WindowTitle}">
-    <DockPanel LastChildFill="True">
-        <StackPanel DockPanel.Dock="Top" Height="30"
-                    Margin="17,7,7,0"
-                    Orientation="Horizontal">
+    <localRoot:MainWindowFrame x:Name="CtrlWindowFrame">
+        <localRoot:MainWindowFrame.CustomTitleArea>
+            <Image Margin="0,6,6,6">
+                <Image.Source>
+                    <SvgImage Source="/Assets/SvgIcons/MessageCommunicator-Help.svg" />
+                </Image.Source>
+            </Image>
             <TextBlock VerticalAlignment="Center"
                        IsHitTestVisible="False"
                        Text="{Binding Path=WindowTitle}" />
-        </StackPanel>
+        </localRoot:MainWindowFrame.CustomTitleArea>
 
-        <ContentControl Margin="7,0,7,7">
+        <localRoot:MainWindowFrame.MainContentArea>
             <DockPanel LastChildFill="True">
                 <StackPanel DockPanel.Dock="Bottom" 
                             Orientation="Horizontal" HorizontalAlignment="Right">
@@ -61,6 +65,15 @@
                     </HeaderedContentControl>
                 </Grid>
             </DockPanel>
+        </localRoot:MainWindowFrame.MainContentArea>
+
+    </localRoot:MainWindowFrame>
+
+    <!--<DockPanel LastChildFill="True">
+
+
+        <ContentControl Margin="7,0,7,7">
+
         </ContentControl>
-    </DockPanel>
+    </DockPanel>-->
 </Window>

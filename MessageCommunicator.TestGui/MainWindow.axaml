@@ -15,7 +15,7 @@
         <local:MainWindowFrame.CustomTitleArea>
             <Image Margin="0,6,6,6">
                 <Image.Source>
-                    <SvgImage Source="Assets/MessageCommunicator.svg" />
+                    <SvgImage Source="Assets/SvgIcons/MessageCommunicator.svg" />
                 </Image.Source>
             </Image>
             <TextBlock x:Name="TxtTitle"
@@ -120,12 +120,12 @@
                                                     Binding="{Binding Path=State}"
                                                     FontFamily="{local:MonospaceFont Value=FontFamily}"
                                                     FontSize="{local:MonospaceFont Value=FontSize}"
-                                                    Width="76" />
+                                                    Width="100" />
                                 <DataGridTextColumn Header="Name"
                                                     Binding="{Binding Path=Model.Name}"
                                                     FontFamily="{local:MonospaceFont Value=FontFamily}"
                                                     FontSize="{local:MonospaceFont Value=FontSize}"
-                                                    Width="126" />
+                                                    Width="150" />
                                 <DataGridTextColumn Header="# Err"
                                                     Binding="{Binding Path=CountErrors}"
                                                     FontFamily="{local:MonospaceFont Value=FontFamily}"
