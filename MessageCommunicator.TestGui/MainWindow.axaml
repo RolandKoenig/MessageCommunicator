@@ -118,31 +118,38 @@
                                 </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="State"
                                                     Binding="{Binding Path=State}"
-                                                    FontFamily="{local:MonospaceFontFamily}"
+                                                    FontFamily="{local:MonospaceFont Value=FontFamily}"
+                                                    FontSize="{local:MonospaceFont Value=FontSize}"
                                                     Width="76" />
                                 <DataGridTextColumn Header="Name"
                                                     Binding="{Binding Path=Model.Name}"
-                                                    FontFamily="{local:MonospaceFontFamily}"
+                                                    FontFamily="{local:MonospaceFont Value=FontFamily}"
+                                                    FontSize="{local:MonospaceFont Value=FontSize}"
                                                     Width="126" />
                                 <DataGridTextColumn Header="# Err"
                                                     Binding="{Binding Path=CountErrors}"
-                                                    FontFamily="{local:MonospaceFontFamily}"
+                                                    FontFamily="{local:MonospaceFont Value=FontFamily}"
+                                                    FontSize="{local:MonospaceFont Value=FontSize}"
                                                     Width="40" />
                                 <DataGridTextColumn Header="# In"
                                                     Binding="{Binding Path=CountMessagesIn}"
-                                                    FontFamily="{local:MonospaceFontFamily}"
+                                                    FontFamily="{local:MonospaceFont Value=FontFamily}"
+                                                    FontSize="{local:MonospaceFont Value=FontSize}"
                                                     Width="40" />
                                 <DataGridTextColumn Header="# Out"
                                                     Binding="{Binding Path=CountMessagesOut}"
-                                                    FontFamily="{local:MonospaceFontFamily}"
+                                                    FontFamily="{local:MonospaceFont Value=FontFamily}"
+                                                    FontSize="{local:MonospaceFont Value=FontSize}"
                                                     Width="40" />
                                 <DataGridTextColumn Header="Source"
                                                     Binding="{Binding Path=LocalEndpointDescription}"
-                                                    FontFamily="{local:MonospaceFontFamily}"
+                                                    FontFamily="{local:MonospaceFont Value=FontFamily}"
+                                                    FontSize="{local:MonospaceFont Value=FontSize}"
                                                     Width="126" />
                                 <DataGridTextColumn Header="Target"
                                                     Binding="{Binding Path=RemoteEndpointDescription}"
-                                                    FontFamily="{local:MonospaceFontFamily}"
+                                                    FontFamily="{local:MonospaceFont Value=FontFamily}"
+                                                    FontSize="{local:MonospaceFont Value=FontSize}"
                                                     Width="126" />
                             </DataGrid.Columns>
                         </DataGrid>

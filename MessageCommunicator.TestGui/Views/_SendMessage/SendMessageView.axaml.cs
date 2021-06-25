@@ -10,7 +10,8 @@ namespace MessageCommunicator.TestGui.Views
             AvaloniaXamlLoader.Load(this);
 
             var txtSendMessage = this.FindControl<TextBox>("TxtSendMessage");
-            txtSendMessage.FontFamily = MonospaceFontFamilyExtension.GetDefaultMonospaceFont();
+            txtSendMessage.FontFamily = MonospaceFontExtension.GetDefaultMonospaceFont();
+            txtSendMessage.FontSize = 14.0;
         }
     }
 }

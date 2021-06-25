@@ -14,11 +14,27 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\Docs\Resources\ByteStreamHandlerSettings.png" />
+    <None Remove="Assets\Fonts\Inconsolata-Black.ttf" />
+    <None Remove="Assets\Fonts\Inconsolata-Bold.ttf" />
+    <None Remove="Assets\Fonts\Inconsolata-ExtraBold.ttf" />
+    <None Remove="Assets\Fonts\Inconsolata-ExtraLight.ttf" />
+    <None Remove="Assets\Fonts\Inconsolata-Light.ttf" />
+    <None Remove="Assets\Fonts\Inconsolata-Medium.ttf" />
+    <None Remove="Assets\Fonts\Inconsolata-Regular.ttf" />
+    <None Remove="Assets\Fonts\Inconsolata-SemiBold.ttf" />
     <None Remove="Assets\MessageCommunicator.svg" />
     <AvaloniaResource Include="Assets\Docs\Resources\ByteStreamHandlerSettings.png" />
     <None Remove="Assets\Docs\Resources\MessageRecognizerSettings.png" />
     <AvaloniaResource Include="Assets\Docs\Resources\MessageRecognizerSettings.png" />
     <None Remove="Assets\MessageCommunicator.ico" />
+    <AvaloniaResource Include="Assets\Fonts\Inconsolata-Black.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\Inconsolata-Bold.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\Inconsolata-ExtraBold.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\Inconsolata-ExtraLight.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\Inconsolata-Light.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\Inconsolata-Medium.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\Inconsolata-Regular.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\Inconsolata-SemiBold.ttf" />
     <AvaloniaResource Include="Assets\MessageCommunicator.ico" />
     <AvaloniaResource Include="Assets\MessageCommunicator.svg" />
   </ItemGroup>

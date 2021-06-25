@@ -36,7 +36,8 @@
                 <DataGridTextColumn Header="TimeStamp"
                                     IsReadOnly="True"
                                     Binding="{Binding Path=TimeStamp}"
-                                    FontFamily="{localRoot:MonospaceFontFamily}"
+                                    FontFamily="{localRoot:MonospaceFont Value=FontFamily}"
+                                    FontSize="{localRoot:MonospaceFont Value=FontSize}"
                                     Width="200" />
                 <DataGridTemplateColumn Header=" "
                                         Width="24">
@@ -52,17 +53,20 @@
                 <DataGridTextColumn Header="Type"
                                     IsReadOnly="True"
                                     Binding="{Binding Path=MessageType}"
-                                    FontFamily="{localRoot:MonospaceFontFamily}"
+                                    FontFamily="{localRoot:MonospaceFont Value=FontFamily}"
+                                    FontSize="{localRoot:MonospaceFont Value=FontSize}"
                                     Width="76" />
                 <DataGridTextColumn Header="Meta data"
                                     IsReadOnly="True"
                                     Binding="{Binding Path=MetaData}"
-                                    FontFamily="{localRoot:MonospaceFontFamily}"
+                                    FontFamily="{localRoot:MonospaceFont Value=FontFamily}"
+                                    FontSize="{localRoot:MonospaceFont Value=FontSize}"
                                     Width="75" />
                 <DataGridTextColumn Header="Message"
                                     IsReadOnly="True"
                                     Binding="{Binding Path=Message}"
-                                    FontFamily="{localRoot:MonospaceFontFamily}"
+                                    FontFamily="{localRoot:MonospaceFont Value=FontFamily}"
+                                    FontSize="{localRoot:MonospaceFont Value=FontSize}"
                                     Width="1000" />
             </DataGrid.Columns>
         </DataGrid>
