@@ -14,6 +14,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\Docs\Resources\ByteStreamHandlerSettings.png" />
+    <None Remove="Assets\Docs\Resources\Licenses.md" />
     <None Remove="Assets\Fonts\Inconsolata-Black.ttf" />
     <None Remove="Assets\Fonts\Inconsolata-Bold.ttf" />
     <None Remove="Assets\Fonts\Inconsolata-ExtraBold.ttf" />
