@@ -24,4 +24,17 @@ namespace MessageCommunicator.TestGui
 
         Neutral,
     }
+
+    public enum MainWindowFrameStatus
+    {
+        NeutralGray,
+
+        NeutralBlue,
+
+        Green,
+
+        Yellow,
+
+        Red
+    }
 }

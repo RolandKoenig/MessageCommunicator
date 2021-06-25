@@ -23,7 +23,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="30" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="7" />
             </Grid.RowDefinitions>
 
@@ -45,7 +45,8 @@
             </Panel>
 
             <!-- Colored status bar -->
-            <Panel Grid.Row="3"
+            <Panel x:Name="CtrlStatusBar" 
+                   Grid.Row="3"
                    IsHitTestVisible="False"
                    Background="#0975C6"/>
         </Grid>

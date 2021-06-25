@@ -11,7 +11,8 @@
         Icon="Assets/MessageCommunicator.ico"
         ExtendClientAreaToDecorationsHint="True"
         Title="MessageCommunicator">
-    <local:MainWindowFrame x:Name="CtrlWindowFrame">
+    <local:MainWindowFrame x:Name="CtrlWindowFrame"
+                           Status="{Binding Path=StatusBarState}">
         <local:MainWindowFrame.CustomTitleArea>
             <Image Margin="0,6,6,6">
                 <Image.Source>

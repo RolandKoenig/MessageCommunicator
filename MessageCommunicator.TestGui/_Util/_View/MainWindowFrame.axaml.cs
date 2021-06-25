@@ -1,15 +1,22 @@
+using System;
 using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.LogicalTree;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media;
 using Avalonia.Threading;
 
 namespace MessageCommunicator.TestGui
 {
     public class MainWindowFrame : UserControl
     {
+        public static readonly StyledProperty<MainWindowFrameStatus> StatusProperty =
+            AvaloniaProperty.Register<MainWindowFrame, MainWindowFrameStatus>(
+                nameof(Status), MainWindowFrameStatus.NeutralBlue, 
+                notifying: OnStatusChanged);
+
         private Window? _mainWindow;
         private Grid _ctrlFullWindowGrid;
         private Grid _ctrlMainGrid;
@@ -17,6 +24,7 @@ namespace MessageCommunicator.TestGui
         private Panel _ctrlHeaderArea;
         private Panel _ctrlMainContentArea;
         private Panel _ctrlFooterArea;
+        private Panel _ctrlStatusBar;
 
         public Controls CustomTitleArea => _ctrlCustomTitleArea.Children;
         public Controls HeaderArea => _ctrlHeaderArea.Children;
@@ -24,6 +32,12 @@ namespace MessageCommunicator.TestGui
         public Controls FooterArea => _ctrlFooterArea.Children;
 
         public DialogHostControl DialogHostControl { get; }
+
+        public MainWindowFrameStatus Status
+        {
+            get => this.GetValue(StatusProperty); 
+            set => this.SetValue(StatusProperty, value);
+        }
 
         public MainWindowFrame()
         {
@@ -35,6 +49,7 @@ namespace MessageCommunicator.TestGui
             _ctrlHeaderArea = this.Find<Panel>("CtrlHeaderArea");
             _ctrlMainContentArea = this.Find<Panel>("CtrlMainContentArea");
             _ctrlFooterArea = this.Find<Panel>("CtrlFooterArea");
+            _ctrlStatusBar = this.Find<Panel>("CtrlStatusBar");
             this.DialogHostControl = this.Find<DialogHostControl>("CtrlDialogHost");
         }
 
@@ -43,14 +58,13 @@ namespace MessageCommunicator.TestGui
             AvaloniaXamlLoader.Load(this);
         }
 
-        //private void TryConfigureParentWindow()
-        //{
-        //    if (_mainWindow == null) { return; }
+        private static void OnStatusChanged(IAvaloniaObject sender, bool beforeChanging)
+        {
+            if (beforeChanging) { return; }
+            if (!(sender is MainWindowFrame windowFrame)) { return; }
 
-        //    _mainWindow.ExtendClientAreaToDecorationsHint = true;
-        //    _mainWindow.ExtendClientAreaTitleBarHeightHint = -1;
-        //    _mainWindow.TransparencyLevelHint = WindowTransparencyLevel.None;
-        //}
+            windowFrame.UpdateFrameState();
+        }
 
         private void UpdateFrameState()
         {
@@ -121,6 +135,33 @@ namespace MessageCommunicator.TestGui
             {
                 _ctrlCustomTitleArea.IsVisible = false;
                 _ctrlFullWindowGrid.RowDefinitions[0].Height = new GridLength(0.0);
+            }
+
+            switch (this.Status)
+            {
+                case MainWindowFrameStatus.NeutralBlue:
+                    _ctrlStatusBar.Background = Brush.Parse("#0975C6");
+                    break;
+
+                case MainWindowFrameStatus.NeutralGray:
+                    _ctrlStatusBar.Background = Brushes.Gray;
+                    break;
+
+                case MainWindowFrameStatus.Green:
+                    _ctrlStatusBar.Background = Brushes.Green;
+                    break;
+
+                case MainWindowFrameStatus.Yellow:
+                    _ctrlStatusBar.Background = Brushes.Yellow;
+                    break;
+
+                case MainWindowFrameStatus.Red:
+                    _ctrlStatusBar.Background = Brushes.Red;
+                    break;
+
+                default:
+                    throw new InvalidOperationException(
+                        $"Enum member {this.Status} from enum {nameof(MainWindowFrameStatus)} is not supported!");
             }
         }
 

@@ -18,6 +18,7 @@ namespace MessageCommunicator.TestGui
     public class MainWindowViewModel : OwnViewModelBase
     {
         private ConnectionProfileViewModel? _selectedProfile;
+        private MainWindowFrameStatus _statusBarState;
 
         public ObservableCollection<ConnectionProfileViewModel> Profiles { get; } =
             new ObservableCollection<ConnectionProfileViewModel>();
@@ -33,6 +34,19 @@ namespace MessageCommunicator.TestGui
                     this.SendMessageVM.CurrentConnectionProfile = _selectedProfile?.Model;
                     this.RaisePropertyChanged(nameof(this.SelectedProfile));
                     this.RaisePropertyChanged(nameof(this.IsProfileScreenEnabled));
+                }
+            }
+        }
+
+        public MainWindowFrameStatus StatusBarState
+        {
+            get => _statusBarState;
+            set
+            {
+                if (_statusBarState != value)
+                {
+                    _statusBarState = value;
+                    this.RaisePropertyChanged(nameof(this.StatusBarState));
                 }
             }
         }
@@ -90,10 +104,19 @@ namespace MessageCommunicator.TestGui
                 {
                     try
                     {
+                        var anyConnected = false;
+                        var anyConnecting = false;
                         foreach (var actProfile in this.Profiles)
                         {
                             actProfile.RefreshData();
+
+                            if (actProfile.State == ConnectionState.Connected) { anyConnected = true; }
+                            else if (actProfile.State == ConnectionState.Connecting) { anyConnecting = true; }
                         }
+
+                        if (anyConnecting) { this.StatusBarState = MainWindowFrameStatus.Yellow; }
+                        else if (anyConnected) { this.StatusBarState = MainWindowFrameStatus.Green; }
+                        else { this.StatusBarState = MainWindowFrameStatus.NeutralGray; }
                     }
                     catch (Exception e)
                     {
