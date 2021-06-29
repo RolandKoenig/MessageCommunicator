@@ -15,7 +15,7 @@ using ReactiveUI;
 
 namespace MessageCommunicator.TestGui
 {
-    public class MainWindowViewModel : OwnViewModelBase
+    public class MainWindowViewModel : OwnViewModelBase, IDoubleTabEnabledViewModel
     {
         private ConnectionProfileViewModel? _selectedProfile;
         private MainWindowFrameStatus _statusBarState;
@@ -261,6 +261,16 @@ namespace MessageCommunicator.TestGui
         {
             var srvAboutDlg = this.GetViewService<IAboutDialogService>();
             return srvAboutDlg.ShowAboutDialogAsync();
+        }
+
+        /// <inheritdoc />
+        public void NotifyDoubleTap(object rowViewModel)
+        {
+            if (rowViewModel is ConnectionProfileViewModel profileVM)
+            {
+                this.SelectedProfile = profileVM;
+                this.Command_EditProfile.Execute().Subscribe();
+            }
         }
     }
 }

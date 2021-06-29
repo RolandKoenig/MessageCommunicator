@@ -4,6 +4,7 @@ using System.Reflection;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using MessageCommunicator.TestGui.Views;
 using MessageCommunicator.TestGui.ViewServices;

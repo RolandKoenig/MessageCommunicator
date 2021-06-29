@@ -35,7 +35,7 @@
         <Setter Property="CanUserSortColumns" Value="False" />
         <Setter Property="CanUserReorderColumns" Value="False" />
         <Setter Property="SelectionMode" Value="Single" />
-        <Setter Property="local:XamlExtensions.IsDefaultGridBehaviorActive" Value="True" />
+        <Setter Property="local:DefaultDataGridBehavior.IsDefaultDataGridBehaviorActive" Value="True" />
     </Style>
     <Style Selector="DataGridColumnHeader">
         <Setter Property="Template">

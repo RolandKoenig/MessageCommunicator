@@ -11,7 +11,8 @@
         ExtendClientAreaToDecorationsHint="True"
         x:Class="MessageCommunicator.TestGui.ViewServices.HelpBrowserWindow"
         Title="{Binding Path=WindowTitle}">
-    <localRoot:MainWindowFrame x:Name="CtrlWindowFrame">
+    <localRoot:MainWindowFrame x:Name="CtrlWindowFrame" 
+                               Status="NeutralGray">
         <localRoot:MainWindowFrame.CustomTitleArea>
             <Image Margin="0,6,6,6">
                 <Image.Source>
