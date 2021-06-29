@@ -9,7 +9,7 @@
         MinWidth="200" MinHeight="200"
         Width="800" Height="550"
         Icon="Assets/MessageCommunicator.ico"
-        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaToDecorationsHint="False"
         Title="MessageCommunicator">
     <local:MainWindowFrame x:Name="CtrlWindowFrame"
                            Status="{Binding Path=StatusBarState}">
@@ -65,7 +65,6 @@
                                         Header="Profiles"
                                         Classes="GroupBox">
                     <DockPanel LastChildFill="True">
-            
                         <Menu DockPanel.Dock="Top">
                             <MenuItem ToolTip.Tip="Create new profile"
                                       Header="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconCreate}}"
@@ -101,6 +100,19 @@
                                               Icon="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconStop}}"
                                               IsEnabled="{Binding Path=#LstProfiles.SelectedItem.CanStop}"
                                               Command="{Binding Path=#LstProfiles.SelectedItem.Command_Stop}" />
+                                    <Separator Classes="Horizontal" />
+
+                                    <MenuItem Header="Create profile" 
+                                              Icon="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconCreate}}"
+                                              Command="{Binding Path=Command_CreateProfile}" />
+                                    <MenuItem Header="Edit profile" 
+                                              Icon="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconEdit}}"
+                                              IsEnabled="{Binding Path=IsProfileSelected}"
+                                              Command="{Binding Path=Command_EditProfile}" />
+                                    <MenuItem Header="Remove profile" 
+                                              Icon="{local:VectorIconExtension Icon={StaticResource ResourceKey=IconRemove}}"
+                                              IsEnabled="{Binding Path=IsProfileSelected}"
+                                              Command="{Binding Path=Command_DeleteProfile}" />
                                 </ContextMenu>
                             </DataGrid.ContextMenu>
                             

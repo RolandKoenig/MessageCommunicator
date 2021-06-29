@@ -33,7 +33,7 @@ namespace MessageCommunicator.TestGui
                     _selectedProfile = value;
                     this.SendMessageVM.CurrentConnectionProfile = _selectedProfile?.Model;
                     this.RaisePropertyChanged(nameof(this.SelectedProfile));
-                    this.RaisePropertyChanged(nameof(this.IsProfileScreenEnabled));
+                    this.RaisePropertyChanged(nameof(this.IsProfileSelected));
                 }
             }
         }
@@ -53,7 +53,7 @@ namespace MessageCommunicator.TestGui
 
         public SendMessageViewModel SendMessageVM { get; }
 
-        public bool IsProfileScreenEnabled => _selectedProfile != null;
+        public bool IsProfileSelected => _selectedProfile != null;
 
         public ReactiveCommand<object?, Unit> Command_ImportProfiles { get; }
 
