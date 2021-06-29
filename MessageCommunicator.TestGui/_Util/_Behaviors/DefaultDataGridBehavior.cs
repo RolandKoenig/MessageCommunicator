@@ -8,12 +8,12 @@ namespace MessageCommunicator.TestGui
 {
     public class DefaultDataGridBehavior : AvaloniaObject
     {
-        public static readonly AttachedProperty<bool> IsDefaultGridBehaviorActiveProperty =
+        public static readonly AttachedProperty<bool> IsDefaultDataGridBehaviorActiveProperty =
             AvaloniaProperty.RegisterAttached<DefaultDataGridBehavior, DataGrid, bool>(
                 "IsDefaultDataGridBehaviorActive",
-                coerce: ValidateIsDefaultGridBehaviorActiveProperty);
+                coerce: ValidateIsDefaultDataGridBehaviorActiveProperty);
 
-        public static bool ValidateIsDefaultGridBehaviorActiveProperty(IAvaloniaObject targetObject, bool givenValue)
+        public static bool ValidateIsDefaultDataGridBehaviorActiveProperty(IAvaloniaObject targetObject, bool givenValue)
         {
             if ((givenValue) && 
                 (targetObject is DataGrid targetControl))
