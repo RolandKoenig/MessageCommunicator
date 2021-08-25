@@ -9,7 +9,7 @@
         MinWidth="200" MinHeight="200"
         Width="800" Height="550"
         Icon="Assets/MessageCommunicator.ico"
-        ExtendClientAreaToDecorationsHint="False"
+        ExtendClientAreaToDecorationsHint="True"
         Title="MessageCommunicator">
     <local:MainWindowFrame x:Name="CtrlWindowFrame"
                            Status="{Binding Path=StatusBarState}">

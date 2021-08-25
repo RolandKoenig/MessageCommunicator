@@ -31,7 +31,7 @@ namespace MessageCommunicator.TestGui
             }
         }
 
-        public static FontFamily? GetDefaultMonospaceFont()
+        public static FontFamily GetDefaultMonospaceFont()
         {
             s_monospaceFontFamily = new FontFamily("avares://MessageCommunicator.TestGui/Assets/Fonts#Inconsolata");
             return s_monospaceFontFamily;
