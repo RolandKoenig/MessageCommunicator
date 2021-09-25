@@ -5,13 +5,11 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Root", "_Root", "{907D9916-43F6-485A-AEB3-72560525088A}"
 	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
-		Directory.Build.props = Directory.Build.props
-		global.json = global.json
-		LICENSE.md = LICENSE.md
-		Privacy.md = Privacy.md
-		README.md = README.md
-		script-publish.ps1 = script-publish.ps1
+		..\.gitignore = ..\.gitignore
+		..\LICENSE.md = ..\LICENSE.md
+		..\Privacy.md = ..\Privacy.md
+		..\README.md = ..\README.md
+		..\script-publish.ps1 = ..\script-publish.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Misc", "_Misc", "{8E0807B9-6F5F-4BB1-AA23-2AED4FD99B71}"
@@ -31,8 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{912C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{61C4FD8C-A0BC-4050-BD6C-1D48B45302E7}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\ubuntu_build-and-test.yml = .github\workflows\ubuntu_build-and-test.yml
-		.github\workflows\windows_build-and-test.yml = .github\workflows\windows_build-and-test.yml
+		..\.github\workflows\ubuntu_build-and-test.yml = ..\.github\workflows\ubuntu_build-and-test.yml
+		..\.github\workflows\windows_build-and-test.yml = ..\.github\workflows\windows_build-and-test.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WikiImages", "WikiImages", "{2B5F93AC-82F3-486D-8A44-07E2E21FA6A9}"
@@ -51,6 +49,12 @@ EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "MessageCommunicator.WinApp", "MessageCommunicator.WinApp\MessageCommunicator.WinApp.wapproj", "{C0147D75-D7F9-4D6A-AB94-4B5308B15F8A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageCommunicator.SerialPorts", "MessageCommunicator.SerialPorts\MessageCommunicator.SerialPorts.csproj", "{1AC0E46B-95A6-48CC-8435-3B084A01151D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7109F10D-881B-443B-89A0-25DC5AD92AC6}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		global.json = global.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -171,6 +175,7 @@ Global
 		{61C4FD8C-A0BC-4050-BD6C-1D48B45302E7} = {912C279A-570B-490B-B610-5357670BF0D8}
 		{2B5F93AC-82F3-486D-8A44-07E2E21FA6A9} = {8E0807B9-6F5F-4BB1-AA23-2AED4FD99B71}
 		{C55F0A61-2E52-49DF-8BF0-86288AC9DAC6} = {8E0807B9-6F5F-4BB1-AA23-2AED4FD99B71}
+		{7109F10D-881B-443B-89A0-25DC5AD92AC6} = {907D9916-43F6-485A-AEB3-72560525088A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F611EC5F-305C-4179-91F2-741C52DAAFA0}

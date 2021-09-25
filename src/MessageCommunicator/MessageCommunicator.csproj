@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\LICENSE.md" Link="LICENSE.md" Pack="true" PackagePath="LICENSE.md" />
+    <None Include="../../LICENSE.md" Link="LICENSE.md" Pack="true" PackagePath="LICENSE.md" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
