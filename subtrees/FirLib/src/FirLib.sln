@@ -27,6 +27,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirLib.Core.WinForms.Tests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirLib.Formats.Gpx.Tests", "FirLib.Formats.Gpx.Tests\FirLib.Formats.Gpx.Tests.csproj", "{46794B09-C2B4-497A-9574-022C43E2799D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirLib.Core.Avalonia", "FirLib.Core.Avalonia\FirLib.Core.Avalonia.csproj", "{9B7479B0-D507-4F1D-A500-267940AF84F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirLib.Core.Avalonia.Tests", "FirLib.Core.Avalonia.Tests\FirLib.Core.Avalonia.Tests.csproj", "{DF7FDB06-09B4-45E4-A570-C99672FE2D8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,14 @@ Global
 		{46794B09-C2B4-497A-9574-022C43E2799D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46794B09-C2B4-497A-9574-022C43E2799D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46794B09-C2B4-497A-9574-022C43E2799D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B7479B0-D507-4F1D-A500-267940AF84F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B7479B0-D507-4F1D-A500-267940AF84F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B7479B0-D507-4F1D-A500-267940AF84F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B7479B0-D507-4F1D-A500-267940AF84F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF7FDB06-09B4-45E4-A570-C99672FE2D8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF7FDB06-09B4-45E4-A570-C99672FE2D8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF7FDB06-09B4-45E4-A570-C99672FE2D8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF7FDB06-09B4-45E4-A570-C99672FE2D8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
