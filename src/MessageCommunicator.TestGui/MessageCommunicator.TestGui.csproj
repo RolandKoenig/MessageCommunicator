@@ -69,6 +69,8 @@
     <EmbeddedResource Include="Assets\Docs\MessageRecognizer.md" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\subtrees\FirLib\src\FirLib.Core.Avalonia\FirLib.Core.Avalonia.csproj" />
+    <ProjectReference Include="..\..\subtrees\FirLib\src\FirLib.Core\FirLib.Core.csproj" />
     <ProjectReference Include="..\MessageCommunicator.SerialPorts\MessageCommunicator.SerialPorts.csproj" />
     <ProjectReference Include="..\MessageCommunicator\MessageCommunicator.csproj" />
     <!--<ProjectReference Include="..\subtrees\Markdown.Avalonia\Markdown.Avalonia\Markdown.Avalonia.csproj" />-->
