@@ -1,0 +1,60 @@
+﻿<mvvm:MvvmWindow x:Class="FirLib.Core.Dialogs.ErrorDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mvvm="clr-namespace:FirLib.Core.Patterns.Mvvm"
+        xmlns:local="clr-namespace:FirLib.Core.Dialogs"
+        mc:Ignorable="d"
+        Title="ErrorDialog" Height="450" Width="800"
+        d:DataContext="{x:Static local:DesignData.ExceptionInfo}">
+    <Grid Margin="3">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Column="1"
+                   LastChildFill="True">
+            <StackPanel DockPanel.Dock="Top"
+                        Orientation="Vertical">
+                <TextBlock Text="{Binding Path=ExceptionInfo.MainMessage}"
+                           FontSize="32"/>
+                <TextBlock Text="{Binding Path=ExceptionInfo.Description}"
+                           FontSize="16"/>
+
+                <TextBlock Text="Details:"
+                           Margin="0,20,0,0" />
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Bottom"
+                        Orientation="Horizontal" FlowDirection="RightToLeft">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Width" Value="150" />
+                        <Setter Property="Margin" Value="3" />
+                    </Style>
+                </StackPanel.Resources>
+
+                <Button Content="Close" 
+                        Command="{Binding Path=Command_Close}"/>
+                <Button Content="Report Error"
+                        Command="{Binding Path=Command_ReportError}"/>
+            </StackPanel>
+
+            <TreeView ItemsSource="{Binding Path=ExceptionInfo.ChildNodes}"
+                      Margin="3">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Path=ChildNodes}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=PropertyName}" 
+                                       FontWeight="Bold" />
+                            <TextBlock Text=" = " />
+                            <TextBlock Text="{Binding Path=PropertyValue}" />
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </DockPanel>
+    </Grid>
+</mvvm:MvvmWindow>
