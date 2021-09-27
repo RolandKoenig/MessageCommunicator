@@ -1,4 +1,6 @@
-﻿namespace MessageCommunicator.TestGui.ViewServices
+﻿using FirLib.Core.Patterns.Mvvm;
+
+namespace MessageCommunicator.TestGui.ViewServices
 {
     public interface IViewResourceService : IViewService
     {

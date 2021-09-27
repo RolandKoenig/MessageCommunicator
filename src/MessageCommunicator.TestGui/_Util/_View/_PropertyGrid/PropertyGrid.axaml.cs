@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
@@ -10,11 +8,13 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using System.Text;
 using Avalonia.Input;
+using FirLib.Core.Patterns.Mvvm;
+
 using MessageCommunicator.TestGui.ViewServices;
 
 namespace MessageCommunicator.TestGui
 {
-    public class PropertyGrid : UserControl
+    public class PropertyGrid : OwnUserControl<PropertyGridViewModel>
     {
         public static readonly StyledProperty<object?> SelectedObjectProperty =
             AvaloniaProperty.Register<PropertyGrid, object?>(

@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using FirLib.Core.Patterns.Mvvm;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {

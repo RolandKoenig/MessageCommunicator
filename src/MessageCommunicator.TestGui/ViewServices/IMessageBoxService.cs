@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using FirLib.Core.Patterns.Mvvm;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
