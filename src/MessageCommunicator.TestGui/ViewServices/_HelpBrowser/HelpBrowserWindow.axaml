@@ -5,15 +5,16 @@
         xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
         xmlns:local="clr-namespace:MessageCommunicator.TestGui.ViewServices;assembly=MessageCommunicator.TestGui"
         xmlns:localRoot="clr-namespace:MessageCommunicator.TestGui;assembly=MessageCommunicator.TestGui"
+        xmlns:firlibControls="clr-namespace:FirLib.Core.Avalonia.Controls;assembly=FirLib.Core.Avalonia"
         Icon="/Assets/MessageCommunicator.ico"
         mc:Ignorable="d"
         Width="810" Height="400"
         ExtendClientAreaToDecorationsHint="True"
         x:Class="MessageCommunicator.TestGui.ViewServices.HelpBrowserWindow"
         Title="{Binding Path=WindowTitle}">
-    <localRoot:MainWindowFrame x:Name="CtrlWindowFrame" 
-                               Status="NeutralGray">
-        <localRoot:MainWindowFrame.CustomTitleArea>
+    <firlibControls:MainWindowFrame x:Name="CtrlWindowFrame" 
+                                    Status="NeutralGray">
+        <firlibControls:MainWindowFrame.CustomTitleArea>
             <Image Margin="0,6,6,6">
                 <Image.Source>
                     <SvgImage Source="/Assets/SvgIcons/MessageCommunicator-Help.svg" />
@@ -22,9 +23,9 @@
             <TextBlock VerticalAlignment="Center"
                        IsHitTestVisible="False"
                        Text="{Binding Path=WindowTitle}" />
-        </localRoot:MainWindowFrame.CustomTitleArea>
+        </firlibControls:MainWindowFrame.CustomTitleArea>
 
-        <localRoot:MainWindowFrame.MainContentArea>
+        <firlibControls:MainWindowFrame.MainContentArea>
             <DockPanel LastChildFill="True">
                 <StackPanel DockPanel.Dock="Bottom" 
                             Orientation="Horizontal" HorizontalAlignment="Right">
@@ -66,15 +67,7 @@
                     </HeaderedContentControl>
                 </Grid>
             </DockPanel>
-        </localRoot:MainWindowFrame.MainContentArea>
+        </firlibControls:MainWindowFrame.MainContentArea>
 
-    </localRoot:MainWindowFrame>
-
-    <!--<DockPanel LastChildFill="True">
-
-
-        <ContentControl Margin="7,0,7,7">
-
-        </ContentControl>
-    </DockPanel>-->
+    </firlibControls:MainWindowFrame>
 </Window>

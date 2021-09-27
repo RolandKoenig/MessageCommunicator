@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using FirLib.Core.Avalonia.Controls;
 using MessageCommunicator.TestGui.Views;
 using MessageCommunicator.TestGui.ViewServices;
 using ReactiveUI;

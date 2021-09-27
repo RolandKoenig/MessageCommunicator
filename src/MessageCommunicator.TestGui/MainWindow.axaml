@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MessageCommunicator.TestGui;assembly=MessageCommunicator.TestGui"
         xmlns:localViews="clr-namespace:MessageCommunicator.TestGui.Views;assembly=MessageCommunicator.TestGui"
+        xmlns:firlibControls="clr-namespace:FirLib.Core.Avalonia.Controls;assembly=FirLib.Core.Avalonia"
         x:Class="MessageCommunicator.TestGui.MainWindow"
         mc:Ignorable="d"
         MinWidth="200" MinHeight="200"
@@ -11,9 +12,9 @@
         Icon="Assets/MessageCommunicator.ico"
         ExtendClientAreaToDecorationsHint="True"
         Title="MessageCommunicator">
-    <local:MainWindowFrame x:Name="CtrlWindowFrame"
-                           Status="{Binding Path=StatusBarState}">
-        <local:MainWindowFrame.CustomTitleArea>
+    <firlibControls:MainWindowFrame x:Name="CtrlWindowFrame"
+                                    Status="{Binding Path=StatusBarState}">
+        <firlibControls:MainWindowFrame.CustomTitleArea>
             <Image Margin="0,6,6,6">
                 <Image.Source>
                     <SvgImage Source="Assets/SvgIcons/MessageCommunicator.svg" />
@@ -21,9 +22,9 @@
             </Image>
             <TextBlock x:Name="TxtTitle"
                        VerticalAlignment="Center"/>
-        </local:MainWindowFrame.CustomTitleArea>
+        </firlibControls:MainWindowFrame.CustomTitleArea>
 
-        <local:MainWindowFrame.HeaderArea>
+        <firlibControls:MainWindowFrame.HeaderArea>
             <Grid Classes="MainMenuBackground" />
 
             <Menu HorizontalAlignment="Left" Classes="MainMenu">
@@ -46,9 +47,9 @@
                     <MenuItem Header="About" Command="{Binding Path=Command_ShowAboutDialog}" />
                 </MenuItem>
             </Menu>
-        </local:MainWindowFrame.HeaderArea>
+        </firlibControls:MainWindowFrame.HeaderArea>
 
-        <local:MainWindowFrame.MainContentArea>
+        <firlibControls:MainWindowFrame.MainContentArea>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="250" MinWidth="100" />
@@ -191,14 +192,14 @@
                 </HeaderedContentControl>
             </Grid>
 
-        </local:MainWindowFrame.MainContentArea>
+        </firlibControls:MainWindowFrame.MainContentArea>
 
-        <local:MainWindowFrame.FooterArea>
+        <firlibControls:MainWindowFrame.FooterArea>
             <Grid Grid.Column="2"
                   Height="30">
                 <localViews:ReleaseCheckView HorizontalAlignment="Right" />
             </Grid>
-        </local:MainWindowFrame.FooterArea>
+        </firlibControls:MainWindowFrame.FooterArea>
 
-    </local:MainWindowFrame>
+    </firlibControls:MainWindowFrame>
 </Window>

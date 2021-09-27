@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using FirLib.Core.Avalonia.Controls;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {

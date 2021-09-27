@@ -4,6 +4,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Avalonia.ReactiveUI;
+using FirLib.Core.Avalonia.Controls;
 using ReactiveUI;
 
 namespace MessageCommunicator.TestGui
