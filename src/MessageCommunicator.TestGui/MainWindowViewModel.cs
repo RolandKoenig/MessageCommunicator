@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Avalonia.Threading;
 using FirLib.Core.Avalonia;
 using FirLib.Core.Patterns;
+using FirLib.Core.ViewServices;
 using MessageCommunicator.TestGui.Data;
 using MessageCommunicator.TestGui.Logic;
 using MessageCommunicator.TestGui.Views;

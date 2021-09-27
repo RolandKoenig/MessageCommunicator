@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
@@ -24,21 +22,5 @@ namespace MessageCommunicator.TestGui.ViewServices
             this.OriginalObject = originalObject;
             this.NewObject = newObject;
         }
-    }
-
-    public enum MessageBoxButtons
-    {
-        Ok,
-        OkCancel,
-        YesNo,
-        YesNoCancel
-    }
-
-    public enum MessageBoxResult
-    {
-        Ok,
-        Cancel,
-        Yes,
-        No
     }
 }

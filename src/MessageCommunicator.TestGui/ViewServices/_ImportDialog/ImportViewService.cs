@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Avalonia.Controls;
 using FirLib.Core.Avalonia.Controls;
 using FirLib.Core.Patterns.Mvvm;
+using FirLib.Core.ViewServices;
+using FileDialogFilter = Avalonia.Controls.FileDialogFilter;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
@@ -29,11 +30,7 @@ namespace MessageCommunicator.TestGui.ViewServices
             var fileToImport = await srvOpenFile.ShowOpenFileDialogAsync(
                 new[]
                 {
-                    new FileDialogFilter()
-                    {
-                        Name = "Data-Package (*.dataPackage)",
-                        Extensions = {"dataPackage"}
-                    }
+                    new FirLib.Core.ViewServices.FileDialogFilter("Data-Package (*.dataPackage)", "dataPackage")
                 }, "dataPackage");
 
             if (string.IsNullOrEmpty(fileToImport))

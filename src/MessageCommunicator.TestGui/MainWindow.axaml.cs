@@ -7,6 +7,8 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using FirLib.Core.Avalonia.Controls;
+using FirLib.Core.ViewServices.FileDialogs;
+using FirLib.Core.ViewServices.MessageBox;
 using MessageCommunicator.TestGui.Views;
 using MessageCommunicator.TestGui.ViewServices;
 using ReactiveUI;

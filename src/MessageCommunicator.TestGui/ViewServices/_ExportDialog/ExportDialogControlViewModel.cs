@@ -7,9 +7,10 @@ using System.Reactive;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Avalonia.Controls;
 using FirLib.Core.Patterns;
+using FirLib.Core.ViewServices;
 using ReactiveUI;
+using FileDialogFilter = Avalonia.Controls.FileDialogFilter;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
@@ -94,12 +95,8 @@ namespace MessageCommunicator.TestGui.ViewServices
             var fileName = await srvSaveFile.ShowSaveFileDialogAsync(
                 new[]
                 {
-                    new FileDialogFilter()
-                    {
-                        Name = "Data-Package (*.dataPackage)", 
-                        Extensions = { "dataPackage" }
-                    }
-                }, "dataPackage" );
+                    new FirLib.Core.ViewServices.FileDialogFilter("Data-Package (*.dataPackage)", "dataPackage")
+                }, "dataPackage");
             if (string.IsNullOrEmpty(fileName))
             {
                 return;
