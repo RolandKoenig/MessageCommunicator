@@ -17,7 +17,7 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore src/MessageCommunicator.sln
     - name: Build
       run: dotnet build src/MessageCommunicator.sln --configuration Release-CI --no-restore --no-incremental --framework net5.0
     - name: Test
