@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using FirLib.Core.Patterns;
 using ReactiveUI;
 
 namespace MessageCommunicator.TestGui.ViewServices

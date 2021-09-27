@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using FirLib.Core.Patterns.Mvvm;
 
 namespace MessageCommunicator.TestGui
 {

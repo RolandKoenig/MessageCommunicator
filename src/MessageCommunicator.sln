@@ -68,6 +68,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirLib.Core.Avalonia", "..\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirLib.Core.Avalonia.Tests", "..\subtrees\FirLib\src\FirLib.Core.Avalonia.Tests\FirLib.Core.Avalonia.Tests.csproj", "{F6482163-0AA5-4DC2-9AD5-5FDA49053170}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirLib.Core.Tests", "..\subtrees\FirLib\src\FirLib.Core.Tests\FirLib.Core.Tests.csproj", "{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -302,6 +304,30 @@ Global
 		{F6482163-0AA5-4DC2-9AD5-5FDA49053170}.Release-WinStore|x64.Build.0 = Release|Any CPU
 		{F6482163-0AA5-4DC2-9AD5-5FDA49053170}.Release-WinStore|x86.ActiveCfg = Release|Any CPU
 		{F6482163-0AA5-4DC2-9AD5-5FDA49053170}.Release-WinStore|x86.Build.0 = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Debug|x64.Build.0 = Debug|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Debug|x86.Build.0 = Debug|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release|x64.ActiveCfg = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release|x64.Build.0 = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release|x86.ActiveCfg = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release|x86.Build.0 = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release-CI|Any CPU.ActiveCfg = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release-CI|Any CPU.Build.0 = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release-CI|x64.ActiveCfg = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release-CI|x64.Build.0 = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release-CI|x86.ActiveCfg = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release-CI|x86.Build.0 = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release-WinStore|Any CPU.ActiveCfg = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release-WinStore|Any CPU.Build.0 = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release-WinStore|x64.ActiveCfg = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release-WinStore|x64.Build.0 = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release-WinStore|x86.ActiveCfg = Release|Any CPU
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE}.Release-WinStore|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -318,6 +344,7 @@ Global
 		{E77CE703-E480-45F6-9DE5-89E2EC1510A5} = {D7B3E162-84A4-4F53-B4D4-42E93C8484FE}
 		{C1F39D34-7BAB-4900-97BF-7C03A24D513C} = {D7B3E162-84A4-4F53-B4D4-42E93C8484FE}
 		{F6482163-0AA5-4DC2-9AD5-5FDA49053170} = {D7B3E162-84A4-4F53-B4D4-42E93C8484FE}
+		{1A9EF63B-CCB4-463B-9F51-47F19776BBEE} = {D7B3E162-84A4-4F53-B4D4-42E93C8484FE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F611EC5F-305C-4179-91F2-741C52DAAFA0}

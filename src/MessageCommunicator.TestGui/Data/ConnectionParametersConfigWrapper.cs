@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using FirLib.Core.Patterns;
 using MessageCommunicator.TestGui.Data;
 
 namespace MessageCommunicator.TestGui.Data
