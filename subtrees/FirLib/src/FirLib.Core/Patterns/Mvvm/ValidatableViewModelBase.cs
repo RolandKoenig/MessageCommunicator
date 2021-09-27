@@ -8,7 +8,7 @@ namespace FirLib.Core.Patterns.Mvvm
 {
     public class ValidatableViewModelBase : ViewModelBase, INotifyDataErrorInfo
     {
-        private static readonly string[] NO_ERRORS = new string[0];
+        private static readonly string[] NO_ERRORS = Array.Empty<string>();
 
         private Dictionary<string, List<string>> _errorsByPropertyName = new Dictionary<string, List<string>>();
 
