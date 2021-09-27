@@ -8,7 +8,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FirLib.Core\FirLib.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controls\MainWindowFrame.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Controls\MainWindowFrame.axaml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
 
 </Project>
