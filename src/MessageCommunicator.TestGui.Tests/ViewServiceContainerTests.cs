@@ -5,6 +5,7 @@ using System.Reactive.Disposables;
 using System.Text;
 using Avalonia.Controls;
 using FakeItEasy;
+using FirLib.Core.Patterns.Mvvm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MessageCommunicator.TestGui.Tests
@@ -15,8 +16,8 @@ namespace MessageCommunicator.TestGui.Tests
         [TestMethod]
         public void Check_EmptyObject()
         {
-            var fakeOwner = A.Fake<IControl>();
-            var viewServiceContainer = new ViewServiceContainer(fakeOwner);
+            var fakeOwner = A.Fake<IViewServiceHostControl>();
+            var viewServiceContainer = new OwnViewServiceContainer(fakeOwner);
 
             Assert.IsFalse(viewServiceContainer.IsObserving);
         }
@@ -24,8 +25,8 @@ namespace MessageCommunicator.TestGui.Tests
         [TestMethod]
         public void Check_RegisterNullViewModel()
         {
-            var fakeOwner = A.Fake<IControl>();
-            var viewServiceContainer = new ViewServiceContainer(fakeOwner);
+            var fakeOwner = A.Fake<IViewServiceHostControl>();
+            var viewServiceContainer = new OwnViewServiceContainer(fakeOwner);
 
             var compositeDisposable = new CompositeDisposable();
             viewServiceContainer.StartObserving(compositeDisposable, null);
@@ -37,8 +38,8 @@ namespace MessageCommunicator.TestGui.Tests
         [TestMethod]
         public void Check_RegisterNullViewModel_WithDeregister()
         {
-            var fakeOwner = A.Fake<IControl>();
-            var viewServiceContainer = new ViewServiceContainer(fakeOwner);
+            var fakeOwner = A.Fake<IViewServiceHostControl>();
+            var viewServiceContainer = new OwnViewServiceContainer(fakeOwner);
 
             var compositeDisposable = new CompositeDisposable();
             viewServiceContainer.StartObserving(compositeDisposable, null);
@@ -52,8 +53,8 @@ namespace MessageCommunicator.TestGui.Tests
         [TestMethod]
         public void Check_RegisterNullViewModel_WithViewService()
         {
-            var fakeOwner = A.Fake<IControl>();
-            var viewServiceContainer = new ViewServiceContainer(fakeOwner);
+            var fakeOwner = A.Fake<IViewServiceHostControl>();
+            var viewServiceContainer = new OwnViewServiceContainer(fakeOwner);
             var fakeViewService1 = A.Fake<IViewService>();
             var fakeViewService2 = A.Fake<IViewService>();
 
@@ -73,8 +74,8 @@ namespace MessageCommunicator.TestGui.Tests
         [TestMethod]
         public void Check_RegisterNullViewModel__WithDeregister_WithViewService()
         {
-            var fakeOwner = A.Fake<IControl>();
-            var viewServiceContainer = new ViewServiceContainer(fakeOwner);
+            var fakeOwner = A.Fake<IViewServiceHostControl>();
+            var viewServiceContainer = new OwnViewServiceContainer(fakeOwner);
             var fakeViewService1 = A.Fake<IViewService>();
             var fakeViewService2 = A.Fake<IViewService>();
             
@@ -90,9 +91,18 @@ namespace MessageCommunicator.TestGui.Tests
             Assert.IsTrue(compositeDisposable.Count == 0);
             Assert.IsFalse(viewServiceContainer.IsObserving);
             Assert.IsTrue(Fake.GetCalls(fakeViewService1).Any(actCall => actCall.Method.Name == $"add_{nameof(IViewService.ViewServiceRequest)}"));
-            Assert.IsTrue(Fake.GetCalls(fakeViewService1).Any(actCall => actCall.Method.Name == $"remove_{nameof(IViewService.ViewServiceRequest)}"));
             Assert.IsTrue(Fake.GetCalls(fakeViewService2).Any(actCall => actCall.Method.Name == $"add_{nameof(IViewService.ViewServiceRequest)}"));
-            Assert.IsTrue(Fake.GetCalls(fakeViewService2).Any(actCall => actCall.Method.Name == $"remove_{nameof(IViewService.ViewServiceRequest)}"));
+        }
+
+        //*********************************************************************
+        //*********************************************************************
+        //*********************************************************************
+        /// <summary>
+        /// Helper for Unit tests
+        /// </summary>
+        public interface IViewServiceHostControl : IControl, IViewServiceHost
+        {
+
         }
     }
 }
