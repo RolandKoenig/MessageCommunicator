@@ -216,16 +216,14 @@ namespace MessageCommunicator.TestGui
             ctrlTextBox2.IsReadOnly = property.IsReadOnly;
 
             var ctrlTextBox2Weak = new WeakReference(ctrlTextBox2);
-            var hexTextBindingWeak = new WeakReference(hexTextBinding);
 
             otherProperty.RegisterWeakPropertyChangedTarget(
                 new WeakReference(ctrlTextBox2), 
                 (sender, eArgs) =>
                 {
                     if (ctrlTextBox2Weak.Target is not TextBox ctrlTextBox2Local) { return; }
-                    if (hexTextBindingWeak.Target is not Binding hexTextBindingLocal) { return;}
 
-                    ctrlTextBox2Local[!TextBox.TextProperty] = hexTextBindingLocal;
+                    ctrlTextBox2Local[!TextBox.TextProperty] = hexTextBinding;
                 });
 
             ctrlTextBox2.SetValue(Grid.ColumnProperty, 1);
