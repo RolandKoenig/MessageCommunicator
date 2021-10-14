@@ -7,6 +7,10 @@ namespace FirLib.Core.Infrastructure
 {
     internal class FirLibApplicationContext
     {
+        public string ProductName { get; set; } = string.Empty;
+
+        public string ProductVersion { get; set; } = string.Empty;
+
         public List<Action>? LoadActions { get; set; }
 
         public List<Action>? UnloadActions { get; set; }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FirLib.Core.Infrastructure.Services;
+using FirLib.Core.Patterns.ObjectPooling;
 
 namespace FirLib.Core.Infrastructure
 {
@@ -27,6 +28,31 @@ namespace FirLib.Core.Infrastructure
         private FirLibApplicationContext _context;
 
         public FirLibServiceContainer Services => _context.Services;
+
+        public string ProductName => _context.ProductName;
+
+        public string ProductVersion => _context.ProductVersion;
+
+        public string ProductFullName
+        {
+            get
+            {
+                var strBuilder = PooledStringBuilders.Current.TakeStringBuilder();
+                try
+                {
+                    strBuilder.Append(_context.ProductName);
+                    if (strBuilder.Length > 0) { strBuilder.Append(' '); }
+
+                    strBuilder.Append(_context.ProductVersion);
+
+                    return strBuilder.ToString();
+                }
+                finally
+                {
+                    PooledStringBuilders.Current.ReRegisterStringBuilder(strBuilder);
+                }
+            }
+        }
 
         internal static void Load(FirLibApplicationLoader loader)
         {
