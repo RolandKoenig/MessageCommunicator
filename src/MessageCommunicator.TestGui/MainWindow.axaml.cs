@@ -7,6 +7,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using FirLib.Core.Avalonia.Controls;
+using FirLib.Core.Infrastructure;
 using FirLib.Core.ViewServices.FileDialogs;
 using FirLib.Core.ViewServices.MessageBox;
 using MessageCommunicator.TestGui.Views;
@@ -33,10 +34,7 @@ namespace MessageCommunicator.TestGui
             _ctrlConnectionProfile = this.Find<ConnectionProfileView>("CtrlConnectionProfile");
 
             // Update title
-            var versionInfoAttrib = Assembly.GetExecutingAssembly()
-                .GetCustomAttribute<AssemblyInformationalVersionAttribute>();
-            var versionString = versionInfoAttrib?.InformationalVersion ?? "";
-            this.Title = $"{this.Title} {versionString}";
+            this.Title = FirLibApplication.Current.ProductFullName;
             this.Find<TextBlock>("TxtTitle").Text = this.Title;
 
             // Register view services
