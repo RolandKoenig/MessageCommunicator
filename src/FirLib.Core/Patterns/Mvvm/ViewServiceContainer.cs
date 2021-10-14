@@ -14,7 +14,6 @@ namespace FirLib.Core.Patterns.Mvvm
         public ViewServiceContainer(IViewServiceHost owner)
         {
             this.Owner = owner;
-
             this.ViewServices.CollectionChanged += this.OnViewServices_CollectionChanged;
         }
 

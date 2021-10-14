@@ -60,7 +60,7 @@ namespace FirLib.Core.Tests.Patterns
             await firstTickTaskSource.Task;
             await backgroundLoop.StopAsync(5000);
 
-            Assert.IsTrue(tickCount > 5, nameof(tickCount));
+            Assert.IsTrue(tickCount >= 5, nameof(tickCount));
         }
 
         [TestMethod]

@@ -8,6 +8,8 @@ namespace FirLib.Core.Patterns
 {
     public class PropertyChangedBase : INotifyPropertyChanged
     {
+        private List<WeakPropertyChangedTarget>? _weakChangeTargets;
+
         public event PropertyChangedEventHandler? PropertyChanged;
         
         //*** Code from project PRISM (https://github.com/PrismLibrary/Prism)
@@ -52,15 +54,62 @@ namespace FirLib.Core.Patterns
             if (EqualityComparer<T>.Default.Equals(storage, value)) return false;
 
             storage = value;
-            onChanged?.Invoke();
+            onChanged.Invoke();
             this.RaisePropertyChanged(propertyName);
 
             return true;
         }
 
-        public void RaisePropertyChanged([CallerMemberName] string propName = "")
+        protected virtual void RaisePropertyChanged([CallerMemberName] string? propertyName = "")
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+            var changeArgs = new PropertyChangedEventArgs(propertyName);
+
+            // Trigger normal event targets
+            this.PropertyChanged?.Invoke(this, changeArgs);
+
+            // Trigger weak event targets
+            if (_weakChangeTargets == null) { return; }
+            for (var loop = 0; loop < _weakChangeTargets.Count; loop++)
+            {
+                var actEntry = _weakChangeTargets[loop];
+                if(actEntry.Key.IsAlive)
+                {
+                    try { actEntry.Action(this, changeArgs); }
+                    catch (Exception)
+                    {
+                        _weakChangeTargets.RemoveAt(loop);
+                        throw;
+                    }
+                }
+                else
+                {
+                    _weakChangeTargets.RemoveAt(loop);
+                    loop--;
+                }
+            }
+            if (_weakChangeTargets.Count == 0) { _weakChangeTargets = null; }
+        }
+
+        public void RegisterWeakPropertyChangedTarget(WeakReference key, Action<object, PropertyChangedEventArgs> action)
+        {
+            _weakChangeTargets ??= new List<WeakPropertyChangedTarget>(4);
+
+            _weakChangeTargets.Add(new WeakPropertyChangedTarget(key, action));
+        }
+
+        //*********************************************************************
+        //*********************************************************************
+        //*********************************************************************
+        private readonly struct WeakPropertyChangedTarget
+        {
+            public readonly WeakReference Key;
+            public readonly Action<object, PropertyChangedEventArgs> Action;
+
+            public WeakPropertyChangedTarget(WeakReference key, Action<object, PropertyChangedEventArgs> action)
+            {
+                this.Key = key;
+                this.Action = action;
+            }
         }
     }
 }

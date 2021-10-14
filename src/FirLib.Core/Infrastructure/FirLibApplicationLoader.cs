@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using FirLib.Core.Infrastructure.Services;
@@ -46,6 +47,29 @@ namespace FirLib.Core.Infrastructure
         public FirLibApplicationLoader ConfigureCurrentThreadAsMainGuiThread()
         {
             this.AddLoadAction(() => Thread.CurrentThread.Name = FirLibConstants.MESSENGER_NAME_GUI);
+            return this;
+        }
+
+        public FirLibApplicationLoader SetProductInfoFromAssembly(Assembly assembly)
+        {
+            var productNameAttrib = assembly.GetCustomAttribute<AssemblyProductAttribute>();
+            if (productNameAttrib != null)
+            {
+                _context.ProductName = productNameAttrib.Product;
+            }
+
+            var versionAttrib = assembly.GetCustomAttribute<AssemblyVersionAttribute>();
+            if (versionAttrib != null)
+            {
+                _context.ProductVersion = versionAttrib.Version;
+            }
+            
+            var versionInfoAttrib = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+            if (versionInfoAttrib != null)
+            {
+                _context.ProductVersion = versionInfoAttrib.InformationalVersion;
+            }
+
             return this;
         }
 
