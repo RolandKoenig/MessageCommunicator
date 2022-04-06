@@ -11,7 +11,7 @@ namespace MessageCommunicator.TestGui
         private StringBuilder? _cachedStringBuilder;
 
         /// <inheritdoc />
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             var givenEncodingName = parameter as string;
             if (parameter is Func<string?> parameterGetter)
@@ -53,7 +53,7 @@ namespace MessageCommunicator.TestGui
         }
 
         /// <inheritdoc />
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             var givenEncodingName = parameter as string;
             if (parameter is Func<string?> parameterGetter)

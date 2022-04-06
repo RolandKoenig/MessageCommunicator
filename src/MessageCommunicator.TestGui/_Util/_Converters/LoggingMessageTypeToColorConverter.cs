@@ -8,9 +8,9 @@ namespace MessageCommunicator.TestGui
     public class LoggingMessageTypeToColorConverter : IValueConverter
     {
         /// <inheritdoc />
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            var connState = (string) value;
+            var connState = (string?) value;
             switch (connState)
             {
                 case nameof(LoggingMessageType.Error):
@@ -25,7 +25,7 @@ namespace MessageCommunicator.TestGui
         }
 
         /// <inheritdoc />
-        public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException();
         }

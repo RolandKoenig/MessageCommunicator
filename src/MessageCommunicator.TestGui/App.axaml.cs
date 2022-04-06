@@ -13,7 +13,7 @@ namespace MessageCommunicator.TestGui
 {
     public class App : Application, IWeakMessageTarget<MessageThemeChangeRequest>
     {
-        public static App CurrentApp => (App)Application.Current;
+        public static App CurrentApp => (App)Application.Current!;
 
         private List<Window> _openedWindows;
 

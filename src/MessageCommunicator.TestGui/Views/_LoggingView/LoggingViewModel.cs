@@ -39,7 +39,7 @@ namespace MessageCommunicator.TestGui.Views
             this.Command_CopySelectedMessages = ReactiveCommand.CreateFromTask<object?>(async arg =>
             {
                 if (_selectedLoggingLine == null) { return; }
-                await Application.Current.Clipboard.SetTextAsync(_selectedLoggingLine.Message);
+                await Application.Current!.Clipboard!.SetTextAsync(_selectedLoggingLine.Message);
             });
         }
     }

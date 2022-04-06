@@ -26,7 +26,7 @@ namespace MessageCommunicator.TestGui.ViewServices
 
         public HelpBitmapLoader(Assembly assetAssembly, string? helpRoutePath)
         {
-            _assetLoader = AvaloniaLocator.Current.GetService<IAssetLoader>();
+            _assetLoader = AvaloniaLocator.Current.GetService<IAssetLoader>()!;
             this.AssetPathRoot = helpRoutePath ?? string.Empty;
 
             var assetAssemblyName = assetAssembly.GetName().Name;

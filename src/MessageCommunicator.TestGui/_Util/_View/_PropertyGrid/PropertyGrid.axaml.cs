@@ -68,7 +68,7 @@ namespace MessageCommunicator.TestGui
 
         public void FocusFirstValueRowEditor()
         {
-            FocusManager.Instance.Focus(_firstValueRowEditor, NavigationMethod.Tab);
+            FocusManager.Instance?.Focus(_firstValueRowEditor, NavigationMethod.Tab);
         }
 
         private static void OnSelectedObjectChanged(IAvaloniaObject sender, bool beforeChanging)

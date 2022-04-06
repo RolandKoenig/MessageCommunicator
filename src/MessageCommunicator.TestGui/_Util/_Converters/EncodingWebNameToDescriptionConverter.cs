@@ -9,7 +9,7 @@ namespace MessageCommunicator.TestGui
     public class EncodingWebNameToDescriptionConverter : IValueConverter
     {
         /// <inheritdoc />
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (!(value is string encodingWebName)) { return "-"; }
 
@@ -24,7 +24,7 @@ namespace MessageCommunicator.TestGui
         }
 
         /// <inheritdoc />
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException();
         }
