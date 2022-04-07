@@ -72,9 +72,11 @@
     </Style>
     <Style Selector="MenuItem.MainMenu">
         <Setter Property="Background" Value="#FF0975C6" />
-        <!--<Setter Property="Foreground" Value="White" />-->
         <Setter Property="Margin" Value="5" />
         <Setter Property="Padding" Value="5" />
+    </Style>
+    <Style Selector="TextBlock.MainMenuHeader">
+        <Setter Property="Foreground" Value="White" />
     </Style>
   
     <!-- DialogHostControl -->

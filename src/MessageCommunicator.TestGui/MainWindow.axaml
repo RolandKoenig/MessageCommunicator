@@ -28,20 +28,26 @@
             <Grid Classes="MainMenuBackground" />
 
             <Menu HorizontalAlignment="Left" Classes="MainMenu">
-                <MenuItem Header="File"
-                          Classes="MainMenu">
+                <MenuItem Classes="MainMenu">
+                    <MenuItem.Header>
+                        <TextBlock Text="File" Classes="MainMenuHeader"></TextBlock>
+                    </MenuItem.Header>
                     <MenuItem Header="Import Profiles" Command="{Binding Path=Command_ImportProfiles}" />
                     <MenuItem Header="Export Profiles" Command="{Binding Path=Command_ExportProfiles}" />
                     <Separator />
                     <MenuItem Header="Exit" PointerPressed="OnMnuExit_PointerPressed" />
                 </MenuItem>
-                <MenuItem Header="Themes"
-                          Classes="MainMenu">
+                <MenuItem Classes="MainMenu">
+                    <MenuItem.Header>
+                        <TextBlock Text="Themes" Classes="MainMenuHeader"></TextBlock>
+                    </MenuItem.Header>
                     <MenuItem Header="Light" PointerPressed="OnMnuThemeLight_PointerPressed" />
                     <MenuItem Header="Dark" PointerPressed="OnMnuThemeDark_PointerPressed" />
                 </MenuItem>
-                <MenuItem Header="Help"
-                          Classes="MainMenu">
+                <MenuItem Classes="MainMenu">
+                    <MenuItem.Header>
+                        <TextBlock Text="Help" Classes="MainMenuHeader"></TextBlock>
+                    </MenuItem.Header>
                     <MenuItem Header="Documentation" Command="{Binding Path=Command_ShowHelp}" />
                     <Separator />
                     <MenuItem Header="About" Command="{Binding Path=Command_ShowAboutDialog}" />
