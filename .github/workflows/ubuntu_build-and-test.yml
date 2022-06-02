@@ -1,4 +1,4 @@
-name: Build and test (.Net 5.0.x on Ubuntu)
+name: Build and test (.Net 6.0.x on Ubuntu)
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: 6.0.x
     - name: Install dependencies
       run: dotnet restore src/MessageCommunicator.sln
     - name: Build
