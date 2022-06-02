@@ -5,7 +5,8 @@
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
-    <Platforms>x86;x64</Platforms>
+    <Platforms>x86;x64;AnyCPU</Platforms>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

@@ -74,13 +74,28 @@ namespace MessageCommunicator.TestGui
         {
             this.Close();
         }
+        
+        private void OnMnuExitNative_Click(object? sender, EventArgs e)
+        {
+            this.Close();
+        }
 
         private void OnMnuThemeLight_PointerPressed(object sender, PointerPressedEventArgs eArgs)
         {
             MessageBus.Current.SendMessage(new MessageThemeChangeRequest(MessageCommunicatorTheme.Light));
         }
+        
+        private void OnMnuThemeLight_Click(object sender, EventArgs eArgs)
+        {
+            MessageBus.Current.SendMessage(new MessageThemeChangeRequest(MessageCommunicatorTheme.Light));
+        }
 
         private void OnMnuThemeDark_PointerPressed(object sender, PointerPressedEventArgs eArgs)
+        {
+            MessageBus.Current.SendMessage(new MessageThemeChangeRequest(MessageCommunicatorTheme.Dark));
+        }
+        
+        private void OnMnuThemeDark_Click(object sender, EventArgs eArgs)
         {
             MessageBus.Current.SendMessage(new MessageThemeChangeRequest(MessageCommunicatorTheme.Dark));
         }
