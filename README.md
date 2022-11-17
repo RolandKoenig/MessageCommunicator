@@ -52,6 +52,13 @@ Sending a message is as easy as:
 await activeTcpChannel.SendAsync("Message 1 from active to passive...");
 ```
 
+### Features
+The library provides the following features:
+ - Automated reconnect handling (you don't have to care about the connection)
+ - Message recognition (e. g. by end symbol, by fixed length, etc.)
+ - String encoding
+ - Different channel types (TCP, UDP, SerialPort)
+
 ### Gui
 Inside the testing Gui you can manage multiple profiles. Each profile has its own configuration
 for which stream it uses (tcp active, tcp passive. ...) and which message recognizer it uses
