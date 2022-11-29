@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -72,9 +73,9 @@ namespace MessageCommunicator.TestGui.ViewServices
                 {
                     var resourcePath = (!string.IsNullOrEmpty(this.AssetPathRoot)
                         ? Path.Combine(this.AssetPathRoot, urlTxt)
-                        : urlTxt).TrimStart(new[]{ '/', '\\' });
+                        : urlTxt).TrimStart(new[] { '/', '\\' });
                     resourcePath = Path.Combine(asmNm, resourcePath).Replace('\\', '/');
-                    
+
                     var assetUrl = new Uri($"avares://{resourcePath}");
                     imgSource = this.Get(assetUrl);
 
@@ -118,8 +119,9 @@ namespace MessageCommunicator.TestGui.ViewServices
                 {
                     case "http":
                     case "https":
-                        using (var wc = new System.Net.WebClient())
-                        using (var resourceStream = new MemoryStream(wc.DownloadData(url)))
+                        
+                        using (var wc = new HttpClient())
+                        using (var resourceStream = wc.GetStreamAsync(url).Result)
                             imgSource = new Bitmap(resourceStream);
                         break;
 

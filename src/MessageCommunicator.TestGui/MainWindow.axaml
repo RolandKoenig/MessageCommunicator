@@ -12,6 +12,32 @@
         Icon="Assets/MessageCommunicator.ico"
         ExtendClientAreaToDecorationsHint="True"
         Title="MessageCommunicator">
+    <NativeMenu.Menu>
+        <NativeMenu>
+            <NativeMenuItem Header="File">
+                <NativeMenu>
+                    <NativeMenuItem Header="Import Profiles" Command="{Binding Path=Command_ImportProfiles}" />
+                    <NativeMenuItem Header="Export Profiles" Command="{Binding Path=Command_ExportProfiles}" />
+                    <NativeMenuItemSeparator />
+                    <NativeMenuItem Header="Exit" Click="OnMnuExitNative_Click" />
+                </NativeMenu>
+            </NativeMenuItem>
+            <NativeMenuItem Header="Themes">
+                <NativeMenu>
+                    <NativeMenuItem Header="Light" Click="OnMnuThemeLight_Click" />
+                    <NativeMenuItem Header="Dark" Click="OnMnuThemeDark_Click" />  
+                </NativeMenu>
+            </NativeMenuItem>
+            <NativeMenuItem Header="Help">
+                <NativeMenu>
+                    <NativeMenuItem Header="Documentation" Command="{Binding Path=Command_ShowHelp}" />
+                    <NativeMenuItemSeparator />
+                    <NativeMenuItem Header="About" Command="{Binding Path=Command_ShowAboutDialog}" />
+                </NativeMenu>
+            </NativeMenuItem>
+        </NativeMenu>
+    </NativeMenu.Menu>
+    
     <firlibControls:MainWindowFrame x:Name="CtrlWindowFrame"
                                     Status="{Binding Path=StatusBarState}">
         <firlibControls:MainWindowFrame.CustomTitleArea>
@@ -26,7 +52,7 @@
 
         <firlibControls:MainWindowFrame.HeaderArea>
             <Grid Classes="MainMenuBackground" />
-
+            
             <Menu HorizontalAlignment="Left" Classes="MainMenu">
                 <MenuItem Classes="MainMenu">
                     <MenuItem.Header>
