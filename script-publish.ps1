@@ -5,10 +5,10 @@ dotnet pack -c Release -o ./publish ./src/MessageCommunicator /p:ContinuousInteg
 dotnet pack -c Release -o ./publish ./src/MessageCommunicator.SerialPorts /p:ContinuousIntegrationBuild=true /p:IncludeSymbols=true /p:EmbedUntrackedSources=true -p:SymbolPackageFormat=snupkg
 
 # Publish gui application
-dotnet publish -c Release -f net5.0 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=true -p:TrimMode=Link --runtime win-x86 -o "./publish/MessageCommunicator (Win X86)" ./src/MessageCommunicator.TestGui
-dotnet publish -c Release -f net5.0 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=true -p:TrimMode=Link --runtime win-x64 -o "./publish/MessageCommunicator (Win X64)" ./src/MessageCommunicator.TestGui
-dotnet publish -c Release -f net5.0 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=true -p:TrimMode=Link --runtime linux-x64 -o "./publish/MessageCommunicator (Linux X64)" ./src/MessageCommunicator.TestGui
-dotnet publish -c Release -f net5.0 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:TrimMode=Link --runtime osx-x64 -o "./publish/MessageCommunicator (macOS 10.12 X64)" ./src/MessageCommunicator.TestGui
+dotnet publish -c Release -f net5.0 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=true -p:TrimMode=copyused --runtime win-x86 -o "./publish/MessageCommunicator (Win X86)" ./src/MessageCommunicator.TestGui
+dotnet publish -c Release -f net5.0 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=true -p:TrimMode=copyused --runtime win-x64 -o "./publish/MessageCommunicator (Win X64)" ./src/MessageCommunicator.TestGui
+dotnet publish -c Release -f net5.0 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=true -p:TrimMode=copyused --runtime linux-x64 -o "./publish/MessageCommunicator (Linux X64)" ./src/MessageCommunicator.TestGui
+dotnet publish -c Release -f net5.0 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:TrimMode=copyused --runtime osx-x64 -o "./publish/MessageCommunicator (macOS 10.12 X64)" ./src/MessageCommunicator.TestGui
 
 # Remove pdb files
 Copy-Item "./publish/MessageCommunicator (Win X86)/MessageCommunicator.TestGui.exe" -Destination "./publish/MessageCommunicator-Win-X86.exe"
