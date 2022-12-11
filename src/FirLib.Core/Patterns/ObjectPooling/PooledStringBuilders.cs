@@ -2,60 +2,59 @@
 using System.Collections.Concurrent;
 using System.Text;
 
-namespace FirLib.Core.Patterns.ObjectPooling
+namespace FirLib.Core.Patterns.ObjectPooling;
+
+public class PooledStringBuilders
 {
-    public class PooledStringBuilders
+    private ConcurrentStack<StringBuilder> _stringBuilders;
+
+    public int Count => _stringBuilders.Count;
+
+    public static PooledStringBuilders Current
     {
-        private ConcurrentStack<StringBuilder> _stringBuilders;
+        get;
+        private set;
+    }
 
-        public int Count => _stringBuilders.Count;
+    static PooledStringBuilders()
+    {
+        Current = new PooledStringBuilders();
+    }
 
-        public static PooledStringBuilders Current
+    public PooledStringBuilders()
+    {
+        _stringBuilders = new ConcurrentStack<StringBuilder>();
+    }
+
+    public IDisposable UseStringBuilder(out StringBuilder stringBuilder, int requiredCapacity = 128)
+    {
+        stringBuilder = this.TakeStringBuilder(requiredCapacity);
+
+        var cachedStringBuilder = stringBuilder;
+        return new DummyDisposable(() => this.ReRegisterStringBuilder(cachedStringBuilder));
+    }
+
+    public StringBuilder TakeStringBuilder(int requiredCapacity = 128)
+    {
+        if (!_stringBuilders.TryPop(out var result))
         {
-            get;
-            private set;
+            result = new StringBuilder(requiredCapacity);
         }
-
-        static PooledStringBuilders()
+        else
         {
-            Current = new PooledStringBuilders();
+            if (result.Capacity < requiredCapacity) { result.EnsureCapacity(requiredCapacity); }
         }
+        return result;
+    }
 
-        public PooledStringBuilders()
-        {
-            _stringBuilders = new ConcurrentStack<StringBuilder>();
-        }
+    public void ReRegisterStringBuilder(StringBuilder stringBuilder)
+    {
+        stringBuilder.Remove(0, stringBuilder.Length);
+        _stringBuilders.Push(stringBuilder);
+    }
 
-        public IDisposable UseStringBuilder(out StringBuilder stringBuilder, int requiredCapacity = 128)
-        {
-            stringBuilder = this.TakeStringBuilder(requiredCapacity);
-
-            var cachedStringBuilder = stringBuilder;
-            return new DummyDisposable(() => this.ReRegisterStringBuilder(cachedStringBuilder));
-        }
-
-        public StringBuilder TakeStringBuilder(int requiredCapacity = 128)
-        {
-            if (!_stringBuilders.TryPop(out var result))
-            {
-                result = new StringBuilder(requiredCapacity);
-            }
-            else
-            {
-                if (result.Capacity < requiredCapacity) { result.EnsureCapacity(requiredCapacity); }
-            }
-            return result;
-        }
-
-        public void ReRegisterStringBuilder(StringBuilder stringBuilder)
-        {
-            stringBuilder.Remove(0, stringBuilder.Length);
-            _stringBuilders.Push(stringBuilder);
-        }
-
-        public void Clear()
-        {
-            _stringBuilders.Clear();
-        }
+    public void Clear()
+    {
+        _stringBuilders.Clear();
     }
 }

@@ -1,25 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <LangVersion>9.0</LangVersion>
-    <RootNamespace>FirLib.Core</RootNamespace>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+	  <RootNamespace>FirLib.Core</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.8" />
+    <PackageReference Include="Avalonia" Version="0.10.18" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FirLib.Avalonia.CommonControls\FirLib.Avalonia.CommonControls.csproj" />
     <ProjectReference Include="..\FirLib.Core\FirLib.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\MainWindowFrame.axaml.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
     <Compile Update="ViewServices\MessageBox\MessageBoxControl.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>

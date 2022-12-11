@@ -1,0 +1,63 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FirLib.Core.Avalonia.TestApp"
+        xmlns:firlibcommon="clr-namespace:FirLib.Avalonia.CommonControls;assembly=FirLib.Avalonia.CommonControls"
+        xmlns:firlibpropgrid="clr-namespace:FirLib.Avalonia.PropertyGridControl;assembly=FirLib.Avalonia.PropertyGridControl"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="FirLib.Core.Avalonia.TestApp.MainWindow"
+        ExtendClientAreaToDecorationsHint="True">
+    <Window.DataContext>
+        <local:MainWindowViewModel />
+    </Window.DataContext>
+
+    <firlibcommon:MainWindowFrame>
+        <firlibcommon:MainWindowFrame.CustomTitleArea>
+            <TextBlock Text="🧪 Avalonia TestApp" />
+        </firlibcommon:MainWindowFrame.CustomTitleArea>
+
+        <firlibcommon:MainWindowFrame.HeaderArea>
+            <Menu>
+                <MenuItem Header="File" />
+                <MenuItem Header="Help" />
+            </Menu>
+        </firlibcommon:MainWindowFrame.HeaderArea>
+
+        <firlibcommon:MainWindowFrame.MainContentArea>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="4" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <DataGrid Grid.Column="0" 
+                          x:Name="CtrlDataGrid"
+                          Items="{Binding Path=TestData}"  
+                          SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Value1 (string)" 
+                                            Binding="{Binding Path=Value1}"
+                                            IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Value2 (string)" 
+                                            Binding="{Binding Path=Value2}"
+                                            IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Value3 (string)" 
+                                            Binding="{Binding Path=Value3}"
+                                            IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Value4 (int)" 
+                                            Binding="{Binding Path=Value4}"
+                                            IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <GridSplitter Grid.Column="1"
+                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+                <firlibpropgrid:PropertyGrid Grid.Column="2" 
+                                             SelectedObject="{Binding ElementName=CtrlDataGrid, Path=SelectedItem}" />
+            </Grid>
+        </firlibcommon:MainWindowFrame.MainContentArea>
+    </firlibcommon:MainWindowFrame>
+</Window>

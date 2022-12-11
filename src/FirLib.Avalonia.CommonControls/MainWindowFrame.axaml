@@ -2,9 +2,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:local="clr-namespace:FirLib.Core.Avalonia.Controls"
+             xmlns:local="clr-namespace:FirLib.Avalonia.CommonControls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="FirLib.Core.Avalonia.Controls.MainWindowFrame">
+             x:Class="FirLib.Avalonia.CommonControls.MainWindowFrame">
     <Grid x:Name="CtrlFullWindowGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
@@ -24,7 +24,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="7" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <!-- Header row (normally a menu) -->
@@ -47,12 +47,12 @@
             <!-- Colored status bar -->
             <Panel x:Name="CtrlStatusBar" 
                    Grid.Row="3"
+                   Height="7"
                    IsHitTestVisible="False"
                    Background="#0975C6"/>
         </Grid>
 
-        <local:DialogHostControl Grid.Row="1" 
-                                 Name="CtrlDialogHost"
-                                 OccludedControl="{Binding ElementName=CtrlMainGrid}" />
+        <Panel x:Name="CtrlOverlay"
+               Grid.Row="1" />
     </Grid>
 </UserControl>

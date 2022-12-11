@@ -2,54 +2,53 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FirLib.Core.Patterns.Mvvm
+namespace FirLib.Core.Patterns.Mvvm;
+
+public static class ViewServiceUtil
 {
-    public static class ViewServiceUtil
+    public static T FindViewService<T>(this IViewServiceHost thisControl)
+        where T : class
     {
-        public static T FindViewService<T>(this IViewServiceHost thisControl)
-            where T : class
-        {
-            return (T)TryFindViewService(thisControl, typeof(T))!; 
-        }
+        return (T)TryFindViewService(thisControl, typeof(T))!; 
+    }
 
-        public static T? TryFindViewService<T>(this IViewServiceHost thisControl)
-            where T : class
-        {
-            return TryFindViewService(thisControl, typeof(T)) as T;
-        }
+    public static T? TryFindViewService<T>(this IViewServiceHost thisControl)
+        where T : class
+    {
+        return TryFindViewService(thisControl, typeof(T)) as T;
+    }
 
-        public static object? TryFindViewService(this IViewServiceHost thisControl, Type viewServiceType)
+    public static object? TryFindViewService(this IViewServiceHost thisControl, Type viewServiceType)
+    {
+        // Search within ViewServices collection
+        var actParent = thisControl;
+        object? result = null;
+        while ((actParent != null) && 
+               (result == null))
         {
-            // Search within ViewServices collection
-            var actParent = thisControl;
-            object? result = null;
-            while ((actParent != null) && 
-                   (result == null))
+            foreach (var actViewService in actParent.ViewServices)
             {
-                foreach (var actViewService in actParent.ViewServices)
-                {
-                    if (actViewService == null) { continue; }
+                if (actViewService == null) { continue; }
 
-                    // ReSharper disable once UseMethodIsInstanceOfType
-                    if (!viewServiceType.IsAssignableFrom(actViewService.GetType())) { continue; }
+                // ReSharper disable once UseMethodIsInstanceOfType
+                if (!viewServiceType.IsAssignableFrom(actViewService.GetType())) { continue; }
 
-                    result = actViewService;
-                }
-
-                actParent = actParent.ParentViewServiceHost;
-            }
-            if (result != null) { return result; }
-
-            // Search for default view services
-            actParent = thisControl;
-            while ((actParent != null) && 
-                   (result == null))
-            {
-                result = actParent.TryGetDefaultViewService(viewServiceType);
-                actParent = actParent.ParentViewServiceHost;
+                result = actViewService;
             }
 
-            return result;
+            actParent = actParent.ParentViewServiceHost;
         }
+        if (result != null) { return result; }
+
+        // Search for default view services
+        actParent = thisControl;
+        while ((actParent != null) && 
+               (result == null))
+        {
+            result = actParent.TryGetDefaultViewService(viewServiceType);
+            actParent = actParent.ParentViewServiceHost;
+        }
+
+        return result;
     }
 }

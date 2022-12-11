@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FirLib.Core.Services.ConfigurationFiles
+namespace FirLib.Core.Services.ConfigurationFiles;
+
+public interface IConfigurationFileAccessors
 {
-    public interface IConfigurationFileAccessors
-    {
-        IConfigurationFileAccessor Application { get; }
-    }
+    IConfigurationFileAccessor Application { get; }
 }

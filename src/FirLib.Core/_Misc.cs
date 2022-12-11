@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FirLib.Core
+namespace FirLib.Core;
+
+public enum ActionIfSyncContextIsNull
 {
-    public enum ActionIfSyncContextIsNull
-    {
-        InvokeSynchronous,
+    InvokeSynchronous,
 
-        InvokeUsingNewTask,
+    InvokeUsingNewTask,
 
-        DontInvoke
-    }
+    DontInvoke
 }

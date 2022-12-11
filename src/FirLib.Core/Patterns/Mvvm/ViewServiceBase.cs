@@ -2,26 +2,25 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FirLib.Core.Patterns.Mvvm
+namespace FirLib.Core.Patterns.Mvvm;
+
+public class ViewServiceBase : IViewService
 {
-    public class ViewServiceBase : IViewService
+    public event EventHandler<ViewServiceRequestEventArgs>? ViewServiceRequest;
+
+    /// <summary>
+    /// Gets the view service of the given type.
+    /// </summary>
+    protected T GetViewService<T>()
+        where T : class
     {
-        public event EventHandler<ViewServiceRequestEventArgs>? ViewServiceRequest;
+        var eventArgs = new ViewServiceRequestEventArgs(typeof(T));
+        this.ViewServiceRequest?.Invoke(this, eventArgs);
 
-        /// <summary>
-        /// Gets the view service of the given type.
-        /// </summary>
-        protected T GetViewService<T>()
-            where T : class
+        if (!(eventArgs.ViewService is T result))
         {
-            var eventArgs = new ViewServiceRequestEventArgs(typeof(T));
-            this.ViewServiceRequest?.Invoke(this, eventArgs);
-
-            if (!(eventArgs.ViewService is T result))
-            {
-                throw new ApplicationException($"Unable to get view service of type {typeof(T).FullName}!");
-            }
-            return result;
+            throw new ApplicationException($"Unable to get view service of type {typeof(T).FullName}!");
         }
+        return result;
     }
 }

@@ -1,14 +1,13 @@
-﻿namespace FirLib.Core.Patterns
+﻿namespace FirLib.Core.Patterns;
+
+/// <summary>
+/// An interface which can return the disposed state of an object.
+/// </summary>
+public interface ICheckDisposed
 {
     /// <summary>
-    /// An interface which can return the disposed state of an object.
+    /// Is this object already disposed?
+    /// This property does not throw an <see cref="System.ObjectDisposedException"/>
     /// </summary>
-    public interface ICheckDisposed
-    {
-        /// <summary>
-        /// Is this object already disposed?
-        /// This property does not throw an <see cref="System.ObjectDisposedException"/>
-        /// </summary>
-        bool IsDisposed { get; }
-    }
+    bool IsDisposed { get; }
 }

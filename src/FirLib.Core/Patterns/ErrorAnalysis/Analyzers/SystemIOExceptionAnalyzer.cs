@@ -3,34 +3,33 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace FirLib.Core.Patterns.ErrorAnalysis.Analyzers
+namespace FirLib.Core.Patterns.ErrorAnalysis.Analyzers;
+
+public class SystemIOExceptionAnalyzer : IExceptionAnalyzer
 {
-    public class SystemIOExceptionAnalyzer : IExceptionAnalyzer
+    /// <inheritdoc />
+    public IEnumerable<ExceptionProperty>? ReadExceptionInfo(Exception ex)
     {
-        /// <inheritdoc />
-        public IEnumerable<ExceptionProperty>? ReadExceptionInfo(Exception ex)
+        switch (ex)
         {
-            switch (ex)
-            {
-                case FileLoadException fileLoadEx:
-                    yield return new ExceptionProperty("FileName", fileLoadEx.FileName ?? string.Empty);
-                    yield return new ExceptionProperty("FusionLog", fileLoadEx.FusionLog ?? string.Empty);
-                    break;
+            case FileLoadException fileLoadEx:
+                yield return new ExceptionProperty("FileName", fileLoadEx.FileName ?? string.Empty);
+                yield return new ExceptionProperty("FusionLog", fileLoadEx.FusionLog ?? string.Empty);
+                break;
 
-                case FileNotFoundException fileNotFoundEx:
-                    yield return new ExceptionProperty("FileName", fileNotFoundEx.FileName ?? string.Empty);
-                    yield return new ExceptionProperty("FusionLog", fileNotFoundEx.FusionLog ?? string.Empty);
-                    break;
+            case FileNotFoundException fileNotFoundEx:
+                yield return new ExceptionProperty("FileName", fileNotFoundEx.FileName ?? string.Empty);
+                yield return new ExceptionProperty("FusionLog", fileNotFoundEx.FusionLog ?? string.Empty);
+                break;
 
-                case DirectoryNotFoundException:
-                    break;
-            }
+            case DirectoryNotFoundException:
+                break;
         }
+    }
 
-        /// <inheritdoc />
-        public IEnumerable<Exception>? GetInnerExceptions(Exception ex)
-        {
-            return null;
-        }
+    /// <inheritdoc />
+    public IEnumerable<Exception>? GetInnerExceptions(Exception ex)
+    {
+        return null;
     }
 }

@@ -5,18 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using FirLib.Core.Patterns.ErrorAnalysis;
 
-namespace FirLib.Tests.Core.Patterns.ErrorAnalysis
+namespace FirLib.Tests.Core.Patterns.ErrorAnalysis;
+
+static class TestUtilities
 {
-    static class TestUtilities
+    public static Dictionary<string, string> ToDictionary(IEnumerable<ExceptionProperty> properties)
     {
-        public static Dictionary<string, string> ToDictionary(IEnumerable<ExceptionProperty> properties)
+        var result = new Dictionary<string, string>(16);
+        foreach(var actProperty in properties)
         {
-            var result = new Dictionary<string, string>(16);
-            foreach(var actProperty in properties)
-            {
-                result[actProperty.Name] = actProperty.Value;
-            }
-            return result;
+            result[actProperty.Name] = actProperty.Value;
         }
+        return result;
     }
 }

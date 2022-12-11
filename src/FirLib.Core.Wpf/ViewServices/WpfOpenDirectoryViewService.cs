@@ -4,33 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using FirLib.Core.Patterns.Mvvm;
 
-namespace FirLib.Core.ViewServices
+namespace FirLib.Core.ViewServices;
+
+public class WpfOpenDirectoryViewService : ViewServiceBase, IOpenDirectoryViewService
 {
-    public class WpfOpenDirectoryViewService : ViewServiceBase, IOpenDirectoryViewService
+    private Window _owner;
+
+    public WpfOpenDirectoryViewService(Window owner)
     {
-        private Window _owner;
+        _owner = owner;
+    }
 
-        public WpfOpenDirectoryViewService(Window owner)
+    /// <inheritdoc />
+    public Task<string?> ShowOpenDirectoryDialogAsync(string title)
+    {
+        using (var dialog = new FolderBrowserDialog())
         {
-            _owner = owner;
-        }
-
-        /// <inheritdoc />
-        public Task<string?> ShowOpenDirectoryDialogAsync(string title)
-        {
-            using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+            dialog.Description = title;
+            if(dialog.ShowDialog(_owner.GetIWin32Window()) == DialogResult.OK)
             {
-                dialog.Description = title;
-                if(dialog.ShowDialog(_owner.GetIWin32Window()) == System.Windows.Forms.DialogResult.OK)
-                {
-                    return Task.FromResult<string?>(dialog.SelectedPath);
-                }
-                else
-                {
-                    return Task.FromResult<string?>(null);
-                }
+                return Task.FromResult<string?>(dialog.SelectedPath);
+            }
+            else
+            {
+                return Task.FromResult<string?>(null);
             }
         }
     }

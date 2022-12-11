@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FirLib.Formats.Gpx
-{
-    public enum GpxFileDeserializationMethod
-    {
-        Compatibility,
+namespace FirLib.Formats.Gpx;
 
-        OnlyGpx1_1
-    }
+public enum GpxFileDeserializationMethod
+{
+    Compatibility,
+
+    OnlyGpx1_1
 }

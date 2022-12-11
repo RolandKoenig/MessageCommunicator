@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FirLib.Core.Patterns.Mvvm
+namespace FirLib.Core.Patterns.Mvvm;
+
+public interface IViewServiceHost
 {
-    public interface IViewServiceHost
-    {
-        public ICollection<IViewService> ViewServices { get; }
+    public ICollection<IViewService> ViewServices { get; }
 
-        public IViewServiceHost? ParentViewServiceHost { get; }
+    public IViewServiceHost? ParentViewServiceHost { get; }
 
-        public object? TryGetDefaultViewService(Type viewServiceType);
-    }
+    public object? TryGetDefaultViewService(Type viewServiceType);
 }
