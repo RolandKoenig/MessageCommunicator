@@ -14,7 +14,6 @@
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Assets\Docs\Resources\ByteStreamHandlerSettings.png" />
     <None Remove="Assets\Docs\Resources\Licenses.md" />
     <None Remove="Assets\Fonts\Inconsolata-Black.ttf" />
     <None Remove="Assets\Fonts\Inconsolata-Bold.ttf" />
@@ -26,9 +25,6 @@
     <None Remove="Assets\Fonts\Inconsolata-SemiBold.ttf" />
     <None Remove="Assets\MessageCommunicator.svg" />
     <None Remove="Assets\SvgIcons\MessageCommunicator-Help.svg" />
-    <AvaloniaResource Include="Assets\Docs\Resources\ByteStreamHandlerSettings.png" />
-    <None Remove="Assets\Docs\Resources\MessageRecognizerSettings.png" />
-    <AvaloniaResource Include="Assets\Docs\Resources\MessageRecognizerSettings.png" />
     <None Remove="Assets\MessageCommunicator.ico" />
     <AvaloniaResource Include="Assets\Fonts\Inconsolata-Black.ttf" />
     <AvaloniaResource Include="Assets\Fonts\Inconsolata-Bold.ttf" />
@@ -57,17 +53,13 @@
     <PackageReference Include="System.Management" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Assets\Docs\Home.md" />
-    <None Remove="Assets\Docs\ByteStreamHandler.md" />
     <None Remove="Assets\Docs\Images\Testing.png" />
     <None Remove="Assets\Docs\Resources\Testing.png" />
     <None Remove="MessageCommunicator.TestGui.csproj.DotSettings" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Assets\Docs\Home.md" />
-    <EmbeddedResource Include="Assets\Docs\Profile.md" />
-    <EmbeddedResource Include="Assets\Docs\ByteStreamHandler.md" />
-    <EmbeddedResource Include="Assets\Docs\MessageRecognizer.md" />
+    <EmbeddedResource Include="..\..\docs\gui\Resources\ByteStreamHandlerSettings.png" Link="Assets\Docs\Resources\ByteStreamHandlerSettings.png" />
+    <EmbeddedResource Include="..\..\docs\gui\Resources\MessageRecognizerSettings.png" Link="Assets\Docs\Resources\MessageRecognizerSettings.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\subtrees\FirLib\src\FirLib.Core.Avalonia\FirLib.Core.Avalonia.csproj" />
@@ -77,6 +69,13 @@
     <!--<ProjectReference Include="..\subtrees\Markdown.Avalonia\Markdown.Avalonia\Markdown.Avalonia.csproj" />-->
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\Docs\Resources\" />
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\docs\gui\ByteStreamHandler.md" Link="Assets\Docs\ByteStreamHandler.md" />
+    <EmbeddedResource Include="..\..\docs\gui\Home.md" Link="Assets\Docs\Home.md" />
+    <EmbeddedResource Include="..\..\docs\gui\MessageRecognizer.md" Link="Assets\Docs\MessageRecognizer.md" />
+    <EmbeddedResource Include="..\..\docs\gui\Profile.md" Link="Assets\Docs\Profile.md" />
   </ItemGroup>
 </Project>

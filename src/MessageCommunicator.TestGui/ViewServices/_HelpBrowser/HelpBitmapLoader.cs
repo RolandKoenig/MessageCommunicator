@@ -5,13 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Markdown.Avalonia.Utils;
-using ReactiveUI;
 
 namespace MessageCommunicator.TestGui.ViewServices
 {
@@ -76,7 +74,7 @@ namespace MessageCommunicator.TestGui.ViewServices
                         : urlTxt).TrimStart(new[] { '/', '\\' });
                     resourcePath = Path.Combine(asmNm, resourcePath).Replace('\\', '/');
 
-                    var assetUrl = new Uri($"avares://{resourcePath}");
+                    var assetUrl = new Uri($"embeddedResources://{resourcePath}");
                     imgSource = this.Get(assetUrl);
 
                     if (imgSource != null) break;
@@ -133,6 +131,19 @@ namespace MessageCommunicator.TestGui.ViewServices
                     case "avares":
                         using (var resourceStream = _assetLoader.Open(url))
                             imgSource = new Bitmap(resourceStream);
+                        break;
+
+                    case "embeddedresources":
+                        var currentAssembly = Assembly.GetExecutingAssembly();
+                        var expectedResourcePath = url.Host + url.AbsolutePath.Replace('/', '.');
+                        var trueResourcePath = currentAssembly.GetManifestResourceNames()
+                            .FirstOrDefault(x => x.Equals(expectedResourcePath, StringComparison.OrdinalIgnoreCase));
+                        if (!string.IsNullOrEmpty(trueResourcePath))
+                        {
+                            var resStream =
+                                Assembly.GetExecutingAssembly().GetManifestResourceStream(trueResourcePath);
+                            imgSource = new Bitmap(resStream);
+                        }
                         break;
                 }
             }
