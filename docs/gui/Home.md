@@ -7,7 +7,7 @@ simple readable messages. Message recognition is configurable and supports modes
 
 ## License
 MessageCommunicator is licensed with the MIT license, see 
-https://github.com/RolandKoenig/MessageCommunicator/blob/master/LICENSE.md
+https://github.com/RolandKoenig/MessageCommunicator/blob/main/LICENSE.md
 
 ## External libraries and components
 MessageCommunicator uses the following externen libraries and components:

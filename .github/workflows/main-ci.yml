@@ -1,4 +1,4 @@
-name: CI on main (.Net 7.0.x on Ubuntu)
+name: CI on main (.NET 7.0.x on Ubuntu)
 
 on:
   push:

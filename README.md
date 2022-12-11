@@ -1,8 +1,8 @@
 # MessageCommunicator <img src="src/_Misc/MessageCommunicator.svg" width="32" />
 
 ## About
-MessageCommunicator is a .Net library + testing Gui for message-based communication. 
-The library can be integrated into .Net Standard 2.1 oder 2.0 compatible frameworks. It 
+MessageCommunicator is a .NET library + testing Gui for message-based communication. 
+The library can be integrated into apps supporting .NET Standard 2.0, .NET 5.0 or .NET 7.0. It 
 is distributed using Nuget. The Gui is build using C# and Avalonia, 
 therefore it supports the desktop environments on Windows, Linux and Mac.
 
@@ -12,8 +12,15 @@ therefore it supports the desktop environments on Windows, Linux and Mac.
  - [Nuget](https://www.nuget.org/packages/MessageCommunicator)
 
 ## Build
- - ![CI on main (.Net 7.0.x on Ubuntu)](https://github.com/RolandKoenig/MessageCommunicator/workflows/CI%20on%20main%20(.Net%207.0.x%20on%20Ubuntu)/badge.svg)
- - ![CI on develop (.Net 7.0.x on Ubuntu)](https://github.com/RolandKoenig/MessageCommunicator/workflows/CI%20on%20develop%20(.Net%207.0.x%20on%20Ubuntu)/badge.svg)
+ - ![CI on main (.NET 7.0.x on Ubuntu)](https://github.com/RolandKoenig/MessageCommunicator/workflows/CI%20on%20main%20(.NET%207.0.x%20on%20Ubuntu)/badge.svg)
+ - ![CI on develop (.NET 7.0.x on Ubuntu)](https://github.com/RolandKoenig/MessageCommunicator/workflows/CI%20on%20develop%20(.NET%207.0.x%20on%20Ubuntu)/badge.svg)
+
+### Features
+The library provides the following features:
+ - Automated reconnect handling (you don't have to care about the connection)
+ - Message recognition (e. g. by end symbol, by fixed length, etc.)
+ - String encoding
+ - Different channel types (TCP, UDP, SerialPort)
 
 ### Library
 The library is designed to be cross-platform, asynchronous and to use as less object allocations as possible.
@@ -52,13 +59,6 @@ Sending a message is as easy as:
 await activeTcpChannel.SendAsync("Message 1 from active to passive...");
 ```
 
-### Features
-The library provides the following features:
- - Automated reconnect handling (you don't have to care about the connection)
- - Message recognition (e. g. by end symbol, by fixed length, etc.)
- - String encoding
- - Different channel types (TCP, UDP, SerialPort)
-
 ### Gui
 Inside the testing Gui you can manage multiple profiles. Each profile has its own configuration
 for which stream it uses (tcp active, tcp passive. ...) and which message recognizer it uses
@@ -70,7 +70,7 @@ the corresponding message channel.
 ![alt text](src/_Misc/WikiImages/Screenshot_02.png "Screenshot of the testing UI")
 
 ## Project is based on...
-MessageCommunicator GUI is based on .Net 5 and meant to be cross-platform. The Library supports .Net Standard 2.0 and above.
+MessageCommunicator GUI is based on .NET 7 and meant to be cross-platform. The Library supports .NET Standard 2.0, .NET 6.0 and .NET 7.0.
 
 The project is based on following technologies / projects:
  - [Avalonia](https://github.com/AvaloniaUI/Avalonia): Cross-platform, Xaml based UI framework
