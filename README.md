@@ -13,7 +13,7 @@ therefore it supports the desktop environments on Windows, Linux and Mac.
 
 ## Build
  - ![CI on main (.Net 7.0.x on Ubuntu)](https://github.com/RolandKoenig/MessageCommunicator/workflows/CI%20on%20main%20(.Net%207.0.x%20on%20Ubuntu)/badge.svg)
- - ![CI on develop (.Net 7.0.x on Ubuntu)](https://github.com/RolandKoenig/MessageCommunicator/workflows/CI%20on%20develop(.Net%207.0.x%20on%20Ubuntu)/badge.svg)
+ - ![CI on develop (.Net 7.0.x on Ubuntu)](https://github.com/RolandKoenig/MessageCommunicator/workflows/CI%20on%20develop%20(.Net%207.0.x%20on%20Ubuntu)/badge.svg)
 
 ### Library
 The library is designed to be cross-platform, asynchronous and to use as less object allocations as possible.
