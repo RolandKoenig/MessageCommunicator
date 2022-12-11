@@ -5,31 +5,30 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace FirLib.Core.ViewServices
+namespace FirLib.Core.ViewServices;
+
+internal static class WpfDefaultViewServices
 {
-    internal static class WpfDefaultViewServices
+    public static object? TryGetViewService(Window window, Type viewServiceType)
     {
-        public static object? TryGetViewService(Window window, Type viewServiceType)
+        if(viewServiceType == typeof(IOpenFileViewService))
         {
-            if(viewServiceType == typeof(IOpenFileViewService))
-            {
-                return new WpfOpenFileDialogService(window);
-            }
-            else if (viewServiceType == typeof(IOpenDirectoryViewService))
-            {
-                return new WpfOpenDirectoryViewService(window);
-            }
-            else if (viewServiceType == typeof(IMessageBoxService))
-            {
-                return new WpfMessageBoxService(window);
-            }
-
-            return TryGetViewService((UIElement) window, viewServiceType);
+            return new WpfOpenFileDialogService(window);
+        }
+        else if (viewServiceType == typeof(IOpenDirectoryViewService))
+        {
+            return new WpfOpenDirectoryViewService(window);
+        }
+        else if (viewServiceType == typeof(IMessageBoxService))
+        {
+            return new WpfMessageBoxService(window);
         }
 
-        public static object? TryGetViewService(UIElement uiElement, Type viewServiceType)
-        {
-            return null;
-        }
+        return TryGetViewService((UIElement) window, viewServiceType);
+    }
+
+    public static object? TryGetViewService(UIElement uiElement, Type viewServiceType)
+    {
+        return null;
     }
 }

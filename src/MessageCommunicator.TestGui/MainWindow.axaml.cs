@@ -4,10 +4,8 @@ using System.Reflection;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using FirLib.Core.Avalonia.Controls;
-using FirLib.Core.Infrastructure;
 using FirLib.Core.ViewServices.FileDialogs;
 using FirLib.Core.ViewServices.MessageBox;
 using MessageCommunicator.TestGui.Views;
@@ -34,11 +32,11 @@ namespace MessageCommunicator.TestGui
             _ctrlConnectionProfile = this.Find<ConnectionProfileView>("CtrlConnectionProfile");
 
             // Update title
-            this.Title = FirLibApplication.Current.ProductFullName;
+            this.Title = "MessageCommunicator";
             this.Find<TextBlock>("TxtTitle").Text = this.Title;
 
             // Register view services
-            var ctrlDialogHost = this.Find<MainWindowFrame>("CtrlWindowFrame").DialogHostControl;
+            var ctrlDialogHost = this.Find<DialogHostControl>("DialogHostControl");
             var helpRepo = new IntegratedDocRepository(Assembly.GetExecutingAssembly());
 
             this.ViewServices.Add(new ConnectionConfigControlService(ctrlDialogHost));

@@ -4,48 +4,47 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Text;
 
-namespace FirLib.Core.Patterns.Mvvm
+namespace FirLib.Core.Patterns.Mvvm;
+
+public class ViewServiceContainer
 {
-    public class ViewServiceContainer
+    public ObservableCollection<IViewService> ViewServices { get; } = new ObservableCollection<IViewService>();
+    public IViewServiceHost Owner { get; }
+
+    public ViewServiceContainer(IViewServiceHost owner)
     {
-        public ObservableCollection<IViewService> ViewServices { get; } = new ObservableCollection<IViewService>();
-        public IViewServiceHost Owner { get; }
+        this.Owner = owner;
+        this.ViewServices.CollectionChanged += this.OnViewServices_CollectionChanged;
+    }
 
-        public ViewServiceContainer(IViewServiceHost owner)
+    private void OnViewServices_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.NewItems != null)
         {
-            this.Owner = owner;
-            this.ViewServices.CollectionChanged += this.OnViewServices_CollectionChanged;
-        }
-
-        private void OnViewServices_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems != null)
+            foreach (IViewService? actNewItem in e.NewItems)
             {
-                foreach (IViewService? actNewItem in e.NewItems)
-                {
-                    if(actNewItem == null){ continue; }
+                if(actNewItem == null){ continue; }
 
-                    actNewItem.ViewServiceRequest += this.OnViewServiceRequest;
-                }
-            }
-            if (e.OldItems != null)
-            {
-                foreach (IViewService? actOldItem in e.OldItems)
-                {
-                    if(actOldItem == null){ continue; }
-
-                    actOldItem.ViewServiceRequest -= this.OnViewServiceRequest;
-                }
+                actNewItem.ViewServiceRequest += this.OnViewServiceRequest;
             }
         }
-
-        private void OnViewServiceRequest(object? sender, ViewServiceRequestEventArgs e)
+        if (e.OldItems != null)
         {
-            var foundViewService = this.Owner.TryFindViewService(e.ViewServiceType);
-            if (foundViewService != null)
+            foreach (IViewService? actOldItem in e.OldItems)
             {
-                e.ViewService = foundViewService;
+                if(actOldItem == null){ continue; }
+
+                actOldItem.ViewServiceRequest -= this.OnViewServiceRequest;
             }
+        }
+    }
+
+    private void OnViewServiceRequest(object? sender, ViewServiceRequestEventArgs e)
+    {
+        var foundViewService = this.Owner.TryFindViewService(e.ViewServiceType);
+        if (foundViewService != null)
+        {
+            e.ViewService = foundViewService;
         }
     }
 }

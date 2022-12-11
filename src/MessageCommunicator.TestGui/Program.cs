@@ -1,14 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Reactive.Concurrency;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Threading;
 using Avalonia;
 using Avalonia.ReactiveUI;
-using FirLib.Core.Infrastructure;
-using MessageCommunicator.TestGui.Data;
 using MessageCommunicator.TestGui.Startup;
 using ReactiveUI;
 
@@ -25,11 +19,6 @@ namespace MessageCommunicator.TestGui
         // yet and stuff might break.
         public static void Main(string[] args)
         {
-            FirLibApplication.GetLoader()
-                .SetProductInfoFromAssembly(Assembly.GetExecutingAssembly())
-                .ConfigureCurrentThreadAsMainGuiThread()
-                .Load();
-
             try
             {
                 // Start avalonia logic

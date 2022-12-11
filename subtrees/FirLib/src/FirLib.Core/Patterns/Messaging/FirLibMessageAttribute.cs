@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FirLib.Core.Patterns.Messaging
+namespace FirLib.Core.Patterns.Messaging;
+
+public class FirLibMessageAttribute : Attribute
 {
-    public class FirLibMessageAttribute : Attribute
-    {
-    }
 }

@@ -2,50 +2,49 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FirLib.Core.Patterns.Messaging
+namespace FirLib.Core.Patterns.Messaging;
+
+public class FirLibMessageSource<TMessageType>
 {
-    public class FirLibMessageSource<TMessageType>
+    private Action<TMessageType>? _customTarget;
+
+    public string SourceMessengerName { get; }
+
+    public FirLibMessageSource(string sourceMessengerName)
     {
-        private Action<TMessageType>? _customTarget;
+        this.SourceMessengerName = sourceMessengerName;
+    }
 
-        public string SourceMessengerName { get; }
+    /// <summary>
+    /// Attach a custom handler here to avoid calling a globally registered <see cref="FirLib.Core.Patterns.Messaging.FirLibMessenger"/>.
+    /// </summary>
+    /// <param name="customTarget">A custom message target.</param>
+    public void UnitTesting_ReplaceByCustomMessageTarget(Action<TMessageType> customTarget)
+    {
+        _customTarget = customTarget;
+    }
 
-        public FirLibMessageSource(string sourceMessengerName)
+    public void Publish(TMessageType message)
+    {
+        if(_customTarget != null)
         {
-            this.SourceMessengerName = sourceMessengerName;
+            _customTarget(message);
+            return;
         }
 
-        /// <summary>
-        /// Attach a custom handler here to avoid calling a globally registered <see cref="FirLib.Core.Patterns.Messaging.FirLibMessenger"/>.
-        /// </summary>
-        /// <param name="customTarget">A custom message target.</param>
-        public void UnitTesting_ReplaceByCustomMessageTarget(Action<TMessageType> customTarget)
+        FirLibMessenger.GetByName(this.SourceMessengerName)
+            .Publish(message);
+    }
+
+    public void BeginPublish(TMessageType message)
+    {
+        if(_customTarget != null)
         {
-            _customTarget = customTarget;
+            _customTarget(message);
+            return;
         }
 
-        public void Publish(TMessageType message)
-        {
-            if(_customTarget != null)
-            {
-                _customTarget(message);
-                return;
-            }
-
-            FirLibMessenger.GetByName(this.SourceMessengerName)
-                .Publish(message);
-        }
-
-        public void BeginPublish(TMessageType message)
-        {
-            if(_customTarget != null)
-            {
-                _customTarget(message);
-                return;
-            }
-
-            FirLibMessenger.GetByName(this.SourceMessengerName)
-                .BeginPublish(message);
-        }
+        FirLibMessenger.GetByName(this.SourceMessengerName)
+            .BeginPublish(message);
     }
 }

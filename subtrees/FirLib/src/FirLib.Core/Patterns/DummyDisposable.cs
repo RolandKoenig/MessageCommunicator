@@ -2,30 +2,29 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FirLib.Core.Patterns
+namespace FirLib.Core.Patterns;
+
+/// <summary>
+/// Dummy class that implements IDisposable.
+/// </summary>
+public class DummyDisposable : IDisposable
 {
+    private Action _onDisposeAction;
+
     /// <summary>
-    /// Dummy class that implements IDisposable.
+    /// Initializes a new instance of the <see cref="DummyDisposable"/> class.
     /// </summary>
-    public class DummyDisposable : IDisposable
+    /// <param name="onDisposeAction">The action to call on Dispose.</param>
+    public DummyDisposable(Action onDisposeAction)
     {
-        private Action _onDisposeAction;
+        _onDisposeAction = onDisposeAction;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DummyDisposable"/> class.
-        /// </summary>
-        /// <param name="onDisposeAction">The action to call on Dispose.</param>
-        public DummyDisposable(Action onDisposeAction)
-        {
-            _onDisposeAction = onDisposeAction;
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            _onDisposeAction?.Invoke();
-        }
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
+    public void Dispose()
+    {
+        _onDisposeAction?.Invoke();
     }
 }

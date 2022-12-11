@@ -5,6 +5,7 @@
         xmlns:local="clr-namespace:MessageCommunicator.TestGui;assembly=MessageCommunicator.TestGui"
         xmlns:localViews="clr-namespace:MessageCommunicator.TestGui.Views;assembly=MessageCommunicator.TestGui"
         xmlns:firlibControls="clr-namespace:FirLib.Core.Avalonia.Controls;assembly=FirLib.Core.Avalonia"
+        xmlns:firlibCommon="clr-namespace:FirLib.Avalonia.CommonControls;assembly=FirLib.Avalonia.CommonControls"
         x:Class="MessageCommunicator.TestGui.MainWindow"
         mc:Ignorable="d"
         MinWidth="200" MinHeight="200"
@@ -38,9 +39,9 @@
         </NativeMenu>
     </NativeMenu.Menu>
     
-    <firlibControls:MainWindowFrame x:Name="CtrlWindowFrame"
-                                    Status="{Binding Path=StatusBarState}">
-        <firlibControls:MainWindowFrame.CustomTitleArea>
+    <firlibCommon:MainWindowFrame x:Name="CtrlWindowFrame"
+                                  Status="{Binding Path=StatusBarState}">
+        <firlibCommon:MainWindowFrame.CustomTitleArea>
             <Image Margin="0,6,6,6">
                 <Image.Source>
                     <SvgImage Source="Assets/SvgIcons/MessageCommunicator.svg" />
@@ -48,9 +49,9 @@
             </Image>
             <TextBlock x:Name="TxtTitle"
                        VerticalAlignment="Center"/>
-        </firlibControls:MainWindowFrame.CustomTitleArea>
+        </firlibCommon:MainWindowFrame.CustomTitleArea>
 
-        <firlibControls:MainWindowFrame.HeaderArea>
+        <firlibCommon:MainWindowFrame.HeaderArea>
             <Grid Classes="MainMenuBackground" />
             
             <Menu HorizontalAlignment="Left" Classes="MainMenu">
@@ -79,9 +80,9 @@
                     <MenuItem Header="About" Command="{Binding Path=Command_ShowAboutDialog}" />
                 </MenuItem>
             </Menu>
-        </firlibControls:MainWindowFrame.HeaderArea>
+        </firlibCommon:MainWindowFrame.HeaderArea>
 
-        <firlibControls:MainWindowFrame.MainContentArea>
+        <firlibCommon:MainWindowFrame.MainContentArea>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="250" MinWidth="100" />
@@ -200,7 +201,6 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </DockPanel>
-            
                 </HeaderedContentControl>
             
                 <!-- Details of the selected profile -->
@@ -224,14 +224,18 @@
                 </HeaderedContentControl>
             </Grid>
 
-        </firlibControls:MainWindowFrame.MainContentArea>
+        </firlibCommon:MainWindowFrame.MainContentArea>
 
-        <firlibControls:MainWindowFrame.FooterArea>
+        <firlibCommon:MainWindowFrame.FooterArea>
             <Grid Grid.Column="2"
                   Height="30">
                 <localViews:ReleaseCheckView HorizontalAlignment="Right" />
             </Grid>
-        </firlibControls:MainWindowFrame.FooterArea>
+        </firlibCommon:MainWindowFrame.FooterArea>
 
-    </firlibControls:MainWindowFrame>
+        <firlibCommon:MainWindowFrame.OverlayArea>
+            <firlibControls:DialogHostControl x:Name="DialogHostControl"/>
+        </firlibCommon:MainWindowFrame.OverlayArea>
+
+    </firlibCommon:MainWindowFrame>
 </Window>

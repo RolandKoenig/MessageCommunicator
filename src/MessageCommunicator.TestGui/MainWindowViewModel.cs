@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
@@ -7,7 +6,7 @@ using System.Reactive.Disposables;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Threading;
-using FirLib.Core.Avalonia;
+using FirLib.Avalonia.CommonControls;
 using FirLib.Core.Patterns;
 using FirLib.Core.ViewServices;
 using MessageCommunicator.TestGui.Data;

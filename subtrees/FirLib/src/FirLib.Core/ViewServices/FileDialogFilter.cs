@@ -5,92 +5,91 @@ using System.Text;
 using System.Threading.Tasks;
 using FirLib.Core.Patterns.ObjectPooling;
 
-namespace FirLib.Core.ViewServices
+namespace FirLib.Core.ViewServices;
+
+public class FileDialogFilter
 {
-    public class FileDialogFilter
+    public string Name { get; set; }
+
+    public List<string> Extensions { get; } = new();
+
+    public FileDialogFilter(string name, params string[] extensions)
     {
-        public string Name { get; set; }
+        this.Name = name;
+        this.Extensions.AddRange(extensions);
+    }
 
-        public List<string> Extensions { get; } = new();
-
-        public FileDialogFilter(string name, params string[] extensions)
+    public static string BuildFilterString(IEnumerable<FileDialogFilter> filters)
+    {
+        var strBuilder = PooledStringBuilders.Current.TakeStringBuilder();
+        try
         {
-            this.Name = name;
-            this.Extensions.AddRange(extensions);
-        }
-
-        public static string BuildFilterString(IEnumerable<FileDialogFilter> filters)
-        {
-            var strBuilder = PooledStringBuilders.Current.TakeStringBuilder();
-            try
+            var isFirstFilter = true;
+            foreach(var actFilter in filters)
             {
-                var isFirstFilter = true;
-                foreach(var actFilter in filters)
+                if (!isFirstFilter)
                 {
-                    if (!isFirstFilter)
-                    {
-                        strBuilder.Append('|');
-                    }
-                    isFirstFilter = false;
-
-                    actFilter.BuildFilterString(strBuilder);
+                    strBuilder.Append('|');
                 }
+                isFirstFilter = false;
 
-                return strBuilder.ToString();
+                actFilter.BuildFilterString(strBuilder);
             }
-            finally
-            {
-                PooledStringBuilders.Current.ReRegisterStringBuilder(strBuilder);
-            }
+
+            return strBuilder.ToString();
         }
-
-        public string BuildFilterString()
+        finally
         {
-            var strBuilder = PooledStringBuilders.Current.TakeStringBuilder();
-            try
-            {
-                this.BuildFilterString(strBuilder);
-
-                return strBuilder.ToString();
-            }
-            finally
-            {
-                PooledStringBuilders.Current.ReRegisterStringBuilder(strBuilder);
-            }
+            PooledStringBuilders.Current.ReRegisterStringBuilder(strBuilder);
         }
+    }
 
-        public void BuildFilterString(StringBuilder strBuilder)
+    public string BuildFilterString()
+    {
+        var strBuilder = PooledStringBuilders.Current.TakeStringBuilder();
+        try
         {
-            strBuilder.Append(this.Name);
-            strBuilder.Append(' ');
-            strBuilder.Append('(');
-            for (var loop = 0; loop < this.Extensions.Count; loop++)
+            this.BuildFilterString(strBuilder);
+
+            return strBuilder.ToString();
+        }
+        finally
+        {
+            PooledStringBuilders.Current.ReRegisterStringBuilder(strBuilder);
+        }
+    }
+
+    public void BuildFilterString(StringBuilder strBuilder)
+    {
+        strBuilder.Append(this.Name);
+        strBuilder.Append(' ');
+        strBuilder.Append('(');
+        for (var loop = 0; loop < this.Extensions.Count; loop++)
+        {
+            if (loop > 0)
             {
-                if (loop > 0)
-                {
-                    strBuilder.Append(',');
-                    strBuilder.Append(' ');
-                }
-
-                strBuilder.Append('*');
-                strBuilder.Append('.');
-                strBuilder.Append(this.Extensions[loop]);
+                strBuilder.Append(',');
+                strBuilder.Append(' ');
             }
-            strBuilder.Append(')');
 
-            strBuilder.Append('|');
-            for (var loop = 0; loop < this.Extensions.Count; loop++)
+            strBuilder.Append('*');
+            strBuilder.Append('.');
+            strBuilder.Append(this.Extensions[loop]);
+        }
+        strBuilder.Append(')');
+
+        strBuilder.Append('|');
+        for (var loop = 0; loop < this.Extensions.Count; loop++)
+        {
+            if (loop > 0)
             {
-                if (loop > 0)
-                {
-                    strBuilder.Append(',');
-                    strBuilder.Append(' ');
-                }
-
-                strBuilder.Append('*');
-                strBuilder.Append('.');
-                strBuilder.Append(this.Extensions[loop]);
+                strBuilder.Append(',');
+                strBuilder.Append(' ');
             }
+
+            strBuilder.Append('*');
+            strBuilder.Append('.');
+            strBuilder.Append(this.Extensions[loop]);
         }
     }
 }

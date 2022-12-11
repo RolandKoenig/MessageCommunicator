@@ -1,0 +1,48 @@
+<Project>
+    <PropertyGroup>
+
+        <!-- Common metadata -->
+        <Authors>Roland König</Authors>
+        <Company>Roland König</Company>
+        <Description>Utility library for most of my own open source applications</Description>
+        <Copyright>©2022 by Roland König</Copyright>
+        <PackageProjectUrl>https://github.com/RolandKoenig/FirLib</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/RolandKoenig/FirLib.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <Version>0.1.3</Version>
+        <PackageVersion>0.1.3</PackageVersion>
+        <Product>FirLib</Product>
+
+        <!-- Common project settings -->
+        <Nullable>enable</Nullable>
+        <LangVersion>10.0</LangVersion>
+
+        <!-- Nuget properties -->
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <Deterministic>true</Deterministic>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>portable</DebugType>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+        <!-- Treat warnings as errors -->
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <WarningsAsErrors></WarningsAsErrors>
+        <NoWarn>1701;1702;1591</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="../../LICENSE.md" Link="LICENSE.md" Pack="true" PackagePath="LICENSE.md"/>
+    </ItemGroup>
+
+</Project>

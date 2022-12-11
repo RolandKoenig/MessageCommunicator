@@ -6,15 +6,16 @@
         xmlns:local="clr-namespace:MessageCommunicator.TestGui.ViewServices;assembly=MessageCommunicator.TestGui"
         xmlns:localRoot="clr-namespace:MessageCommunicator.TestGui;assembly=MessageCommunicator.TestGui"
         xmlns:firlibControls="clr-namespace:FirLib.Core.Avalonia.Controls;assembly=FirLib.Core.Avalonia"
+        xmlns:commonControls="clr-namespace:FirLib.Avalonia.CommonControls;assembly=FirLib.Avalonia.CommonControls"
         Icon="/Assets/MessageCommunicator.ico"
         mc:Ignorable="d"
         Width="810" Height="400"
         ExtendClientAreaToDecorationsHint="True"
         x:Class="MessageCommunicator.TestGui.ViewServices.HelpBrowserWindow"
         Title="{Binding Path=WindowTitle}">
-    <firlibControls:MainWindowFrame x:Name="CtrlWindowFrame" 
+    <commonControls:MainWindowFrame x:Name="CtrlWindowFrame" 
                                     Status="NeutralGray">
-        <firlibControls:MainWindowFrame.CustomTitleArea>
+        <commonControls:MainWindowFrame.CustomTitleArea>
             <Image Margin="0,6,6,6">
                 <Image.Source>
                     <SvgImage Source="/Assets/SvgIcons/MessageCommunicator-Help.svg" />
@@ -23,9 +24,9 @@
             <TextBlock VerticalAlignment="Center"
                        IsHitTestVisible="False"
                        Text="{Binding Path=WindowTitle}" />
-        </firlibControls:MainWindowFrame.CustomTitleArea>
+        </commonControls:MainWindowFrame.CustomTitleArea>
 
-        <firlibControls:MainWindowFrame.MainContentArea>
+        <commonControls:MainWindowFrame.MainContentArea>
             <DockPanel LastChildFill="True">
                 <StackPanel DockPanel.Dock="Bottom" 
                             Orientation="Horizontal" HorizontalAlignment="Right">
@@ -67,7 +68,7 @@
                     </HeaderedContentControl>
                 </Grid>
             </DockPanel>
-        </firlibControls:MainWindowFrame.MainContentArea>
+        </commonControls:MainWindowFrame.MainContentArea>
 
-    </firlibControls:MainWindowFrame>
+    </commonControls:MainWindowFrame>
 </Window>

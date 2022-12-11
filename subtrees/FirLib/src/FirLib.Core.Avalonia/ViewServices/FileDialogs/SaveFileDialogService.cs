@@ -1,25 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using FirLib.Core.Patterns.Mvvm;
 
-namespace FirLib.Core.ViewServices.FileDialogs
+namespace FirLib.Core.ViewServices.FileDialogs;
+
+public class SaveFileDialogService : ViewServiceBase, ISaveFileViewService
 {
-    public class SaveFileDialogService : ViewServiceBase, ISaveFileViewService
+    private Window _parent;
+
+    public SaveFileDialogService(Window parent)
     {
-        private Window _parent;
+        _parent = parent;
+    }
 
-        public SaveFileDialogService(Window parent)
-        {
-            _parent = parent;
-        }
+    /// <inheritdoc />
+    public Task<string?> ShowSaveFileDialogAsync(IReadOnlyList<FileDialogFilter> filters, string defaultExtension)
+    {
+        var dlgSaveFile = new SaveFileDialog();
 
-        /// <inheritdoc />
-        public Task<string?> ShowSaveFileDialogAsync(IEnumerable<FileDialogFilter> filters, string defaultExtension)
+        if (filters.Count > 0)
         {
-            var dlgSaveFile = new SaveFileDialog();
+            dlgSaveFile.Filters ??= new List<global::Avalonia.Controls.FileDialogFilter>(filters.Count);
             foreach (var actFilter in filters)
             {
                 var actAvaloniaFilter = new global::Avalonia.Controls.FileDialogFilter();
@@ -27,9 +30,10 @@ namespace FirLib.Core.ViewServices.FileDialogs
                 actAvaloniaFilter.Extensions = actFilter.Extensions;
                 dlgSaveFile.Filters.Add(actAvaloniaFilter);
             }
-            dlgSaveFile.DefaultExtension = defaultExtension;
-
-            return dlgSaveFile.ShowAsync(_parent);
         }
+
+        dlgSaveFile.DefaultExtension = defaultExtension;
+
+        return dlgSaveFile.ShowAsync(_parent);
     }
 }

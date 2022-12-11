@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FirLib.Core.Services.SingleApplicationInstance
+namespace FirLib.Core.Services.SingleApplicationInstance;
+
+public interface ISingleApplicationInstanceService
 {
-    public interface ISingleApplicationInstanceService
-    {
-        bool IsMainInstance { get; }
+    bool IsMainInstance { get; }
 
-        bool CanSendReceiveMessages { get; }
+    bool CanSendReceiveMessages { get; }
 
-        public event EventHandler<MessageReceivedEventArgs> MessageReceived;
+    public event EventHandler<MessageReceivedEventArgs> MessageReceived;
 
-        bool TrySendMessageToMainInstance(string message);
-    }
+    bool TrySendMessageToMainInstance(string message);
 }

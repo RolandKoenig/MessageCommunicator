@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using FirLib.Core.Patterns.Mvvm;
 
-namespace FirLib.Core.ViewServices
+namespace FirLib.Core.ViewServices;
+
+public interface IOpenDirectoryViewService : IViewService
 {
-    public interface IOpenDirectoryViewService : IViewService
-    {
-        Task<string?> ShowOpenDirectoryDialogAsync(string title);
-    }
+    Task<string?> ShowOpenDirectoryDialogAsync(string title);
 }

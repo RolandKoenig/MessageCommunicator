@@ -2,29 +2,28 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FirLib.Core.Patterns.PropertiesContainer
+namespace FirLib.Core.Patterns.PropertiesContainer;
+
+public class DefaultPropertiesContainer : IPropertiesContainer
 {
-    public class DefaultPropertiesContainer : IPropertiesContainer
+    public IDictionary<string, PropertyValue> Properties { get; }
+
+    public DefaultPropertiesContainer(int expectedPropertyCount = 0)
     {
-        public IDictionary<string, PropertyValue> Properties { get; }
+        this.Properties = new Dictionary<string, PropertyValue>(expectedPropertyCount);
+    }
 
-        public DefaultPropertiesContainer(int expectedPropertyCount = 0)
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        var propertyCount = this.Properties.Count;
+        if (propertyCount == 1)
         {
-            this.Properties = new Dictionary<string, PropertyValue>(expectedPropertyCount);
+            return $"{nameof(ConcurrentPropertiesContainer)} (1 property)";
         }
-
-        /// <inheritdoc />
-        public override string ToString()
+        else
         {
-            var propertyCount = this.Properties.Count;
-            if (propertyCount == 1)
-            {
-                return $"{nameof(ConcurrentPropertiesContainer)} (1 property)";
-            }
-            else
-            {
-                return $"{nameof(ConcurrentPropertiesContainer)} ({propertyCount} properties)";
-            }
+            return $"{nameof(ConcurrentPropertiesContainer)} ({propertyCount} properties)";
         }
     }
 }
