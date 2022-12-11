@@ -29,8 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{912C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{61C4FD8C-A0BC-4050-BD6C-1D48B45302E7}"
 	ProjectSection(SolutionItems) = preProject
-		..\.github\workflows\ubuntu_build-and-test.yml = ..\.github\workflows\ubuntu_build-and-test.yml
-		..\.github\workflows\windows_build-and-test.yml = ..\.github\workflows\windows_build-and-test.yml
+		..\.github\workflows\develop-ci.yml = ..\.github\workflows\develop-ci.yml
+		..\.github\workflows\main-ci.yml = ..\.github\workflows\main-ci.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WikiImages", "WikiImages", "{2B5F93AC-82F3-486D-8A44-07E2E21FA6A9}"

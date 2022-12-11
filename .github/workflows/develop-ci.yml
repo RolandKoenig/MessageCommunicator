@@ -1,20 +1,17 @@
-name: Build and test (.Net 7.0.x on Windows)
+name: CI on develop (.Net 7.0.x on Ubuntu)
 
 on:
   push:
     branches: 
-    - master
     - develop
-    - feature/*
   pull_request:
     branches: 
-    - master
     - develop
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: windows-latest   
+    runs-on: ubuntu-latest   
    
     steps:
     - uses: actions/checkout@v2
