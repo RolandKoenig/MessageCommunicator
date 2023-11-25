@@ -7,6 +7,7 @@ using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using System.Text;
+using Avalonia.Data;
 using Avalonia.Input;
 using FirLib.Core.Patterns.Mvvm;
 
@@ -16,11 +17,12 @@ namespace MessageCommunicator.TestGui
 {
     public class PropertyGrid : OwnUserControl<PropertyGridViewModel>
     {
-        public static readonly StyledProperty<object?> SelectedObjectProperty =
-            AvaloniaProperty.Register<PropertyGrid, object?>(
-                nameof(SelectedObject), typeof(object), 
-                notifying: OnSelectedObjectChanged);
-
+        public static readonly DirectProperty<PropertyGrid, object?> SelectedObjectProperty =
+            AvaloniaProperty.RegisterDirect<PropertyGrid, object?>(
+                nameof(SelectedObject),
+                propGrid => propGrid.SelectedObject,
+                (propGrid, val) => propGrid.SelectedObject = val);
+        
         public static readonly StyledProperty<PropertyGridEditControlFactory?> EditControlFactoryProperty =
             AvaloniaProperty.Register<PropertyGrid, PropertyGridEditControlFactory?>(
                 nameof(EditControlFactory),
@@ -29,15 +31,22 @@ namespace MessageCommunicator.TestGui
         public static readonly StyledProperty<IPropertyContractResolver?> PropertyContractResolverProperty =
             AvaloniaProperty.Register<PropertyGrid, IPropertyContractResolver?>(
                 nameof(PropertyContractResolver));
-
+        
         private PropertyGridViewModel _propertyGridVM;
         private Grid _gridMain;
         private Control? _firstValueRowEditor;
+        private object? _selectedObject;
 
         public object? SelectedObject
         {
-            get => this.GetValue(SelectedObjectProperty); 
-            set => this.SetValue(SelectedObjectProperty, value);
+            get => _selectedObject;
+            set
+            {
+                _selectedObject = value;
+                
+                _propertyGridVM.SelectedObject = _selectedObject;
+                UpdatePropertiesView();
+            }
         }
 
         public PropertyGridEditControlFactory? EditControlFactory
