@@ -12,5 +12,9 @@
     <PackageVersion>1.1.0</PackageVersion>
     <Product>MessageCommunicator</Product>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+
+    <!-- Page security warning -->
+    <WarningsNotAsErrors>NU1903,NU1904</WarningsNotAsErrors>
+    
   </PropertyGroup>
 </Project>

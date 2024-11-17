@@ -1,12 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net6.0;net7.0</TargetFrameworks>
-    <LangVersion>8.0</LangVersion>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <LangVersion>13</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors></WarningsAsErrors>
     <NoWarn>1701;1702;1591</NoWarn>
     <DocumentationFile>bin\$(Platform)\$(Configuration)\MessageCommunicator.xml</DocumentationFile>
   </PropertyGroup>
