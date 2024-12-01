@@ -18,10 +18,10 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: 8.0.x
     - name: Install dependencies
       run: dotnet restore src/MessageCommunicator.sln
     - name: Build
-      run: dotnet build src/MessageCommunicator.sln --configuration Release-CI --no-restore --no-incremental --framework net7.0
+      run: dotnet build src/MessageCommunicator.sln --configuration Release-CI --no-restore --no-incremental --framework net8.0
     - name: Test
-      run: dotnet test src/MessageCommunicator.sln --configuration Release-CI --no-restore --framework net7.0 --verbosity normal
+      run: dotnet test src/MessageCommunicator.sln --configuration Release-CI --no-restore --framework net8.0 --verbosity normal
