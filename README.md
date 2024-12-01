@@ -2,7 +2,7 @@
 
 ## About
 MessageCommunicator is a .NET library + testing Gui for message-based communication. 
-The library can be integrated into apps supporting .NET Standard 2.0, .NET 5.0 or .NET 7.0. It 
+The library can be integrated into apps supporting .NET Standard 2.0 or .NET 8.0. It 
 is distributed using Nuget. The Gui is build using C# and Avalonia, 
 therefore it supports the desktop environments on Windows, Linux and Mac.
 
@@ -12,8 +12,8 @@ therefore it supports the desktop environments on Windows, Linux and Mac.
  - [Nuget](https://www.nuget.org/packages/MessageCommunicator)
 
 ## Build
- - ![CI on main (.NET 7.0.x on Ubuntu)](https://github.com/RolandKoenig/MessageCommunicator/workflows/CI%20on%20main%20(.NET%207.0.x%20on%20Ubuntu)/badge.svg)
- - ![CI on develop (.NET 7.0.x on Ubuntu)](https://github.com/RolandKoenig/MessageCommunicator/workflows/CI%20on%20develop%20(.NET%207.0.x%20on%20Ubuntu)/badge.svg)
+ - ![CI on main (.NET 8.0.x on Ubuntu)](https://github.com/RolandKoenig/MessageCommunicator/workflows/CI%20on%20main%20(.NET%207.0.x%20on%20Ubuntu)/badge.svg)
+ - ![CI on develop (.NET 8.0.x on Ubuntu)](https://github.com/RolandKoenig/MessageCommunicator/workflows/CI%20on%20develop%20(.NET%207.0.x%20on%20Ubuntu)/badge.svg)
 
 ### Features
 The library provides the following features:
