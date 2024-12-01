@@ -12,8 +12,8 @@ therefore it supports the desktop environments on Windows, Linux and Mac.
  - [Nuget](https://www.nuget.org/packages/MessageCommunicator)
 
 ## Build
- - ![CI on main (.NET 8.0.x on Ubuntu)](https://github.com/RolandKoenig/MessageCommunicator/workflows/CI%20on%20main%20(.NET%207.0.x%20on%20Ubuntu)/badge.svg)
- - ![CI on develop (.NET 8.0.x on Ubuntu)](https://github.com/RolandKoenig/MessageCommunicator/workflows/CI%20on%20develop%20(.NET%207.0.x%20on%20Ubuntu)/badge.svg)
+ - ![CI on main (.NET 8.0.x on Ubuntu)](https://github.com/RolandKoenig/MessageCommunicator/workflows/CI%20on%20main%20(.NET%208.0.x%20on%20Ubuntu)/badge.svg)
+ - ![CI on develop (.NET 8.0.x on Ubuntu)](https://github.com/RolandKoenig/MessageCommunicator/workflows/CI%20on%20develop%20(.NET%208.0.x%20on%20Ubuntu)/badge.svg)
 
 ### Features
 The library provides the following features:
