@@ -3749,11 +3749,6 @@ namespace Light.GuardClauses.Exceptions
         public AbsoluteUriException(string? parameterName = null, string? message = null): base(parameterName, message)
         {
         }
-
-        /// <inheritdoc/>
-        protected AbsoluteUriException(SerializationInfo info, StreamingContext context): base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -3768,11 +3763,6 @@ namespace Light.GuardClauses.Exceptions
         /// <param name = "parameterName">The name of the parameter (optional).</param>
         /// <param name = "message">The message of the exception (optional).</param>
         public ArgumentDefaultException(string? parameterName = null, string? message = null): base(message, parameterName)
-        {
-        }
-
-        /// <inheritdoc/>
-        protected ArgumentDefaultException(SerializationInfo info, StreamingContext context): base(info, context)
         {
         }
     }
@@ -3791,11 +3781,6 @@ namespace Light.GuardClauses.Exceptions
         public CollectionException(string? parameterName = null, string? message = null): base(message, parameterName)
         {
         }
-
-        /// <inheritdoc/>
-        protected CollectionException(SerializationInfo info, StreamingContext context): base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -3810,11 +3795,6 @@ namespace Light.GuardClauses.Exceptions
         /// <param name = "parameterName">The name of the parameter (optional).</param>
         /// <param name = "message">The message of the exception (optional).</param>
         public EmptyCollectionException(string? parameterName = null, string? message = null): base(parameterName, message)
-        {
-        }
-
-        /// <inheritdoc/>
-        protected EmptyCollectionException(SerializationInfo info, StreamingContext context): base(info, context)
         {
         }
     }
@@ -3833,11 +3813,6 @@ namespace Light.GuardClauses.Exceptions
         public EmptyGuidException(string? parameterName = null, string? message = null): base(message, parameterName)
         {
         }
-
-        /// <inheritdoc/>
-        protected EmptyGuidException(SerializationInfo info, StreamingContext context): base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -3852,11 +3827,6 @@ namespace Light.GuardClauses.Exceptions
         /// <param name = "parameterName">The name of the parameter (optional).</param>
         /// <param name = "message">The message of the exception (optional).</param>
         public EmptyStringException(string? parameterName = null, string? message = null): base(parameterName, message)
-        {
-        }
-
-        /// <inheritdoc/>
-        protected EmptyStringException(SerializationInfo info, StreamingContext context): base(info, context)
         {
         }
     }
@@ -3875,11 +3845,6 @@ namespace Light.GuardClauses.Exceptions
         public EnumValueNotDefinedException(string? parameterName = null, string? message = null): base(message, parameterName)
         {
         }
-
-        /// <inheritdoc/>
-        protected EnumValueNotDefinedException(SerializationInfo info, StreamingContext context): base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -3894,11 +3859,6 @@ namespace Light.GuardClauses.Exceptions
         /// <param name = "parameterName">The name of the parameter (optional).</param>
         /// <param name = "message">The message of the exception (optional).</param>
         public ExistingItemException(string? parameterName = null, string? message = null): base(parameterName, message)
-        {
-        }
-
-        /// <inheritdoc/>
-        protected ExistingItemException(SerializationInfo info, StreamingContext context): base(info, context)
         {
         }
     }
@@ -3917,11 +3877,6 @@ namespace Light.GuardClauses.Exceptions
         public InvalidCollectionCountException(string? parameterName = null, string? message = null): base(parameterName, message)
         {
         }
-
-        /// <inheritdoc/>
-        protected InvalidCollectionCountException(SerializationInfo info, StreamingContext context): base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -3936,11 +3891,6 @@ namespace Light.GuardClauses.Exceptions
         /// <param name = "message">The message of the exception (optional).</param>
         /// <param name = "innerException">The exception that is the cause of this one (optional).</param>
         public InvalidConfigurationException(string? message = null, Exception? innerException = null): base(message, innerException)
-        {
-        }
-
-        /// <inheritdoc/>
-        protected InvalidConfigurationException(SerializationInfo info, StreamingContext context): base(info, context)
         {
         }
     }
@@ -3959,11 +3909,6 @@ namespace Light.GuardClauses.Exceptions
         public InvalidDateTimeException(string? parameterName = null, string? message = null): base(message, parameterName)
         {
         }
-
-        /// <inheritdoc/>
-        protected InvalidDateTimeException(SerializationInfo info, StreamingContext context): base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -3978,11 +3923,6 @@ namespace Light.GuardClauses.Exceptions
         /// <param name = "parameterName">The name of the parameter (optional).</param>
         /// <param name = "message">The message of the exception (optional).</param>
         public InvalidEmailAddressException(string? parameterName = null, string? message = null): base(parameterName, message)
-        {
-        }
-
-        /// <inheritdoc/>
-        protected InvalidEmailAddressException(SerializationInfo info, StreamingContext context): base(info, context)
         {
         }
     }
@@ -4001,11 +3941,6 @@ namespace Light.GuardClauses.Exceptions
         public InvalidStateException(string? message = null, Exception? innerException = null): base(message, innerException)
         {
         }
-
-        /// <inheritdoc/>
-        protected InvalidStateException(SerializationInfo info, StreamingContext context): base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -4020,11 +3955,6 @@ namespace Light.GuardClauses.Exceptions
         /// <param name = "parameterName">The name of the parameter (optional).</param>
         /// <param name = "message">The message of the exception (optional).</param>
         public InvalidUriSchemeException(string? parameterName = null, string? message = null): base(parameterName, message)
-        {
-        }
-
-        /// <inheritdoc/>
-        protected InvalidUriSchemeException(SerializationInfo info, StreamingContext context): base(info, context)
         {
         }
     }
@@ -4043,11 +3973,6 @@ namespace Light.GuardClauses.Exceptions
         public MissingItemException(string? parameterName = null, string? message = null): base(parameterName, message)
         {
         }
-
-        /// <inheritdoc/>
-        protected MissingItemException(SerializationInfo info, StreamingContext context): base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -4062,11 +3987,6 @@ namespace Light.GuardClauses.Exceptions
         /// <param name = "parameterName">The name of the parameter (optional).</param>
         /// <param name = "message">The message of the exception (optional).</param>
         public NullableHasNoValueException(string? parameterName = null, string? message = null): base(message, parameterName)
-        {
-        }
-
-        /// <inheritdoc/>
-        protected NullableHasNoValueException(SerializationInfo info, StreamingContext context): base(info, context)
         {
         }
     }
@@ -4085,11 +4005,6 @@ namespace Light.GuardClauses.Exceptions
         public RelativeUriException(string? parameterName = null, string? message = null): base(parameterName, message)
         {
         }
-
-        /// <inheritdoc/>
-        protected RelativeUriException(SerializationInfo info, StreamingContext context): base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -4104,11 +4019,6 @@ namespace Light.GuardClauses.Exceptions
         /// <param name = "parameterName">The name of the parameter (optional).</param>
         /// <param name = "message">The message of the exception (optional).</param>
         public SameObjectReferenceException(string? parameterName = null, string? message = null): base(message, parameterName)
-        {
-        }
-
-        /// <inheritdoc/>
-        protected SameObjectReferenceException(SerializationInfo info, StreamingContext context): base(info, context)
         {
         }
     }
@@ -4127,11 +4037,6 @@ namespace Light.GuardClauses.Exceptions
         public StringDoesNotMatchException(string? parameterName = null, string? message = null): base(parameterName, message)
         {
         }
-
-        /// <inheritdoc/>
-        protected StringDoesNotMatchException(SerializationInfo info, StreamingContext context): base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -4146,11 +4051,6 @@ namespace Light.GuardClauses.Exceptions
         /// <param name = "parameterName">The name of the parameter (optional).</param>
         /// <param name = "message">The message of the exception (optional).</param>
         public StringException(string? parameterName = null, string? message = null): base(message, parameterName)
-        {
-        }
-
-        /// <inheritdoc/>
-        protected StringException(SerializationInfo info, StreamingContext context): base(info, context)
         {
         }
     }
@@ -4169,11 +4069,6 @@ namespace Light.GuardClauses.Exceptions
         public StringLengthException(string? parameterName = null, string? message = null): base(parameterName, message)
         {
         }
-
-        /// <inheritdoc/>
-        protected StringLengthException(SerializationInfo info, StreamingContext context): base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -4188,11 +4083,6 @@ namespace Light.GuardClauses.Exceptions
         /// <param name = "parameterName">The name of the parameter (optional).</param>
         /// <param name = "message">The message of the exception (optional).</param>
         public SubstringException(string? parameterName = null, string? message = null): base(parameterName, message)
-        {
-        }
-
-        /// <inheritdoc/>
-        protected SubstringException(SerializationInfo info, StreamingContext context): base(info, context)
         {
         }
     }
@@ -4662,11 +4552,6 @@ namespace Light.GuardClauses.Exceptions
         public TypeCastException(string? parameterName = null, string? message = null): base(message, parameterName)
         {
         }
-
-        /// <inheritdoc/>
-        protected TypeCastException(SerializationInfo info, StreamingContext context): base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -4681,11 +4566,6 @@ namespace Light.GuardClauses.Exceptions
         /// <param name = "parameterName">The name of the parameter (optional).</param>
         /// <param name = "message">The message of the exception (optional).</param>
         public UriException(string? parameterName = null, string? message = null): base(message, parameterName)
-        {
-        }
-
-        /// <inheritdoc/>
-        protected UriException(SerializationInfo info, StreamingContext context): base(info, context)
         {
         }
     }
@@ -4704,11 +4584,6 @@ namespace Light.GuardClauses.Exceptions
         public ValueIsNotOneOfException(string? parameterName = null, string? message = null): base(message, parameterName)
         {
         }
-
-        /// <inheritdoc/>
-        protected ValueIsNotOneOfException(SerializationInfo info, StreamingContext context): base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -4723,11 +4598,6 @@ namespace Light.GuardClauses.Exceptions
         /// <param name = "parameterName">The name of the parameter (optional).</param>
         /// <param name = "message">The message of the exception (optional).</param>
         public ValueIsOneOfException(string? parameterName = null, string? message = null): base(message, parameterName)
-        {
-        }
-
-        /// <inheritdoc/>
-        protected ValueIsOneOfException(SerializationInfo info, StreamingContext context): base(info, context)
         {
         }
     }
@@ -4746,11 +4616,6 @@ namespace Light.GuardClauses.Exceptions
         public ValuesEqualException(string? parameterName = null, string? message = null): base(message, parameterName)
         {
         }
-
-        /// <inheritdoc/>
-        protected ValuesEqualException(SerializationInfo info, StreamingContext context): base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -4767,11 +4632,6 @@ namespace Light.GuardClauses.Exceptions
         public ValuesNotEqualException(string? parameterName = null, string? message = null): base(message, parameterName)
         {
         }
-
-        /// <inheritdoc/>
-        protected ValuesNotEqualException(SerializationInfo info, StreamingContext context): base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -4786,11 +4646,6 @@ namespace Light.GuardClauses.Exceptions
         /// <param name = "parameterName">The name of the parameter (optional).</param>
         /// <param name = "message">The message of the exception (optional).</param>
         public WhiteSpaceStringException(string? parameterName = null, string? message = null): base(parameterName, message)
-        {
-        }
-
-        /// <inheritdoc/>
-        protected WhiteSpaceStringException(SerializationInfo info, StreamingContext context): base(info, context)
         {
         }
     }

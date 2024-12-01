@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
-    <LangVersion>9.0</LangVersion>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ApplicationIcon>Assets\MessageCommunicator.ico</ApplicationIcon>
     <Platforms>x86;x64;AnyCPU</Platforms>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <StartupObject>MessageCommunicator.TestGui.Program</StartupObject>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>NU1903,NU1904</WarningsNotAsErrors>
     <DocumentationFile>bin\$(Platform)\$(Configuration)\MessageCommunicator.TestGui.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
     <Configurations>Debug;Release</Configurations>

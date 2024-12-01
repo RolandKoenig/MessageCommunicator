@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using Light.GuardClauses;
-using MessageCommunicator.Util;
 
 namespace MessageCommunicator
 {
